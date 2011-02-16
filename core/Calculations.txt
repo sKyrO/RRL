@@ -1,0 +1,56 @@
+{=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+RRL - Reflection Resource Library
+Calulation core file
+
+---------------------------------------------------------
+
+ * function TileToMinimap(const Tile: TRSTile): TPoint;
+     By: Timer
+ * function TileOnMinimap(const CheckTile: TRSTile): Boolean;
+     By: Timer
+ * function DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
+     By: Timer
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+{
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/
+or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+
+Copyright (C) 2010 - 2011 by Joe Haddad, all rights reserved.
+This file is part of the RRL project.
+
+For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
+}
+
+function TileToMinimap(const Tile: TRSTile): TPoint;
+var
+  RadiansAngle: Extended;
+  TempX, TempY: Integer;
+  OurLocation: TRSTile;
+begin
+  OurLocation := GetLocation;
+  RadiansAngle := GetMinimapAngleRadians;
+  TempX := (Tile.x - OurLocation.x) * 4 - 2;
+  TempY := (OurLocation.y - Tile.y) * 4 - 2;
+  Result := Point(
+                  Round(TempX * Cos(RadiansAngle) + TempY * Sin(RadiansAngle)) + 628,
+                  Round(TempY * Cos(RadiansAngle) - TempX * Sin(RadiansAngle)) + 87
+                  );
+end;
+
+function TileOnMinimap(const CheckTile: TRSTile): Boolean; // TODO check accur.
+var
+  OurLocation: TRSTile;
+begin
+  OurLocation := GetLocation;
+  Result := InCircle(CheckTile.x, CheckTile.y, OurLocation.x, OurLocation.y, 14);
+end;
+
+function DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
+begin
+  Result := Sqrt(((StartLocation.X - EndLocation.X) *
+                 (StartLocation.X - EndLocation.X)) +
+                 ((StartLocation.Y - EndLocation.Y) *
+                 (StartLocation.Y - EndLocation.Y)));
+end;
