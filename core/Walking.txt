@@ -28,15 +28,27 @@ begin
   if (TileOnMinimap(Tile)) then
   begin
     MousePosition := TileToMinimap(Tile);
-    MoveWindMouseEx(MousePosition.x, MousePosition.y, 5, 5, 15);
+    {$IFDEF SIMBA}
+      MMouse(MousePosition.x, MousePosition.y, 5, 5);
+    {$ELSE}
+      MoveWindMouseEx(MousePosition.x, MousePosition.y, 5, 5, 15);
+    {$ENDIF}
     MousePosition := TileToMinimap(Tile);
     if (Distance(MouseX, MouseY, MousePosition.x, MousePosition.y) > 5) then
     begin
       if (not TileOnMinimap(Tile)) then
         Exit;
-      ClickWindMouse(MousePosition.x, MousePosition.y, 5, 5, True);
+      {$IFDEF SIMBA}
+        Mouse(MousePosition.x, MousePosition.y, 5, 5, True);
+      {$ELSE}
+        ClickWindMouse(MousePosition.x, MousePosition.y, 5, 5, True);
+      {$ENDIF}
     end else
-      ClickWindMouse(MouseX, MouseY, 0, 0, True);
+      {$IFDEF SIMBA}
+        Mouse(MouseX, MouseY, 0, 0, True);
+      {$ELSE}
+        ClickWindMouse(MouseX, MouseY, 0, 0, True);
+      {$ENDIF}
     Result := True;
   end;
 end;

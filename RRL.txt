@@ -28,8 +28,8 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 procedure SetupRRL;
 begin
   WriteLn('Setting up RRL.');
-  WriteLn('Current client version: ' + IntToStr(ClientVersion) + #13 +
-          'Current hooks version: ' + IntToStr(HooksVersion));
+  WriteLn('Current client version: ' + IntToStr(ClientVersion) +
+          ' Current hooks version: ' + IntToStr(HooksVersion));
   if (HooksVersion >= ClientVersion) then
     WriteLn('Finished!  Welcome to the Reflection Resource Library!')
   else

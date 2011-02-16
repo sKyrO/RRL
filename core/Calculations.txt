@@ -44,7 +44,11 @@ var
   OurLocation: TRSTile;
 begin
   OurLocation := GetLocation;
-  Result := InCircle(CheckTile.x, CheckTile.y, OurLocation.x, OurLocation.y, 14);
+  {$IFDEF SIMBA}
+    Result := Sqrt(Sqr(CheckTile.x - OurLocation.x) + Sqr(CheckTile.y - OurLocation.y)) <= 14;
+  {$ELSE}
+    Result := InCircle(CheckTile.x, CheckTile.y, OurLocation.x, OurLocation.y, 14);
+  {$ENDIF}
 end;
 
 function DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
