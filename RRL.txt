@@ -28,9 +28,15 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 procedure SetupRRL;
 begin
   WriteLn('Setting up RRL.');
+  if (LoadHooks) then
+    Writeln('Loaded hooks.')
+  else
+  begin
+    Writeln('Failed to load hooks.');
+    TerminateScript;
+  end;
   WriteLn('Current client version: ' + IntToStr(ClientVersion) +
           ' Current hooks version: ' + IntToStr(HooksVersion));
-  LoadHooks;
   if (HooksVersion >= ClientVersion) then
     WriteLn('Finished!  Welcome to the Reflection Resource Library!')
   else

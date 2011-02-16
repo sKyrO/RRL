@@ -6,6 +6,8 @@ Global File
 ---------------------------------------------------------
  * procedure StripComments(var Content: string);
      By: Timer
+ * function Get(const arr: array of TVariantArray; idx: Integer): Variant;
+     By: Timer
  * function LoadHooks: Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
@@ -91,7 +93,27 @@ begin
     StartPos := Pos('/**', Content);
     EndPos := Pos('**/', Content);
   end;
+  StartPos := Pos(#13, Content);
+  while (StartPos > 0) do
+  begin
+    Delete(Content, StartPos, 1);
+    StartPos := Pos(#13, Content);
+  end;
   Trim(Content);
+end;
+
+function Get(const arr: array of TVariantArray; idx: Integer): Variant;
+var
+  i: Integer;
+begin
+  for i := 0 to High(arr) do
+    if (arr[i][0] = idx) then
+    begin
+      Result := arr[i][1];
+      if (StrToIntDef(Result, -1) > -1) then
+        Result := StrToIntDef(Result, -1);
+      Exit;
+    end;
 end;
 
 function LoadHooks: Boolean;
@@ -100,12 +122,14 @@ var
   DataArray: array of TVariantArray;
   LineArray: TStringArray;
   LineData: TStringArray;
-  i, l, t: Integer;
+  i, l: Integer;
+  f: LongInt;
 begin
-  HooksFile := GetPage('https://github.com/Timer/RRL/raw/master/Hooks.txt');
+  f := OpenFile(IncludePath + 'RRL\Hooks.txt', False);
+  ReadFileString(f, HooksFile, FileSize(f));
+  CloseFile(f);
   StripComments(HooksFile);
   LineArray := Explode(#10, HooksFile);
-  Writeln(Length(LineArray));
   for i := 0 to High(LineArray) do
   begin
     LineData := Explode(':', LineArray[i]);
@@ -120,6 +144,13 @@ begin
         DataArray[l][1] := StrToIntDef(DataArray[l][1], -1);
     end;
   end;
-  WriteLn(Length(DataArray));
-  Result := False;
+  ClientVersion := Get(DataArray, index_Client_Version);
+  HooksVersion := Get(DataArray, index_Hook_Version);
+  hook_MapAngle := Get(DataArray, index_MapAngle);
+  hook_MyPlayer := Get(DataArray, index_MyPlayer);
+  hook_BaseX := Get(DataArray, index_BaseX);
+  hook_BaseY := Get(DataArray, index_BaseY);
+  hook_LocalX := Get(DataArray, index_LocalX);
+  hook_LocalY := Get(DataArray, index_LocalY);
+  Result := True;
 end;
