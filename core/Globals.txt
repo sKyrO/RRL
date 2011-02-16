@@ -64,7 +64,8 @@ Hook variables.
 var
   hook_MapAngle,
   hook_MyPlayer,
-  hook_BaseX, hook_BaseY, hook_LocalX, hook_LocalY: string;
+  hook_BaseX, hook_BaseY, hook_LocalX, hook_LocalY,
+  hook_Login_Index: string;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -80,6 +81,7 @@ const
   index_BaseY = 5;
   index_LocalX = 6;
   index_LocalY = 7;
+  index_Login_Index = 8;
 
 procedure StripComments(var Content: string);
 var
@@ -152,5 +154,6 @@ begin
   hook_BaseY := Get(DataArray, index_BaseY);
   hook_LocalX := Get(DataArray, index_LocalX);
   hook_LocalY := Get(DataArray, index_LocalY);
+  hook_Login_Index := Get(DataArray, index_Login_Index);
   Result := True;
 end;
