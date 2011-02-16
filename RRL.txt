@@ -30,6 +30,7 @@ begin
   WriteLn('Setting up RRL.');
   WriteLn('Current client version: ' + IntToStr(ClientVersion) +
           ' Current hooks version: ' + IntToStr(HooksVersion));
+  LoadHooks;
   if (HooksVersion >= ClientVersion) then
     WriteLn('Finished!  Welcome to the Reflection Resource Library!')
   else

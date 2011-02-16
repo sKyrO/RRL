@@ -4,7 +4,8 @@ Global File
  * Hosts global constants and variables.
 
 ---------------------------------------------------------
-
+ * procedure StripComments(var Content: string);
+     By: Timer
  * function LoadHooks: Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
@@ -55,7 +56,7 @@ end;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-Hooks variables.
+Hook variables.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 var
@@ -63,8 +64,62 @@ var
   hook_MyPlayer,
   hook_BaseX, hook_BaseY, hook_LocalX, hook_LocalY: string;
 
-function LoadHooks: Boolean;
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Hook constant indexs
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+const
+  index_Client_Version = 0;
+  index_Hook_Version = 1;
+  index_MapAngle = 2;
+  index_MyPlayer = 3;
+  index_BaseX = 4;
+  index_BaseY = 5;
+  index_LocalX = 6;
+  index_LocalY = 7;
+
+procedure StripComments(var Content: string);
+var
+  StartPos, EndPos: Integer;
 begin
-  // TODO this.
+  StartPos := Pos('/**', Content);
+  EndPos := Pos('**/', Content);
+  while (StartPos > 0) and (EndPos > 0) do
+  begin
+    Delete(Content, StartPos, EndPos - StartPos + 3);
+    StartPos := Pos('/**', Content);
+    EndPos := Pos('**/', Content);
+  end;
+  Trim(Content);
+end;
+
+function LoadHooks: Boolean;
+var
+  HooksFile: string;
+  DataArray: array of TVariantArray;
+  LineArray: TStringArray;
+  LineData: TStringArray;
+  i, l, t: Integer;
+begin
+  HooksFile := GetPage('https://github.com/Timer/RRL/raw/master/Hooks.txt');
+  StripComments(HooksFile);
+  LineArray := Explode(#10, HooksFile);
+  Writeln(Length(LineArray));
+  for i := 0 to High(LineArray) do
+  begin
+    LineData := Explode(':', LineArray[i]);
+    if (Length(LineData) = 2) then
+    begin
+      l := Length(DataArray);
+      SetLength(DataArray, l + 1);
+      SetLength(DataArray[l], 2);
+      DataArray[l][0] := StrToIntDef(LineData[0], -1);
+      DataArray[l][1] := LineData[1];
+      if (StrToIntDef(DataArray[l][1], -1) > -1) then
+        DataArray[l][1] := StrToIntDef(DataArray[l][1], -1);
+    end;
+  end;
+  WriteLn(Length(DataArray));
   Result := False;
 end;

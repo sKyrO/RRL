@@ -10,3 +10,11 @@ This file is part of the RRL project.
 
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 **/
+0:637/** Current Client Version **/
+1:637/** Hook Client Version **/
+2:vda.Mb/** hook_MapAngle **/
+3:fk.g/** hook_MyPlayer **/
+4:qu.c/** hook_BaseX **/
+5:hu.f/** hook_BaseY **/
+6:q/** hook_LocalX **/
+7:l/** hook_LocalY **/
