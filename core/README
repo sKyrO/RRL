@@ -1,13 +1,7 @@
-Any plugin[s] that are distrubuted within this package may be under no license, the same license, or a different license than the RRL include  (https://github.com/Timer/RRL).
-Please view their respective [name]_license.txt file before using.
-
-HOW-TO:
-Copy to main Plugins folder.
-...\Documents\SCAR Divi\Plugins
-or
-...\Simba (AppPath)\Plugins
+Core folder and executions.
 
 =-=
+
 RRL - Reflection Resource Library
 https://github.com/Timer/RRL
 
