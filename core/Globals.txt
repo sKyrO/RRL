@@ -58,6 +58,34 @@ end;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Path data types.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TPath = record
+    Tiles: TRSTileArray;
+    Handlers: TIntegerArray;
+  end;
+
+  TPathArray = array of TPath;
+
+const
+  PATH_HANDLER_RUN = 1;
+  PATH_HANDLER_WALKING = 2;
+
+function Path(const WalkingTiles: TRSTileArray; const WalkingHandlers: TIntegerArray): TPath;
+var
+  NewPath: TPath;
+begin
+  with NewPath do
+  begin
+    Tiles := WalkingTiles;
+    Handlers := WalkingHandlers;
+  end;
+end;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Hook variables.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
