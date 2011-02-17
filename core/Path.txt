@@ -66,3 +66,40 @@ begin
       if (TileOnMinimap(ThePath.Tiles[i])) then
         Result := ThePath.Tiles[i];
 end;
+
+function PathWalk(const ThePath: TPath): Boolean;
+var
+  OurTile, TheClickTile: TRSTile;
+  i, l: Integer;
+  Params: TIntegerArray;
+begin
+  l := Length(ThePath.Tiles);
+  TheClickTile := NULL_RSTILE;
+  if (l > 0) then
+  begin
+    OurTile := GetLocation;
+    if (DistanceBetween(OurTile, PathEnd(ThePath)) < 5) then
+    begin
+      Result := True;
+      Exit;
+    end;
+    for i := 0 to l - 1 do
+      if (TileOnMinimap(ThePath.Tiles[i])) then
+        TheClickTile := ThePath.Tiles[i];
+  end;
+  if (not TheClickTile = NULL_RSTILE) then
+  begin
+    Params := ThePath.Handlers;
+    if (InIntArray(Params, PATH_HANDLER_RUN)) then
+    begin
+      //TODO .
+    end;
+    if (InIntArray(Params, PATH_HANDLER_WALKING)) then
+    begin
+      //TODO .
+    end else
+      ClickTile(TheClickTile);
+    Result := True;
+  end;
+  Result := False;
+end;
