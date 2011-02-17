@@ -2480,7 +2480,7 @@ begin
   end;
   WriteLn('[ ----------------------------------------------------------------------- ]');
   WriteLn('');
-  GenerateProg := '<------===== POMS Essence Miner Progress Report =====------>' + Chr(10);
+  {GenerateProg := '<------===== POMS Essence Miner Progress Report =====------>' + Chr(10);
   if (UseReflection) then
     GenerateProg := GenerateProg + '<------=====          Using Reflection Methods          =====------>' + Chr(10);
   GenerateProg := GenerateProg + '           Script run # ' + IntToStr(TotalScript[0]) + ' - ' + TheDate(1) + ' - ' + TheTime + '.' + Chr(10);
@@ -2525,7 +2525,7 @@ begin
     GenerateProg := GenerateProg + '  ' + '**-**' + WeAreActive + IntToStr(Players[I].Integers[2]) + ' -- Trips: ' + IntToStr(Players[I].Integers[4]) + ' -- Loc: ' + Players[I].Loc + ' -- EXP: ' + IntToStr(Players[I].Integers[3]) + Chr(10);
     GenerateProg := GenerateProg + '  ' + ' -- Banks: ' + IntToStr(Players[I].Banked) + ' -- Mining Level: ' + IntToStr(Players[I].Level[15]) + PlayerRands + PlayerRand + Chr(10);
   end;
-  GenerateProg := GenerateProg + '[ ----------------------------------------------------------------------- ]' + Chr(10);
+  GenerateProg := GenerateProg + '[ ----------------------------------------------------------------------- ]' + Chr(10);}
   WriteLn('Displayed progress report.');
   {$IFDEF POMS_DEBUG}
   if (not DebugKill) then
