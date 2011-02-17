@@ -132,7 +132,7 @@ begin
   Trim(Content);
 end;
 
-function Get(const arr: array of TVariantArray; idx: Integer): Variant;
+function Get(const arr: array of TVariantArray; const idx: Integer): Variant;
 var
   i: Integer;
 begin
