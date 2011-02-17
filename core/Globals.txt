@@ -6,7 +6,7 @@ Global File
 ---------------------------------------------------------
  * procedure StripComments(var Content: string);
      By: Timer
- * function Get(const arr: array of TVariantArray; idx: Integer): Variant;
+ * function Get(const arr: array of TVariantArray; const idx: Integer): Variant;
      By: Timer
  * function LoadHooks: Boolean;
      By: Timer
