@@ -37,7 +37,7 @@
 [  Thanks to Yakman for some of the player form components.               ]
 [  Thanks to SKy Scripter for the anti-combo box typing.                  ]
 [                                                                         ]
-[                 Copyright Â©2011 RRL. All rights reserved.               ]
+[                 Copyright ©2011 RRL. All rights reserved.               ]
 [                                                                         ]
 [=========================================================================}
 
