@@ -11,10 +11,10 @@
 [                              Instructions                               ]
 [ ======================================================================= ]
 [ 1. Make sure that you have read the read me file.                       ]
-[ 2. Use the latest SRL Dev, POMS, and SCAR repositories.                 ]
+[ 2. Use the latest SRL Dev, POMS, and SCAR/Simba repositories.           ]
 [ 3. Be in the correct bank near a slot.                                  ]
 [ 4. Pouches and pickaxe (if not equipped) in first inventory spaces.     ]
-[ 5. Set up lines 61 - 80.                                                ]
+[ 5. Set up lines 46 - 70.                                                ]
 [ 6. Press run, always allow to connect to internet and files.            ]
 [ 7. Move the mouse over anything you don't understand in the form.       ]
 [                                                                         ]
@@ -118,7 +118,7 @@ var
 var
   ScriptSettingsPath: String;
   PlayerSettingsPath: String;
-  GenerateProg: string;
+ // GenerateProg: string;
 
 {*******************************************************************************
                                     FORMS
@@ -268,9 +268,9 @@ automatically executed.
 *******************************************************************************}
 
 procedure ScriptTerminate;
-var
-  clientR: Integer;
-  prps: string;
+//var
+  //clientR: Integer;
+  //prps: string;
 begin
   {$IFDEF Simba}
   Disguise('Simba');
@@ -304,7 +304,9 @@ Description: Debugs
 procedure DWriteLn(_text: string);
 begin
   {$IFDEF POMS_DEBUG}
-    POMS_DebugLine(_text);
+    {$IFNDEF LIMIT_TEXT}
+      POMS_DebugLine(_text);
+    {$ENDIF}
   {$ENDIF}
 end;
 
@@ -338,8 +340,10 @@ By: Timer
 Description: Path To Mine
 *******************************************************************************}
 function ToMine: TPointArray;
+{$IFNDEF REFLECTION}
 var
   b: TPointArray;
+{$ENDIF}
 begin
   {$IFDEF REFLECTION}
   Result := [Point(GetLocation.x, GetLocation.y), Point(3258, 3409), Point(3253, 3401)];
@@ -354,8 +358,10 @@ By: Timer
 Description: Path To Bank
 *******************************************************************************}
 function ToBank: TPointArray;
+{$IFNDEF REFLECTION}
 var
   b: TPointArray;
+{$ENDIF}
 begin
   {$IFDEF REFLECTION}
   Result := [Point(GetLocation.x, GetLocation.y), Point(3258, 3411), Point(3253, 3420)];
