@@ -82,6 +82,7 @@ begin
     Tiles := WalkingTiles;
     Handlers := WalkingHandlers;
   end;
+  Result := NewPath;
 end;
 
 {
