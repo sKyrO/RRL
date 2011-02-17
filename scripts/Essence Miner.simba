@@ -272,11 +272,11 @@ var
 begin
   {$IFDEF Simba}
   Disguise('Simba');
-  FreeSRL;
   {$ELSE}
   Disguise('SCAR Divi CDE');
+  FreeSRL;
   {$ENDIF}
-  if (GenerateProg <> '') then
+  {if (GenerateProg <> '') then
   begin
     clientR := InitializeHTTPClient(True, True);
     AddPostVariable(clientR, 'report', GenerateProg);
@@ -291,7 +291,7 @@ begin
   begin
     Writeln('Please add your Villavu Username to the database.');
     OpenWebPage('http://timer150.com/stats.php');
-  end;
+  end;}
 end;
 
 {*******************************************************************************
