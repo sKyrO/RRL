@@ -155,7 +155,11 @@ var
   i, l: Integer;
   f: LongInt;
 begin
-  f := OpenFile(IncludePath + 'RRL\Hooks.txt', False);
+  {$IFDEF SIMBA}
+    f := OpenFile(IncludePath + 'RRL\Hooks.txt', False);
+  {$ELSE}
+    f := OpenFile(IncludesPath + 'RRL\Hooks.txt', False);
+  {$ENDIF}
   ReadFileString(f, HooksFile, FileSize(f));
   CloseFile(f);
   StripComments(HooksFile);
