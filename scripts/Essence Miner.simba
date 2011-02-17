@@ -958,7 +958,7 @@ var
 begin
   ClearDebug;
   Disguise('POMSEM');
-  BackgroundPicture := LoadBitmap(ScriptPath + 'Resources\BackgroundPOMSEM.bmp');
+  BackgroundPicture := LoadBitmap(ScriptPath + 'resources\BackgroundPOMSEM.bmp');
   Wait(2000);
   for I := 0 to 5 do
     TotalScript[I] := StrToIntDef(ReadINI('TotalScript', IntToStr(I), ScriptSettingsPath), 0);
@@ -1028,10 +1028,6 @@ begin
   end;
   {$ENDIF}
   ClearTPA;
-  {$IFNDEF Simba}
-    if (RealTimeDebugUpdate) then
-      SetTimeOut(1000, 'RealTimeDebug');
-  {$ENDIF}
   SetArrayLength(RC_Masters, 0);;
   Wait(1000 + Random(1000));
   TimeStarted := GetSystemTime;
@@ -1114,7 +1110,7 @@ begin
     Inc(Players[CurrentPlayer].Integers[6]);
     if (PlayRandomSound) then
     begin
-      PlaySound(ScriptPath + 'Resources\RandomSound.WAV');
+      PlaySound(ScriptPath + 'resources\RandomSound.WAV');
       S := ' Playing sound to alert script user.';
     end;
     WriteLn('Random found! Performing anti-ban.' + S);
@@ -1314,8 +1310,8 @@ begin
     if (Length(ATPA[i]) > 16) then
     begin
       TB := GetTPABounds(ATPA[i]);
-      x := ((TB.x1 + TB.x2) / 2);
-      y := ((TB.y1 + TB.y2) / 2);
+      x := ((TB.x1 + TB.x2) div 2);
+      y := ((TB.y1 + TB.y2) div 2);
       Result := Distance(MMCX, MMCY, x, y) > Dis;
       ClearTPA;
       Exit;
@@ -2433,7 +2429,7 @@ begin
   if (TotalScript[0] = 0) then
     TotalScript[0] := 1;
   WriteLn('Displaying progress report...');
-  TCounter := (1 + ((GetSystemTime - TimeStarted) / 1000));
+  TCounter := (1 + ((GetSystemTime - TimeStarted) div 1000));
   WriteLn('');
   WriteLn('<------===== POMS Essence Miner Progress Report =====------>');
   if (UseReflection) then
@@ -2442,25 +2438,25 @@ begin
   WriteLn('  Total run time:                        ' + TimeRunning);
   WriteLn('  Total essence mined:                   ' + IntToStr(Total[0]));
   WriteLn('  Total essence using script mined:      ' + IntToStr(TotalScript[1]));
-  WriteLn('  Avg. total ess per a script run:       ' + IntToStr(Round(TotalScript[1]/ TotalScript[0])));
-  WriteLn('  Essence per hour:                      ' + IntToStr(Round((3600 * (Total[0])) / (TCounter))));
+  WriteLn('  Avg. total ess per a script run:       ' + IntToStr(Round(TotalScript[1]div TotalScript[0])));
+  WriteLn('  Essence per hour:                      ' + IntToStr(Round((3600 * (Total[0])) div (TCounter))));
   WriteLn('  Total trips made:                      ' + IntToStr(Total[2]));
   WriteLn('  Total trips using script made:         ' + IntToStr(TotalScript[3]));
-  WriteLn('  Avg. total trips made per script run:  ' + IntToStr(Round(TotalScript[3]/ TotalScript[0])));
-  WriteLn('  Trips per hour:                        ' + IntToStr(Round((3600 * (Total[2])) / (TCounter))));
+  WriteLn('  Avg. total trips made per script run:  ' + IntToStr(Round(TotalScript[3]div TotalScript[0])));
+  WriteLn('  Trips per hour:                        ' + IntToStr(Round((3600 * (Total[2])) div (TCounter))));
   WriteLn('  Total banks:                           ' + IntToStr(Total[3]));
   WriteLn('  Total banks using script:              ' + IntToStr(TotalScript[4]));
-  WriteLn('  Avg. total banks per script run:       ' + IntToStr(Round(TotalScript[4]/ TotalScript[0])));
-  WriteLn('  Banks per hour:                        ' + IntToStr(Round((3600 * (Total[3])) / (TCounter))));
+  WriteLn('  Avg. total banks per script run:       ' + IntToStr(Round(TotalScript[4]div TotalScript[0])));
+  WriteLn('  Banks per hour:                        ' + IntToStr(Round((3600 * (Total[3])) div (TCounter))));
   WriteLn('  Total Mining EXP gained:               ' + FloatToStr(Total[1]));
   WriteLn('  Total Mining EXP gained using script:  ' + FloatToStr(TotalScript[2]));
-  WriteLn('  Avg. Mining EXP gained per script run: ' + IntToStr(Round(TotalScript[2]/ TotalScript[0])));
-  WriteLn('  Mining EXP per hour:                   ' + IntToStr(Round((3600 * (Total[1])) / (TCounter))));
+  WriteLn('  Avg. Mining EXP gained per script run: ' + IntToStr(Round(TotalScript[2]div TotalScript[0])));
+  WriteLn('  Mining EXP per hour:                   ' + IntToStr(Round((3600 * (Total[1])) div (TCounter))));
   if (TotalScript[5] > 0) then
   begin
     WriteLn('  Total randoms found:                   ' + IntToStr(Total[4]));
     WriteLn('  Total randoms found using script:      ' + IntToStr(TotalScript[5]));
-    WriteLn('  Avg. randoms found per script run:     ' + IntToStr(Round(TotalScript[5] / TotalScript[0])));
+    WriteLn('  Avg. randoms found per script run:     ' + IntToStr(Round(TotalScript[5] div TotalScript[0])));
   end;
   WriteLn('  Current player:                        ' + Capitalize(Players[CurrentPlayer].Name));
   WriteLn('  Player currently:                      ' + Players[CurrentPlayer].Loc);
@@ -2491,25 +2487,25 @@ begin
   GenerateProg := GenerateProg + '  Total run time:                        ' + TimeRunning + Chr(10);
   GenerateProg := GenerateProg + '  Total essence mined:                   ' + IntToStr(Total[0]) + Chr(10);
   GenerateProg := GenerateProg + '  Total essence using script mined:      ' + IntToStr(TotalScript[1]) + Chr(10);
-  GenerateProg := GenerateProg + '  Avg. total ess per a script run:       ' + IntToStr(Round(TotalScript[1]/ TotalScript[0])) + Chr(10);
-  GenerateProg := GenerateProg + '  Essence per hour:                      ' + IntToStr(Round((3600 * (Total[0])) / (TCounter))) + Chr(10);
+  GenerateProg := GenerateProg + '  Avg. total ess per a script run:       ' + IntToStr(Round(TotalScript[1]div TotalScript[0])) + Chr(10);
+  GenerateProg := GenerateProg + '  Essence per hour:                      ' + IntToStr(Round((3600 * (Total[0])) div (TCounter))) + Chr(10);
   GenerateProg := GenerateProg + '  Total trips made:                      ' + IntToStr(Total[2]) + Chr(10);
   GenerateProg := GenerateProg + '  Total trips using script made:         ' + IntToStr(TotalScript[3]) + Chr(10);
-  GenerateProg := GenerateProg + '  Avg. total trips made per script run:  ' + IntToStr(Round(TotalScript[3]/ TotalScript[0])) + Chr(10);
-  GenerateProg := GenerateProg + '  Trips per hour:                        ' + IntToStr(Round((3600 * (Total[2])) / (TCounter))) + Chr(10);
+  GenerateProg := GenerateProg + '  Avg. total trips made per script run:  ' + IntToStr(Round(TotalScript[3]div TotalScript[0])) + Chr(10);
+  GenerateProg := GenerateProg + '  Trips per hour:                        ' + IntToStr(Round((3600 * (Total[2])) div (TCounter))) + Chr(10);
   GenerateProg := GenerateProg + '  Total banks:                           ' + IntToStr(Total[3]) + Chr(10);
   GenerateProg := GenerateProg + '  Total banks using script:              ' + IntToStr(TotalScript[4]) + Chr(10);
-  GenerateProg := GenerateProg + '  Avg. total banks per script run:       ' + IntToStr(Round(TotalScript[4]/ TotalScript[0])) + Chr(10);
-  GenerateProg := GenerateProg + '  Banks per hour:                        ' + IntToStr(Round((3600 * (Total[3])) / (TCounter))) + Chr(10);
+  GenerateProg := GenerateProg + '  Avg. total banks per script run:       ' + IntToStr(Round(TotalScript[4]div TotalScript[0])) + Chr(10);
+  GenerateProg := GenerateProg + '  Banks per hour:                        ' + IntToStr(Round((3600 * (Total[3])) div (TCounter))) + Chr(10);
   GenerateProg := GenerateProg + '  Total Mining EXP gained:               ' + FloatToStr(Total[1]) + Chr(10);
   GenerateProg := GenerateProg + '  Total Mining EXP gained using script:  ' + FloatToStr(TotalScript[2]) + Chr(10);
-  GenerateProg := GenerateProg + '  Avg. Mining EXP gained per script run: ' + IntToStr(Round(TotalScript[2]/ TotalScript[0])) + Chr(10);
-  GenerateProg := GenerateProg + '  Mining EXP per hour:                   ' + IntToStr(Round((3600 * (Total[1])) / (TCounter))) + Chr(10);
+  GenerateProg := GenerateProg + '  Avg. Mining EXP gained per script run: ' + IntToStr(Round(TotalScript[2]div TotalScript[0])) + Chr(10);
+  GenerateProg := GenerateProg + '  Mining EXP per hour:                   ' + IntToStr(Round((3600 * (Total[1])) div (TCounter))) + Chr(10);
   if (TotalScript[5] > 0) then
   begin
     GenerateProg := GenerateProg + '  Total randoms found:                   ' + IntToStr(Total[4]) + Chr(10);
     GenerateProg := GenerateProg + '  Total randoms found using script:      ' + IntToStr(TotalScript[5]) + Chr(10);
-    GenerateProg := GenerateProg + '  Avg. randoms found per script run:     ' + IntToStr(Round(TotalScript[5] / TotalScript[0])) + Chr(10);
+    GenerateProg := GenerateProg + '  Avg. randoms found per script run:     ' + IntToStr(Round(TotalScript[5] div TotalScript[0])) + Chr(10);
   end;
   GenerateProg := GenerateProg + '[ ----------------------------------------------------------------------- ]' + Chr(10);
   GenerateProg := GenerateProg + '' + Chr(10);
@@ -2536,11 +2532,11 @@ begin
   begin
     POMS_VARIABLES := ['Time Running: ' + TimeRunning,
     'Essence Mined: ' + IntToStr(Total[0]),
-    'Essence P/H: ' + IntToStr(Round((3600 * (Total[0])) / (TCounter))),
+    'Essence PdivH: ' + IntToStr(Round((3600 * (Total[0])) div (TCounter))),
     'Trips Made: ' + IntToStr(Total[2]),
-    'Trips P/H: ' + IntToStr(Round((3600 * (Total[2])) / (TCounter))),
+    'Trips PdivH: ' + IntToStr(Round((3600 * (Total[2])) div (TCounter))),
     'Mining EXP Gained: ' + FloatToStr(Total[1]),
-    'Mining EXP P/H: ' + IntToStr(Round((3600 * (Total[1])) / (TCounter)))];
+    'Mining EXP PdivH: ' + IntToStr(Round((3600 * (Total[1])) div (TCounter)))];
   end;
   {$ENDIF}
   ClearTPA;
@@ -2625,4 +2621,3 @@ end;
 begin
   MainLoop;
 end.
-
