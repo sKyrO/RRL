@@ -45,13 +45,15 @@ program EssenceMiner;
 
 {$DEFINE SMART} // <-- COMMENT OR REMOVE THIS LINE TO DISABLE SMART!
 {$DEFINE REFLECTION} // <-- COMMENT OR REMOVE THIS LINE TO DISABLE USE OF REFLECTION.
+
 {.include SRL\SRL.scar}
 {$IFDEF REFLECTION}
 {.include RRL\RRL.txt}
 {$ENDIF}
 {$DEFINE LIMIT_TEXT}
+
 {$IFNDEF Simba}
-{.include RRL/scripts/tools/Debug.txt} // <-- Comment this line to DISABLE Debug
+{.include RRL/scripts/tools/Debug.txt} // <-- Comment out this line to DISABLE Debug
 {$ENDIF}
 
 {*******************************************************************************
@@ -302,8 +304,7 @@ Description: Debugs
 procedure DWriteLn(_text: string);
 begin
   {$IFDEF POMS_DEBUG}
-    if (not DebugKill) then
-      POMS_DebugLine(_text);
+    POMS_DebugLine(_text);
   {$ENDIF}
 end;
 
@@ -315,8 +316,7 @@ Description: Debugs TPA
 procedure DDebugTPA(TPA: TPointArray);
 begin
   {$IFDEF POMS_DEBUG}
-    if (not DebugKill) then
-      DebugTPA(TPA);
+    DebugTPA(TPA);
   {$ENDIF}
 end;
 
@@ -328,8 +328,7 @@ Description: Clears Canvas
 procedure ClearTPA;
 begin
   {$IFDEF POMS_DEBUG}
-    if (not DebugKill) then
-      ClearSMARTCanvas;
+    ClearSMARTCanvas;
   {$ENDIF}
 end;
 
@@ -423,6 +422,11 @@ Description: Paints and walks.
 function FlagExx(Dist: Integer; Path: TPointArray): Boolean;
 var
   Tx, Ty, M, D1, D2: Integer;
+  {$IFDEF POMS_DEBUG}
+    CL, LL: TPoint;
+    Path2, PTT, PT: TPointArray;
+    ii: LongInt;
+  {$ENDIF}
 begin
   Result := False;
   M := GetSystemTime;
@@ -447,74 +451,71 @@ begin
     if SRL_Procs[SRL_AntiBan] <> nil then
       SRL_Procs[SRL_AntiBan]();
     {$IFDEF POMS_DEBUG}
-      if (not DebugKill) then
+      CL := Point(GetLocation.x, GetLocation.y);
+      if (LL.x <> CL.x) or (LL.y <> CL.y) then
       begin
-        CL := GetMyPos;
-        if (LL.x <> CL.x) or (LL.y <> CL.y) then
+        SetLength(Path2, Length(Path));
+        for ii := 0 to High(Path) do
         begin
-          SetLength(Path2, Length(Path));
-          for ii := 0 to High(Path) do
-          begin
-            Path2[ii] := TileToMM(Path[ii]);
-            PTT := CombineTPA(PTT,
-            [Path2[ii],
-            Point(Path2[ii].x - 1, Path2[ii].y),
-            Point(Path2[ii].x + 1, Path2[ii].y),
-            Point(Path2[ii].x, Path2[ii].y + 1),
-            Point(Path2[ii].x, Path2[ii].y - 1),
-            Point(Path2[ii].x - 1, Path2[ii].y - 1),
-            Point(Path2[ii].x + 1, Path2[ii].y + 1),
-            Point(Path2[ii].x + 1, Path2[ii].y - 1),
-            Point(Path2[ii].x - 1, Path2[ii].y + 1),
-            Point(Path2[ii].x, Path2[ii].y - 2),
-            Point(Path2[ii].x, Path2[ii].y + 2),
-            Point(Path2[ii].x - 1, Path2[ii].y - 2),
-            Point(Path2[ii].x + 1, Path2[ii].y - 2),
-            Point(Path2[ii].x - 1, Path2[ii].y + 2),
-            Point(Path2[ii].x + 1, Path2[ii].y + 2),
-            Point(Path2[ii].x - 2, Path2[ii].y + 2),
-            Point(Path2[ii].x + 2, Path2[ii].y + 2),
-            Point(Path2[ii].x - 2, Path2[ii].y - 2),
-            Point(Path2[ii].x + 2, Path2[ii].y - 2),
-            Point(Path2[ii].x - 2, Path2[ii].y),
-            Point(Path2[ii].x + 2, Path2[ii].y),
-            Point(Path2[ii].x - 2, Path2[ii].y - 1),
-            Point(Path2[ii].x - 2, Path2[ii].y + 1),
-            Point(Path2[ii].x + 2, Path2[ii].y - 1),
-            Point(Path2[ii].x + 2, Path2[ii].y + 1),
-            Point(Path2[ii].x - 3, Path2[ii].y - 3),
-            Point(Path2[ii].x - 2, Path2[ii].y - 3),
-            Point(Path2[ii].x - 1, Path2[ii].y - 3),
-            Point(Path2[ii].x + 0, Path2[ii].y - 3),
-            Point(Path2[ii].x + 1, Path2[ii].y - 3),
-            Point(Path2[ii].x + 2, Path2[ii].y - 3),
-            Point(Path2[ii].x + 3, Path2[ii].y - 3),
-            Point(Path2[ii].x - 3, Path2[ii].y - 2),
-            Point(Path2[ii].x + 3, Path2[ii].y - 2),
-            Point(Path2[ii].x - 3, Path2[ii].y - 1),
-            Point(Path2[ii].x + 3, Path2[ii].y - 1),
-            Point(Path2[ii].x - 3, Path2[ii].y + 0),
-            Point(Path2[ii].x + 3, Path2[ii].y + 0),
-            Point(Path2[ii].x - 3, Path2[ii].y + 1),
-            Point(Path2[ii].x + 3, Path2[ii].y + 1),
-            Point(Path2[ii].x - 3, Path2[ii].y + 2),
-            Point(Path2[ii].x + 3, Path2[ii].y + 2),
-            Point(Path2[ii].x - 3, Path2[ii].y + 3),
-            Point(Path2[ii].x - 2, Path2[ii].y + 3),
-            Point(Path2[ii].x - 1, Path2[ii].y + 3),
-            Point(Path2[ii].x + 0, Path2[ii].y + 3),
-            Point(Path2[ii].x + 1, Path2[ii].y + 3),
-            Point(Path2[ii].x + 2, Path2[ii].y + 3),
-            Point(Path2[ii].x + 3, Path2[ii].y + 3)]);
-          end;
-          PT := GenerateCrapLines(Path2);
-          ClearTPA;
-          DDebugTPA(CombineTPA(PT, PTT));
-          PTT := [];
-          PT := [];
-          Path2 := [];
-          LL := GetMyPos;
+          Path2[ii] := TileToMinimap(RSTile(Path[ii].x, Path[ii].y));
+          PTT := CombineTPA(PTT,
+          [Path2[ii],
+          Point(Path2[ii].x - 1, Path2[ii].y),
+          Point(Path2[ii].x + 1, Path2[ii].y),
+          Point(Path2[ii].x, Path2[ii].y + 1),
+          Point(Path2[ii].x, Path2[ii].y - 1),
+          Point(Path2[ii].x - 1, Path2[ii].y - 1),
+          Point(Path2[ii].x + 1, Path2[ii].y + 1),
+          Point(Path2[ii].x + 1, Path2[ii].y - 1),
+          Point(Path2[ii].x - 1, Path2[ii].y + 1),
+          Point(Path2[ii].x, Path2[ii].y - 2),
+          Point(Path2[ii].x, Path2[ii].y + 2),
+          Point(Path2[ii].x - 1, Path2[ii].y - 2),
+          Point(Path2[ii].x + 1, Path2[ii].y - 2),
+          Point(Path2[ii].x - 1, Path2[ii].y + 2),
+          Point(Path2[ii].x + 1, Path2[ii].y + 2),
+          Point(Path2[ii].x - 2, Path2[ii].y + 2),
+          Point(Path2[ii].x + 2, Path2[ii].y + 2),
+          Point(Path2[ii].x - 2, Path2[ii].y - 2),
+          Point(Path2[ii].x + 2, Path2[ii].y - 2),
+          Point(Path2[ii].x - 2, Path2[ii].y),
+          Point(Path2[ii].x + 2, Path2[ii].y),
+          Point(Path2[ii].x - 2, Path2[ii].y - 1),
+          Point(Path2[ii].x - 2, Path2[ii].y + 1),
+          Point(Path2[ii].x + 2, Path2[ii].y - 1),
+          Point(Path2[ii].x + 2, Path2[ii].y + 1),
+          Point(Path2[ii].x - 3, Path2[ii].y - 3),
+          Point(Path2[ii].x - 2, Path2[ii].y - 3),
+          Point(Path2[ii].x - 1, Path2[ii].y - 3),
+          Point(Path2[ii].x + 0, Path2[ii].y - 3),
+          Point(Path2[ii].x + 1, Path2[ii].y - 3),
+          Point(Path2[ii].x + 2, Path2[ii].y - 3),
+          Point(Path2[ii].x + 3, Path2[ii].y - 3),
+          Point(Path2[ii].x - 3, Path2[ii].y - 2),
+          Point(Path2[ii].x + 3, Path2[ii].y - 2),
+          Point(Path2[ii].x - 3, Path2[ii].y - 1),
+          Point(Path2[ii].x + 3, Path2[ii].y - 1),
+          Point(Path2[ii].x - 3, Path2[ii].y + 0),
+          Point(Path2[ii].x + 3, Path2[ii].y + 0),
+          Point(Path2[ii].x - 3, Path2[ii].y + 1),
+          Point(Path2[ii].x + 3, Path2[ii].y + 1),
+          Point(Path2[ii].x - 3, Path2[ii].y + 2),
+          Point(Path2[ii].x + 3, Path2[ii].y + 2),
+          Point(Path2[ii].x - 3, Path2[ii].y + 3),
+          Point(Path2[ii].x - 2, Path2[ii].y + 3),
+          Point(Path2[ii].x - 1, Path2[ii].y + 3),
+          Point(Path2[ii].x + 0, Path2[ii].y + 3),
+          Point(Path2[ii].x + 1, Path2[ii].y + 3),
+          Point(Path2[ii].x + 2, Path2[ii].y + 3),
+          Point(Path2[ii].x + 3, Path2[ii].y + 3)]);
         end;
+        PT := GenerateCrapLines(Path2);
+        ClearTPA;
+        DDebugTPA(CombineTPA(PT, PTT));
+        PTT := [];
+        PT := [];
+        Path2 := [];
+        LL := Point(GetLocation.x, GetLocation.y);
       end;
     {$ENDIF}
   end;
@@ -531,20 +532,21 @@ function WalkOurPath(Path: TPointArray): Boolean;
 var
   i, tMouseT, TH: Integer;
   P: TPoint;
+  {$IFDEF POMS_DEBUG}
+    Path2, PT: TPointArray;
+    ii: LongInt;
+  {$ENDIF}
 begin
   {$IFDEF REFLECTION}
   Writeln('Walking path [with reflection].');
   TH := High(Path);
   {$IFDEF POMS_DEBUG}
-    if (not DebugKill) then
-    begin
-      SetLength(Path2, Length(Path));
-      for ii := 0 to High(Path) do
-        Path2[ii] := TileToMM(Path[ii]);
-      PT := GenerateCrapLines(Path2);
-      ClearTPA;
-      DDebugTPA(PT);
-    end;
+    SetLength(Path2, Length(Path));
+    for ii := 0 to High(Path) do
+      Path2[ii] := TileToMinimap(RSTile(Path[ii].x, Path[ii].y));
+    PT := GenerateCrapLines(Path2);
+    ClearTPA;
+    DDebugTPA(PT);
   {$ENDIF}
   for i := 1 to TH do
   begin
@@ -569,37 +571,6 @@ begin
     Wait(1500 + Random(500));
   {$ELSE}
   Result := False;
-  {$ENDIF}
-end;
-
-{*******************************************************************************
-procedure RealTimeDebug;
-By: Timer
-Description: Real time canvas painting.
-*******************************************************************************}
-procedure RealTimeDebug;
-{$IFDEF POMS_DEBUG}
-var
-  TCounter: Integer;
-{$ENDIF}
-begin
-  {$IFDEF POMS_DEBUG}
-    if (not DebugKill) then
-    begin
-      TCounter := (1 + ((GetSystemTime - TimeStarted) / 1000));
-      POMS_VARIABLES := ['Time Running: ' + TimeRunning,
-      'Essence Mined: ' + IntToStr(Total[0]),
-      'Essence P/H: ' + IntToStr(Round((3600 * (Total[0])) / (TCounter))),
-      'Trips Made: ' + IntToStr(Total[2]),
-      'Trips P/H: ' + IntToStr(Round((3600 * (Total[2])) / (TCounter))),
-      'Mining EXP Gained: ' + FloatToStr(Total[1]),
-      'Mining EXP P/H: ' + IntToStr(Round((3600 * (Total[1])) / (TCounter)))];
-      ClearSMARTCanvas;
-    end;
-  {$ENDIF}
-
-  {$IFNDEF Simba}
-  SetTimeOut(1000, 'RealTimeDebug');
   {$ENDIF}
 end;
 
@@ -979,8 +950,8 @@ begin
   {$IFDEF POMS_DEBUG}
     if (GetApplication.MessageBox('Use POMS Debug? (Smart Painting, heavy on RAM and CPU)', 'POMS', 4) = 7) then
     begin
-      DebugKill := True;
-      Writeln('POMS Debug has been shut off.');
+      Writeln('Please disable it manually then.');
+      TerminateScript;
     end;
   {$ENDIF}
   WriteLn('To begin, fill out the form, then press start.');
@@ -1014,8 +985,6 @@ begin
     {$ENDIF}
   {$ENDIF}
   {$IFDEF POMS_DEBUG}
-  if (not DebugKill) then
-  begin
     SmartSetDebug(True);
     POMS_SCRIPT := 'Essence Miner';
     POMS_VARIABLES := ['Time Running: ' + TimeRunning,
@@ -1025,7 +994,6 @@ begin
     'Trips P/H: 0',
     'Mining EXP Gained: 0',
     'Mining EXP P/H: 0'];
-  end;
   {$ENDIF}
   ClearTPA;
   SetArrayLength(RC_Masters, 0);;
@@ -2528,8 +2496,6 @@ begin
   GenerateProg := GenerateProg + '[ ----------------------------------------------------------------------- ]' + Chr(10);}
   WriteLn('Displayed progress report.');
   {$IFDEF POMS_DEBUG}
-  if (not DebugKill) then
-  begin
     POMS_VARIABLES := ['Time Running: ' + TimeRunning,
     'Essence Mined: ' + IntToStr(Total[0]),
     'Essence PdivH: ' + IntToStr(Round((3600 * (Total[0])) div (TCounter))),
@@ -2537,7 +2503,6 @@ begin
     'Trips PdivH: ' + IntToStr(Round((3600 * (Total[2])) div (TCounter))),
     'Mining EXP Gained: ' + FloatToStr(Total[1]),
     'Mining EXP PdivH: ' + IntToStr(Round((3600 * (Total[1])) div (TCounter)))];
-  end;
   {$ENDIF}
   ClearTPA;
   if (TakeBreaks) then
