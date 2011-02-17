@@ -12,6 +12,8 @@ Path routines
      By: Timer
  * function PathNextTile(const ThePath: TPath): TRSTile;
      By: Timer
+ * function PathWalk(const ThePath: TPath): Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
