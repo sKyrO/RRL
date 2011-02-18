@@ -8,6 +8,10 @@ Game functions
      By: Timer
  * function IsLoggedIn: Boolean;
      By: Timer
+ * procedure DeleteRenderMatrix(var RData: TRenderData; var Render: TRender);
+     By: Timer
+ * procedure FetchRenderMatrix(var RData: TRenderData; var Render: TRender);
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -33,4 +37,99 @@ end;
 function IsLoggedIn: Boolean;
 begin
   Result := (LoginIndex = 10) or (LoginIndex = 11);
+end;
+
+function NULL_RENDER_DATA: TRenderData;
+var
+  RD: TRenderData;
+begin
+  with RD do
+  begin
+    xOffset := -1;
+    yOffset := -1;
+    zOffset := -1;
+    xX := -1;
+    xY := -1;
+    xZ := -1;
+    yX := -1;
+    yY := -1;
+    yZ := -1;
+    zX := -1;
+    zY := -1;
+    zZ := -1;
+  end;
+  Result := RD;
+end;
+
+function NULL_RENDER: TRender;
+var
+  R: TRender;
+begin
+  with R do
+  begin
+    xScale := -1;
+    yScale := -1;
+    xMin := -1;
+    yMin := -1;
+    zMin := -1;
+    xMax := -1;
+    yMax := -1;
+    zMax := -1;
+  end;
+  Result := R;
+end;
+
+procedure DeleteRenderMatrix(var RData: TRenderData; var Render: TRender);
+begin
+  RData := NULL_RENDER_DATA;
+  Render := NULL_RENDER;
+end;
+
+procedure FetchRenderMatrix(var RData: TRenderData; var Render: TRender);
+var
+  ViewPortPath, ToolKitPath, l: LongInt;
+begin
+  if (not RData = NULL_RENDER_DATA) or (not Render = NULL_RENDER) then
+    DeleteRenderMatrix(RData, Render);
+  l := GetSystemTime;
+  while (GetSystemTime - l < 5000) and ((RData = NULL_RENDER_DATA) or (Render = NULL_RENDER)) do
+    try
+      ToolKitPath := SmartGetFieldObject(0, hook_ToolKit);
+      ViewPortPath := SmartGetFieldObject(ToolKitPath, hook_ViewPort);
+      with RData do
+      begin
+        xOffset := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_xOffset);
+        yOffset := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_yOffset);
+        zOffset := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_zOffset);
+        xX := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_xX);
+        xY := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_xY);
+        xZ := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_xZ);
+        yX := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_yX);
+        yY := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_yY);
+        yZ := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_yZ);
+        zX := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_zX);
+        zY := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_zY);
+        zZ := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_zZ);
+      end;
+      with Render do
+      begin
+        xScale := SmartGetFieldFloat(ToolKitPath, hook_ToolKit_xScale);
+        yScale := SmartGetFieldFloat(ToolKitPath, hook_ToolKit_yScale);
+        xMin := SmartGetFieldFloat(ToolKitPath, hook_ToolKit_xMin);
+        yMin := SmartGetFieldFloat(ToolKitPath, hook_ToolKit_yMin);
+        zMin := SmartGetFieldFloat(ToolKitPath, hook_ToolKit_zMin);
+        xMax := SmartGetFieldFloat(ToolKitPath, hook_ToolKit_xMax);
+        yMax := SmartGetFieldFloat(ToolKitPath, hook_ToolKit_yMax);
+        zMax := SmartGetFieldFloat(ToolKitPath, hook_ToolKit_zMax);
+      end;
+    finally
+      try
+        SmartFreeObject(ViewPortPath);
+      except
+      end;
+      try
+        SmartFreeObject(ToolKitPath);
+      except
+      end;
+    end;
 end;
