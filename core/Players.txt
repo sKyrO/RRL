@@ -35,7 +35,25 @@ begin
     try
       SmartFreeObject(OurPlayerPath);
     except
-      WriteLn('There was an issue with GetLocation, tried to close a memory leak, dunno if it''s still there or not.');
+      Result := NULL_RSTILE;
+      WriteLn('There was an issue with GetLocation, tried to close a memory leak(?), dunno if it''s still there or not.');
+    end;
+  end;
+end;
+
+function GetAnimation: Integer;
+var
+  OurPlayerPath: LongInt;
+begin
+  try
+    OurPlayerPath := SmartGetFieldObject(0, hook_MyPlayer);
+    Result := SmartGetFieldInt(OurPlayerPath, hook_Character_Animation);
+  finally // We want to rid of memory leaks.
+    try
+      SmartFreeObject(OurPlayerPath);
+    except
+      Result := -1;
+      WriteLn('There was an issue with GetAnimation, tried to close a memory leak(?), dunno if it''s still there or not.');
     end;
   end;
 end;
