@@ -15,7 +15,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 {$IFDEF SIMBA}
   {$DEFINE SMART}
-  {$include_once SRL\SRL.scar}
+  {$i SRL\SRL.scar}
 {$ENDIF}
 {.include RRL\RRL.txt}
 {.include RRL\misc\misc.txt}
