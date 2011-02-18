@@ -42,7 +42,57 @@ type
     x, y: Integer;
   end;
 
+  TRSTilePosition = record
+    xOffset, yOffset: Extended;
+  end;
+
   TRSTileArray = array of TRSTile;
+
+function TILE_POSITION_TOP_LEFT: TRSTilePosition;
+begin
+  with Result do
+  begin
+    xOffset := 0.0;
+    yOffset := 0.0;
+  end;
+end;
+
+function TILE_POSITION_CENTER: TRSTilePosition;
+begin
+  with Result do
+  begin
+    xOffset := 0.5;
+    yOffset := 0.5;
+  end;
+end;
+
+function TILE_POSITION_BOTTOM_RIGHT: TRSTilePosition;
+begin
+  with Result do
+  begin
+    xOffset := 1.0;
+    yOffset := 1.0;
+  end;
+end;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Client matrix types.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TRenderData = record
+    xOffset, yOffset, zOffset,
+    xX, xY, xZ,
+    yX, yY, yZ,
+    zX, zY, zZ: Extended;
+  end;
+
+  TRender = record
+    xScale, yScale,
+    xMin, yMin, zMin,
+    xMax, yMax, zMax: Extended;
+  end;
 
 function RSTile(const tx, ty: Integer): TRSTile;//TRSTile constructor
 var
@@ -92,10 +142,28 @@ Hook variables.
 }
 var
   hook_MapAngle,
+
   hook_MyPlayer,
+
   hook_BaseX, hook_BaseY, hook_LocalX, hook_LocalY,
+
   hook_Character_Animation,
-  hook_Login_Index: string;
+
+  hook_Login_Index,
+
+  hook_ToolKit, hook_ViewPort,
+
+  hook_ViewPort_xOffset, hook_ViewPort_yOffset, hook_ViewPort_zOffset,
+  hook_ViewPort_xX, hook_ViewPort_xY, hook_ViewPort_xZ,
+  hook_ViewPort_yX, hook_ViewPort_yY, hook_ViewPort_yZ,
+  hook_ViewPort_zX, hook_ViewPort_zY, hook_ViewPort_zZ,
+
+  hook_ToolKit_xScale, hook_ToolKit_yScale,
+  hook_ToolKit_xMin, hook_ToolKit_yMin, hook_ToolKit_zMin,
+  hook_ToolKit_xMax, hook_ToolKit_yMax, hook_ToolKit_zMax,
+
+  hook_Current_Plane, hook_GroundSettings_Array, hook_Plane_Array,
+  hook_Tile_Heights: string;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -113,6 +181,32 @@ const
   index_LocalY = 7;
   index_Login_Index = 8;
   index_Character_Animation = 9;
+  index_ViewPort_xOffset = 10;
+  index_ViewPort_yOffset = 11;
+  index_ViewPort_zOffset = 12;
+  index_ViewPort_xX = 13;
+  index_ViewPort_xY = 14;
+  index_ViewPort_xZ = 15;
+  index_ViewPort_yX = 16;
+  index_ViewPort_yY = 17;
+  index_ViewPort_yZ = 18;
+  index_ViewPort_zX = 19;
+  index_ViewPort_zY = 20;
+  index_ViewPort_zZ = 21;
+  index_ToolKit_xScale = 22;
+  index_ToolKit_yScale = 23;
+  index_ToolKit_xMin = 24;
+  index_ToolKit_yMin = 25;
+  index_ToolKit_zMin = 26;
+  index_ToolKit_xMax = 27;
+  index_ToolKit_yMax = 28;
+  index_ToolKit_zMax = 29;
+  index_Current_Plane = 30;
+  index_GroundSettings_Array = 31;
+  index_Plane_Array = 32;
+  index_Tile_Heights = 33;
+  index_ToolKit = 34;
+  index_ViewPort = 35;
 
 procedure StripComments(var Content: string);
 var
@@ -191,5 +285,31 @@ begin
   hook_LocalY := Get(DataArray, index_LocalY);
   hook_Login_Index := Get(DataArray, index_Login_Index);
   hook_Character_Animation := Get(DataArray, index_Character_Animation);
+  hook_ViewPort_xOffset := Get(DataArray, index_ViewPort_xOffset);
+  hook_ViewPort_yOffset := Get(DataArray, index_ViewPort_yOffset);
+  hook_ViewPort_zOffset := Get(DataArray, index_ViewPort_zOffset);
+  hook_ViewPort_xX := Get(DataArray, index_ViewPort_xX);
+  hook_ViewPort_xY := Get(DataArray, index_ViewPort_xY);
+  hook_ViewPort_xZ := Get(DataArray, index_ViewPort_xZ);
+  hook_ViewPort_yX := Get(DataArray, index_ViewPort_yX);
+  hook_ViewPort_yY := Get(DataArray, index_ViewPort_yY);
+  hook_ViewPort_yZ := Get(DataArray, index_ViewPort_yZ);
+  hook_ViewPort_zX := Get(DataArray, index_ViewPort_zX);
+  hook_ViewPort_zY := Get(DataArray, index_ViewPort_zY);
+  hook_ViewPort_zZ := Get(DataArray, index_ViewPort_zZ);
+  hook_ToolKit_xScale := Get(DataArray, index_ToolKit_xScale);
+  hook_ToolKit_yScale := Get(DataArray, index_ToolKit_yScale);
+  hook_ToolKit_xMin := Get(DataArray, index_ToolKit_xMin);
+  hook_ToolKit_yMin := Get(DataArray, index_ToolKit_yMin);
+  hook_ToolKit_zMin := Get(DataArray, index_ToolKit_zMin);
+  hook_ToolKit_xMax := Get(DataArray, index_ToolKit_xMax);
+  hook_ToolKit_yMax := Get(DataArray, index_ToolKit_yMax);
+  hook_ToolKit_zMax := Get(DataArray, index_ToolKit_zMax);
+  hook_Current_Plane := Get(DataArray, index_Current_Plane);
+  hook_GroundSettings_Array := Get(DataArray, index_GroundSettings_Array);
+  hook_Plane_Array := Get(DataArray, index_Plane_Array);
+  hook_Tile_Heights := Get(DataArray, index_Tile_Heights);
+  hook_ToolKit := Get(DataArray, index_ToolKit);
+  hook_ViewPort := Get(DataArray, index_ViewPort);
   Result := True;
 end;

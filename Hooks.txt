@@ -20,3 +20,29 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 7:l/** hook_LocalY **/
 8:lu.e/** hook_Login_Index **/
 9:tu/** hook_Character_Animation **/
+34:qia.b
+35:ho
+10:x
+11:k
+12:g
+13:F
+14:C
+15:i
+16:n
+17:f
+18:u
+19:q
+20:B
+21:s
+22:nb
+23:P
+24:L
+25:rb
+26:bb
+27:qb
+28:fb
+29:J
+30:da.y
+31:ri.e
+32:fba.a
+33:b
