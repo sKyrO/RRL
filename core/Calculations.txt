@@ -118,17 +118,15 @@ begin
   begin
     DeleteRenderMatrix(RD, R);
     FetchRenderMatrix(RD, R);
-    z := rd.zOffset + (RD.zX * mX + RD.zY * mY + RD.zZ * mZ);
-    if (z >= R.zMin) and (z <= R.zMax) then
+    z := RD.zOffset + (RD.zX * mX + RD.zY * mY + RD.zZ * mZ);
+    if (z < R.zMin) or (z > R.zMax) then
+      Exit;
+    x := r.xScale * (RD.xOffset + (RD.xX * mX + RD.xY * mY + RD.xZ * mZ)) / z;
+    y := r.yScale * (RD.yOffset + (RD.yX * mX + RD.yY * mY + RD.yZ * mZ)) / z;
+    if (x >= r.xMin) and (x <= r.xMax) and (y >= r.yMin) and (y <= r.yMax) then
     begin
-      x := r.xScale * (RD.xOffset + (RD.xX * mX + RD.xY * mY + RD.xZ * mZ)) / z;
-      y := r.yScale * (RD.yOffset + (RD.yX * mX + RD.yY * mY + RD.yZ * mZ)) / z;
-      if (x >= r.xMin) and (x <= r.xMax) and (y >= r.yMin) and (y <= r.yMax) then
-      begin
-        Result.x := Round((x - R.xMin) + 4);
-        Result.y := Round((y - R.yMin) + 4);
-      end else
-        Wait(2);
+      Result.x := Round((x - R.xMin) + 4);
+      Result.y := Round((y - R.yMin) + 4);
     end else
       Wait(2);
   end;
