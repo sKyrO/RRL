@@ -1,0 +1,24 @@
+{=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+RRL - Reflection Resource Library
+Characters routines.
+
+---------------------------------------------------------
+
+ * function GetCharacterAnimation(const CharPath: LongInt; const Free: Boolean): Integer;
+     By: Timer
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+function GetCharacterAnimation(const CharPath: LongInt; const Free: Boolean): Integer;
+begin
+  try
+    Result := SmartGetFieldInt(CharPath, hook_Character_Animation);
+  finally // We want to rid of memory leaks.
+    try
+      if (Free) then
+        SmartFreeObject(CharPath);
+    except
+      Result := -1;
+      WriteLn('There was an issue with GetCharacterAnimation, tried to close a memory leak(?), dunno if it''s still there or not.');
+    end;
+  end;
+end;

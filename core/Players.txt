@@ -6,6 +6,8 @@ Players file.
 
  * function GetLocation: TRSTile;
      By: Timer
+ * function GetAnimation: Integer;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -23,7 +25,13 @@ function GetLocation: TRSTile;
 var
   OurPlayerPath: LongInt;
   BaseX, BaseY, LocalX, LocalY: Integer;
+  t: TRSTile;
 begin
+  with t do
+  begin
+    x := -1;
+    y := -1;
+  end;
   try
     OurPlayerPath := SmartGetFieldObject(0, hook_MyPlayer);
     BaseX := SmartGetFieldInt(0, hook_BaseX);
@@ -35,7 +43,7 @@ begin
     try
       SmartFreeObject(OurPlayerPath);
     except
-      Result := NULL_RSTILE;
+      Result := t;
       WriteLn('There was an issue with GetLocation, tried to close a memory leak(?), dunno if it''s still there or not.');
     end;
   end;
@@ -45,15 +53,6 @@ function GetAnimation: Integer;
 var
   OurPlayerPath: LongInt;
 begin
-  try
-    OurPlayerPath := SmartGetFieldObject(0, hook_MyPlayer);
-    Result := SmartGetFieldInt(OurPlayerPath, hook_Character_Animation);
-  finally // We want to rid of memory leaks.
-    try
-      SmartFreeObject(OurPlayerPath);
-    except
-      Result := -1;
-      WriteLn('There was an issue with GetAnimation, tried to close a memory leak(?), dunno if it''s still there or not.');
-    end;
-  end;
+  OurPlayerPath := SmartGetFieldObject(0, hook_MyPlayer);
+  Result := GetCharacterAnimation(OurPlayerPath, True);
 end;
