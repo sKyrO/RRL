@@ -46,14 +46,14 @@ type
 
 function RSTile(const tx, ty: Integer): TRSTile;//TRSTile constructor
 var
-  t: TRSTile;
+  T: TRSTile;
 begin
-  with t do
+  with T do
   begin
     x := tx;
     y := ty;
   end;
-  Result := t;
+  Result := T;
 end;
 
 {
@@ -153,16 +153,16 @@ var
   DataArray: array of TVariantArray;
   LineArray: TStringArray;
   LineData: TStringArray;
-  i, l: Integer;
-  f: LongInt;
+  i, L: Integer;
+  F: LongInt;
 begin
   {$IFDEF SIMBA}
-    f := OpenFile(IncludePath + 'RRL\Hooks.txt', False);
+    F := OpenFile(IncludePath + 'RRL\Hooks.txt', False);
   {$ELSE}
-    f := OpenFile(IncludesPath + 'RRL\Hooks.txt', False);
+    F := OpenFile(IncludesPath + 'RRL\Hooks.txt', False);
   {$ENDIF}
-  ReadFileString(f, HooksFile, FileSize(f));
-  CloseFile(f);
+  ReadFileString(F, HooksFile, FileSize(f));
+  CloseFile(F);
   StripComments(HooksFile);
   LineArray := Explode(#10, HooksFile);
   for i := 0 to High(LineArray) do
@@ -170,13 +170,13 @@ begin
     LineData := Explode(':', LineArray[i]);
     if (Length(LineData) = 2) then
     begin
-      l := Length(DataArray);
-      SetLength(DataArray, l + 1);
-      SetLength(DataArray[l], 2);
-      DataArray[l][0] := StrToIntDef(LineData[0], -1);
-      DataArray[l][1] := LineData[1];
-      if (StrToIntDef(DataArray[l][1], -1) > -1) then
-        DataArray[l][1] := StrToIntDef(DataArray[l][1], -1);
+      L := Length(DataArray);
+      SetLength(DataArray, L + 1);
+      SetLength(DataArray[L], 2);
+      DataArray[L][0] := StrToIntDef(LineData[0], -1);
+      DataArray[L][1] := LineData[1];
+      if (StrToIntDef(DataArray[L][1], -1) > -1) then
+        DataArray[L][1] := StrToIntDef(DataArray[l][1], -1);
     end;
   end;
   ClientVersion := Get(DataArray, index_Client_Version);
