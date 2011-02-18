@@ -10,6 +10,24 @@ Calulation core file
      By: Timer
  * function DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
      By: Timer
+ * function PointOnScreen(const p: TPoint): Boolean;
+     By: Timer
+ * function GetTileHeight(const t: TRSTile): Extended;
+     By: Timer
+ * function MatrixDataToScreen(const mX, mY, mZ: Extended): TPoint;
+     By: Timer
+ * function WorldToScreen(const x, y, z: Extended): TPoint;
+     By: Timer
+ * function TileToScreenExEx(const t: TRSTile; const h: Extended; const O: TRSTilePosition): TPoint;
+     By: Timer
+ * function TileToScreenEx(const t: TRSTile; const h: Extended): TPoint;
+     By: Timer
+ * function TileToScreen(const t: TRSTile): TPoint;
+     By: Timer
+ * function TileOnScreenEx(const t: TRSTile; const h: Extended): Boolean;
+     By: Timer
+ * function TileOnScreen(const t: TRSTile): Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -57,4 +75,101 @@ begin
                  (StartLocation.X - EndLocation.X)) +
                  ((StartLocation.Y - EndLocation.Y) *
                  (StartLocation.Y - EndLocation.Y)));
+end;
+
+function PointOnScreen(const p: TPoint): Boolean;
+begin
+  Result := PointInBox(p, IntToBox(4, 4, 515, 337));
+end;
+
+function GetTileHeight(const t: TRSTile): Extended;
+var
+  x, y, CurrentPlane: Integer;
+  PathToPlane: LongInt;
+begin
+  Result := -1;
+  x := t.x - SmartGetFieldInt(0, hook_BaseX);
+  y := t.y - SmartGetFieldInt(0, hook_BaseY);
+  if (x < 0) or (x > 104) or (y < 0) or (y > 104) then
+    Exit;
+  CurrentPlane := SmartGetFieldInt(0, hook_Current_Plane);
+  if (CurrentPlane < 3) and ((SmartGetFieldArray3DByte(0, hook_GroundSettings_Array, 1, x, y) and 2) <> 0) then
+    Inc(CurrentPlane);
+  PathToPlane := SmartGetFieldArrayObject(0, hook_Plane_Array, CurrentPlane);
+  Result := (SmartGetFieldArray2DInt(PathToPlane, hook_Tile_Heights, x, y) +
+             SmartGetFieldArray2DInt(PathToPlane, hook_Tile_Heights, x, y + 1) +
+             SmartGetFieldArray2DInt(PathToPlane, hook_Tile_Heights, x + 1, y) +
+             SmartGetFieldArray2DInt(PathToPlane, hook_Tile_Heights, x + 1, y + 1)) / 4;
+  SmartFreeObject(PathToPlane);
+end;
+
+function MatrixDataToScreen(const mX, mY, mZ: Extended): TPoint;
+var
+  RD: TRenderData;
+  R: TRender;
+  x, y, z: Extended;
+  l: LongInt;
+  NULL_TPOINT: TPoint;
+begin
+  NULL_TPOINT := Point(-1, -1);
+  Result := NULL_TPOINT;
+  l := GetSystemTime;
+  while (GetSystemTime - l < 5000) and (Result = NULL_TPOINT) do
+  begin
+    DeleteRenderMatrix(RD, R);
+    FetchRenderMatrix(RD, R);
+    z := rd.zOffset + (RD.zX * mX + RD.zY * mY + RD.zZ * mZ);
+    if (z >= R.zMin) and (z <= R.zMax) then
+    begin
+      x := r.xScale * (RD.xOffset + (RD.xX * mX + RD.xY * mY + RD.xZ * mZ)) / z;
+      y := r.yScale * (RD.yOffset + (RD.yX * mX + RD.yY * mY + RD.yZ * mZ)) / z;
+      if (x >= r.xMin) and (x <= r.xMax) and (y >= r.yMin) and (y <= r.yMax) then
+      begin
+        Result.x := Round((x - R.xMin) + 4);
+        Result.y := Round((y - R.yMin) + 4);
+      end else
+        Wait(2);
+    end else
+      Wait(2);
+  end;
+end;
+
+function WorldToScreen(const x, y, z: Extended): TPoint;
+var
+  NULL_TPOINT: TPoint;
+begin
+  NULL_TPOINT := Point(-1, -1);
+  Result := MatrixDataToScreen(x, y, z);
+  if (not PointOnScreen(Result)) then
+    Result := NULL_TPOINT;
+end;
+
+function TileToScreenExEx(const t: TRSTile; const h: Extended; const O: TRSTilePosition): TPoint;
+var
+  x, y, z: Extended;
+begin
+  x := 512.0 * (t.x - SmartGetFieldInt(0, hook_BaseX) + O.xOffset);
+  y := GetTileHeight(t) - h;
+  z := 512.0 *(t.y - SmartGetFieldInt(0, hook_BaseY) + O.yOffset);
+  Result := WorldToScreen(z, y, z);
+end;
+
+function TileToScreenEx(const t: TRSTile; const h: Extended): TPoint;
+begin
+  Result := TileToScreenExEx(t, h, TILE_POSITION_CENTER);
+end;
+
+function TileToScreen(const t: TRSTile): TPoint;
+begin
+  Result := TileToScreenEx(t, 0);
+end;
+
+function TileOnScreenEx(const t: TRSTile; const h: Extended): Boolean;
+begin
+  Result := PointOnScreen(TileToScreenEx(t, h));
+end;
+
+function TileOnScreen(const t: TRSTile): Boolean;
+begin
+  Result := PointOnScreen(TileToScreenEx(t, 0));
 end;
