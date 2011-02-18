@@ -55,13 +55,21 @@ begin
       {$IFDEF SIMBA}
         Mouse(MousePosition.x, MousePosition.y, 5, 5, True);
       {$ELSE}
-        ClickWindMouse(MousePosition.x, MousePosition.y, 5, 5, True);
+        {$IFDEF SRL}
+          Mouse(MousePosition.x, MousePosition.y, 5, 5, True);
+        {$ELSE}
+          ClickWindMouse(MousePosition.x, MousePosition.y, 5, 5, True);
+        {$ENDIF}
       {$ENDIF}
     end else
       {$IFDEF SIMBA}
         Mouse(MouseX, MouseY, 0, 0, True);
       {$ELSE}
-        ClickWindMouse(MouseX, MouseY, 0, 0, True);
+        {$IFDEF SRL}
+          Mouse(MouseX, MouseY, 0, 0, True);
+        {$ELSE}
+          ClickWindMouse(MouseX, MouseY, 0, 0, True);
+        {$ENDIF}
       {$ENDIF}
     Result := True;
   end;
