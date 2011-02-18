@@ -21,8 +21,8 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 8:lu.e/** hook_Login_Index **/
 9:tu/** hook_Character_Animation **/
 34:qia.b
-35:ho
-10:x
+35:mb
+10:v
 11:k
 12:g
 13:F
