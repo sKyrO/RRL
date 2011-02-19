@@ -385,5 +385,6 @@ end;
 
 function GetString(Bytes: LongInt): string;
 begin
-  //TODO .
+  SetLength(Result, 255);
+  SetLength(Result, SmartStringFromString(Bytes, Result));
 end;
