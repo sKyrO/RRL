@@ -75,6 +75,22 @@ begin
       end;
       Inc(C);
     finally
+      try
+        SmartFreeObject(PathToNPCNode);
+      except
+      end;
+      try
+        SmartFreeObject(PathToNPC);
+      except
+      end;
+      try
+        SmartFreeObject(PathToNPCDefinition);
+      except
+      end;
+      try
+        SmartFreeObject(JavaName);
+      except
+      end;
     end;
   SetLength(Result, C);
 end;
