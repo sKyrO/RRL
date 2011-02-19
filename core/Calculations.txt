@@ -110,11 +110,12 @@ var
   x, y, z: Extended;
   l: LongInt;
   NULL_TPOINT: TPoint;
+  Tries: Byte;
 begin
   NULL_TPOINT := Point(-1, -1);
   Result := NULL_TPOINT;
   l := GetSystemTime;
-  while (GetSystemTime - l < 5000) and (Result = NULL_TPOINT) do
+  while (Tries <= 10) and (Result = NULL_TPOINT) do
   begin
     DeleteRenderMatrix(RD, R);
     FetchRenderMatrix(RD, R);
@@ -128,7 +129,7 @@ begin
       Result.x := Round((x - R.xMin) + 4);
       Result.y := Round((y - R.yMin) + 4);
     end else
-      Wait(2);
+      Inc(Tries);
   end;
 end;
 
