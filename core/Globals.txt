@@ -375,7 +375,6 @@ begin
   CloseFile(F);
   StripComments(HooksFile);
   LineArray := Explode(#10, HooksFile);
-  Writeln('Loading ' + IntToStr(Length(LineArray)) + ' lines.');
   for i := 0 to High(LineArray) do
   begin
     LineData := Explode(':', LineArray[i]);
