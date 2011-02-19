@@ -19,6 +19,8 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+{$DEFINE RRL}
+
 {.include RRL\core\Globals.txt}
 {.include RRL\core\Menu.txt}
 {.include RRL\core\Game.txt}
