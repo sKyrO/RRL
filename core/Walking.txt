@@ -33,6 +33,11 @@ begin
   Result := T;
 end;
 
+function GetFlagPosition: TRSTile;
+begin
+  Result := RSTile(SmartGetFieldInt(0, hook_FlagX), SmartGetFieldInt(0, hook_FlagY));
+end;
+
 function ClickTile(const Tile: TRSTile): Boolean;
 var
   MousePosition: TPoint;
