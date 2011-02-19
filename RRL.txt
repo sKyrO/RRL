@@ -27,6 +27,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 {.include RRL\core\Calculations.txt}
 {.include RRL\core\Walking.txt}
 {.include RRL\core\Path.txt}
+{.include RRL\core\NPCs.txt}
 
 procedure SetupRRL;
 begin
