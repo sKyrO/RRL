@@ -22,10 +22,8 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
 function NULL_WEB_PATH: TRSTileArray;
-var
-  NullPath: TRSTileArray;
 begin
-  NullPath := [RSTile(-1, -1)];
+  Result := [RSTile(-1, -1)];
 end;
 
 function FindPath(const from: TRSTile): TRSTileArray;
