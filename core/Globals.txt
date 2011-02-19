@@ -216,7 +216,10 @@ var
   hook_ToolKit_xMax, hook_ToolKit_yMax, hook_ToolKit_zMax,
 
   hook_Current_Plane, hook_GroundSettings_Array, hook_Plane_Array,
-  hook_Tile_Heights: string;
+  hook_Tile_Heights,
+
+  hook_MenuOpen, hook_MenuTabbed, hook_MenuCount, hook_MenuNodeList,
+  hook_Node_Head, hook_Node_Next, hook_Menu_Action, hook_Menu_Option: string;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -275,6 +278,14 @@ const
   index_NPC_ID = 48;
   index_NPC_Definition_Name = 49;
   index_Node_GetNPC = 50;
+  index_MenuOpen = 51;
+  index_MenuTabbed = 52;
+  index_MenuCount = 53;
+  index_MenuNodeList = 54;
+  index_Node_Head = 55;
+  index_Node_Next = 56;
+  index_Menu_Action = 57;
+  index_Menu_Option = 58;
 
 procedure StripComments(var Content: string);
 var
@@ -395,6 +406,14 @@ begin
   hook_NPC_ID := Get(DataArray, index_NPC_ID);
   hook_NPC_Definition_Name := Get(DataArray, index_NPC_Definition_Name);
   hook_Node_GetNPC := Get(DataArray, index_Node_GetNPC);
+  hook_MenuOpen := Get(DataArray, index_MenuOpen);
+  hook_MenuTabbed := Get(DataArray, index_MenuTabbed);
+  hook_MenuCount := Get(DataArray, index_MenuCount);
+  hook_MenuNodeList := Get(DataArray, index_MenuNodeList);
+  hook_Node_Head := Get(DataArray, index_Node_Head);
+  hook_Node_Next := Get(DataArray, index_Node_Next);
+  hook_Menu_Action := Get(DataArray, index_Menu_Action);
+  hook_Menu_Option := Get(DataArray, index_Menu_Option);
   Result := True;
 end;
 
