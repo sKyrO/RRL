@@ -193,6 +193,8 @@ var
 
   hook_BaseX, hook_BaseY, hook_LocalX, hook_LocalY,
 
+  hook_FlagX, hook_FlagY,
+
   hook_LoopCycle,
 
   hook_Character_Animation,
@@ -317,6 +319,8 @@ const
   index_Object_Interactive2_Obj = 69;
   index_Object_Interactive2_ID = 70;
   index_Animable_Next = 71;
+  index_FlagX = 72;
+  index_FlagY = 73;
 
 procedure StripComments(var Content: string);
 var
@@ -458,6 +462,8 @@ begin
   hook_Object_Interactive2_Obj := Get(DataArray, index_Object_Interactive2_Obj);
   hook_Object_Interactive2_ID := Get(DataArray, index_Object_Interactive2_ID);
   hook_Animable_Next := Get(DataArray, index_Animable_Next);
+  hook_FlagX := Get(DataArray, index_FlagX);
+  hook_FlagY := Get(DataArray, index_FlagY);
   Result := True;
 end;
 
