@@ -10,16 +10,16 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 **/
-0:637/** Current Client Version **/
-1:637/** Hook Client Version **/
-2:vda.Mb/** hook_MapAngle **/
-3:fk.g/** hook_MyPlayer **/
-4:qu.c/** hook_BaseX **/
-5:hu.f/** hook_BaseY **/
-6:q/** hook_LocalX **/
-7:l/** hook_LocalY **/
-8:lu.e/** hook_Login_Index **/
-9:tu/** hook_Character_Animation **/
+0:637
+1:637
+2:vda.Mb
+3:fk.g
+4:qu.c
+5:hu.f
+6:q
+7:l
+8:lu.e
+9:tc
 10:v
 11:k
 12:g
