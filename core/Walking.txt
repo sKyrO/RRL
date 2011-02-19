@@ -6,6 +6,8 @@ Walking procedures
 
  * function NULL_RSTILE: TRSTile;
      By: Timer
+  * function GetFlagPosition: TRSTile;
+     By: Timer
  * function ClickTile(const Tile: TRSTile): Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
