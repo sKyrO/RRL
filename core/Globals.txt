@@ -219,7 +219,8 @@ var
   hook_Tile_Heights,
 
   hook_MenuOpen, hook_MenuTabbed, hook_MenuCount, hook_MenuNodeList,
-  hook_Node_Head, hook_Node_Next, hook_Menu_Action, hook_Menu_Option: string;
+  hook_Node_Head, hook_Node_Next, hook_Menu_Action, hook_Menu_Option,
+  hook_MenuX, hook_MenuY: string;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -286,6 +287,8 @@ const
   index_Node_Next = 56;
   index_Menu_Action = 57;
   index_Menu_Option = 58;
+  index_MenuX = 59;
+  index_MenuY = 60;
 
 procedure StripComments(var Content: string);
 var
@@ -414,6 +417,8 @@ begin
   hook_Node_Next := Get(DataArray, index_Node_Next);
   hook_Menu_Action := Get(DataArray, index_Menu_Action);
   hook_Menu_Option := Get(DataArray, index_Menu_Option);
+  hook_MenuX := Get(DataArray, index_MenuX);
+  hook_MenuY := Get(DataArray, index_MenuY);
   Result := True;
 end;
 
@@ -421,4 +426,21 @@ function GetString(Bytes: LongInt): string;
 begin
   SetLength(Result, 255);
   SetLength(Result, SmartStringFromString(Bytes, Result));
+end;
+
+function RemoveJunk(S: string): string;
+var
+  P, P2, PLength: integer;
+begin
+  P := Pos('<', S);
+  P2 := Pos('>', S);
+  Result := S;
+  PLength := P2 - P + 1;
+  while (P <> 0) and (P2 <> 0) do
+  begin
+    Delete(Result, P, PLength);
+    P := Pos('<', Result);
+    P2 := Pos('>', Result);
+    PLength := P2 - P + 1;
+  end;
 end;
