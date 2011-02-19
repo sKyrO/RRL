@@ -52,10 +52,10 @@ begin
       SmartFreeObject(JavaString);
       Break;
     end;
-    Item := GetString(JavaString, 255);
+    Item := GetString(JavaString);
     SmartFreeObject(JavaString);
     JavaString := SmartGetFieldObject(next, hook_Menu_Option);
-    Item := Item + ' ' + GetString(JavaString, 255);
+    Item := Item + ' ' + GetString(JavaString);
     SmartFreeObject(JavaString);
     Result[count - 1] := RemoveJunk(Item);
     Last := Next;
