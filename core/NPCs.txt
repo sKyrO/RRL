@@ -62,8 +62,8 @@ begin
         Name := GetString(JavaName);
         BaseX := SmartGetFieldInt(0, hook_BaseX);
         BaseY := SmartGetFieldInt(0, hook_BaseY);
-        Tile.x := Round(SmartGetFieldInt(PathToNPC, hook_LocalX) / 512) + BaseX;
-        Tile.y := Round(SmartGetFieldInt(PathToNPC, hook_LocalY) / 512) + BaseY;
+        Tile.x := Round(BaseX + SmartGetFieldInt(PathToNPC, hook_LocalX) / 512);
+        Tile.y := Round(BaseY + SmartGetFieldInt(PathToNPC, hook_LocalY) / 512);
         Moving := GetCharacterMovement(PathToNPC, False) > 0;
         Fighting := GetCharacterFighting(PathToNPC, False);
         Animation := GetCharacterAnimation(PathToNPC, False);
