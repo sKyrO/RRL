@@ -228,7 +228,12 @@ var
   hook_ToolKit_xMax, hook_ToolKit_yMax, hook_ToolKit_zMax,
 
   hook_Current_Plane, hook_GroundSettings_Array, hook_Plane_Array,
-  hook_Tile_Heights,
+  hook_Tile_Heights, hook_GroundTiles, hook_Ground_Animables,
+
+  hook_Animable_Get, hook_Animable_GetAreaX1, hook_Animable_GetAreaY1,
+  hook_Animable_GetAreaX2, hook_Animable_GetAreaY2, hook_Animable_Next,
+
+  hook_Object_Interactive_ID, hook_Object_Interactive2_Obj, hook_Object_Interactive2_ID,
 
   hook_MenuOpen, hook_MenuTabbed, hook_MenuCount, hook_MenuNodeList,
   hook_Node_Head, hook_Node_Next, hook_Menu_Action, hook_Menu_Option,
@@ -301,6 +306,17 @@ const
   index_Menu_Option = 58;
   index_MenuX = 59;
   index_MenuY = 60;
+  index_GroundTiles = 61;
+  index_Ground_Animables = 62;
+  index_Animable_Get = 63;
+  index_Object_Interactive_ID = 64;
+  index_Animable_GetAreaX1 = 65;
+  index_Animable_GetAreaY1 = 66;
+  index_Animable_GetAreaX2 = 67;
+  index_Animable_GetAreaY2 = 68;
+  index_Object_Interactive2_Obj = 69;
+  index_Object_Interactive2_ID = 70;
+  index_Animable_Next = 71;
 
 procedure StripComments(var Content: string);
 var
@@ -431,6 +447,17 @@ begin
   hook_Menu_Option := Get(DataArray, index_Menu_Option);
   hook_MenuX := Get(DataArray, index_MenuX);
   hook_MenuY := Get(DataArray, index_MenuY);
+  hook_GroundTiles := Get(DataArray, index_GroundTiles);
+  hook_Ground_Animables := Get(DataArray, index_Ground_Animables);
+  hook_Animable_Get := Get(DataArray, index_Animable_Get);
+  hook_Object_Interactive_ID := Get(DataArray, index_Object_Interactive_ID);
+  hook_Animable_GetAreaX1 := Get(DataArray, index_Animable_GetAreaX1);
+  hook_Animable_GetAreaY1 := Get(DataArray, index_Animable_GetAreaY1);
+  hook_Animable_GetAreaX2 := Get(DataArray, index_Animable_GetAreaX2);
+  hook_Animable_GetAreaY2 := Get(DataArray, index_Animable_GetAreaY2);
+  hook_Object_Interactive2_Obj := Get(DataArray, index_Object_Interactive2_Obj);
+  hook_Object_Interactive2_ID := Get(DataArray, index_Object_Interactive2_ID);
+  hook_Animable_Next := Get(DataArray, index_Animable_Next);
   Result := True;
 end;
 
