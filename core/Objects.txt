@@ -53,7 +53,7 @@ begin
     Node := SmartGetFieldObject(Ground, hook_Ground_Animables);
     while (Node <> 0) do
     begin
-      Obj := SmartGetFieldObject(Node, gook_Animable_Get);
+      Obj := SmartGetFieldObject(Node, hook_Animable_Get);
       if (Obj <> 0) then
       begin
         ObjID := SmartGetFieldShort(Obj, hook_Object_Interactive_ID) and $FFFF;
@@ -61,15 +61,15 @@ begin
         ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj, hook_Animable_GetAreaY1));
         ObjArea.x2 := (BaseX + SmartGetFieldShort(Obj, hook_Animable_GetAreaX2));
         ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj, hook_Animable_GetAreaY2));
-        ObjRTile.x := (BaseX + (SmartGetFieldInt(Obj, hook_LocalX) / 512));
-        ObjRTile.y := (BaseY + (SmartGetFieldInt(Obj, hook_LocalY) / 512));
-        if (ID = -1) or (ID = 65535) then
+        ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj, hook_LocalX) / 512));
+        ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj, hook_LocalY) / 512));
+        if (ObjID = -1) or (ObjID = 65535) then
         begin
           Obj2 := SmartGetFieldObject(Obj, hook_Object_Interactive2_Obj) and $FFFF;
           if (Obj2 <> 0) then
           begin
             ObjID := SmartGetFieldShort(Obj2, hook_Object_Interactive2_ID);
-            if (ID = -1) or (ID = 65535) then
+            if (ObjID = -1) or (ObjID = 65535) then
               Break;
             ObjArea.x1 := (BaseX + SmartGetFieldShort(Obj2, hook_Animable_GetAreaX1));
             ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj2, hook_Animable_GetAreaY1));
