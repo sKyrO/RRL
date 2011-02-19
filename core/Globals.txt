@@ -49,6 +49,7 @@ type
   end;
 
   TRSTileArray = array of TRSTile;
+  TArea = TBox;
 
 function TILE_POSITION_TOP_LEFT: TRSTilePosition;
 begin
@@ -153,6 +154,20 @@ type
   end;
 
   TNPCArray = array of TNPC;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Object types.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TRSObject = record
+    ID, ObjectType: Integer;
+    Tile: TRSTile;
+    Area: TArea;
+  end;
+
+  TRSObjectArray = array of TRSObject;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
