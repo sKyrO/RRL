@@ -169,7 +169,7 @@ type
 
   TRSObjectArray = array of TRSObject;
 
-function RSObject(const ObjID, ObjTyle: Integer; const ObjTile, ObjMainTile: TRSTile; const ObjArea: TArea): TRSObject;
+function RSObject(const ObjID, ObjType: Integer; const ObjTile, ObjMainTile: TRSTile; const ObjArea: TArea): TRSObject;
 begin
   with Result do
   begin
