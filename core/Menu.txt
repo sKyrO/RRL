@@ -92,7 +92,7 @@ var
   Item: string;
   xOff, yOff: Integer;
   P: TPoint;
-  T, MC, SC, SCA: LongInt;
+  T, MC: LongInt;
 begin
   mc := 1;
   AllItems := GetMenuText;
