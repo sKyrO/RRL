@@ -10,6 +10,8 @@ Global File
      By: Timer
  * function LoadHooks: Boolean;
      By: Timer
+ * function GetString(Bytes: LongInt): string;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -137,6 +139,23 @@ end;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+NPC types.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TNPC = record
+    Index, ID, Level, Animation, Orientation, HPRatio: Integer;
+    Height: Extended;
+    Interacting: LongInt;
+    Name: string;
+    Moving, Fighting: Boolean;
+    Tile: TRSTile;
+  end;
+
+  TNPCArray = array of TNPC;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Hook variables.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
@@ -147,7 +166,26 @@ var
 
   hook_BaseX, hook_BaseY, hook_LocalX, hook_LocalY,
 
+  hook_LoopCycle,
+
   hook_Character_Animation,
+  hook_Character_Movement,
+  hook_Character_LoopCycle,
+  hook_Character_Height,
+  hook_Character_Orientation,
+  hook_Character_GetInteracting,
+  hook_Character_HPRatio,
+
+  hook_NPC_Level,
+  hook_NPC_Count,
+  hook_NPC_Index_Array,
+  hook_NPC_Node_Array,
+  hook_NPC_Definition,
+  hook_NPC_ID,
+
+  hook_NPC_Definition_Name,
+
+  hook_Node_GetNPC,
 
   hook_Login_Index,
 
@@ -207,6 +245,21 @@ const
   index_Tile_Heights = 33;
   index_ToolKit = 34;
   index_ViewPort = 35;
+  index_LoopCycle = 36;
+  index_Character_Movement = 37;
+  index_Character_LoopCycle = 38;
+  index_Character_Height = 39;
+  index_Character_Orientation = 40;
+  index_Character_GetInteracting = 41;
+  index_Character_HPRatio = 42;
+  index_NPC_Level = 43;
+  index_NPC_Count = 44;
+  index_NPC_Index_Array = 45;
+  index_NPC_Node_Array = 46;
+  index_NPC_Definition = 47;
+  index_NPC_ID = 48;
+  index_NPC_Definition_Name = 49;
+  index_Node_GetNPC = 50;
 
 procedure StripComments(var Content: string);
 var
@@ -311,5 +364,25 @@ begin
   hook_Tile_Heights := Get(DataArray, index_Tile_Heights);
   hook_ToolKit := Get(DataArray, index_ToolKit);
   hook_ViewPort := Get(DataArray, index_ViewPort);
+  hook_LoopCycle := Get(DataArray, index_LoopCycle);
+  hook_Character_Movement := Get(DataArray, index_Character_Movement);
+  hook_Character_LoopCycle := Get(DataArray, index_Character_Loopcycle);
+  hook_Character_Height := Get(DataArray, index_Character_Height);
+  hook_Character_Orientation := Get(DataArray, index_Character_Orientation);
+  hook_Character_GetInteracting := Get(DataArray, index_Character_GetInteracting);
+  hook_Character_HPRatio := Get(DataArray, index_Character_HPRatio);
+  hook_NPC_Level := Get(DataArray, index_NPC_Level);
+  hook_NPC_Count := Get(DataArray, index_NPC_Count);
+  hook_NPC_Index_Array := Get(DataArray, index_NPC_Index_Array);
+  hook_NPC_Node_Array := Get(DataArray, index_NPC_Node_Array);
+  hook_NPC_Definition := Get(DataArray, index_NPC_Definition);
+  hook_NPC_ID := Get(DataArray, index_NPC_ID);
+  hook_NPC_Definition_Name := Get(DataArray, index_NPC_Definition_Name);
+  hook_Node_GetNPC := Get(DataArray, index_Node_GetNPC);
   Result := True;
+end;
+
+function GetString(Bytes: LongInt): string;
+begin
+  //TODO .
 end;
