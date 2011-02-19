@@ -75,12 +75,12 @@ begin
             ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj2, hook_Animable_GetAreaY1));
             ObjArea.x2 := (BaseX + SmartGetFieldShort(Obj2, hook_Animable_GetAreaX2));
             ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj2, hook_Animable_GetAreaY2));
-            ObjRTile.x := (BaseX + (SmartGetFieldInt(Obj2, hook_LocalX) / 512));
-            ObjRTile.y := (BaseY + (SmartGetFieldInt(Obj2, hook_LocalY) / 512));
+            ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj2, hook_LocalX) / 512));
+            ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj2, hook_LocalY) / 512));
           end;
           SmartFreeObject(Obj2);
         end;
-        Result := RSObject(ID, OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea);
+        Result := RSObject(ObjID, OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea);
         SmartFreeObject(Obj);
         Break;
       end;
@@ -124,7 +124,7 @@ end;
 function GetAllObjectsByType(const ObjType: Integer): array of TRSObject;
 var
   C, BaseX, BaseY, x, y: Integer;
-  Obj: LongInt;
+  Obj: TRSObject;
 begin
   Result := [];
   BaseX := SmartGetFieldInt(0, hook_BaseX);
@@ -146,7 +146,7 @@ end;
 function GetAllObjectByID(const ID, ObjType: Integer): array of TRSObject;
 var
   C, BaseX, BaseY, x, y: Integer;
-  Obj: LongInt;
+  Obj: TRSObject;
 begin
   Result := [];
   BaseX := SmartGetFieldInt(0, hook_BaseX);
@@ -167,7 +167,7 @@ end;
 
 function SortObjects(const Arr: array of TRSObject; const From: TRSTile): array of TRSObject;
 var
-  i, ii, L: LontInt;
+  i, ii, L: LongInt;
   TPA: TPointArray;
 begin
   L := Length(Arr);
@@ -187,7 +187,7 @@ end;
 function GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
 var
   C, BaseX, BaseY, x, y: Integer;
-  Obj: LongInt;
+  Obj: TRSObject;
   Arr: array of TRSObject;
 begin
   Result := NULL_RSOBJECT;
