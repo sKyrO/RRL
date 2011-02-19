@@ -4,4 +4,208 @@ Object routines.
 
 ---------------------------------------------------------
 
+ * function GetObjectInteractableAt(const TT: TRSTile): TRSObject;
+     By: Timer
+ * function GetObjectAt(const T: TRSTile; const ObjType: Integer): TRSObject;
+     By: Timer
+ * function GetAllObjectsByType(const ObjType: Integer): array of TRSObject;
+     By: Timer
+ * function GetAllObjectByID(const ID, ObjType: Integer): array of TRSObject;
+     By: Timer
+ * function SortObjects(const Arr: array of TRSObject; const From: TRSTile): array of TRSObject;
+     By: Timer
+ * function GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+const
+  OBJECT_TYPE_INTERACTABLE = 1;
+  OBJECT_TYPE_WALL_OBJECT = 2;
+  OBJCET_TYPE_WALL_DECORATION = 3;
+  OBJECT_TYPE_FLOOR_DECORATION = 4;
+
+function NULL_RSOBJECT: TRSObject;
+begin
+  with Result do
+  begin
+    ID := -1;
+    ObjectType := -1;
+    Tile := NULL_RSTILE;
+    MainTile := NULL_RSTILE;
+    Area := IntToBox(-1, -1, -1, -1);
+  end;
+end;
+
+function GetObjectInteractableAt(const TT: TRSTile): TRSObject;
+var
+  BaseX, BaseY, Plane, ObjID: Integer;
+  T, ObjRTile: TRSTile;
+  Ground, Node, Last, Obj, Obj2: LongInt;
+  ObjArea: TArea;
+begin
+  Result := NULL_RSOBJECT;
+  try
+    BaseX := SmartGetFieldInt(0, hook_BaseX);
+    BaseY := SmartGetFieldInt(0, hook_BaseY);
+    T := RSTile(TT.x - BaseX, TT.y - BaseY);
+    Plane := SmartGetFieldInt(0, hook_Current_Plane);
+    Ground := SmartGetFieldArray3DObject(0, hook_GroundTiles, Plane, T.x, T.y);
+    Node := SmartGetFieldObject(Ground, hook_Ground_Animables);
+    while (Node <> 0) do
+    begin
+      Obj := SmartGetFieldObject(Node, gook_Animable_Get);
+      if (Obj <> 0) then
+      begin
+        ObjID := SmartGetFieldShort(Obj, hook_Object_Interactive_ID) and $FFFF;
+        ObjArea.x1 := (BaseX + SmartGetFieldShort(Obj, hook_Animable_GetAreaX1));
+        ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj, hook_Animable_GetAreaY1));
+        ObjArea.x2 := (BaseX + SmartGetFieldShort(Obj, hook_Animable_GetAreaX2));
+        ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj, hook_Animable_GetAreaY2));
+        ObjRTile.x := (BaseX + (SmartGetFieldInt(Obj, hook_LocalX) / 512));
+        ObjRTile.y := (BaseY + (SmartGetFieldInt(Obj, hook_LocalY) / 512));
+        if (ID = -1) or (ID = 65535) then
+        begin
+          Obj2 := SmartGetFieldObject(Obj, hook_Object_Interactive2_Obj) and $FFFF;
+          if (Obj2 <> 0) then
+          begin
+            ObjID := SmartGetFieldShort(Obj2, hook_Object_Interactive2_ID);
+            if (ID = -1) or (ID = 65535) then
+              Break;
+            ObjArea.x1 := (BaseX + SmartGetFieldShort(Obj2, hook_Animable_GetAreaX1));
+            ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj2, hook_Animable_GetAreaY1));
+            ObjArea.x2 := (BaseX + SmartGetFieldShort(Obj2, hook_Animable_GetAreaX2));
+            ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj2, hook_Animable_GetAreaY2));
+            ObjRTile.x := (BaseX + (SmartGetFieldInt(Obj2, hook_LocalX) / 512));
+            ObjRTile.y := (BaseY + (SmartGetFieldInt(Obj2, hook_LocalY) / 512));
+          end;
+          SmartFreeObject(Obj2);
+        end;
+        Result := RSObject(ID, OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea);
+        SmartFreeObject(Obj);
+        Break;
+      end;
+      SmartFreeObject(Obj);
+      Last := Node;
+      SmartFreeObject(Node);
+      Node := SmartGetFieldObject(Last, hook_Animable_Next);
+    end;
+  finally
+    try
+      SmartFreeObject(Node);
+    except
+    end;
+    try
+      SmartFreeObject(Ground);
+    except
+    end;
+    try
+      SmartFreeObject(Obj);
+    except
+    end;
+    try
+      SmartFreeObject(Obj2);
+    except
+    end;
+    try
+      SmartFreeObject(Last);
+    except
+    end;
+  end;
+end;
+
+function GetObjectAt(const T: TRSTile; const ObjType: Integer): TRSObject;
+begin
+  Result := NULL_RSOBJECT;
+  case (ObjType) of
+    OBJECT_TYPE_INTERACTABLE: Result := GetObjectInteractableAt(T);
+  end;
+end;
+
+function GetAllObjectsByType(const ObjType: Integer): array of TRSObject;
+var
+  C, BaseX, BaseY, x, y: Integer;
+  Obj: LongInt;
+begin
+  Result := [];
+  BaseX := SmartGetFieldInt(0, hook_BaseX);
+  BaseY := SmartGetFieldInt(0, hook_BaseY);
+  SetLength(Result, 10816);
+  for x := BaseX to (BaseX + 104) do
+    for y := BaseY to (BaseY + 104) do
+    begin
+      Obj := GetObjectAt(RSTile(x, y), ObjType);
+      if (not Obj = NULL_RSOBJECT) then
+      begin
+        Result[C] := Obj;
+        Inc(C);
+      end;
+    end;
+  SetLength(Result, C);
+end;
+
+function GetAllObjectByID(const ID, ObjType: Integer): array of TRSObject;
+var
+  C, BaseX, BaseY, x, y: Integer;
+  Obj: LongInt;
+begin
+  Result := [];
+  BaseX := SmartGetFieldInt(0, hook_BaseX);
+  BaseY := SmartGetFieldInt(0, hook_BaseY);
+  SetLength(Result, 10816);
+  for x := BaseX to (BaseX + 104) do
+    for y := BaseY to (BaseY + 104) do
+    begin
+      Obj := GetObjectAt(RSTile(x, y), ObjType);
+      if (not Obj = NULL_RSOBJECT) and (Obj.ID = ID) then
+      begin
+        Result[C] := Obj;
+        Inc(C);
+      end;
+    end;
+  SetLength(Result, C);
+end;
+
+function SortObjects(const Arr: array of TRSObject; const From: TRSTile): array of TRSObject;
+var
+  i, ii, L: LontInt;
+  TPA: TPointArray;
+begin
+  L := Length(Arr);
+  if (L < 1) then
+    Exit;
+  SetLength(Result, L);
+  SetLength(TPA, L);
+  for i := 0 to L - 1 do
+    TPA[i] := Point(Arr[i].Tile.x, Arr[i].Tile.y);
+  SortTPAFrom(TPA, Point(From.x, From.y));
+  for i := 0 to L - 1 do
+    for ii := 0 to L - 1 do
+      if (TPA[i].x = Arr[i].Tile.x) and (TPA[i].y = Arr[i].Tile.y) then
+        Result[i] := Arr[ii];
+end;
+
+function GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
+var
+  C, BaseX, BaseY, x, y: Integer;
+  Obj: LongInt;
+  Arr: array of TRSObject;
+begin
+  Result := NULL_RSOBJECT;
+  BaseX := SmartGetFieldInt(0, hook_BaseX);
+  BaseY := SmartGetFieldInt(0, hook_BaseY);
+  SetLength(Arr, 10816);
+  for x := BaseX to (BaseX + 104) do
+    for y := BaseY to (BaseY + 104) do
+    begin
+      Obj := GetObjectAt(RSTile(x, y), ObjType);
+      if (not Obj = NULL_RSOBJECT) and (Obj.ID = ID) then
+      begin
+        Arr[C] := Obj;
+        Inc(C);
+      end;
+    end;
+  SetLength(Arr, C);
+  SortObjects(Arr, GetLocation);
+  if (Length(Arr) > 0) then
+    Result := Arr[0];
+end;
