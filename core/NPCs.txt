@@ -6,6 +6,8 @@ NPC routines.
 
  * function GetNPCs: TNPCArray;
      By: Timer
+ * function GetNPCsByID(const ID: Integer): TNPCArray;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -57,7 +59,25 @@ begin
         PathToNPCDefinition := SmartGetFieldObject(PathToNPC, hook_NPC_Definition);
         JavaName := SmartGetFieldObject(PathToNPCDefinition, hook_NPC_Definition_Name);
         if (Lowercase(Trim(GetString(JavaName))) = 'null') then
+        begin
+          try
+            SmartFreeObject(PathToNPCNode);
+          except
+          end;
+          try
+            SmartFreeObject(PathToNPC);
+          except
+          end;
+          try
+            SmartFreeObject(PathToNPCDefinition);
+          except
+          end;
+          try
+            SmartFreeObject(JavaName);
+          except
+          end;
           Continue;
+        end;
         ID := SmartGetFieldInt(PathToNPCDefinition, hook_NPC_ID);
         Name := GetString(JavaName);
         BaseX := SmartGetFieldInt(0, hook_BaseX);
@@ -91,6 +111,23 @@ begin
         SmartFreeObject(JavaName);
       except
       end;
+    end;
+  SetLength(Result, C);
+end;
+
+function GetNPCsByID(const ID: Integer): TNPCArray;
+var
+  NPCArray: TNPCArray;
+  i, l, C: Integer;
+begin
+  NPCArray := GetNPCs;
+  l := Length(NPCArray);
+  SetLength(Result, l);
+  for i := 0 to l - 1 do
+    if (NPCArray[i].ID = ID) then
+    begin
+      Result[C] := NPCArray[i];
+      Inc(C);
     end;
   SetLength(Result, C);
 end;
