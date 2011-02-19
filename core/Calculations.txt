@@ -121,9 +121,9 @@ begin
     z := RD.zOffset + (RD.zX * mX + RD.zY * mY + RD.zZ * mZ);
     if (z < R.zMin) or (z > R.zMax) then
       Exit;
-    x := r.xScale * (RD.xOffset + (RD.xX * mX + RD.xY * mY + RD.xZ * mZ)) / z;
-    y := r.yScale * (RD.yOffset + (RD.yX * mX + RD.yY * mY + RD.yZ * mZ)) / z;
-    if (x >= r.xMin) and (x <= r.xMax) and (y >= r.yMin) and (y <= r.yMax) then
+    x := R.xScale * (RD.xOffset + (RD.xX * mX + RD.xY * mY + RD.xZ * mZ)) / z;
+    y := R.yScale * (RD.yOffset + (RD.yX * mX + RD.yY * mY + RD.yZ * mZ)) / z;
+    if (x >= R.xMin) and (x <= R.xMax) and (y >= R.yMin) and (y <= R.yMax) then
     begin
       Result.x := Round((x - R.xMin) + 4);
       Result.y := Round((y - R.yMin) + 4);
@@ -148,8 +148,8 @@ var
 begin
   x := 512.0 * (t.x - SmartGetFieldInt(0, hook_BaseX) + O.xOffset);
   y := GetTileHeight(t) - h;
-  z := 512.0 *(t.y - SmartGetFieldInt(0, hook_BaseY) + O.yOffset);
-  Result := WorldToScreen(z, y, z);
+  z := 512.0 * (t.y - SmartGetFieldInt(0, hook_BaseY) + O.yOffset);
+  Result := WorldToScreen(x, y, z);
 end;
 
 function TileToScreenEx(const t: TRSTile; const h: Extended): TPoint;
