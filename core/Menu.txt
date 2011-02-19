@@ -136,14 +136,22 @@ begin
   begin
     xOff := RandomRange(4, 4 + Random(Length(Item) * 4 - 4));
     yOff := 21 + (16 * index) + RandomRange(2, 10);
-    Mouse(P.x + xOff, P.y + yOff, 0, 0, True);
+    {$IFDEF SIMBA}
+      Mouse(P.x + xOff, P.y + yOff, 0, 0, True);
+    {$ELSE}
+      ClickWindMouse(P.x + xOff, P.y + yOff, 0, 0, True);
+    {$ENDIF}
     Wait(RandomRange(80, 100));
     Result := not IsMenuOpen;
     Exit;
   end;
   while (IsMenuOpen) do
   begin
-    MMouse(Random(MSX2), Random(MSY2), 0, 0);
+    {$IFDEF SIMBA}
+      MMouse(Random(MSX2), Random(MSY2), 0, 0);
+    {$ELSE}
+      MoveWindMouseEx(Random(515), Random(337), 0, 0, 15);
+    {$ENDIF}
     Wait(RandomRange(100, 200));
   end;
 end;
