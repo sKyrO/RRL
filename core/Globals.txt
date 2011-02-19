@@ -163,11 +163,23 @@ Object types.
 type
   TRSObject = record
     ID, ObjectType: Integer;
-    Tile: TRSTile;
+    Tile, MainTile: TRSTile;
     Area: TArea;
   end;
 
   TRSObjectArray = array of TRSObject;
+
+function RSObject(const ObjID, ObjTyle: Integer; const ObjTile, ObjMainTile: TRSTile; const ObjArea: TArea): TRSObject;
+begin
+  with Result do
+  begin
+    ID := ObjID;
+    ObjectType := ObjType;
+    Tile := ObjTile;
+    MainTile := ObjMainTile;
+    Area := ObjArea;
+  end;
+end;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
