@@ -12,7 +12,7 @@ Path routines
      By: Timer
  * function PathNextTile(const ThePath: TPath): TRSTile;
      By: Timer
- * function PathWalk(const ThePath: TPath): Boolean;
+ * function PathStep(const ThePath: TPath): Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -69,10 +69,10 @@ begin
         Result := ThePath.Tiles[i];
 end;
 
-function PathWalk(const ThePath: TPath): Boolean;
+function PathStep(const ThePath: TPath): Boolean;
 var
-  OurTile, TheClickTile: TRSTile;
-  i, l: Integer;
+  OurTile, TheClickTile, FlagTile: TRSTile;
+  i, l, r, rr: Integer;
   Params: TIntegerArray;
 begin
   l := Length(ThePath.Tiles);
@@ -85,8 +85,9 @@ begin
       Result := True;
       Exit;
     end;
+    r := RandomRange(11, 14);
     for i := 0 to l - 1 do
-      if (TileOnMinimap(ThePath.Tiles[i])) then
+      if (TileOnMinimapEx(ThePath.Tiles[i], r)) then
         TheClickTile := ThePath.Tiles[i];
   end;
   if (not TheClickTile = NULL_RSTILE) then
@@ -98,7 +99,17 @@ begin
     end;
     if (InIntArray(Params, PATH_HANDLER_WALKING)) then
     begin
-      //TODO .
+      FlagTile := GetFlagPosition;
+      if (FlagTile.x < 0) then
+        FlagTile := NULL_RSTILE;
+      if (FlagTile = NULL_RSTILE) then
+        ClickTile(TheClickTile)
+      else
+      begin
+        rr := RandomRange(4, 8);
+        if (DistanceBetween(GetLocation, FlagTile) >= rr) then
+          ClickTile(TheClickTile);
+      end;
     end else
       ClickTile(TheClickTile);
     Result := True;
