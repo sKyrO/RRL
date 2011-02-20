@@ -6,6 +6,8 @@ Calulation core file
 
  * function TileToMinimap(const Tile: TRSTile): TPoint;
      By: Timer
+ * function TileOnMinimapEx(const CheckTile: TRSTile; const Dist: Integer): Boolean;
+     By: timer
  * function TileOnMinimap(const CheckTile: TRSTile): Boolean;
      By: Timer
  * function DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
@@ -57,16 +59,23 @@ begin
                   );
 end;
 
-function TileOnMinimap(const CheckTile: TRSTile): Boolean; // TODO check accur.
+function TileOnMinimapEx(const CheckTile: TRSTile; const Dist: Integer): Boolean;
 var
   OurLocation: TRSTile;
 begin
   OurLocation := GetLocation;
   {$IFDEF SIMBA}
-    Result := Sqrt(Sqr(CheckTile.x - OurLocation.x) + Sqr(CheckTile.y - OurLocation.y)) <= 14;
+    Result := Sqrt(Sqr(CheckTile.x - OurLocation.x) + Sqr(CheckTile.y - OurLocation.y)) <= Dist;
   {$ELSE}
-    Result := InCircle(CheckTile.x, CheckTile.y, OurLocation.x, OurLocation.y, 14);
+    Result := InCircle(CheckTile.x, CheckTile.y, OurLocation.x, OurLocation.y, Dist);
   {$ENDIF}
+end;
+
+function TileOnMinimap(const CheckTile: TRSTile): Boolean;
+var
+  OurLocation: TRSTile;
+begin
+  Result := TileOnMinimapEx(CheckTile, 14);
 end;
 
 function DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
