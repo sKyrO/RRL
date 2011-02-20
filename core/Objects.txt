@@ -72,8 +72,8 @@ begin
         ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj, hook_Animable_GetAreaY1));
         ObjArea.x2 := (BaseX + SmartGetFieldShort(Obj, hook_Animable_GetAreaX2));
         ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj, hook_Animable_GetAreaY2));
-        ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj, hook_LocalX) / 512));
-        ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj, hook_LocalY) / 512));
+        ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj, hook_LocalX) div 512));
+        ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj, hook_LocalY) div 512));
         if (ObjID = -1) or (ObjID = 65535) then
         begin
           Obj2 := SmartGetFieldObject(Obj, hook_Object_Interactive2_Obj) and $FFFF;
@@ -86,8 +86,8 @@ begin
             ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj2, hook_Animable_GetAreaY1));
             ObjArea.x2 := (BaseX + SmartGetFieldShort(Obj2, hook_Animable_GetAreaX2));
             ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj2, hook_Animable_GetAreaY2));
-            ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj2, hook_LocalX) / 512));
-            ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj2, hook_LocalY) / 512));
+            ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj2, hook_LocalX) div 512));
+            ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj2, hook_LocalY) div 512));
           end;
           SmartFreeObject(Obj2);
         end;

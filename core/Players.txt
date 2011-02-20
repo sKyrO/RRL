@@ -38,7 +38,7 @@ begin
     BaseY := SmartGetFieldInt(0, hook_BaseY);
     LocalX := SmartGetFieldInt(OurPlayerPath, hook_LocalX);
     LocalY := SmartGetFieldInt(OurPlayerPath, hook_LocalY);
-    Result := RSTile(Round(BaseX + LocalX / 512), Round(BaseY + LocalY / 512));
+    Result := RSTile(BaseX + LocalX div 512, BaseY + LocalY div 512);
   finally // We want to rid of memory leaks.
     try
       SmartFreeObject(OurPlayerPath);
