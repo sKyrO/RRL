@@ -72,8 +72,6 @@ begin
 end;
 
 function TileOnMinimap(const CheckTile: TRSTile): Boolean;
-var
-  OurLocation: TRSTile;
 begin
   Result := TileOnMinimapEx(CheckTile, 14);
 end;
