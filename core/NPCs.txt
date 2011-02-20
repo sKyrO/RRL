@@ -131,3 +131,43 @@ begin
     end;
   SetLength(Result, C);
 end;
+
+function SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
+var
+  i, ii, L: LongInt;
+  TPA: TPointArray;
+begin
+  L := Length(Arr);
+  if (L < 1) then
+    Exit;
+  SetLength(Result, L);
+  SetLength(TPA, L);
+  for i := 0 to L - 1 do
+    TPA[i] := Point(Arr[i].Tile.x, Arr[i].Tile.y);
+  SortTPAFrom(TPA, Point(From.x, From.y));
+  for i := 0 to L - 1 do
+    for ii := 0 to L - 1 do
+      if (TPA[i].x = Arr[i].Tile.x) and (TPA[i].y = Arr[i].Tile.y) then
+        Result[i] := Arr[ii];
+end;
+
+function GetClosestNPCByID(const ID: Integer): TNPC;
+var
+  NPCArray, OurNPCs: TNPCArray;
+  i, l, C: Integer;
+begin
+  Result := NULL_NPC;
+  NPCArray := GetNPCs;
+  l := Length(NPCArray);
+  SetLength(OurNPCs, l);
+  for i := 0 to l - 1 do
+    if (NPCArray[i].ID = ID) then
+    begin
+      OurNPCs[C] := NPCArray[i];
+      Inc(C);
+    end;
+  SetLength(OurNPCs, C);
+  OurNPCs := SortNPCs(OurNPCs, GetLocation);
+  if (Length(OurNPCs) > 0) then
+    Result := OurNPCs[0];
+end;
