@@ -4,6 +4,10 @@ Bank routines.
 
 ---------------------------------------------------------
 
+ * function IsBankOpen: Boolean;
+     By: Timer
+ * function IsPinScreen: Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -16,3 +20,13 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
+
+function IsBankOpen: Boolean;
+begin
+  Result := InterfaceValid(762);
+end;
+
+function IsPinScreen: Boolean;
+begin
+  Result := InterfaceValid(13);
+end;
