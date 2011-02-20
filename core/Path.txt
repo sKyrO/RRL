@@ -14,6 +14,8 @@ Path routines
      By: Timer
  * function PathStep(const ThePath: TPath): Boolean;
      By: Timer
+ * function PathReverse(const ThePath: TPath): TPath;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -115,4 +117,14 @@ begin
     Result := True;
   end;
   Result := False;
+end;
+
+function PathReverse(const ThePath: TPath): TPath;
+var
+  i, l: Integer;
+begin
+  l := Length(ThePath);
+  SetLength(Result, l);
+  for i := 0 to l - 1 do
+    Result[l - i - 1] := ThePath[i];
 end;
