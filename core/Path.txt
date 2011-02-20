@@ -123,8 +123,9 @@ function PathReverse(const ThePath: TPath): TPath;
 var
   i, l: Integer;
 begin
-  l := Length(ThePath);
-  SetLength(Result, l);
+  l := Length(ThePath.Tiles);
+  SetLength(Result.Tiles, l);
+  Result.Handlers := ThePath.Handlers;
   for i := 0 to l - 1 do
-    Result[l - i - 1] := ThePath[i];
+    Result.Tiles[l - i - 1] := ThePath.Tiles[i];
 end;
