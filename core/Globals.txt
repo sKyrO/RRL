@@ -239,7 +239,9 @@ var
 
   hook_MenuOpen, hook_MenuTabbed, hook_MenuCount, hook_MenuNodeList,
   hook_Node_Head, hook_Node_Next, hook_Menu_Action, hook_Menu_Option,
-  hook_MenuX, hook_MenuY: string;
+  hook_MenuX, hook_MenuY,
+
+  hook_Valid_Interfaces, hook_Interfaces, hook_Interface_Text: string;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -321,6 +323,9 @@ const
   index_Animable_Next = 71;
   index_FlagX = 72;
   index_FlagY = 73;
+  index_Valid_Interfaces = 74;
+  index_Interfaces = 75;
+  index_Interface_Text = 76;
 
 procedure StripComments(var Content: string);
 var
@@ -463,6 +468,9 @@ begin
   hook_Animable_Next := Get(DataArray, index_Animable_Next);
   hook_FlagX := Get(DataArray, index_FlagX);
   hook_FlagY := Get(DataArray, index_FlagY);
+  hook_Valid_Interfaces := Get(DataArray, index_Valid_Interfaces);
+  hook_Interfaces := Get(DataArray, index_Interfaces);
+  hook_Interface_Text := Get(DataArray, index_Interface_Text);
   Result := True;
 end;
 
