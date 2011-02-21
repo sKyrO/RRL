@@ -49,13 +49,13 @@ begin
   if (TileOnMinimap(Tile)) then
   begin
     MousePosition := TileToMinimap(Tile);
-    MMouse(MousePosition.x, MousePosition.y, 5, 5);
+    MMouse(MousePosition.x + RandomRange(-5, 5), MousePosition.y + RandomRange(-5, 5), 0, 0);
     MousePosition := TileToMinimap(Tile);
     if (Distance(MouseX, MouseY, MousePosition.x, MousePosition.y) > 5) then
     begin
       if (not TileOnMinimap(Tile)) then
         Exit;
-      Mouse(MousePosition.x, MousePosition.y, 5, 5, True);
+      Mouse(MousePosition.x + RandomRange(-5, 5), MousePosition.y + RandomRange(-5, 5), 0, 0, True);
     end else
       Mouse(MouseX, MouseY, 0, 0, True);
     Result := True;
