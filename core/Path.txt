@@ -111,7 +111,7 @@ begin
     r := RandomRange(11, 14);
     TheClickTile := PathNextTileEx(ThePath, r);
   end;
-  if (not TheClickTile = NULL_RSTILE) then
+  if (not (TheClickTile = NULL_RSTILE)) then
   begin
     Params := ThePath.Handlers;
     if (InIntArray(Params, PATH_HANDLER_RUN)) then
