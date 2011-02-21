@@ -60,33 +60,33 @@ begin
   h := NumberOfNPCs - 1;//Simba compatibility.
   for i := 0 to h do
     try
+      PathToNPCNode := SmartGetFieldArrayObject(0, hook_NPC_Node_Array, i);
+      PathToNPC := SmartGetFieldObject(PathToNPCNode, hook_Node_GetNPC);
+      PathToNPCDefinition := SmartGetFieldObject(PathToNPC, hook_NPC_Definition);
+      JavaName := SmartGetFieldObject(PathToNPCDefinition, hook_NPC_Definition_Name);
+      if (Lowercase(Trim(GetString(JavaName))) = 'null') then
+      begin
+        try
+          SmartFreeObject(PathToNPCNode);
+        except
+        end;
+        try
+          SmartFreeObject(PathToNPC);
+        except
+        end;
+        try
+          SmartFreeObject(PathToNPCDefinition);
+        except
+        end;
+        try
+          SmartFreeObject(JavaName);
+        except
+        end;
+        Continue;
+      end;
       with Result[C] do
       begin
         Index := SmartGetFieldArrayInt(0, hook_NPC_Index_Array, i);
-        PathToNPCNode := SmartGetFieldArrayObject(0, hook_NPC_Node_Array, i);
-        PathToNPC := SmartGetFieldObject(PathToNPCNode, hook_Node_GetNPC);
-        PathToNPCDefinition := SmartGetFieldObject(PathToNPC, hook_NPC_Definition);
-        JavaName := SmartGetFieldObject(PathToNPCDefinition, hook_NPC_Definition_Name);
-        if (Lowercase(Trim(GetString(JavaName))) = 'null') then
-        begin
-          try
-            SmartFreeObject(PathToNPCNode);
-          except
-          end;
-          try
-            SmartFreeObject(PathToNPC);
-          except
-          end;
-          try
-            SmartFreeObject(PathToNPCDefinition);
-          except
-          end;
-          try
-            SmartFreeObject(JavaName);
-          except
-          end;
-          Continue;
-        end;
         ID := SmartGetFieldInt(PathToNPCDefinition, hook_NPC_ID);
         Name := GetString(JavaName);
         BaseX := SmartGetFieldInt(0, hook_BaseX);
@@ -164,8 +164,11 @@ begin
   SortTPAFrom(TPA, Point(From.x, From.y));
   for i := 0 to L - 1 do
     for ii := 0 to L - 1 do
-      if (TPA[i].x = Arr[i].Tile.x) and (TPA[i].y = Arr[i].Tile.y) then
+      if (TPA[i].x = Arr[ii].Tile.x) and (TPA[i].y = Arr[ii].Tile.y) then
+      begin
         Result[i] := Arr[ii];
+        Break;
+      end;
 end;
 
 function GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
