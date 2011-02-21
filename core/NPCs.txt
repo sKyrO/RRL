@@ -6,7 +6,15 @@ NPC routines.
 
  * function GetNPCs: TNPCArray;
      By: Timer
+ * function GetNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
+     By: Timer
  * function GetNPCsByID(const ID: Integer): TNPCArray;
+     By: Timer
+ * function SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
+     By: Timer
+ * function GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
+     By: Timer
+ * function GetClosestNPCByID(const ID: Integer): TNPC;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -115,21 +123,29 @@ begin
   SetLength(Result, C);
 end;
 
-function GetNPCsByID(const ID: Integer): TNPCArray;
+function GetNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
 var
   NPCArray: TNPCArray;
-  i, l, C: Integer;
+  i, l, C, ii, ll: Integer;
 begin
   NPCArray := GetNPCs;
   l := Length(NPCArray);
+  ll := Length(IDs);
   SetLength(Result, l);
   for i := 0 to l - 1 do
-    if (NPCArray[i].ID = ID) then
-    begin
-      Result[C] := NPCArray[i];
-      Inc(C);
-    end;
+    for ii := 0 to ll - 1 do
+      if (NPCArray[i].ID = IDs[ii]) then
+      begin
+        Result[C] := NPCArray[i];
+        Inc(C);
+        Break;
+      end;
   SetLength(Result, C);
+end;
+
+function GetNPCsByID(const ID: Integer): TNPCArray;
+begin
+  Result := GetNPCsByIDEx([ID]);
 end;
 
 function SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
@@ -151,23 +167,31 @@ begin
         Result[i] := Arr[ii];
 end;
 
-function GetClosestNPCByID(const ID: Integer): TNPC;
+function GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
 var
   NPCArray, OurNPCs: TNPCArray;
-  i, l, C: Integer;
+  i, l, C, ii, ll: Integer;
 begin
   Result := NULL_NPC;
   NPCArray := GetNPCs;
   l := Length(NPCArray);
+  ll := Length(IDs);
   SetLength(OurNPCs, l);
   for i := 0 to l - 1 do
-    if (NPCArray[i].ID = ID) then
-    begin
-      OurNPCs[C] := NPCArray[i];
-      Inc(C);
-    end;
+    for ii := 0 to ll - 1 do
+      if (NPCArray[i].ID = IDs[ii]) then
+      begin
+        OurNPCs[C] := NPCArray[i];
+        Inc(C);
+        Break;
+      end;
   SetLength(OurNPCs, C);
   OurNPCs := SortNPCs(OurNPCs, GetLocation);
   if (Length(OurNPCs) > 0) then
     Result := OurNPCs[0];
+end;
+
+function GetClosestNPCByID(const ID: Integer): TNPC;
+begin
+  Result := GetClosestNPCByIDEx([ID]);
 end;
