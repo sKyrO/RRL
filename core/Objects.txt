@@ -191,8 +191,11 @@ begin
   SortTPAFrom(TPA, Point(From.x, From.y));
   for i := 0 to L - 1 do
     for ii := 0 to L - 1 do
-      if (TPA[i].x = Arr[i].Tile.x) and (TPA[i].y = Arr[i].Tile.y) then
+      if (TPA[i].x = Arr[ii].Tile.x) and (TPA[i].y = Arr[ii].Tile.y) then
+      begin
         Result[i] := Arr[ii];
+        Break;
+      end;
 end;
 
 function GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
