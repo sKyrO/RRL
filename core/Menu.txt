@@ -98,8 +98,9 @@ begin
       SmartFreeObject(Nodes);
     except
     end;
-    Result := GetMenuText;
     WriteLn('GetMenuText failed.. looping again [possible infinite loop].');
+    Wait(50);
+    Result := GetMenuText;
   end;
 end;
 
