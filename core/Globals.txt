@@ -10,7 +10,7 @@ Global File
      By: Timer
  * function LoadHooks: Boolean;
      By: Timer
- * function GetString(Bytes: LongInt): string;
+ * function GetString(Bytes: LongInt): [AnsiString/string];
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -474,7 +474,11 @@ begin
   Result := True;
 end;
 
+{$IFDEF SIMBA}
 function GetString(Bytes: LongInt): string;
+{$ELSE}
+function GetString(Bytes: LongInt): AnsiString;
+{$ENDIF}
 begin
   SetLength(Result, 255);
   SetLength(Result, SmartStringFromString(Bytes, Result));
