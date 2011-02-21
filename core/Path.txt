@@ -127,7 +127,7 @@ begin
         ClickTile(TheClickTile)
       else
       begin
-        rr := RandomRange(6, 12);
+        rr := RandomRange(4, 8);
         if (DistanceBetween(GetLocation, FlagTile) <= rr) then
           ClickTile(TheClickTile);
       end;
