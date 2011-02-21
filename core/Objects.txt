@@ -209,7 +209,7 @@ begin
     for y := BaseY to (BaseY + 104) do
     begin
       Obj := GetObjectAt(RSTile(x, y), ObjType);
-      if (not Obj = NULL_RSOBJECT) and (Obj.ID = ID) then
+      if (not (Obj = NULL_RSOBJECT)) and (Obj.ID = ID) then
       begin
         Arr[C] := Obj;
         Inc(C);
