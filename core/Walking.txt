@@ -36,8 +36,16 @@ begin
 end;
 
 function GetFlagPosition: TRSTile;
+var
+  fx, fy: Integer;
 begin
-  Result := RSTile(SmartGetFieldInt(0, hook_FlagX), SmartGetFieldInt(0, hook_FlagY));
+  fx := SmartGetFieldInt(0, hook_FlagX);
+  fy := SmartGetFieldInt(0, hook_FlagY);
+  if (fx < 0) or (fy < 0) then
+    Result := NULL_RSTILE
+  else
+    Result := RSTile(SmartGetFieldInt(0, hook_BaseX) + fx,
+                     SmartGetFieldInt(0, hook_BaseY) + fy);
 end;
 
 function ClickTile(const Tile: TRSTile): Boolean;
