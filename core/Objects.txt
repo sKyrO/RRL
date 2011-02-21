@@ -76,10 +76,10 @@ begin
         ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj, hook_LocalY) div 512));
         if (ObjID = -1) or (ObjID = 65535) then
         begin
-          Obj2 := SmartGetFieldObject(Obj, hook_Object_Interactive2_Obj) and $FFFF;
+          Obj2 := SmartGetFieldObject(Obj, hook_Object_Interactive2_Obj);
           if (Obj2 <> 0) then
           begin
-            ObjID := SmartGetFieldShort(Obj2, hook_Object_Interactive2_ID);
+            ObjID := SmartGetFieldShort(Obj2, hook_Object_Interactive2_ID) and $FFFF;
             if (ObjID = -1) or (ObjID = 65535) then
               Break;
             ObjArea.x1 := (BaseX + SmartGetFieldShort(Obj2, hook_Animable_GetAreaX1));
