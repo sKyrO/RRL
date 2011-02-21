@@ -73,7 +73,7 @@ end;
 
 function TileOnMinimap(const CheckTile: TRSTile): Boolean;
 begin
-  Result := TileOnMinimapEx(CheckTile, 14);
+  Result := TileOnMinimapEx(CheckTile, 17);
 end;
 
 function DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;

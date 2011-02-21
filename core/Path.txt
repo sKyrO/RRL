@@ -89,7 +89,7 @@ end;
 
 function PathAtDestination(const ThePath: TPath): Boolean;
 begin
-  Result := DistanceBetween(GetLocation, PathEnd(ThePath)) < 5;
+  Result := DistanceBetween(GetLocation, PathEnd(ThePath)) < 3;
 end;
 
 function PathStep(const ThePath: TPath): Boolean;
@@ -103,12 +103,12 @@ begin
   if (l > 0) then
   begin
     OurTile := GetLocation;
-    if (DistanceBetween(OurTile, PathEnd(ThePath)) < 5) then
+    if (DistanceBetween(OurTile, PathEnd(ThePath)) < 3) then
     begin
       Result := True;
       Exit;
     end;
-    r := RandomRange(11, 14);
+    r := RandomRange(14, 17);
     TheClickTile := PathNextTileEx(ThePath, r);
   end;
   if (not (TheClickTile = NULL_RSTILE)) then
@@ -128,12 +128,13 @@ begin
       else
       begin
         rr := RandomRange(4, 8);
-        if (DistanceBetween(GetLocation, FlagTile) >= rr) then
+        if (DistanceBetween(GetLocation, FlagTile) <= rr) then
           ClickTile(TheClickTile);
       end;
     end else
       ClickTile(TheClickTile);
     Result := True;
+    Exit;
   end;
   Result := False;
 end;
