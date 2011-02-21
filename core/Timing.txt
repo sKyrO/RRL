@@ -1,0 +1,46 @@
+{=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+RRL - Reflection Resource Library
+Timing routines.
+
+---------------------------------------------------------
+
+ * function WaitForOptionEx(Options: TStringArray; Timeout: Integer): Boolean;
+     By: Timer
+ * function WaitForOption(Option: string; Timeout: Integer): Boolean;
+     By: Timer
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+{
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/
+or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+
+Copyright (C) 2010 - 2011 by Joe Haddad, all rights reserved.
+This file is part of the RRL project (https://github.com/Timer/RRL).
+
+For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
+}
+
+function WaitForOptionEx(Options: TStringArray; Timeout: Integer): Boolean;
+var
+  Index, i: Integer;
+  m: LongInt;
+begin
+  Result := False;
+  m := GetSystemTime;
+  while (not Result) and (GetSystemTime - m < Timeout) do
+    for i := 0 to High(Options) do
+    begin
+      Index := GetMenuIndex(Options[i]);
+      if (Index > -1) then
+      begin
+        Result := True;
+        Break;
+      end;
+    end;
+end;
+
+function WaitForOption(Option: string; Timeout: Integer): Boolean;
+begin
+  Result := WaitForOptionEx([Option], Timeout);
+end;
