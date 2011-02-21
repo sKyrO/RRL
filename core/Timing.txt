@@ -35,7 +35,7 @@ begin
       if (Index > -1) then
       begin
         Result := True;
-        Break;
+        Exit;
       end;
     end;
 end;
