@@ -51,35 +51,56 @@ var
   Nodes, Head, Next, Count, JavaString, Last: LongInt;
   Item: string;
 begin
-  Nodes := SmartGetFieldObject(0, hook_MenuNodeList);
-  Head := SmartGetFieldObject(Nodes, hook_Node_Head);
-  if (IsMenuTabbed) then
-    Next := Head
-  else
-    Next := SmartGetFieldObject(Head, hook_Node_Next);
-  Count := GetMenuCount;
-  SetLength(Result, Count);
-  repeat
-    JavaString := SmartGetFieldObject(Next, hook_Menu_Action);
-    if (JavaString = 0) then
-    begin
+  try
+    Nodes := SmartGetFieldObject(0, hook_MenuNodeList);
+    Head := SmartGetFieldObject(Nodes, hook_Node_Head);
+    if (IsMenuTabbed) then
+      Next := Head
+    else
+      Next := SmartGetFieldObject(Head, hook_Node_Next);
+    Count := GetMenuCount;
+    SetLength(Result, Count);
+    repeat
+      JavaString := SmartGetFieldObject(Next, hook_Menu_Action);
+      if (JavaString = 0) then
+      begin
+        SmartFreeObject(JavaString);
+        Break;
+      end;
+      Item := GetString(JavaString);
       SmartFreeObject(JavaString);
-      Break;
+      JavaString := SmartGetFieldObject(next, hook_Menu_Option);
+      Item := Item + ' ' + GetString(JavaString);
+      SmartFreeObject(JavaString);
+      Result[Count - 1] := RemoveJunk(Item);
+      Last := Next;
+      Next := SmartGetFieldObject(Last, hook_Node_Next);
+      SmartFreeObject(Last);
+      Dec(Count);
+    until (Count <= 0);
+    SmartFreeObject(Next);
+    SmartFreeObject(Head);
+    SmartFreeObject(Nodes);
+  except
+    try
+      SmartFreeObject(Next);
+    except
     end;
-    Item := GetString(JavaString);
-    SmartFreeObject(JavaString);
-    JavaString := SmartGetFieldObject(next, hook_Menu_Option);
-    Item := Item + ' ' + GetString(JavaString);
-    SmartFreeObject(JavaString);
-    Result[Count - 1] := RemoveJunk(Item);
-    Last := Next;
-    Next := SmartGetFieldObject(Last, hook_Node_Next);
-    SmartFreeObject(Last);
-    Dec(Count);
-  until (Count <= 0);
-  SmartFreeObject(Next);
-  SmartFreeObject(Head);
-  SmartFreeObject(Nodes);
+    try
+      SmartFreeObject(Last);
+    except
+    end;
+    try
+      SmartFreeObject(Head);
+    except
+    end;
+    try
+      SmartFreeObject(Nodes);
+    except
+    end;
+    Result := GetMenuText;
+    WriteLn('GetMenuText failed.. looping again [possible infinite loop].');
+  end;
 end;
 
 function GetMenuIndex(Text: string): Integer;
