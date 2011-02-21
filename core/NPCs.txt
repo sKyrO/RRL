@@ -50,14 +50,15 @@ end;
 
 function GetNPCs: TNPCArray;
 var
-  NumberOfNPCs, i, C, BaseX, BaseY: Integer;
+  NumberOfNPCs, i, C, BaseX, BaseY, h: Integer;
   PathToNPCNode, PathToNPC, PathToNPCDefinition, JavaName: LongInt;
 begin
   NumberOfNPCs := SmartGetFieldInt(0, hook_NPC_Count);
   if (NumberOfNPCs < 1) then
     Exit;
   SetLength(Result, NumberOfNPCs);
-  for i := 0 to NumberOfNPCs - 1 do
+  h := NumberOfNPCs - 1;//Simba compatibility.
+  for i := 0 to h do
     try
       with Result[C] do
       begin

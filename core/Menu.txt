@@ -172,7 +172,7 @@ end;
 
 function Interact(Option: string): Boolean;
 var
-  Index, x, y: Integer;
+  Index: Integer;
   AllItems: TStringArray;
   T: LongInt;
 begin
