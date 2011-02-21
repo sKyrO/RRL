@@ -10,7 +10,11 @@ Path routines
      By: Timer
  * function PathEnd(const ThePath: TPath): TRSTile;
      By: Timer
+ * function PathNextTileEx(const ThePath: TPath; const Dist: Integer): TRSTile;
+     By: Timer
  * function PathNextTile(const ThePath: TPath): TRSTile;
+     By: Timer
+ * function PathAtDestination(const ThePath: TPath): Boolean;
      By: Timer
  * function PathStep(const ThePath: TPath): Boolean;
      By: Timer
@@ -59,6 +63,18 @@ begin
     Result := ThePath.Tiles[Length(ThePath.Tiles) - 1];
 end;
 
+function PathNextTileEx(const ThePath: TPath; const Dist: Integer): TRSTile;
+var
+  i, l: Integer;
+begin
+  Result := NULL_RSTile;
+  l := Length(ThePath.Tiles);
+  if (l > 0) then
+    for i := 0 to l - 1 do
+      if (TileOnMinimapEx(ThePath.Tiles[i], Dist)) then
+        Result := ThePath.Tiles[i];
+end;
+
 function PathNextTile(const ThePath: TPath): TRSTile;
 var
   i, l: Integer;
@@ -71,10 +87,15 @@ begin
         Result := ThePath.Tiles[i];
 end;
 
+function PathAtDestination(const ThePath: TPath): Boolean;
+begin
+  Result := DistanceBetween(GetLocation, PathEnd(ThePath)) < 5;
+end;
+
 function PathStep(const ThePath: TPath): Boolean;
 var
   OurTile, TheClickTile, FlagTile: TRSTile;
-  i, l, r, rr: Integer;
+  l, r, rr: Integer;
   Params: TIntegerArray;
 begin
   l := Length(ThePath.Tiles);
@@ -88,9 +109,7 @@ begin
       Exit;
     end;
     r := RandomRange(11, 14);
-    for i := 0 to l - 1 do
-      if (TileOnMinimapEx(ThePath.Tiles[i], r)) then
-        TheClickTile := ThePath.Tiles[i];
+    TheClickTile := PathNextTileEx(ThePath, r);
   end;
   if (not TheClickTile = NULL_RSTILE) then
   begin
@@ -119,13 +138,12 @@ begin
   Result := False;
 end;
 
-function PathReverse(const ThePath: TPath): TPath;
+function PathReverse(const ThePath: TRSTileArray): TRSTileArray;
 var
   i, l: Integer;
 begin
-  l := Length(ThePath.Tiles);
-  SetLength(Result.Tiles, l);
-  Result.Handlers := ThePath.Handlers;
+  l := Length(ThePath);
+  SetLength(Result, l);
   for i := 0 to l - 1 do
-    Result.Tiles[l - i - 1] := ThePath.Tiles[i];
+    Result[l - i - 1] := ThePath[i];
 end;
