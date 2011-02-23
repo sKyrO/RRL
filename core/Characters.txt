@@ -4,25 +4,25 @@ Characters routines.
 
 ---------------------------------------------------------
 
- * function GetCharacterAnimation(const CharPath: LongInt; const Free: Boolean): Integer;
+ * function r_GetCharacterAnimation(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
- * function GetCharacterMovement(const CharPath: LongInt; const Free: Boolean): Integer;
+ * function r_GetCharacterMovement(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
- * function GetCharacterFighting(const CharPath: LongInt; const Free: Boolean): Boolean;
+ * function r_GetCharacterFighting(const CharPath: LongInt; const Free: Boolean): Boolean;
      By: Timer
- * function GetCharacterHeight(const CharPath: LongInt; const Free: Boolean): Extended;
+ * function r_GetCharacterHeight(const CharPath: LongInt; const Free: Boolean): Extended;
      By: Timer
- * function GetCharacterOrientation(const CharPath: LongInt; const Free: Boolean): Integer;
+ * function r_GetCharacterOrientation(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
- * function GetCharacterLevel(const CharPath: LongInt; const Free: Boolean): Integer;
+ * function r_GetCharacterLevel(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
- * function GetCharacterInteracting(const CharPath: LongInt; const Free: Boolean): LongInt;
+ * function r_GetCharacterInteracting(const CharPath: LongInt; const Free: Boolean): LongInt;
      By: Timer
- * function GetCharacterHPRatio(const CharPath: LongInt; const Free: Boolean): Integer;
+ * function r_GetCharacterHPRatio(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
-function GetCharacterAnimation(const CharPath: LongInt; const Free: Boolean): Integer;
+function r_GetCharacterAnimation(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
     Result := SmartGetFieldInt(CharPath, hook_Character_Animation);
@@ -37,7 +37,7 @@ begin
   end;
 end;
 
-function GetCharacterMovement(const CharPath: LongInt; const Free: Boolean): Integer;
+function r_GetCharacterMovement(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
     Result := SmartGetFieldInt(CharPath, hook_Character_Movement);
@@ -52,7 +52,7 @@ begin
   end;
 end;
 
-function GetCharacterFighting(const CharPath: LongInt; const Free: Boolean): Boolean;
+function r_GetCharacterFighting(const CharPath: LongInt; const Free: Boolean): Boolean;
 begin
   try
     Result := SmartGetFieldInt(CharPath, hook_Character_LoopCycle) >
@@ -68,7 +68,7 @@ begin
   end;
 end;
 
-function GetCharacterHeight(const CharPath: LongInt; const Free: Boolean): Extended;
+function r_GetCharacterHeight(const CharPath: LongInt; const Free: Boolean): Extended;
 begin
   try
     Result := iAbs(SmartGetFieldInt(CharPath, hook_Character_Height));
@@ -83,7 +83,7 @@ begin
   end;
 end;
 
-function GetCharacterOrientation(const CharPath: LongInt; const Free: Boolean): Integer;
+function r_GetCharacterOrientation(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
     Result := Round(FixD(180 + (SmartGetFieldInt(CharPath, hook_Character_Orientation) * 45) / 2048));
@@ -98,7 +98,7 @@ begin
   end;
 end;
 
-function GetCharacterLevel(const CharPath: LongInt; const Free: Boolean): Integer;
+function r_GetCharacterLevel(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
     Result := SmartGetFieldInt(CharPath, hook_NPC_Level);
@@ -113,7 +113,7 @@ begin
   end;
 end;
 
-function GetCharacterInteracting(const CharPath: LongInt; const Free: Boolean): LongInt;
+function r_GetCharacterInteracting(const CharPath: LongInt; const Free: Boolean): LongInt;
 begin
   try
     Result := SmartGetFieldInt(CharPath, hook_Character_GetInteracting);
@@ -128,7 +128,7 @@ begin
   end;
 end;
 
-function GetCharacterHPRatio(const CharPath: LongInt; const Free: Boolean): Integer;
+function r_GetCharacterHPRatio(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
     Result := Round(SmartGetFieldInt(CharPath, hook_Character_HPRatio) * 100 / $FF);

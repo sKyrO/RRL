@@ -4,13 +4,13 @@ Game functions
 
 ---------------------------------------------------------
 
- * function LoginIndex: Integer;
+ * function r_LoginIndex: Integer;
      By: Timer
- * function IsLoggedIn: Boolean;
+ * function r_IsLoggedIn: Boolean;
      By: Timer
- * procedure DeleteRenderMatrix(var RData: TRenderData; var Render: TRender);
+ * procedure r_DeleteRenderMatrix(var RData: TRenderData; var Render: TRender);
      By: Timer
- * procedure FetchRenderMatrix(var RData: TRenderData; var Render: TRender);
+ * procedure r_FetchRenderMatrix(var RData: TRenderData; var Render: TRender);
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -25,7 +25,7 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function LoginIndex: Integer;
+function r_LoginIndex: Integer;
 begin
   try
     Result := SmartGetFieldInt(0, hook_Login_Index);
@@ -34,9 +34,9 @@ begin
   end;
 end;
 
-function IsLoggedIn: Boolean;
+function r_IsLoggedIn: Boolean;
 begin
-  Result := (LoginIndex = 10) or (LoginIndex = 11);
+  Result := (r_LoginIndex = 10) or (r_LoginIndex = 11);
 end;
 
 function NULL_RENDER_DATA: TRenderData;
@@ -79,18 +79,18 @@ begin
   Result := R;
 end;
 
-procedure DeleteRenderMatrix(var RData: TRenderData; var Render: TRender);
+procedure r_DeleteRenderMatrix(var RData: TRenderData; var Render: TRender);
 begin
   RData := NULL_RENDER_DATA;
   Render := NULL_RENDER;
 end;
 
-procedure FetchRenderMatrix(var RData: TRenderData; var Render: TRender);
+procedure r_FetchRenderMatrix(var RData: TRenderData; var Render: TRender);
 var
   ViewPortPath, ToolKitPath, l: LongInt;
 begin
   if (not (RData = NULL_RENDER_DATA)) or (not (Render = NULL_RENDER)) then
-    DeleteRenderMatrix(RData, Render);
+    r_DeleteRenderMatrix(RData, Render);
   l := GetSystemTime;
   while (GetSystemTime - l < 5000) and (RData.zX <= 0) and (RData.zY <= 0) do
     try

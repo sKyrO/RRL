@@ -39,7 +39,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 procedure SetupRRL;
 begin
   WriteLn('Setting up RRL.');
-  if (LoadHooks) then
+  if (r_LoadHooks) then
     Writeln('Loaded hooks.')
   else
   begin

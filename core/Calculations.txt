@@ -4,31 +4,31 @@ Calulation core file
 
 ---------------------------------------------------------
 
- * function TileToMinimap(const Tile: TRSTile): TPoint;
+ * function r_TileToMinimap(const Tile: TRSTile): TPoint;
      By: Timer
- * function TileOnMinimapEx(const CheckTile: TRSTile; const Dist: Integer): Boolean;
-     By: timer
- * function TileOnMinimap(const CheckTile: TRSTile): Boolean;
+ * function r_TileOnMinimapEx(const CheckTile: TRSTile; const Dist: Integer): Boolean;
      By: Timer
- * function DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
+ * function r_TileOnMinimap(const CheckTile: TRSTile): Boolean;
      By: Timer
- * function PointOnScreen(const p: TPoint): Boolean;
+ * function r_DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
      By: Timer
- * function GetTileHeight(const t: TRSTile): Extended;
+ * function r_PointOnScreen(const p: TPoint): Boolean;
      By: Timer
- * function MatrixDataToScreen(const mX, mY, mZ: Extended): TPoint;
+ * function r_GetTileHeight(const t: TRSTile): Extended;
      By: Timer
- * function WorldToScreen(const x, y, z: Extended): TPoint;
+ * function r_MatrixDataToScreen(const mX, mY, mZ: Extended): TPoint;
      By: Timer
- * function TileToScreenExEx(const t: TRSTile; const h: Extended; const O: TRSTilePosition): TPoint;
+ * function r_WorldToScreen(const x, y, z: Extended): TPoint;
      By: Timer
- * function TileToScreenEx(const t: TRSTile; const h: Extended): TPoint;
+ * function r_TileToScreenExEx(const t: TRSTile; const h: Extended; const O: TRSTilePosition): TPoint;
      By: Timer
- * function TileToScreen(const t: TRSTile): TPoint;
+ * function r_TileToScreenEx(const t: TRSTile; const h: Extended): TPoint;
      By: Timer
- * function TileOnScreenEx(const t: TRSTile; const h: Extended): Boolean;
+ * function r_TileToScreen(const t: TRSTile): TPoint;
      By: Timer
- * function TileOnScreen(const t: TRSTile): Boolean;
+ * function r_TileOnScreenEx(const t: TRSTile; const h: Extended): Boolean;
+     By: Timer
+ * function r_TileOnScreen(const t: TRSTile): Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -43,14 +43,14 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function TileToMinimap(const Tile: TRSTile): TPoint;
+function r_TileToMinimap(const Tile: TRSTile): TPoint;
 var
   RadiansAngle: Extended;
   TempX, TempY: Integer;
   OurLocation: TRSTile;
 begin
-  OurLocation := GetLocation;
-  RadiansAngle := GetMinimapAngleRadians;
+  OurLocation := r_GetLocation;
+  RadiansAngle := r_GetMinimapAngleRadians;
   TempX := (Tile.x - OurLocation.x) * 4 - 2;
   TempY := (OurLocation.y - Tile.y) * 4 - 2;
   Result := Point(
@@ -59,11 +59,11 @@ begin
                   );
 end;
 
-function TileOnMinimapEx(const CheckTile: TRSTile; const Dist: Integer): Boolean;
+function r_TileOnMinimapEx(const CheckTile: TRSTile; const Dist: Integer): Boolean;
 var
   OurLocation: TRSTile;
 begin
-  OurLocation := GetLocation;
+  OurLocation := r_GetLocation;
   {$IFDEF SIMBA}
     Result := Sqrt(Sqr(CheckTile.x - OurLocation.x) + Sqr(CheckTile.y - OurLocation.y)) <= Dist;
   {$ELSE}
@@ -71,12 +71,12 @@ begin
   {$ENDIF}
 end;
 
-function TileOnMinimap(const CheckTile: TRSTile): Boolean;
+function r_TileOnMinimap(const CheckTile: TRSTile): Boolean;
 begin
-  Result := TileOnMinimapEx(CheckTile, 17);
+  Result := r_TileOnMinimapEx(CheckTile, 17);
 end;
 
-function DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
+function r_DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
 begin
   Result := Sqrt(((StartLocation.X - EndLocation.X) *
                  (StartLocation.X - EndLocation.X)) +
@@ -84,12 +84,12 @@ begin
                  (StartLocation.Y - EndLocation.Y)));
 end;
 
-function PointOnScreen(const p: TPoint): Boolean;
+function r_PointOnScreen(const p: TPoint): Boolean;
 begin
   Result := PointInBox(p, IntToBox(4, 4, 515, 337));
 end;
 
-function GetTileHeight(const t: TRSTile): Extended;
+function r_GetTileHeight(const t: TRSTile): Extended;
 var
   x, y, CurrentPlane: Integer;
   PathToPlane: LongInt;
@@ -110,7 +110,7 @@ begin
   SmartFreeObject(PathToPlane);
 end;
 
-function MatrixDataToScreen(const mX, mY, mZ: Extended): TPoint;
+function r_MatrixDataToScreen(const mX, mY, mZ: Extended): TPoint;
 var
   RD: TRenderData;
   R: TRender;
@@ -124,8 +124,8 @@ begin
   l := GetSystemTime;
   while (Tries <= 10) and (Result = NULL_TPOINT) do
   begin
-    DeleteRenderMatrix(RD, R);
-    FetchRenderMatrix(RD, R);
+    r_DeleteRenderMatrix(RD, R);
+    r_FetchRenderMatrix(RD, R);
     z := RD.zOffset + (RD.zX * mX + RD.zY * mY + RD.zZ * mZ);
     if (z < R.zMin) or (z > R.zMax) then
       Exit;
@@ -140,42 +140,42 @@ begin
   end;
 end;
 
-function WorldToScreen(const x, y, z: Extended): TPoint;
+function r_WorldToScreen(const x, y, z: Extended): TPoint;
 var
   NULL_TPOINT: TPoint;
 begin
   NULL_TPOINT := Point(-1, -1);
-  Result := MatrixDataToScreen(x, y, z);
-  if (not PointOnScreen(Result)) then
+  Result := r_MatrixDataToScreen(x, y, z);
+  if (not r_PointOnScreen(Result)) then
     Result := NULL_TPOINT;
 end;
 
-function TileToScreenExEx(const t: TRSTile; const h: Extended; const O: TRSTilePosition): TPoint;
+function r_TileToScreenExEx(const t: TRSTile; const h: Extended; const O: TRSTilePosition): TPoint;
 var
   x, y, z: Extended;
 begin
   x := 512.0 * (t.x - SmartGetFieldInt(0, hook_BaseX) + O.xOffset);
-  y := GetTileHeight(t) - h;
+  y := r_GetTileHeight(t) - h;
   z := 512.0 * (t.y - SmartGetFieldInt(0, hook_BaseY) + O.yOffset);
-  Result := WorldToScreen(x, y, z);
+  Result := r_WorldToScreen(x, y, z);
 end;
 
-function TileToScreenEx(const t: TRSTile; const h: Extended): TPoint;
+function r_TileToScreenEx(const t: TRSTile; const h: Extended): TPoint;
 begin
-  Result := TileToScreenExEx(t, h, TILE_POSITION_CENTER);
+  Result := r_TileToScreenExEx(t, h, R_TILE_POSITION_CENTER);
 end;
 
-function TileToScreen(const t: TRSTile): TPoint;
+function r_TileToScreen(const t: TRSTile): TPoint;
 begin
-  Result := TileToScreenEx(t, 0);
+  Result := r_TileToScreenEx(t, 0);
 end;
 
-function TileOnScreenEx(const t: TRSTile; const h: Extended): Boolean;
+function r_TileOnScreenEx(const t: TRSTile; const h: Extended): Boolean;
 begin
-  Result := PointOnScreen(TileToScreenEx(t, h));
+  Result := r_PointOnScreen(r_TileToScreenEx(t, h));
 end;
 
-function TileOnScreen(const t: TRSTile): Boolean;
+function r_TileOnScreen(const t: TRSTile): Boolean;
 begin
-  Result := PointOnScreen(TileToScreenEx(t, 0));
+  Result := r_PointOnScreen(r_TileToScreenEx(t, 0));
 end;

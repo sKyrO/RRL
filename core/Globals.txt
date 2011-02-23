@@ -6,11 +6,11 @@ Global File
 ---------------------------------------------------------
  * procedure StripComments(var Content: string);
      By: Timer
- * function Get(const arr: array of TVariantArray; const idx: Integer): Variant;
+ * function r_Get(const arr: array of TVariantArray; const idx: Integer): Variant;
      By: Timer
- * function LoadHooks: Boolean;
+ * function r_LoadHooks: Boolean;
      By: Timer
- * function GetString(Bytes: LongInt): [AnsiString/string];
+ * function r_GetString(Bytes: LongInt): [AnsiString/string];
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -51,7 +51,7 @@ type
   TRSTileArray = array of TRSTile;
   TArea = TBox;
 
-function TILE_POSITION_TOP_LEFT: TRSTilePosition;
+function R_TILE_POSITION_TOP_LEFT: TRSTilePosition;
 begin
   with Result do
   begin
@@ -60,7 +60,7 @@ begin
   end;
 end;
 
-function TILE_POSITION_CENTER: TRSTilePosition;
+function R_TILE_POSITION_CENTER: TRSTilePosition;
 begin
   with Result do
   begin
@@ -69,7 +69,7 @@ begin
   end;
 end;
 
-function TILE_POSITION_BOTTOM_RIGHT: TRSTilePosition;
+function R_TILE_POSITION_BOTTOM_RIGHT: TRSTilePosition;
 begin
   with Result do
   begin
@@ -348,7 +348,7 @@ begin
   Trim(Content);
 end;
 
-function Get(const arr: array of TVariantArray; const idx: Integer): Variant;
+function r_Get(const arr: array of TVariantArray; const idx: Integer): Variant;
 var
   i: Integer;
 begin
@@ -362,7 +362,7 @@ begin
     end;
 end;
 
-function LoadHooks: Boolean;
+function r_LoadHooks: Boolean;
 var
   HooksFile: string;
   DataArray: array of TVariantArray;
@@ -394,97 +394,97 @@ begin
         DataArray[L][1] := StrToIntDef(DataArray[l][1], -1);
     end;
   end;
-  ClientVersion := Get(DataArray, index_Client_Version);
-  HooksVersion := Get(DataArray, index_Hook_Version);
-  hook_MapAngle := Get(DataArray, index_MapAngle);
-  hook_MyPlayer := Get(DataArray, index_MyPlayer);
-  hook_BaseX := Get(DataArray, index_BaseX);
-  hook_BaseY := Get(DataArray, index_BaseY);
-  hook_LocalX := Get(DataArray, index_LocalX);
-  hook_LocalY := Get(DataArray, index_LocalY);
-  hook_Login_Index := Get(DataArray, index_Login_Index);
-  hook_Character_Animation := Get(DataArray, index_Character_Animation);
-  hook_ViewPort_xOffset := Get(DataArray, index_ViewPort_xOffset);
-  hook_ViewPort_yOffset := Get(DataArray, index_ViewPort_yOffset);
-  hook_ViewPort_zOffset := Get(DataArray, index_ViewPort_zOffset);
-  hook_ViewPort_xX := Get(DataArray, index_ViewPort_xX);
-  hook_ViewPort_xY := Get(DataArray, index_ViewPort_xY);
-  hook_ViewPort_xZ := Get(DataArray, index_ViewPort_xZ);
-  hook_ViewPort_yX := Get(DataArray, index_ViewPort_yX);
-  hook_ViewPort_yY := Get(DataArray, index_ViewPort_yY);
-  hook_ViewPort_yZ := Get(DataArray, index_ViewPort_yZ);
-  hook_ViewPort_zX := Get(DataArray, index_ViewPort_zX);
-  hook_ViewPort_zY := Get(DataArray, index_ViewPort_zY);
-  hook_ViewPort_zZ := Get(DataArray, index_ViewPort_zZ);
-  hook_ToolKit_xScale := Get(DataArray, index_ToolKit_xScale);
-  hook_ToolKit_yScale := Get(DataArray, index_ToolKit_yScale);
-  hook_ToolKit_xMin := Get(DataArray, index_ToolKit_xMin);
-  hook_ToolKit_yMin := Get(DataArray, index_ToolKit_yMin);
-  hook_ToolKit_zMin := Get(DataArray, index_ToolKit_zMin);
-  hook_ToolKit_xMax := Get(DataArray, index_ToolKit_xMax);
-  hook_ToolKit_yMax := Get(DataArray, index_ToolKit_yMax);
-  hook_ToolKit_zMax := Get(DataArray, index_ToolKit_zMax);
-  hook_Current_Plane := Get(DataArray, index_Current_Plane);
-  hook_GroundSettings_Array := Get(DataArray, index_GroundSettings_Array);
-  hook_Plane_Array := Get(DataArray, index_Plane_Array);
-  hook_Tile_Heights := Get(DataArray, index_Tile_Heights);
-  hook_ToolKit := Get(DataArray, index_ToolKit);
-  hook_ViewPort := Get(DataArray, index_ViewPort);
-  hook_LoopCycle := Get(DataArray, index_LoopCycle);
-  hook_Character_Movement := Get(DataArray, index_Character_Movement);
-  hook_Character_LoopCycle := Get(DataArray, index_Character_Loopcycle);
-  hook_Character_Height := Get(DataArray, index_Character_Height);
-  hook_Character_Orientation := Get(DataArray, index_Character_Orientation);
-  hook_Character_GetInteracting := Get(DataArray, index_Character_GetInteracting);
-  hook_Character_HPRatio := Get(DataArray, index_Character_HPRatio);
-  hook_NPC_Level := Get(DataArray, index_NPC_Level);
-  hook_NPC_Count := Get(DataArray, index_NPC_Count);
-  hook_NPC_Index_Array := Get(DataArray, index_NPC_Index_Array);
-  hook_NPC_Node_Array := Get(DataArray, index_NPC_Node_Array);
-  hook_NPC_Definition := Get(DataArray, index_NPC_Definition);
-  hook_NPC_ID := Get(DataArray, index_NPC_ID);
-  hook_NPC_Definition_Name := Get(DataArray, index_NPC_Definition_Name);
-  hook_Node_GetNPC := Get(DataArray, index_Node_GetNPC);
-  hook_MenuOpen := Get(DataArray, index_MenuOpen);
-  hook_MenuTabbed := Get(DataArray, index_MenuTabbed);
-  hook_MenuCount := Get(DataArray, index_MenuCount);
-  hook_MenuNodeList := Get(DataArray, index_MenuNodeList);
-  hook_Node_Head := Get(DataArray, index_Node_Head);
-  hook_Node_Next := Get(DataArray, index_Node_Next);
-  hook_Menu_Action := Get(DataArray, index_Menu_Action);
-  hook_Menu_Option := Get(DataArray, index_Menu_Option);
-  hook_MenuX := Get(DataArray, index_MenuX);
-  hook_MenuY := Get(DataArray, index_MenuY);
-  hook_GroundTiles := Get(DataArray, index_GroundTiles);
-  hook_Ground_Animables := Get(DataArray, index_Ground_Animables);
-  hook_Animable_Get := Get(DataArray, index_Animable_Get);
-  hook_Object_Interactive_ID := Get(DataArray, index_Object_Interactive_ID);
-  hook_Animable_GetAreaX1 := Get(DataArray, index_Animable_GetAreaX1);
-  hook_Animable_GetAreaY1 := Get(DataArray, index_Animable_GetAreaY1);
-  hook_Animable_GetAreaX2 := Get(DataArray, index_Animable_GetAreaX2);
-  hook_Animable_GetAreaY2 := Get(DataArray, index_Animable_GetAreaY2);
-  hook_Object_Interactive2_Obj := Get(DataArray, index_Object_Interactive2_Obj);
-  hook_Object_Interactive2_ID := Get(DataArray, index_Object_Interactive2_ID);
-  hook_Animable_Next := Get(DataArray, index_Animable_Next);
-  hook_FlagX := Get(DataArray, index_FlagX);
-  hook_FlagY := Get(DataArray, index_FlagY);
-  hook_Valid_Interfaces := Get(DataArray, index_Valid_Interfaces);
-  hook_Interfaces := Get(DataArray, index_Interfaces);
-  hook_Interface_Text := Get(DataArray, index_Interface_Text);
+  ClientVersion := r_Get(DataArray, index_Client_Version);
+  HooksVersion := r_Get(DataArray, index_Hook_Version);
+  hook_MapAngle := r_Get(DataArray, index_MapAngle);
+  hook_MyPlayer := r_Get(DataArray, index_MyPlayer);
+  hook_BaseX := r_Get(DataArray, index_BaseX);
+  hook_BaseY := r_Get(DataArray, index_BaseY);
+  hook_LocalX := r_Get(DataArray, index_LocalX);
+  hook_LocalY := r_Get(DataArray, index_LocalY);
+  hook_Login_Index := r_Get(DataArray, index_Login_Index);
+  hook_Character_Animation := r_Get(DataArray, index_Character_Animation);
+  hook_ViewPort_xOffset := r_Get(DataArray, index_ViewPort_xOffset);
+  hook_ViewPort_yOffset := r_Get(DataArray, index_ViewPort_yOffset);
+  hook_ViewPort_zOffset := r_Get(DataArray, index_ViewPort_zOffset);
+  hook_ViewPort_xX := r_Get(DataArray, index_ViewPort_xX);
+  hook_ViewPort_xY := r_Get(DataArray, index_ViewPort_xY);
+  hook_ViewPort_xZ := r_Get(DataArray, index_ViewPort_xZ);
+  hook_ViewPort_yX := r_Get(DataArray, index_ViewPort_yX);
+  hook_ViewPort_yY := r_Get(DataArray, index_ViewPort_yY);
+  hook_ViewPort_yZ := r_Get(DataArray, index_ViewPort_yZ);
+  hook_ViewPort_zX := r_Get(DataArray, index_ViewPort_zX);
+  hook_ViewPort_zY := r_Get(DataArray, index_ViewPort_zY);
+  hook_ViewPort_zZ := r_Get(DataArray, index_ViewPort_zZ);
+  hook_ToolKit_xScale := r_Get(DataArray, index_ToolKit_xScale);
+  hook_ToolKit_yScale := r_Get(DataArray, index_ToolKit_yScale);
+  hook_ToolKit_xMin := r_Get(DataArray, index_ToolKit_xMin);
+  hook_ToolKit_yMin := r_Get(DataArray, index_ToolKit_yMin);
+  hook_ToolKit_zMin := r_Get(DataArray, index_ToolKit_zMin);
+  hook_ToolKit_xMax := r_Get(DataArray, index_ToolKit_xMax);
+  hook_ToolKit_yMax := r_Get(DataArray, index_ToolKit_yMax);
+  hook_ToolKit_zMax := r_Get(DataArray, index_ToolKit_zMax);
+  hook_Current_Plane := r_Get(DataArray, index_Current_Plane);
+  hook_GroundSettings_Array := r_Get(DataArray, index_GroundSettings_Array);
+  hook_Plane_Array := r_Get(DataArray, index_Plane_Array);
+  hook_Tile_Heights := r_Get(DataArray, index_Tile_Heights);
+  hook_ToolKit := r_Get(DataArray, index_ToolKit);
+  hook_ViewPort := r_Get(DataArray, index_ViewPort);
+  hook_LoopCycle := r_Get(DataArray, index_LoopCycle);
+  hook_Character_Movement := r_Get(DataArray, index_Character_Movement);
+  hook_Character_LoopCycle := r_Get(DataArray, index_Character_Loopcycle);
+  hook_Character_Height := r_Get(DataArray, index_Character_Height);
+  hook_Character_Orientation := r_Get(DataArray, index_Character_Orientation);
+  hook_Character_GetInteracting := r_Get(DataArray, index_Character_GetInteracting);
+  hook_Character_HPRatio := r_Get(DataArray, index_Character_HPRatio);
+  hook_NPC_Level := r_Get(DataArray, index_NPC_Level);
+  hook_NPC_Count := r_Get(DataArray, index_NPC_Count);
+  hook_NPC_Index_Array := r_Get(DataArray, index_NPC_Index_Array);
+  hook_NPC_Node_Array := r_Get(DataArray, index_NPC_Node_Array);
+  hook_NPC_Definition := r_Get(DataArray, index_NPC_Definition);
+  hook_NPC_ID := r_Get(DataArray, index_NPC_ID);
+  hook_NPC_Definition_Name := r_Get(DataArray, index_NPC_Definition_Name);
+  hook_Node_GetNPC := r_Get(DataArray, index_Node_GetNPC);
+  hook_MenuOpen := r_Get(DataArray, index_MenuOpen);
+  hook_MenuTabbed := r_Get(DataArray, index_MenuTabbed);
+  hook_MenuCount := r_Get(DataArray, index_MenuCount);
+  hook_MenuNodeList := r_Get(DataArray, index_MenuNodeList);
+  hook_Node_Head := r_Get(DataArray, index_Node_Head);
+  hook_Node_Next := r_Get(DataArray, index_Node_Next);
+  hook_Menu_Action := r_Get(DataArray, index_Menu_Action);
+  hook_Menu_Option := r_Get(DataArray, index_Menu_Option);
+  hook_MenuX := r_Get(DataArray, index_MenuX);
+  hook_MenuY := r_Get(DataArray, index_MenuY);
+  hook_GroundTiles := r_Get(DataArray, index_GroundTiles);
+  hook_Ground_Animables := r_Get(DataArray, index_Ground_Animables);
+  hook_Animable_Get := r_Get(DataArray, index_Animable_Get);
+  hook_Object_Interactive_ID := r_Get(DataArray, index_Object_Interactive_ID);
+  hook_Animable_GetAreaX1 := r_Get(DataArray, index_Animable_GetAreaX1);
+  hook_Animable_GetAreaY1 := r_Get(DataArray, index_Animable_GetAreaY1);
+  hook_Animable_GetAreaX2 := r_Get(DataArray, index_Animable_GetAreaX2);
+  hook_Animable_GetAreaY2 := r_Get(DataArray, index_Animable_GetAreaY2);
+  hook_Object_Interactive2_Obj := r_Get(DataArray, index_Object_Interactive2_Obj);
+  hook_Object_Interactive2_ID := r_Get(DataArray, index_Object_Interactive2_ID);
+  hook_Animable_Next := r_Get(DataArray, index_Animable_Next);
+  hook_FlagX := r_Get(DataArray, index_FlagX);
+  hook_FlagY := r_Get(DataArray, index_FlagY);
+  hook_Valid_Interfaces := r_Get(DataArray, index_Valid_Interfaces);
+  hook_Interfaces := r_Get(DataArray, index_Interfaces);
+  hook_Interface_Text := r_Get(DataArray, index_Interface_Text);
   Result := True;
 end;
 
 {$IFDEF SIMBA}
-function GetString(Bytes: LongInt): string;
+function r_GetString(Bytes: LongInt): string;
 {$ELSE}
-function GetString(Bytes: LongInt): AnsiString;
+function r_GetString(Bytes: LongInt): AnsiString;
 {$ENDIF}
 begin
   SetLength(Result, 255);
   SetLength(Result, SmartStringFromString(Bytes, Result));
 end;
 
-function RemoveJunk(S: string): string;
+function r_RemoveJunk(S: string): string;
 var
   P, P2, PLength: integer;
 begin

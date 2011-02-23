@@ -6,7 +6,7 @@ Web Methods
 
  * function NULL_WEB_PATH: TRSTileArray;
      By: Timer
- * function FindPath(const from: TRSTile): TRSTileArray;
+ * function r_FindPath(const from: TRSTile): TRSTileArray;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -26,7 +26,7 @@ begin
   Result := [RSTile(-1, -1)];
 end;
 
-function FindPath(const from: TRSTile): TRSTileArray;
+function r_FindPath(const from: TRSTile): TRSTileArray;
 var
   ThePath: TRSTileArray;
 begin

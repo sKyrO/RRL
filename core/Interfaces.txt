@@ -4,13 +4,13 @@ Menu routines.
 
 ---------------------------------------------------------
 
- * function InterfaceValid(const id: Integer): Boolean;
+ * function r_IsInterfaceValid(const id: Integer): Boolean;
      By: Timer
- * function InterfaceGet(const ParentID, ChildID: Integer): LongInt;
+ * function r_GetInterface(const ParentID, ChildID: Integer): LongInt;
      By: Timer
- * function InterfaceGetTextEx(const PathToInterface: LongInt; Free: Boolean): string;
+ * function r_GetInterfaceTextEx(const PathToInterface: LongInt; Free: Boolean): string;
      By: Timer
- * function InterfaceGetText(const ParentID, ChildID: Integer): string;
+ * function r_GetInterfaceText(const ParentID, ChildID: Integer): string;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -25,31 +25,31 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function InterfaceValid(const id: Integer): Boolean;
+function r_IsInterfaceValid(const id: Integer): Boolean;
 begin
   Result := SmartGetFieldArrayBoolean(0, hook_Valid_Interfaces, id);
 end;
 
-function InterfaceGet(const ParentID, ChildID: Integer): LongInt;
+function r_GetInterface(const ParentID, ChildID: Integer): LongInt;
 begin
   Result := SmartGetFieldArray2DObject(0, hook_Interfaces, ParentID, ChildID);
 end;
 
-function InterfaceGetTextEx(const PathToInterface: LongInt; Free: Boolean): string;
+function r_GetInterfaceTextEx(const PathToInterface: LongInt; Free: Boolean): string;
 var
   Text: LongInt;
 begin
   Text := SmartGetFieldObject(PathToInterface, hook_Interface_Text);
-  Result := GetString(Text);
+  Result := r_GetString(Text);
   SmartFreeObject(Text);
   if (Free) then
     SmartFreeObject(PathToInterface);
 end;
 
-function InterfaceGetText(const ParentID, ChildID: Integer): string;
+function r_GetInterfaceText(const ParentID, ChildID: Integer): string;
 var
   PathToInterface: LongInt;
 begin
-  PathToInterface := InterfaceGet(ParentID, ChildID);
-  Result := InterfaceGetTextEx(PathToInterface, True);
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  Result := r_GetInterfaceTextEx(PathToInterface, True);
 end;

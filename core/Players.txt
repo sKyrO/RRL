@@ -4,9 +4,9 @@ Players file.
 
 ---------------------------------------------------------
 
- * function GetLocation: TRSTile;
+ * function r_GetLocation: TRSTile;
      By: Timer
- * function GetAnimation: Integer;
+ * function r_GetAnimation: Integer;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -21,7 +21,7 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function GetLocation: TRSTile;
+function r_GetLocation: TRSTile;
 var
   OurPlayerPath: LongInt;
   BaseX, BaseY, LocalX, LocalY: Integer;
@@ -49,10 +49,10 @@ begin
   end;
 end;
 
-function GetAnimation: Integer;
+function r_GetAnimation: Integer;
 var
   OurPlayerPath: LongInt;
 begin
   OurPlayerPath := SmartGetFieldObject(0, hook_MyPlayer);
-  Result := GetCharacterAnimation(OurPlayerPath, True);
+  Result := r_GetCharacterAnimation(OurPlayerPath, True);
 end;

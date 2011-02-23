@@ -4,11 +4,11 @@ Camera handling file
 
 ---------------------------------------------------------
 
- * function GetMinimapAngleDegrees: Extended;
+ * function r_GetMinimapAngleDegrees: Extended;
      By: Timer
- * function GetMinimapAngleRadians: Extended;
+ * function r_GetMinimapAngleRadians: Extended;
      By: Timer
- * function MoveCompass(compassmove: Variant): Boolean;
+ * function r_MoveCompass(compassmove: Variant): Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -23,17 +23,17 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function GetMinimapAngleDegrees: Extended;
+function r_GetMinimapAngleDegrees: Extended;
 begin
   Result := SmartGetFieldFloat(0, hook_MapAngle) * 45.0 / 2048.0;
 end;
 
-function GetMinimapAngleRadians: Extended;
+function r_GetMinimapAngleRadians: Extended;
 begin
   Result := SmartGetFieldFloat(0, hook_MapAngle) * pi / 8192.0;
 end;
 
-function MoveCompass(compassmove: Variant): Boolean;
+function r_MoveCompass(compassmove: Variant): Boolean;
 var
   Angle, DesiredAngle: Extended;
   Left: Boolean;
@@ -41,8 +41,8 @@ var
 begin
   Result := False;
   try
-    Angle := GetMinimapAngleDegrees;
-    if (Angle < -1) or (not IsLoggedIn) then
+    Angle := r_GetMinimapAngleDegrees;
+    if (Angle < -1) or (not r_IsLoggedIn) then
       Exit;
     case varType(compassmove) of
       varString:
@@ -70,7 +70,7 @@ begin
     Mark := GetSystemTime;
     repeat
       Wait(RandomRange(15, 80));
-      Angle := GetMinimapAngleDegrees;
+      Angle := r_GetMinimapAngleDegrees;
     until ((MinE(Abs(Angle - DesiredAngle), MinE(Abs(Angle -
           (DesiredAngle + 360)), Abs((Angle + 360) - DesiredAngle)))) <= 5.0) or
           (Angle < 0) or (GetSystemTime - Mark > RandomRange(10000, 15000));

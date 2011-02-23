@@ -4,17 +4,17 @@ Object routines.
 
 ---------------------------------------------------------
 
- * function GetObjectInteractableAt(const TT: TRSTile): TRSObject;
+ * function r_GetObjectInteractableAt(const TT: TRSTile): TRSObject;
      By: Timer
- * function GetObjectAt(const T: TRSTile; const ObjType: Integer): TRSObject;
+ * function r_GetObjectAt(const T: TRSTile; const ObjType: Integer): TRSObject;
      By: Timer
- * function GetAllObjectsByType(const ObjType: Integer): array of TRSObject;
+ * function r_GetAllObjectsByType(const ObjType: Integer): array of TRSObject;
      By: Timer
- * function GetAllObjectByID(const ID, ObjType: Integer): array of TRSObject;
+ * function r_GetAllObjectByID(const ID, ObjType: Integer): array of TRSObject;
      By: Timer
- * function SortObjects(const Arr: array of TRSObject; const From: TRSTile): array of TRSObject;
+ * function r_SortObjects(const Arr: array of TRSObject; const From: TRSTile): array of TRSObject;
      By: Timer
- * function GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
+ * function r_GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -30,10 +30,10 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
 const
-  OBJECT_TYPE_INTERACTABLE = 1;
-  OBJECT_TYPE_WALL_OBJECT = 2;
-  OBJCET_TYPE_WALL_DECORATION = 3;
-  OBJECT_TYPE_FLOOR_DECORATION = 4;
+  R_OBJECT_TYPE_INTERACTABLE = 1;
+  R_OBJECT_TYPE_WALL_OBJECT = 2;
+  R_OBJCET_TYPE_WALL_DECORATION = 3;
+  R_OBJECT_TYPE_FLOOR_DECORATION = 4;
 
 function NULL_RSOBJECT: TRSObject;
 begin
@@ -47,7 +47,7 @@ begin
   end;
 end;
 
-function GetObjectInteractableAt(const TT: TRSTile): TRSObject;
+function r_GetObjectInteractableAt(const TT: TRSTile): TRSObject;
 var
   BaseX, BaseY, Plane, ObjID: Integer;
   T, ObjRTile: TRSTile;
@@ -91,7 +91,7 @@ begin
           end;
           SmartFreeObject(Obj2);
         end;
-        Result := RSObject(ObjID, OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea);
+        Result := RSObject(ObjID, R_OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea);
         SmartFreeObject(Obj);
         Break;
       end;
@@ -124,15 +124,15 @@ begin
   end;
 end;
 
-function GetObjectAt(const T: TRSTile; const ObjType: Integer): TRSObject;
+function r_GetObjectAt(const T: TRSTile; const ObjType: Integer): TRSObject;
 begin
   Result := NULL_RSOBJECT;
   case (ObjType) of
-    OBJECT_TYPE_INTERACTABLE: Result := GetObjectInteractableAt(T);
+    R_OBJECT_TYPE_INTERACTABLE: Result := r_GetObjectInteractableAt(T);
   end;
 end;
 
-function GetAllObjectsByType(const ObjType: Integer): array of TRSObject;
+function r_GetAllObjectsByType(const ObjType: Integer): array of TRSObject;
 var
   C, BaseX, BaseY, x, y: Integer;
   Obj: TRSObject;
@@ -144,7 +144,7 @@ begin
   for x := BaseX to (BaseX + 104) do
     for y := BaseY to (BaseY + 104) do
     begin
-      Obj := GetObjectAt(RSTile(x, y), ObjType);
+      Obj := r_GetObjectAt(RSTile(x, y), ObjType);
       if (not Obj = NULL_RSOBJECT) then
       begin
         Result[C] := Obj;
@@ -154,7 +154,7 @@ begin
   SetLength(Result, C);
 end;
 
-function GetAllObjectByID(const ID, ObjType: Integer): array of TRSObject;
+function r_GetAllObjectByID(const ID, ObjType: Integer): array of TRSObject;
 var
   C, BaseX, BaseY, x, y: Integer;
   Obj: TRSObject;
@@ -166,7 +166,7 @@ begin
   for x := BaseX to (BaseX + 104) do
     for y := BaseY to (BaseY + 104) do
     begin
-      Obj := GetObjectAt(RSTile(x, y), ObjType);
+      Obj := r_GetObjectAt(RSTile(x, y), ObjType);
       if (not Obj = NULL_RSOBJECT) and (Obj.ID = ID) then
       begin
         Result[C] := Obj;
@@ -176,7 +176,7 @@ begin
   SetLength(Result, C);
 end;
 
-function SortObjects(const Arr: array of TRSObject; const From: TRSTile): array of TRSObject;
+function r_SortObjects(const Arr: array of TRSObject; const From: TRSTile): array of TRSObject;
 var
   i, ii, L: LongInt;
   TPA: TPointArray;
@@ -198,7 +198,7 @@ begin
       end;
 end;
 
-function GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
+function r_GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
 var
   C, BaseX, BaseY, x, y: Integer;
   Obj: TRSObject;
@@ -211,7 +211,7 @@ begin
   for x := BaseX to (BaseX + 104) do
     for y := BaseY to (BaseY + 104) do
     begin
-      Obj := GetObjectAt(RSTile(x, y), ObjType);
+      Obj := r_GetObjectAt(RSTile(x, y), ObjType);
       if (not (Obj = NULL_RSOBJECT)) and (Obj.ID = ID) then
       begin
         Arr[C] := Obj;
@@ -219,7 +219,7 @@ begin
       end;
     end;
   SetLength(Arr, C);
-  SortObjects(Arr, GetLocation);
+  Arr := r_SortObjects(Arr, r_GetLocation);
   if (Length(Arr) > 0) then
     Result := Arr[0];
 end;

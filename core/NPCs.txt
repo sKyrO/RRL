@@ -4,17 +4,17 @@ NPC routines.
 
 ---------------------------------------------------------
 
- * function GetNPCs: TNPCArray;
+ * function r_GetNPCs: TNPCArray;
      By: Timer
- * function GetNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
+ * function r_GetNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
      By: Timer
- * function GetNPCsByID(const ID: Integer): TNPCArray;
+ * function r_GetNPCsByID(const ID: Integer): TNPCArray;
      By: Timer
- * function SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
+ * function r_SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
      By: Timer
- * function GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
+ * function r_GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
      By: Timer
- * function GetClosestNPCByID(const ID: Integer): TNPC;
+ * function r_GetClosestNPCByID(const ID: Integer): TNPC;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -48,7 +48,7 @@ begin
   end;
 end;
 
-function GetNPCs: TNPCArray;
+function r_GetNPCs: TNPCArray;
 var
   NumberOfNPCs, i, C, BaseX, BaseY, h: Integer;
   PathToNPCNode, PathToNPC, PathToNPCDefinition, JavaName: LongInt;
@@ -64,7 +64,7 @@ begin
       PathToNPC := SmartGetFieldObject(PathToNPCNode, hook_Node_GetNPC);
       PathToNPCDefinition := SmartGetFieldObject(PathToNPC, hook_NPC_Definition);
       JavaName := SmartGetFieldObject(PathToNPCDefinition, hook_NPC_Definition_Name);
-      if (Lowercase(Trim(GetString(JavaName))) = 'null') then
+      if (Lowercase(Trim(r_GetString(JavaName))) = 'null') then
       begin
         try
           SmartFreeObject(PathToNPCNode);
@@ -88,19 +88,19 @@ begin
       begin
         Index := SmartGetFieldArrayInt(0, hook_NPC_Index_Array, i);
         ID := SmartGetFieldInt(PathToNPCDefinition, hook_NPC_ID);
-        Name := GetString(JavaName);
+        Name := r_GetString(JavaName);
         BaseX := SmartGetFieldInt(0, hook_BaseX);
         BaseY := SmartGetFieldInt(0, hook_BaseY);
         Tile.x := BaseX + SmartGetFieldInt(PathToNPC, hook_LocalX) div 512;
         Tile.y := BaseY + SmartGetFieldInt(PathToNPC, hook_LocalY) div 512;
-        Moving := GetCharacterMovement(PathToNPC, False) > 0;
-        Fighting := GetCharacterFighting(PathToNPC, False);
-        Animation := GetCharacterAnimation(PathToNPC, False);
-        Height := GetCharacterHeight(PathToNPC, False);
-        HPRatio := GetCharacterHPRatio(PathToNPC, False);
-        Orientation := GetCharacterOrientation(PathToNPC, False);
-        Level := GetCharacterLevel(PathToNPC, False);
-        Interacting := GetCharacterInteracting(PathToNPC, False);
+        Moving := r_GetCharacterMovement(PathToNPC, False) > 0;
+        Fighting := r_GetCharacterFighting(PathToNPC, False);
+        Animation := r_GetCharacterAnimation(PathToNPC, False);
+        Height := r_GetCharacterHeight(PathToNPC, False);
+        HPRatio := r_GetCharacterHPRatio(PathToNPC, False);
+        Orientation := r_GetCharacterOrientation(PathToNPC, False);
+        Level := r_GetCharacterLevel(PathToNPC, False);
+        Interacting := r_GetCharacterInteracting(PathToNPC, False);
       end;
       Inc(C);
     finally
@@ -124,12 +124,12 @@ begin
   SetLength(Result, C);
 end;
 
-function GetNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
+function r_GetNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
 var
   NPCArray: TNPCArray;
   i, l, C, ii, ll: Integer;
 begin
-  NPCArray := GetNPCs;
+  NPCArray := r_GetNPCs;
   l := Length(NPCArray);
   ll := Length(IDs);
   SetLength(Result, l);
@@ -144,12 +144,12 @@ begin
   SetLength(Result, C);
 end;
 
-function GetNPCsByID(const ID: Integer): TNPCArray;
+function r_GetNPCsByID(const ID: Integer): TNPCArray;
 begin
-  Result := GetNPCsByIDEx([ID]);
+  Result := r_GetNPCsByIDEx([ID]);
 end;
 
-function SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
+function r_SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
 var
   i, ii, L: LongInt;
   TPA: TPointArray;
@@ -171,13 +171,13 @@ begin
       end;
 end;
 
-function GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
+function r_GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
 var
   NPCArray, OurNPCs: TNPCArray;
   i, l, C, ii, ll: Integer;
 begin
   Result := NULL_NPC;
-  NPCArray := GetNPCs;
+  NPCArray := r_GetNPCs;
   l := Length(NPCArray);
   ll := Length(IDs);
   SetLength(OurNPCs, l);
@@ -190,12 +190,12 @@ begin
         Break;
       end;
   SetLength(OurNPCs, C);
-  OurNPCs := SortNPCs(OurNPCs, GetLocation);
+  OurNPCs := r_SortNPCs(OurNPCs, r_GetLocation);
   if (Length(OurNPCs) > 0) then
     Result := OurNPCs[0];
 end;
 
-function GetClosestNPCByID(const ID: Integer): TNPC;
+function r_GetClosestNPCByID(const ID: Integer): TNPC;
 begin
-  Result := GetClosestNPCByIDEx([ID]);
+  Result := r_GetClosestNPCByIDEx([ID]);
 end;

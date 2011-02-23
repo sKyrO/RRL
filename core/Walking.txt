@@ -6,9 +6,9 @@ Walking procedures
 
  * function NULL_RSTILE: TRSTile;
      By: Timer
-  * function GetFlagPosition: TRSTile;
+  * function r_GetFlagPosition: TRSTile;
      By: Timer
- * function ClickTile(const Tile: TRSTile): Boolean;
+ * function r_ClickTile(const Tile: TRSTile): Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -35,7 +35,7 @@ begin
   Result := T;
 end;
 
-function GetFlagPosition: TRSTile;
+function r_GetFlagPosition: TRSTile;
 var
   fx, fy: Integer;
 begin
@@ -48,20 +48,20 @@ begin
                      SmartGetFieldInt(0, hook_BaseY) + fy);
 end;
 
-function ClickTile(const Tile: TRSTile): Boolean;
+function r_ClickTile(const Tile: TRSTile): Boolean;
 var
   MousePosition: TPoint;
   MouseX, MouseY: Integer;
 begin
   Result := False;
-  if (TileOnMinimap(Tile)) then
+  if (r_TileOnMinimap(Tile)) then
   begin
-    MousePosition := TileToMinimap(Tile);
+    MousePosition := r_TileToMinimap(Tile);
     MMouse(MousePosition.x + RandomRange(-5, 5), MousePosition.y + RandomRange(-5, 5), 0, 0);
-    MousePosition := TileToMinimap(Tile);
+    MousePosition := r_TileToMinimap(Tile);
     if (Distance(MouseX, MouseY, MousePosition.x, MousePosition.y) > 5) then
     begin
-      if (not TileOnMinimap(Tile)) then
+      if (not r_TileOnMinimap(Tile)) then
         Exit;
       Mouse(MousePosition.x + RandomRange(-5, 5), MousePosition.y + RandomRange(-5, 5), 0, 0, True);
     end else
