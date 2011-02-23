@@ -4,9 +4,9 @@ Bank routines.
 
 ---------------------------------------------------------
 
- * function r_BankScreen: Boolean;
+ * function r_IsBankScreen: Boolean;
      By: Timer
- * function r_PinScreen: Boolean;
+ * function r_IsPinScreen: Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -21,12 +21,12 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function r_BankScreen: Boolean;
+function r_IsBankScreen: Boolean;
 begin
   Result := r_IsInterfaceValid(762);
 end;
 
-function r_PinScreen: Boolean;
+function r_IsPinScreen: Boolean;
 begin
   Result := r_IsInterfaceValid(13);
 end;
