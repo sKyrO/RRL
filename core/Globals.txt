@@ -183,6 +183,25 @@ end;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Randoms variables.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TBoolFunc = function: Boolean;
+
+  TRSRandom = record
+    ID: Byte;
+    InRandom, Solve: TBoolFunc;
+    TimeOut: LongInt;
+    Name: string;
+    Active: Boolean;
+  end;
+
+var
+  r_Randoms: array of TRSRandom;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Hook variables.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
