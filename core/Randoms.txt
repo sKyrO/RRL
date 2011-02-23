@@ -20,6 +20,8 @@ Randoms routines.
      By: Timer
  * function r_IsRandomEnabled(const id: Byte): Boolean;
      By: Timer
+ * function r_HandleRandoms: Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -215,7 +217,10 @@ begin
         if (Result) then
           WriteLn('Solved random [' + r_Randoms[i].Name + ']!')
         else
+        begin
           WriteLn('Random solving failed [' + r_Randoms[i].Name + ']!');
+          Logout;
+        end;
         Exit;
       end;
     end;
