@@ -35,6 +35,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 {.include RRL\core\Objects.txt}
 {.include RRL\core\Bank.txt}
 {.include RRL\core\Timing.txt}
+{.include RRL\core\Randoms.txt}
 
 procedure SetupRRL;
 begin
@@ -44,7 +45,7 @@ begin
   else
   begin
     Writeln('Failed to load hooks.');
-    TerminateScript;
+    Exit;
   end;
   WriteLn('Current client version: ' + IntToStr(ClientVersion) +
           ' Current hooks version: ' + IntToStr(HooksVersion));
@@ -54,6 +55,7 @@ begin
   begin
     WriteLn('Hooks outdated!  Please wait for new hooks to arise.' + #13 +
             'Sorry, and goodbye! - Reflection Resource Library [RRL].');
-    TerminateScript;
+    Exit;
   end;
+  r_LoadRandoms;
 end;
