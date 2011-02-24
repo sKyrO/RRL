@@ -4,6 +4,16 @@ Mime random routines.
 
 ---------------------------------------------------------
 
+ * function r_Mime_InRandom: Boolean;
+     By: Timer
+ * function Mime_GetMimeAnimation: Integer;
+     By: Timer
+ * function Mime_GetState: Byte;
+     By: Timer
+ * procedure Mime_ClickAnimation(const id: Integer);
+     By: Timer
+ * function r_Mime_Solve: Boolean;
+     By; Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
