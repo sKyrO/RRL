@@ -17,12 +17,103 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+const
+  MIME_CLICK_CONTINUE = 1;
+  MIME_GET_ANIMATION = 2;
+  MIME_CLICK_ANIMATION = 3;
+  MIME_NULL = -1;
+
+var
+  Mime: TNPC;
+  Anim: Integer;
+
 function r_Mime_InRandom: Boolean;
 begin
-  Result := False;
+  Mime := GetClosestNPCByID(1056);
+  Result := (not (Mime = NULL_NPC)) and (DistanceBetween(GetLocation, Mime.Tile) < 10);
+end;
+
+function GetMimeAnimation: Integer;
+begin
+  Mime := GetClosestNPCByID(1056);
+  Result := Mime.Animation;
+end;
+
+function Mime_GetState: Byte;
+begin
+  Result := MIME_NULL;
+  if (GetLocation = RSTile(2008, 4764)) and (r_IsClickContinue) then
+    Result := MIME_CLICK_CONTINUE
+  else if ((Pos('watch', Lowercase(GetInterfaceText(372, 2))) > 0) or
+          (Pos('watch', Lowercase(GetInterfaceText(372, 3))) > 0)) and
+          (GetMimeAnimation > -1) and (GetMimeAnimation <> 858) then
+    Result := MIME_GET_ANIMATION
+  else if (IsInterfaceValid(188)) then
+    Result := MIME_CLICK_ANIMATION;
+end;
+
+procedure Mime_ClickAnimation(const id: Integer);
+var
+  TextHint: string;
+  PathToCheck: LongInt;
+  i, CC: Integer;
+begin
+  case (id) of
+    857: TextHint := 'Think';
+    860: TextHint := 'Cry';
+    861: TextHint := 'Laugh';
+    866: TextHint := 'Dance';
+    1128: TextHint := 'Glass Wall';
+    1129: TextHint := 'Lean';
+    1130: TextHint := 'Rope';
+    1131: TextHint := 'Glass Box';
+  else
+    begin
+      Writeln('[Mime] We have a rouge ID [' + IntToStr(id) + ']!  Please report this!');
+      Exit;
+    end;
+  end;
+  PathToCheck := SmartGetFieldArrayObject(0, hook_Interfaces, 188);
+  CC := SmartGetFieldArraySize(PathToCheck, '', 1);
+  SmartFreeObject(PathToCheck);
+  for i := 0 to CC - 1 do
+    if (Pos(Lowercase(TextHint), Lowercase(r_GetInterfaceText(188, ii))) > 0) then
+    begin
+      Box := r_GetInterfaceBox(Point(7, 347), 188, ii);
+      MouseBox(Box.x1, Box.y1, Box.x2, Box.y2, 1);
+      Wait(RandomRange(500, 800));
+      Result := True;
+      Exit;
+    end;
 end;
 
 function r_Mime_Solve: Boolean;
+var
+  A: Integer;
 begin
   Result := False;
+  if (not r_Mime_InRandom) then
+    Exit;
+  case (Mime_GetState) of
+    MIME_CLICK_CONTINUE:
+    begin
+      r_ClickContinue;
+      Wait(RandomRange(1300, 1600));
+    end;
+    MIME_GET_ANIMATION:
+    begin
+      A := GetMimeAnimation;
+      if (A > -1) and (A <> 858) then
+        Anim := A;
+    end;
+    MIME_CLICK_ANIMATION:
+    begin
+      Mime_ClickAnimation(Anim);
+      Wait(RandomRange(1300, 1600));
+    end;
+    MIME_NULL: Wait(RandomRange(120, 800));
+  else
+    Wait(RandomRange(120, 800));
+  end;
+  Result := (not r_Mime_InRandom) and (r_IsLoggedIn);
 end;
