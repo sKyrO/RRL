@@ -53,7 +53,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 40:Yb
 41:Mc
 42:yc
-43:Id
+43:p
 44:jc.M
 45:rd.g
 46:aa.e
@@ -87,3 +87,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 74:we.w
 75:vga.i
 76:Lc
+77:ad
+78:Ac
+79:K
+80:jb
