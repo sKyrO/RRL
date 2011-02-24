@@ -12,6 +12,12 @@ Menu routines.
      By: Timer
  * function r_GetInterfaceText(const ParentID, ChildID: Integer): string;
      By: Timer
+ * function r_GetInterfaceBox(const Offset: TPoint; ParentID, ChildID: Integer): TBox;
+     By: Timer
+ * function r_IsClickContinue: Boolean;
+     By: Timer
+ * function r_ClickContinue: Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -52,4 +58,66 @@ var
 begin
   PathToInterface := r_GetInterface(ParentID, ChildID);
   Result := r_GetInterfaceTextEx(PathToInterface, True);
+end;
+
+function r_GetInterfaceBox(const Offset: TPoint; ParentID, ChildID: Integer): TBox;
+var
+  PathToInterface: LongInt;
+  x, y: Integer;
+begin
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  x := SmartGetFieldInt(PathToInterface, hook_InterfaceX);
+  y := SmartGetFieldInt(PathToInterface, hook_InterfaceY);
+  Result := IntToBox(Offset.x + x, Offset.y + y,
+                     Offset.x + x + SmartGetFieldInt(PathToInterface, hook_InterfaceW),
+                     Offset.y + y + SmartGetFieldInt(PathToInterface, hook_InterfaceH));
+  SmartFreeObject(PathToInterface);
+end;
+
+function r_IsClickContinue: Boolean;
+var
+  CheckInterfaces: TIntegerArray;
+  i, ii, CC: Integer;
+  PathToCheck: LongInt;
+begin
+  CheckInterfaces := [211, 241, 251, 101, 242, 102, 161, 249, 243, 64, 65, 244,
+                      255, 249, 230, 372, 421, 66, 64, 236, 228];
+  for i := 0 to High(CheckInterfaces) do
+  begin
+    PathToCheck := SmartGetFieldArrayObject(0, hook_Interfaces, CheckInterfaces[i]);
+    CC := SmartGetFieldArraySize(PathToCheck, '', 1);
+    SmartFreeObject(PathToCheck);
+    for ii := 0 to CC - 1 do
+      if (Pos('lick here to cont', Lowercase(r_GetInterfaceText(CheckInterfaces[i], ii))) > 0) then
+      begin
+        Result := True;
+        Exit;
+      end;
+  end;
+end;
+
+function r_ClickContinue: Boolean;
+var
+  CheckInterfaces: TIntegerArray;
+  i, ii, CC: Integer;
+  Box: TBox;
+  PathToCheck: LongInt;
+begin
+  CheckInterfaces := [211, 241, 251, 101, 242, 102, 161, 249, 243, 64, 65, 244,
+                      255, 249, 230, 372, 421, 66, 64, 236, 228];
+  for i := 0 to High(CheckInterfaces) do
+  begin
+    PathToCheck := SmartGetFieldArrayObject(0, hook_Interfaces, CheckInterfaces[i]);
+    CC := SmartGetFieldArraySize(PathToCheck, '', 1);
+    SmartFreeObject(PathToCheck);
+    for ii := 0 to CC - 1 do
+      if (Pos('lick here to cont', Lowercase(r_GetInterfaceText(CheckInterfaces[i], ii))) > 0) then
+      begin
+        Box := r_GetInterfaceBox(Point(7, 347), CheckInterfaces[i], ii);
+        MouseBox(Box.x1, Box.y1, Box.x2, Box.y2, 1);
+        Wait(RandomRange(500, 800));
+        Result := True;
+        Exit;
+      end;
+  end;
 end;
