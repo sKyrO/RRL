@@ -212,7 +212,7 @@ begin
         WriteLn('Random detected [' + r_Randoms[i].Name + ']!');
         m := GetSystemTime;
         WriteLn('Attempting to solve random [' + r_Randoms[i].Name + ']!');
-        while (GetSystemTime - m < r_Randoms[i].TimeOut) and (not Result) do
+        while (GetSystemTime - m < r_Randoms[i].TimeOut) and (not Result) and (r_IsLoggedIn) do
           Result := r_Randoms[i].Solve();
         if (Result) then
           WriteLn('Solved random [' + r_Randoms[i].Name + ']!')

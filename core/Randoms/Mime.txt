@@ -29,26 +29,26 @@ var
 
 function r_Mime_InRandom: Boolean;
 begin
-  Mime := GetClosestNPCByID(1056);
-  Result := (not (Mime = NULL_NPC)) and (DistanceBetween(GetLocation, Mime.Tile) < 10);
+  Mime := r_GetClosestNPCByID(1056);
+  Result := (not (Mime = NULL_NPC)) and (r_DistanceBetween(r_GetLocation, Mime.Tile) < 10);
 end;
 
-function GetMimeAnimation: Integer;
+function Mime_GetMimeAnimation: Integer;
 begin
-  Mime := GetClosestNPCByID(1056);
+  Mime := r_GetClosestNPCByID(1056);
   Result := Mime.Animation;
 end;
 
 function Mime_GetState: Byte;
 begin
   Result := MIME_NULL;
-  if (GetLocation = RSTile(2008, 4764)) and (r_IsClickContinue) then
+  if (r_GetLocation = RSTile(2008, 4764)) and (r_IsClickContinue) then
     Result := MIME_CLICK_CONTINUE
-  else if ((Pos('watch', Lowercase(GetInterfaceText(372, 2))) > 0) or
-          (Pos('watch', Lowercase(GetInterfaceText(372, 3))) > 0)) and
-          (GetMimeAnimation > -1) and (GetMimeAnimation <> 858) then
+  else if ((Pos('watch', Lowercase(r_GetInterfaceText(372, 2))) > 0) or
+          (Pos('watch', Lowercase(r_GetInterfaceText(372, 3))) > 0)) and
+          (Mime_GetMimeAnimation > -1) and (Mime_GetMimeAnimation <> 858) then
     Result := MIME_GET_ANIMATION
-  else if (IsInterfaceValid(188)) then
+  else if (r_IsInterfaceValid(188)) then
     Result := MIME_CLICK_ANIMATION;
 end;
 
@@ -57,6 +57,7 @@ var
   TextHint: string;
   PathToCheck: LongInt;
   i, CC: Integer;
+  Box: TBox;
 begin
   case (id) of
     857: TextHint := 'Think';
@@ -77,12 +78,11 @@ begin
   CC := SmartGetFieldArraySize(PathToCheck, '', 1);
   SmartFreeObject(PathToCheck);
   for i := 0 to CC - 1 do
-    if (Pos(Lowercase(TextHint), Lowercase(r_GetInterfaceText(188, ii))) > 0) then
+    if (Pos(Lowercase(TextHint), Lowercase(r_GetInterfaceText(188, i))) > 0) then
     begin
-      Box := r_GetInterfaceBox(Point(7, 347), 188, ii);
+      Box := r_GetInterfaceBox(Point(7, 347), 188, i);
       MouseBox(Box.x1, Box.y1, Box.x2, Box.y2, 1);
       Wait(RandomRange(500, 800));
-      Result := True;
       Exit;
     end;
 end;
@@ -102,7 +102,7 @@ begin
     end;
     MIME_GET_ANIMATION:
     begin
-      A := GetMimeAnimation;
+      A := Mime_GetMimeAnimation;
       if (A > -1) and (A <> 858) then
         Anim := A;
     end;
