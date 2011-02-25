@@ -112,11 +112,11 @@ begin
   if (not (TheClickTile = NULL_RSTILE)) then
   begin
     Params := ThePath.Handlers;
-    if (InIntArray(Params, PATH_HANDLER_RUN)) then
+    if (InIntArray(Params, R_PATH_HANDLER_RUN)) then
     begin
       //TODO .
     end;
-    if (InIntArray(Params, PATH_HANDLER_WALKING)) then
+    if (InIntArray(Params, R_PATH_HANDLER_WALKING)) then
     begin
       FlagTile := r_GetFlagPosition;
       if (FlagTile.x < 0) then
