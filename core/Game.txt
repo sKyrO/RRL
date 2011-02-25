@@ -36,7 +36,7 @@ end;
 
 function r_IsLoggedIn: Boolean;
 begin
-  Result := (r_LoginIndex = 10) or (r_LoginIndex = 11);
+  Result := (r_GetLoginIndex = 10) or (r_GetLoginIndex = 11);
 end;
 
 function NULL_RENDER_DATA: TRenderData;
