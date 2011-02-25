@@ -280,6 +280,7 @@ function r_GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
 var
   Arr: array of TRSObject;
 begin
+  Result := NULL_RSOBJECT;
   Arr := r_SortObjects(r_GetAllObjectsByID(ID, ObjType), r_GetLocation);
   if (Length(Arr) > 0) then
     Result := Arr[0];
@@ -289,6 +290,7 @@ function r_GetClosestObjectByIDOptimized(const ID, ObjType, TileRadius: Integer)
 var
   Arr: array of TRSObject;
 begin
+  Result := NULL_RSOBJECT;
   Arr := r_SortObjects(r_GetAllObjectsByIDOptimized(ID, ObjType, TileRadius), r_GetLocation);
   if (Length(Arr) > 0) then
     Result := Arr[0];
