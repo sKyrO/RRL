@@ -287,7 +287,9 @@ var
   hook_MenuX, hook_MenuY,
 
   hook_Valid_Interfaces, hook_Interfaces, hook_Interface_Text,
-  hook_InterfaceX, hook_InterfaceY, hook_InterfaceW, hook_InterfaceH: string;
+  hook_InterfaceX, hook_InterfaceY, hook_InterfaceW, hook_InterfaceH,
+  hook_Interface_Children, hook_InterfaceID, hook_Interface_StackSize,
+  hook_Interface_Name: string;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -376,6 +378,10 @@ const
   index_InterfaceY = 78;
   index_InterfaceW = 79;
   index_InterfaceH = 80;
+  index_Interface_Children = 81;
+  index_InterfaceID = 82;
+  index_Interface_StackSize = 83;
+  index_Interface_Name = 84;
 
 procedure StripComments(var Content: string);
 var
@@ -525,6 +531,10 @@ begin
   hook_InterfaceY := r_Get(DataArray, index_InterfaceY);
   hook_InterfaceW := r_Get(DataArray, index_InterfaceW);
   hook_InterfaceH := r_Get(DataArray, index_InterfaceH);
+  hook_Interface_Children := r_Get(DataArray, index_Interface_Children);
+  hook_InterfaceID := r_Get(DataArray, index_InterfaceID);
+  hook_Interface_StackSize := r_Get(DataArray, index_Interface_StackSize);
+  hook_Interface_Name := r_Get(DataArray, index_Interface_Name);
   Result := True;
 end;
 
