@@ -186,12 +186,12 @@ function r_GetAllObjectsByTypeOptimized(const ObjType, TileRadius: Integer): arr
 var
   C, BaseX, BaseY, x, y, xMi, yMi, xMa, yMa: Integer;
   Obj: TRSObject;
-  OurLoc: TRSTile
+  OurLoc: TRSTile;
 begin
   Result := [];
   BaseX := SmartGetFieldInt(0, hook_BaseX);
   BaseY := SmartGetFieldInt(0, hook_BaseY);
-  OurLoc := GetLocation;
+  OurLoc := r_GetLocation;
   xMi := OurLoc.x - TileRadius;
   yMi := OurLoc.y - TileRadius;
   xMa := OurLoc.x + TileRadius;
@@ -220,14 +220,14 @@ end;
 
 function r_GetAllObjectsByIDOptimized(const ID, ObjType, TileRadius: Integer): array of TRSObject;
 var
-  C, BaseX, BaseY, x, y. xM, yM: Integer;
+  C, BaseX, BaseY, x, y, xMi, yMi, xMa, yMa: Integer;
   Obj: TRSObject;
   OurLoc: TRSTile;
 begin
   Result := [];
   BaseX := SmartGetFieldInt(0, hook_BaseX);
   BaseY := SmartGetFieldInt(0, hook_BaseY);
-  OurLoc := GetLocation;
+  OurLoc := r_GetLocation;
   xMi := OurLoc.x - TileRadius;
   yMi := OurLoc.y - TileRadius;
   xMa := OurLoc.x + TileRadius;
@@ -289,7 +289,7 @@ function r_GetClosestObjectByIDOptimized(const ID, ObjType, TileRadius: Integer)
 var
   Arr: array of TRSObject;
 begin
-  Arr := r_SortObjects(r_GetAllObjectsByIDOptimized(ID, ObjType, TileRaduis), r_GetLocation);
+  Arr := r_SortObjects(r_GetAllObjectsByIDOptimized(ID, ObjType, TileRadius), r_GetLocation);
   if (Length(Arr) > 0) then
     Result := Arr[0];
 end;
