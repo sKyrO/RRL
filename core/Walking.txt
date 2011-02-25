@@ -57,7 +57,7 @@ end;
 
 function r_GetRunEnergy: Integer;
 begin
-  Result := StrToInt(GetInterfaceText(750, 5));
+  Result := StrToInt(r_GetInterfaceText(750, 5));
 end;
 
 function r_ClickTile(const Tile: TRSTile): Boolean;
