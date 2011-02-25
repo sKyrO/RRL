@@ -10,11 +10,17 @@ Object routines.
      By: Timer
  * function r_GetAllObjectsByType(const ObjType: Integer): array of TRSObject;
      By: Timer
- * function r_GetAllObjectByID(const ID, ObjType: Integer): array of TRSObject;
+ * function r_GetAllObjectsByID(const ID, ObjType: Integer): array of TRSObject;
+     By: Timer
+ * function r_GetAllObjectsByTypeOptimized(const ObjType, TileRadius: Integer): array of TRSObject;
+     By: Timer
+ * function r_GetAllObjectsByIDOptimized(const ID, ObjType, TileRadius: Integer): array of TRSObject;
      By: Timer
  * function r_SortObjects(const Arr: array of TRSObject; const From: TRSTile): array of TRSObject;
      By: Timer
  * function r_GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
+     By: Timer
+ * function r_GetClosestObjectByIDOptimized(const ID, ObjType, TileRadius: Integer): TRSObject;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -154,7 +160,7 @@ begin
   SetLength(Result, C);
 end;
 
-function r_GetAllObjectByID(const ID, ObjType: Integer): array of TRSObject;
+function r_GetAllObjectsByID(const ID, ObjType: Integer): array of TRSObject;
 var
   C, BaseX, BaseY, x, y: Integer;
   Obj: TRSObject;
@@ -165,6 +171,78 @@ begin
   SetLength(Result, 10816);
   for x := BaseX to (BaseX + 104) do
     for y := BaseY to (BaseY + 104) do
+    begin
+      Obj := r_GetObjectAt(RSTile(x, y), ObjType);
+      if (not Obj = NULL_RSOBJECT) and (Obj.ID = ID) then
+      begin
+        Result[C] := Obj;
+        Inc(C);
+      end;
+    end;
+  SetLength(Result, C);
+end;
+
+function r_GetAllObjectsByTypeOptimized(const ObjType, TileRadius: Integer): array of TRSObject;
+var
+  C, BaseX, BaseY, x, y, xMi, yMi, xMa, yMa: Integer;
+  Obj: TRSObject;
+  OurLoc: TRSTile
+begin
+  Result := [];
+  BaseX := SmartGetFieldInt(0, hook_BaseX);
+  BaseY := SmartGetFieldInt(0, hook_BaseY);
+  OurLoc := GetLocation;
+  xMi := OurLoc.x - TileRadius;
+  yMi := OurLoc.y - TileRadius;
+  xMa := OurLoc.x + TileRadius;
+  yMa := OurLoc.y + TileRadius;
+  if (xMi < BaseX) then
+    xMi := BaseX;
+  if (yMi < BaseY) then
+    yMi := BaseY;
+  if (xMa > BaseX + 104) then
+    xMa := BaseX + 104;
+  if (yMa > BaseY + 104) then
+    yMa := BaseY + 104;
+  SetLength(Result, (yMa - yMi) * (xMa - xMi));
+  for x := xMi to xMa do
+    for y := yMi to yMa do
+    begin
+      Obj := r_GetObjectAt(RSTile(x, y), ObjType);
+      if (not Obj = NULL_RSOBJECT) then
+      begin
+        Result[C] := Obj;
+        Inc(C);
+      end;
+    end;
+  SetLength(Result, C);
+end;
+
+function r_GetAllObjectsByIDOptimized(const ID, ObjType, TileRadius: Integer): array of TRSObject;
+var
+  C, BaseX, BaseY, x, y. xM, yM: Integer;
+  Obj: TRSObject;
+  OurLoc: TRSTile;
+begin
+  Result := [];
+  BaseX := SmartGetFieldInt(0, hook_BaseX);
+  BaseY := SmartGetFieldInt(0, hook_BaseY);
+  OurLoc := GetLocation;
+  xMi := OurLoc.x - TileRadius;
+  yMi := OurLoc.y - TileRadius;
+  xMa := OurLoc.x + TileRadius;
+  yMa := OurLoc.y + TileRadius;
+  if (xMi < BaseX) then
+    xMi := BaseX;
+  if (yMi < BaseY) then
+    yMi := BaseY;
+  if (xMa > BaseX + 104) then
+    xMa := BaseX + 104;
+  if (yMa > BaseY + 104) then
+    yMa := BaseY + 104;
+  SetLength(Result, (yMa - yMi) * (xMa - xMi));
+  for x := xMi to xMa do
+    for y := yMi to yMa do
     begin
       Obj := r_GetObjectAt(RSTile(x, y), ObjType);
       if (not Obj = NULL_RSOBJECT) and (Obj.ID = ID) then
@@ -200,26 +278,18 @@ end;
 
 function r_GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
 var
-  C, BaseX, BaseY, x, y: Integer;
-  Obj: TRSObject;
   Arr: array of TRSObject;
 begin
-  Result := NULL_RSOBJECT;
-  BaseX := SmartGetFieldInt(0, hook_BaseX);
-  BaseY := SmartGetFieldInt(0, hook_BaseY);
-  SetLength(Arr, 10816);
-  for x := BaseX to (BaseX + 104) do
-    for y := BaseY to (BaseY + 104) do
-    begin
-      Obj := r_GetObjectAt(RSTile(x, y), ObjType);
-      if (not (Obj = NULL_RSOBJECT)) and (Obj.ID = ID) then
-      begin
-        Arr[C] := Obj;
-        Inc(C);
-      end;
-    end;
-  SetLength(Arr, C);
-  Arr := r_SortObjects(Arr, r_GetLocation);
+  Arr := r_SortObjects(r_GetAllObjectsByID(ID, ObjType), r_GetLocation);
+  if (Length(Arr) > 0) then
+    Result := Arr[0];
+end;
+
+function r_GetClosestObjectByIDOptimized(const ID, ObjType, TileRadius: Integer): TRSObject;
+var
+  Arr: array of TRSObject;
+begin
+  Arr := r_SortObjects(r_GetAllObjectsByIDOptimized(ID, ObjType, TileRaduis), r_GetLocation);
   if (Length(Arr) > 0) then
     Result := Arr[0];
 end;
