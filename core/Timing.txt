@@ -103,6 +103,7 @@ var
   tt: string;
 begin
   Result := False;
+  m := GetSystemTime;
   while (not Result) and (GetSystemTime - m < TimeOut) do
   begin
     tt := r_GetUpText;
