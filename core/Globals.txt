@@ -194,7 +194,7 @@ type
     Name: string;
   end;
 
-  TRSItemArray = array of TRSItem
+  TRSItemArray = array of TRSItem;
 
 function RSItem(const iID, iSlot, iStack: Integer; iName: string): TRSItem;
 begin
