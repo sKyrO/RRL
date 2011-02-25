@@ -114,7 +114,9 @@ begin
     Params := ThePath.Handlers;
     if (InIntArray(Params, R_PATH_HANDLER_RUN)) then
     begin
-      //TODO .
+      if (not r_IsRunning) then
+        if (r_GetRunEnergy > RandomRange(30, 80)) then
+          r_SetRun(True);
     end;
     if (InIntArray(Params, R_PATH_HANDLER_WALKING)) then
     begin
