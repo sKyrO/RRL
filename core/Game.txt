@@ -8,6 +8,8 @@ Game functions
      By: Timer
  * function r_IsLoggedIn: Boolean;
      By: Timer
+ * function r_GetSetting(Index: Integer): Integer;
+     By: Timer
  * procedure r_DeleteRenderMatrix(var RData: TRenderData; var Render: TRender);
      By: Timer
  * procedure r_FetchRenderMatrix(var RData: TRenderData; var Render: TRender);
@@ -37,6 +39,30 @@ end;
 function r_IsLoggedIn: Boolean;
 begin
   Result := (r_GetLoginIndex = 10) or (r_GetLoginIndex = 11);
+end;
+
+function r_GetSetting(Index: Integer): Integer;
+var
+  SettingsArray, Data, DataLength: Integer;
+begin
+  Result := -1;
+  try
+    SettingsArray := SmartGetFieldObject(0, hook_Settings);
+    Data := SmartGetFieldObject(SettingsArray, hook_SettingsData);
+    DataLength := SmartGetFieldArraySize(Data, '', 1);
+    if (Index >= DataLength) then
+      Exit;
+    Result := SmartGetFieldArrayInt(Data, '', Index);
+  finally
+    try
+      SmartFreeObject(SettingsArray);
+    except
+    end;
+    try
+      SmartFreeObject(Data);
+    except
+    end;
+  end;
 end;
 
 function NULL_RENDER_DATA: TRenderData;
