@@ -14,6 +14,8 @@ Game functions
      By: Timer
  * procedure r_FetchRenderMatrix(var RData: TRenderData; var Render: TRender);
      By: Timer
+ * function r_GetUpText: string;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -158,4 +160,15 @@ begin
       except
       end;
     end;
+end;
+
+function r_GetUpText: string;
+var
+  Menu: TStringArray;
+begin
+  Menu := r_GetMenuText;
+  if (Length(Menu) > 0) then
+    Result := r_RemoveJunk(Trim(Menu[0]));
+  if (Length(Menu) > 1) then
+    Result := Result + ' / ' + IntToStr(GetArrayLength(Menu)) + ' more options';
 end;
