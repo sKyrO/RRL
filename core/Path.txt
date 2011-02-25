@@ -128,7 +128,7 @@ begin
       else
       begin
         rr := RandomRange(4, 8);
-        if (r_DistanceBetween(r_GetLocation, FlagTile) <= rr) then
+        if (r_DistanceBetween(r_GetLocation, FlagTile) <= rr) and (r_DistanceBetween(r_PathEnd(ThePath), FlagTile) > 5) then
           r_ClickTile(TheClickTile);
       end;
     end else
