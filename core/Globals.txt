@@ -125,8 +125,8 @@ type
   TPathArray = array of TPath;
 
 const
-  PATH_HANDLER_RUN = 1;
-  PATH_HANDLER_WALKING = 2;
+  R_PATH_HANDLER_RUN = 1;
+  R_PATH_HANDLER_WALKING = 2;
 
 function Path(const WalkingTiles: TRSTileArray; const WalkingHandlers: TIntegerArray): TPath;
 var
