@@ -12,6 +12,8 @@ Global File
      By: Timer
  * function r_GetString(Bytes: LongInt): [AnsiString/string];
      By: Timer
+ * function r_RemoveJunk(S: string): string;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -178,6 +180,30 @@ begin
     Tile := ObjTile;
     MainTile := ObjMainTile;
     Area := ObjArea;
+  end;
+end;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Item types.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TRSItem = record
+    ID, Slot, Stack: Integer;
+    Name: string;
+  end;
+
+  TRSItemArray = array of TRSItem
+
+function RSItem(const iID, iSlot, iStack: Integer; iName: string): TRSItem;
+begin
+  with Result do
+  begin
+    ID := iID;
+    Slot := iSlot;
+    Stack := iStack;
+    Name := iName;
   end;
 end;
 
