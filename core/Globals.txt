@@ -289,7 +289,9 @@ var
   hook_Valid_Interfaces, hook_Interfaces, hook_Interface_Text,
   hook_InterfaceX, hook_InterfaceY, hook_InterfaceW, hook_InterfaceH,
   hook_Interface_Children, hook_InterfaceID, hook_Interface_StackSize,
-  hook_Interface_Name: string;
+  hook_Interface_Name,
+
+  hook_Settings, hook_SettingsData: string;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -382,6 +384,8 @@ const
   index_InterfaceID = 82;
   index_Interface_StackSize = 83;
   index_Interface_Name = 84;
+  index_Settings = 85;
+  index_SettingsData = 86;
 
 procedure StripComments(var Content: string);
 var
@@ -535,6 +539,8 @@ begin
   hook_InterfaceID := r_Get(DataArray, index_InterfaceID);
   hook_Interface_StackSize := r_Get(DataArray, index_Interface_StackSize);
   hook_Interface_Name := r_Get(DataArray, index_Interface_Name);
+  hook_Settings := r_Get(DataArray, index_Settings);
+  hook_SettingsData := r_Get(DataArray, index_SettingsData);
   Result := True;
 end;
 
