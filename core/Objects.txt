@@ -151,7 +151,7 @@ begin
     for y := BaseY to (BaseY + 104) do
     begin
       Obj := r_GetObjectAt(RSTile(x, y), ObjType);
-      if (not Obj = NULL_RSOBJECT) then
+      if (not (Obj = NULL_RSOBJECT)) then
       begin
         Result[C] := Obj;
         Inc(C);
@@ -173,7 +173,7 @@ begin
     for y := BaseY to (BaseY + 104) do
     begin
       Obj := r_GetObjectAt(RSTile(x, y), ObjType);
-      if (not Obj = NULL_RSOBJECT) and (Obj.ID = ID) then
+      if (not (Obj = NULL_RSOBJECT)) and (Obj.ID = ID) then
       begin
         Result[C] := Obj;
         Inc(C);
@@ -209,7 +209,7 @@ begin
     for y := yMi to yMa do
     begin
       Obj := r_GetObjectAt(RSTile(x, y), ObjType);
-      if (not Obj = NULL_RSOBJECT) then
+      if (not (Obj = NULL_RSOBJECT)) then
       begin
         Result[C] := Obj;
         Inc(C);
@@ -245,7 +245,7 @@ begin
     for y := yMi to yMa do
     begin
       Obj := r_GetObjectAt(RSTile(x, y), ObjType);
-      if (not Obj = NULL_RSOBJECT) and (Obj.ID = ID) then
+      if (not (Obj = NULL_RSOBJECT)) and (Obj.ID = ID) then
       begin
         Result[C] := Obj;
         Inc(C);
