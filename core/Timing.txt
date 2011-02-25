@@ -4,15 +4,19 @@ Timing routines.
 
 ---------------------------------------------------------
 
- * function r_WaitForOptionEx(Options: TStringArray; Timeout: Integer): Boolean;
+ * function r_WaitForOptionEx(const Options: TStringArray; const Timeout: Integer): Boolean;
      By: Timer
- * function r_WaitForOption(Option: string; Timeout: Integer): Boolean;
+ * function r_WaitForOption(const Option: string; const Timeout: Integer): Boolean;
      By: Timer
- * function r_WaitForAnimationExEx(IDs: TIntegerArray; Timeout: Integer): Boolean;
+ * function r_WaitForAnimationExEx(const IDs: TIntegerArray; const Timeout: Integer): Boolean;
      By: Timer
- * function r_WaitForAnimationEx(ID, Timeout: Integer): Boolean;
+ * function r_WaitForAnimationEx(const ID, Timeout: Integer): Boolean;
      By: Timer
- * function r_WaitForAnimation(Timeout: Integer): Boolean;
+ * function r_WaitForAnimation(const Timeout: Integer): Boolean;
+     By: Timer
+ * function r_WaitForUpTextEx(const Text: TStringArray; const TimeOut: Integer): Boolean;
+     By: Timer
+ * function r_WaitForUpText(const Text: string; const TimeOut: Integer): Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -27,7 +31,7 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function r_WaitForOptionEx(Options: TStringArray; Timeout: Integer): Boolean;
+function r_WaitForOptionEx(const Options: TStringArray; const Timeout: Integer): Boolean;
 var
   Index, i: Integer;
   m: LongInt;
@@ -49,12 +53,12 @@ begin
   end;
 end;
 
-function r_WaitForOption(Option: string; Timeout: Integer): Boolean;
+function r_WaitForOption(const Option: string; const Timeout: Integer): Boolean;
 begin
   Result := r_WaitForOptionEx([Option], Timeout);
 end;
 
-function r_WaitForAnimationExEx(IDs: TIntegerArray; Timeout: Integer): Boolean;
+function r_WaitForAnimationExEx(const IDs: TIntegerArray; const Timeout: Integer): Boolean;
 var
   i: Integer;
   m: LongInt;
@@ -73,12 +77,12 @@ begin
   end;
 end;
 
-function r_WaitForAnimationEx(ID, Timeout: Integer): Boolean;
+function r_WaitForAnimationEx(const ID, Timeout: Integer): Boolean;
 begin
   Result := r_WaitForOptionEx([ID], Timeout);
 end;
 
-function r_WaitForAnimation(Timeout: Integer): Boolean;
+function r_WaitForAnimation(const Timeout: Integer): Boolean;
 var
   m: LongInt;
 begin
@@ -90,4 +94,29 @@ begin
       Result := True;
     Wait(50);
   end;
+end;
+
+function r_WaitForUpTextEx(const Text: TStringArray; const TimeOut: Integer): Boolean;
+var
+  m: LongInt;
+  i: Integer;
+  tt: string;
+begin
+  Result := False;
+  while (not Result) and (GetSystemTime - m < TimeOut) do
+  begin
+    tt := r_GetUpText;
+    for i := 0 to High(Text) do
+      if (Pos(Text[i], tt) > 0) then
+      begin
+        Result := True;
+        Exit;
+      end;
+    Wait(Random(10));
+  end;
+end;
+
+function r_WaitForUpText(const Text: string; const TimeOut: Integer): Boolean;
+begin
+  Result := r_WaitForUpTextEx([Text], TimeOut);
 end;
