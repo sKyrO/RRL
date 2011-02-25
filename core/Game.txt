@@ -4,7 +4,7 @@ Game functions
 
 ---------------------------------------------------------
 
- * function r_LoginIndex: Integer;
+ * function r_GetLoginIndex: Integer;
      By: Timer
  * function r_IsLoggedIn: Boolean;
      By: Timer
@@ -25,7 +25,7 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function r_LoginIndex: Integer;
+function r_GetLoginIndex: Integer;
 begin
   try
     Result := SmartGetFieldInt(0, hook_Login_Index);
