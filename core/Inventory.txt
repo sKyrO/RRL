@@ -35,7 +35,7 @@ const
 
 function NULL_RSITEM: TRSItem;
 begin
-  Result := RSItem(-1, -1, -1, 'null');
+  Result := RSItem(-1, -1, -1, '');
 end;
 
 function r_GetInventoryInterface: Integer;
@@ -78,7 +78,7 @@ begin
   for i := 1 to 28 do
   begin
     Result[C] := GetInventoryItemAt(i);
-    if (not (Result[i - 1] = NULL_RSITEM)) then
+    if (not (Result[C] = NULL_RSITEM)) then
       Inc(C);
   end;
   SetLength(Result, C);
