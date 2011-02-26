@@ -4,7 +4,7 @@ Core Include
 
 ---------------------------------------------------------
 
- * procedure SetupRRL;
+ * function SetupRRL: Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -38,25 +38,25 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 {.include RRL\core\Timing.txt}
 {.include RRL\core\Randoms.txt}
 
-procedure SetupRRL;
+function SetupRRL: Boolean;
+var
+  m: LongInt;
 begin
-  WriteLn('Setting up RRL.');
-  if (r_LoadHooks) then
-    Writeln('Loaded hooks.')
-  else
+  m := GetSystemTime;
+  if (not r_LoadHooks) then
   begin
     Writeln('Failed to load hooks.');
     Exit;
   end;
-  WriteLn('Current client version: ' + IntToStr(ClientVersion) +
-          ' Current hooks version: ' + IntToStr(HooksVersion));
-  if (HooksVersion >= ClientVersion) then
-    WriteLn('Finished!  Welcome to the Reflection Resource Library!')
-  else
+  if (not HooksVersion >= ClientVersion) then
   begin
+    WriteLn('Current client version: ' + IntToStr(ClientVersion) +
+          ' Current hooks version: ' + IntToStr(HooksVersion));
     WriteLn('Hooks outdated!  Please wait for new hooks to arise.' + #13 +
             'Sorry, and goodbye! - Reflection Resource Library [RRL].');
     Exit;
   end;
   r_LoadRandoms;
+  WriteLn('RRL was set up in ' + IntToStr(GetSystemTime - m) + ' ms.');
+  Result := True;
 end;
