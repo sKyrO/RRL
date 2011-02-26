@@ -107,10 +107,14 @@ end;
 function r_GetInventoryCountByID(const ID: Integer): Integer;
 var
   i: Integer;
+  Item: TRSItem;
 begin
   for i := 1 to 28 do
-    if (r_GetInventoryItemAt(i).ID = ID) then
+  begin
+    Item := r_GetInventoryItemAt(i);
+    if (Item.ID = ID) then
       Inc(Result);
+  end;
 end;
 
 function r_IsInventoryFull: Boolean;
