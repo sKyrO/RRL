@@ -6,11 +6,13 @@ Inventory routines
 
  * function r_GetInventoryInterface: Integer;
      By: Timer
- * function GetInventoryItemAt(Slot: Integer): TRSItem;
+ * function r_GetInventoryItemAt(Slot: Integer): TRSItem;
      By: Timer
  * function r_GetInventoryItems: TRSItemArray;
      By: Timer
  * function r_GetInventoryCount: Integer;
+     By: Timer
+ * function r_GetInventoryCountByID(const ID: Integer): Integer;
      By: Timer
  * function r_IsInventoryFull: Boolean;
      By: Timer
@@ -47,7 +49,7 @@ begin
     Result := R_INTERFACES_INVENTORY;
 end;
 
-function GetInventoryItemAt(Slot: Integer): TRSItem;
+function r_GetInventoryItemAt(Slot: Integer): TRSItem;
 var
   InventoryInterface, TheItem, JName: LongInt;
   InterfaceID, ID, TSlot, Stack: Integer;
@@ -90,7 +92,7 @@ begin
   SetLength(Result, 28);
   for i := 1 to 28 do
   begin
-    Result[C] := GetInventoryItemAt(i);
+    Result[C] := r_GetInventoryItemAt(i);
     if (not (Result[C] = NULL_RSITEM)) then
       Inc(C);
   end;
@@ -100,6 +102,15 @@ end;
 function r_GetInventoryCount: Integer;
 begin
   Result := Length(r_GetInventoryItems);
+end;
+
+function r_GetInventoryCountByID(const ID: Integer): Integer;
+var
+  i: Integer;
+begin
+  for i := 1 to 28 do
+    if (r_GetInventoryItemAt(i).ID = ID) then
+      Inc(Result);
 end;
 
 function r_IsInventoryFull: Boolean;
