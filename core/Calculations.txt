@@ -30,6 +30,12 @@ Calulation core file
      By: Timer
  * function r_TileOnScreen(const t: TRSTile): Boolean;
      By: Timer
+ * function r_SortTilesEx(const Arr: TRSTileArray; const From: TRSTile): TRSTileArray;
+     By: Timer
+ * function r_SortTiles(const Arr: TRSTileArray): TRSTileArray;
+     By: Timer
+ * function r_GetClosestTile(const Arr: TRSTileArray): TRSTile;
+    By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -42,6 +48,8 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
+
+function NULL_RSTILE: TRSTile; forward;
 
 function r_TileToMinimap(const Tile: TRSTile): TPoint;
 var
@@ -178,4 +186,45 @@ end;
 function r_TileOnScreen(const t: TRSTile): Boolean;
 begin
   Result := r_PointOnScreen(r_TileToScreenEx(t, 0));
+end;
+
+function r_SortTilesEx(const Arr: TRSTileArray; const From: TRSTile): TRSTileArray;
+var
+  TPA: TPointArray;
+  i, ii, l: Integer;
+begin
+  l := Length(Arr);
+  if (l > 0) then
+  begin
+    SetLength(TPA, l);
+    SetLength(Result, l);
+    for i := 0 to l - 1 do
+      TPA[i] := Point(Arr[i].x, Arr[i].y);
+    SortTPAFrom(TPA, Point(From.x, From.y));
+    for i := 0 to l - 1 do
+      for ii := 0 to l - 1 do
+        if (TPA[i].x = Arr[ii].x) and (TPA[i].y = Arr[ii].y) then
+        begin
+          Result[i] := Arr[ii];
+          Break;
+        end;
+  end else
+    Result := Arr;
+end;
+
+function r_SortTiles(const Arr: TRSTileArray): TRSTileArray;
+begin
+  Result := r_SortTilesEx(Arr, r_GetLocation);
+end;
+
+function r_GetClosestTile(const Arr: TRSTileArray): TRSTile;
+var
+  Arr2: TRSTileArray;
+begin
+  Result := NULL_RSTILE;
+  if (Length(Arr) > 0) then
+  begin
+    Arr2 := r_SortTiles(Arr);
+    Result := Arr2[0];
+  end;
 end;
