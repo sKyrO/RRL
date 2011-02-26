@@ -220,5 +220,6 @@ begin
       Exit;
     end;
   end;
+  Index := r_GetMenuIndex(Option);
   Result := r_ClickMenuIndex(Index);
 end;
