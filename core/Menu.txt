@@ -173,6 +173,11 @@ begin
     Mouse(P.x + xOff, P.y + yOff, 0, 0, True);
     Wait(RandomRange(80, 100));
     Result := not r_IsMenuOpen;
+    while (r_IsMenuOpen) do
+    begin
+      MMouse(Random(MSX2), Random(MSY2), 0, 0);
+      Wait(RandomRange(100, 200));
+    end;
     Exit;
   end;
   while (r_IsMenuOpen) do
