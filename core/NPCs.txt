@@ -174,7 +174,7 @@ end;
 function r_GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
 var
   NPCArray, OurNPCs: TNPCArray;
-  i, l, C, ii, ll: Integer;
+  C: Integer;
 begin
   Result := NULL_NPC;
   NPCArray := r_GetNPCsByIDEx(IDs);
