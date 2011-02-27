@@ -149,5 +149,5 @@ end;
 
 function r_WaitForInteract(const Text: string; const TimeOut: Integer): Boolean;
 begin
-  Result := r_WaitForInteract([Text], TimeOut);
+  Result := r_WaitForInteractEx([Text], TimeOut);
 end;
