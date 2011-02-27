@@ -177,18 +177,7 @@ var
   i, l, C, ii, ll: Integer;
 begin
   Result := NULL_NPC;
-  NPCArray := r_GetNPCs;
-  l := Length(NPCArray);
-  ll := Length(IDs);
-  SetLength(OurNPCs, l);
-  for i := 0 to l - 1 do
-    for ii := 0 to ll - 1 do
-      if (NPCArray[i].ID = IDs[ii]) then
-      begin
-        OurNPCs[C] := NPCArray[i];
-        Inc(C);
-        Break;
-      end;
+  NPCArray := r_GetNPCsByIDEx(IDs);
   SetLength(OurNPCs, C);
   OurNPCs := r_SortNPCs(OurNPCs, r_GetLocation);
   if (Length(OurNPCs) > 0) then

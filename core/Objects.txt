@@ -20,7 +20,9 @@ Object routines.
      By: Timer
  * function r_GetAllObjectsByID(const ID, ObjType: Integer): TRSObjectArray;
      By: Timer
- * function r_SortObjects(const Arr: TRSObjectArray; const From: TRSTile): TRSObjectArray;
+ * function r_SortObjectsEx(const Arr: TRSObjectArray; const From: TRSTile): TRSObjectArray;
+     By: Timer
+ * function r_SortObjects(const Arr: TRSObjectArray): TRSObjectArray;
      By: Timer
  * function r_GetClosestObjectByIDOptimizedEx(const IDs: TIntegerArray; const ObjType, Range: Integer): TRSObject;
      By: Timer
@@ -224,7 +226,7 @@ begin
   Result := r_GetAllObjectsByIDEx([ID], ObjType);
 end;
 
-function r_SortObjects(const Arr: TRSObjectArray; const From: TRSTile): TRSObjectArray;
+function r_SortObjectsEx(const Arr: TRSObjectArray; const From: TRSTile): TRSObjectArray;
 var
   i, ii, L: LongInt;
   TPA: TPointArray;
@@ -246,12 +248,18 @@ begin
       end;
 end;
 
+function r_SortObjects(const Arr: TRSObjectArray): TRSObjectArray;
+begin
+  Result := r_SortObjectsEx(Arr, r_GetLocation);
+end;
+
 function r_GetClosestObjectByIDOptimizedEx(const IDs: TIntegerArray; const ObjType, Range: Integer): TRSObject;
 var
   Arr: TRSObjectArray;
 begin
   Result := NULL_RSOBJECT;
-  Arr := r_SortObjects(r_GetAllObjectsByIDOptimizedEx(IDs, ObjType, Range), r_GetLocation);
+  Arr := r_GetAllObjectsByIDOptimizedEx(IDs, ObjType, Range);
+  Arr := r_SortObjects(Arr);
   if (Length(Arr) > 0) then
     Result := Arr[0];
 end;
