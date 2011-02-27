@@ -138,7 +138,7 @@ end;
 
 function r_GetAllGroundItems: TGroundItemArray;
 begin
-  Result := r_GetAllGroundItemsOptimized(52);
+  Result := r_GetAllGroundItemsOptimized(104);
 end;
 
 function r_GetAllGroundItemsByIDOptimizedEx(const IDs: TIntegerArray; const Range: Integer): TGroundItemArray;
@@ -184,7 +184,7 @@ end;
 
 function r_GetAllGroundItemsByIDEx(const IDs: TIntegerArray): TGroundItemArray;
 begin
-  Result := r_GetAllGroundItemsByIDOptimizedEx(IDs, 52);
+  Result := r_GetAllGroundItemsByIDOptimizedEx(IDs, 104);
 end;
 
 function r_GetAllGroundItemsByID(const ID: Integer): TGroundItemArray;

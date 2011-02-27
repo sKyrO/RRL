@@ -178,7 +178,7 @@ end;
 
 function r_GetAllObjectsByType(const ObjType: Integer): TRSObjectArray;
 begin
-  Result := r_GetAllObjectsByTypeOptimized(ObjType, 52);
+  Result := r_GetAllObjectsByTypeOptimized(ObjType, 104);
 end;
 
 function r_GetAllObjectsByIDOptimizedEx(const IDs: TIntegerArray; const ObjType, Range: Integer): TRSObjectArray;
@@ -218,7 +218,7 @@ end;
 
 function r_GetAllObjectsByIDEx(const IDs: TIntegerArray; const ObjType: Integer): TRSObjectArray;
 begin
-  Result := r_GetAllObjectsByIDOptimizedEx(IDs, ObjType, 52);
+  Result := r_GetAllObjectsByIDOptimizedEx(IDs, ObjType, 104);
 end;
 
 function r_GetAllObjectsByID(const ID, ObjType: Integer): TRSObjectArray;
@@ -271,10 +271,10 @@ end;
 
 function r_GetClosestObjectByIDEx(const IDs: TIntegerArray; const ObjType: Integer): TRSObject;
 begin
-  Result := r_GetClosestObjectByIDOptimizedEx(IDs, ObjType, 52);
+  Result := r_GetClosestObjectByIDOptimizedEx(IDs, ObjType, 104);
 end;
 
 function r_GetClosestObjectByID(const ID, ObjType: Integer): TRSObject;
 begin
-  Result := r_GetClosestObjectByIDOptimizedEx([ID], ObjType, 52);
+  Result := r_GetClosestObjectByIDOptimizedEx([ID], ObjType, 104);
 end;
