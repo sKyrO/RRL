@@ -24,9 +24,21 @@ Inventory routines
      By: Timer
  * function r_IsInventoryEmpty: Boolean;
      By: Timer
- * function r_GetInventoryItemByIDEx(IDs: TIntegerArray): TRSItem;
+ * function r_GetInventoryItemByIDEx(const IDs: TIntegerArray): TRSItem;
      By: Timer
- * function r_GetInventoryItemByID(ID: Integer): TRSItem;
+ * function r_GetInventoryItemByID(const ID: Integer): TRSItem;
+     By: Timer
+ * function r_DoesInventoryItemIDExistEx(const IDs: TIntegerArray): Boolean;
+     By: Timer
+ * function r_DoesInventoryItemIDExist(const ID: Integer): Boolean;
+     By: Timer
+ * function r_DoesInventoryItemSlotExistEx(const Slots: TIntegerArray): Boolean;
+     By: Timer
+ * function r_DoesInventoryItemSlotExist(const Slot: Integer): Boolean;
+     By: Timer
+ * function r_DropAllItemsButByIDEx(const IDs: TIntegerArray): Boolean;
+     By: Timer
+ * function r_DropAllItemsButByID(const ID: Integer): Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -49,6 +61,8 @@ function NULL_RSITEM: TRSItem;
 begin
   Result := RSItem(-1, -1, -1, '');
 end;
+
+function r_WaitForInteract(const Text: string; const TimeOut: Integer): Boolean; forward;
 
 function r_GetInventoryInterface: Integer;
 begin
@@ -169,7 +183,7 @@ begin
   Result := r_GetInventoryCount <= 0;
 end;
 
-function r_GetInventoryItemByIDEx(IDs: TIntegerArray): TRSItem;
+function r_GetInventoryItemByIDEx(const IDs: TIntegerArray): TRSItem;
 var
   i, ii: Integer;
   it: TRSItem;
@@ -187,7 +201,66 @@ begin
   end;
 end;
 
-function r_GetInventoryItemByID(ID: Integer): TRSItem;
+function r_GetInventoryItemByID(const ID: Integer): TRSItem;
 begin
   Result := r_GetInventoryItemByIDEx([ID]);
+end;
+
+function r_DoesInventoryItemIDExistEx(const IDs: TIntegerArray): Boolean;
+begin
+  Result := (not (r_GetInventoryItemByIDEx(IDs) = NULL_RSITEM));
+end;
+
+function r_DoesInventoryItemIDExist(const ID: Integer): Boolean;
+begin
+  Result := r_DoesInventoryItemIDExistEx([ID]);
+end;
+
+function r_DoesInventoryItemSlotExistEx(const Slots: TIntegerArray): Boolean;
+var
+  i: Integer;
+begin
+  Result := False;
+  for i := 0 to High(Slots) do
+    if (not (r_GetInventoryItemAt(Slots[i]) = NULL_RSITEM)) then
+    begin
+      Result := True;
+      Exit;
+    end;
+end;
+
+function r_DoesInventoryItemSlotExist(const Slot: Integer): Boolean;
+begin
+  Result := r_DoesInventoryItemSlotExistEx([Slot]);
+end;
+
+function r_DropAllItemsButByIDEx(const IDs: TIntegerArray): Boolean;
+var
+  i, ii: Integer;
+  m: LongInt;
+  it: TRSItem;
+begin
+  Result := False;
+  for i := 1 to 28 do
+  begin
+    it := r_GetInventoryItemAt(i);
+    for ii := 0 to High(IDs) do
+      if (not (it = NULL_RSITEM)) and (it.ID = IDs[ii]) then
+      begin
+        MMouseItem(i);
+        if (r_WaitForInteract('Drop', 1200)) then
+        begin
+          m := GetSystemTime;
+          while (GetSystemTime - m < 2000) and (r_DoesInventoryItemSlotExist(i)) do
+            Wait(RandomRange(150, 200));
+          Wait(RandomRange(150, 200));
+        end;
+        Break;
+      end;
+  end;
+end;
+
+function r_DropAllItemsButByID(const ID: Integer): Boolean;
+begin
+  Result := r_DropAllItemsButByIDEx([ID]);
 end;
