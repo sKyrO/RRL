@@ -10,6 +10,8 @@ Inventory routines
      By: Timer
  * function r_GetInventoryItems: TRSItemArray;
      By: Timer
+ * function r_GetInventoryCountEx(const Stacks: Boolean): Integer;
+     By: Timer
  * function r_GetInventoryCount: Integer;
      By: Timer
  * function r_GetInventoryCountByIDExEx(const IDs: TIntegerArray; const Stacks: Boolean): Integer;
@@ -107,9 +109,24 @@ begin
   SetLength(Result, C);
 end;
 
+function r_GetInventoryCountEx(const Stacks: Boolean): Integer;
+var
+  Items: TRSItem;
+  i: Integer;
+begin
+  Result := 0;
+  Items := r_GetInventoryItems;
+  if (Stacks) then
+  begin
+    for i := 0 to High(Items) do
+      IncEx(Result, Items[i].Stack);
+  end else
+    Result := Length(Items);
+end;
+
 function r_GetInventoryCount: Integer;
 begin
-  Result := Length(r_GetInventoryItems);
+  Result := r_GetInventoryCountEx(False);
 end;
 
 function r_GetInventoryCountByIDExEx(const IDs: TIntegerArray; const Stacks: Boolean): Integer;
