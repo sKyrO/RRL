@@ -12,6 +12,10 @@ Inventory routines
      By: Timer
  * function r_GetInventoryCount: Integer;
      By: Timer
+ * function r_GetInventoryCountByIDExEx(const IDs: TIntegerArray; const Stacks: Boolean): Integer;
+     By: Timer
+ * function r_GetInventoryCountByIDEx(const IDs: TIntegerArray): Integer;
+     By: Timer
  * function r_GetInventoryCountByID(const ID: Integer): Integer;
      By: Timer
  * function r_IsInventoryFull: Boolean;
@@ -108,17 +112,34 @@ begin
   Result := Length(r_GetInventoryItems);
 end;
 
-function r_GetInventoryCountByID(const ID: Integer): Integer;
+function r_GetInventoryCountByIDExEx(const IDs: TIntegerArray; const Stacks: Boolean): Integer;
 var
-  i: Integer;
+  i, ii: Integer;
   Item: TRSItem;
 begin
   for i := 1 to 28 do
   begin
     Item := r_GetInventoryItemAt(i);
-    if (Item.ID = ID) then
-      Inc(Result);
+    for ii := 0 to High(IDs) do
+      if (Item.ID = IDs[ii]) then
+      begin
+        if (Stacks) then
+          IncEx(Result, Item.Stack)
+        else
+          Inc(Result);
+        Break;
+      end;
   end;
+end;
+
+function r_GetInventoryCountByIDEx(const IDs: TIntegerArray): Integer;
+begin
+  Result := r_GetInventoryCountByIDExEx(IDs, False);
+end;
+
+function r_GetInventoryCountByID(const ID: Integer): Integer;
+begin
+  Result := r_GetInventoryCountByIDEx([ID]);
 end;
 
 function r_IsInventoryFull: Boolean;
