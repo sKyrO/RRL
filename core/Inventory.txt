@@ -40,6 +40,10 @@ Inventory routines
      By: Timer
  * function r_DropAllItemsButByID(const ID: Integer): Boolean;
      By: Timer
+ * function r_DropAllItemsByIDEx(const IDs: TIntegerArray): Boolean;
+     By: Timer
+ * function r_DropAllItemsByID(const ID: Integer): Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -239,6 +243,43 @@ var
   i, ii: Integer;
   m: LongInt;
   it: TRSItem;
+  Drop: Boolean;
+begin
+  Result := False;
+  for i := 1 to 28 do
+  begin
+    it := r_GetInventoryItemAt(i);
+    Drop := False;
+    for ii := 0 to High(IDs) do
+      if (not (it = NULL_RSITEM)) and (it.ID = IDs[ii]) then
+      begin
+        Drop := True;
+        Break;
+      end;
+    if (Drop) then
+    begin
+      MMouseItem(i);
+      if (r_WaitForInteract('Drop', 1200)) then
+      begin
+        m := GetSystemTime;
+        while (GetSystemTime - m < 2000) and (r_DoesInventoryItemSlotExist(i)) do
+          Wait(RandomRange(150, 200));
+        Wait(RandomRange(150, 200));
+      end;
+    end;
+  end;
+end;
+
+function r_DropAllItemsButByID(const ID: Integer): Boolean;
+begin
+  Result := r_DropAllItemsButByIDEx([ID]);
+end;
+
+function r_DropAllItemsByIDEx(const IDs: TIntegerArray): Boolean;
+var
+  i, ii: Integer;
+  m: LongInt;
+  it: TRSItem;
 begin
   Result := False;
   for i := 1 to 28 do
@@ -260,7 +301,7 @@ begin
   end;
 end;
 
-function r_DropAllItemsButByID(const ID: Integer): Boolean;
+function r_DropAllItemsByID(const ID: Integer): Boolean;
 begin
-  Result := r_DropAllItemsButByIDEx([ID]);
+  Result := r_DropAllItemsByIDEx([ID]);
 end;
