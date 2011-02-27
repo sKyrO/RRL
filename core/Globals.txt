@@ -209,6 +209,28 @@ end;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Ground types.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TGroundItem = record
+    Item: TRSItem;
+    Tile: TRSTile;
+  end;
+
+  TGroundItemArray = array of TGroundItem;
+
+function GroundItem(const gItem: TRSItem; const gTile: TRSTile): TGroundItem;
+begin
+  with Result do
+  begin
+    Item := gItem;
+    Tile := gTile;
+  end;
+end;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Randoms variables.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
@@ -291,7 +313,10 @@ var
   hook_Interface_Children, hook_InterfaceID, hook_Interface_StackSize,
   hook_Interface_Name,
 
-  hook_Settings, hook_SettingsData: string;
+  hook_Settings, hook_SettingsData,
+
+  hook_Node_Cache, hook_NodeID, hook_GroundItemCache, hook_Node_List, hook_ItemID,
+  hook_Item_Stack: string;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -386,6 +411,12 @@ const
   index_Interface_Name = 84;
   index_Settings = 85;
   index_SettingsData = 86;
+  index_Node_Cache = 87;
+  index_NodeID = 88;
+  index_GroundItemCache = 89;
+  index_Node_List = 90;
+  index_ItemID = 91;
+  index_Item_Stack = 92;
 
 procedure StripComments(var Content: string);
 var
@@ -541,6 +572,12 @@ begin
   hook_Interface_Name := r_Get(DataArray, index_Interface_Name);
   hook_Settings := r_Get(DataArray, index_Settings);
   hook_SettingsData := r_Get(DataArray, index_SettingsData);
+  hook_Node_Cache := r_Get(DataArray, index_Node_Cache);
+  hook_NodeID := r_Get(DataArray, index_NodeID);
+  hook_GroundItemCache := r_Get(DataArray, index_GroundItemCache);
+  hook_Node_List := r_Get(DataArray, index_Node_List);
+  hook_ItemID := r_Get(DataArray, index_ItemID);
+  hook_Item_Stack := r_Get(DataArray, index_Item_Stack);
   Result := True;
 end;
 

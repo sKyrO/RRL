@@ -35,6 +35,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 {.include RRL\core\Objects.txt}
 {.include RRL\core\Inventory.txt}
 {.include RRL\core\Bank.txt}
+{.include RRL\core\Ground.txt}
 {.include RRL\core\Timing.txt}
 {.include RRL\core\Randoms.txt}
 
