@@ -123,7 +123,7 @@ begin
       FlagTile := r_GetFlagPosition;
       if (FlagTile.x < 0) then
         FlagTile := NULL_RSTILE;
-      if (FlagTile = NULL_RSTILE) and (r_DistanceBetween(r_PathEnd(ThePath), r_GetLoction) < 4) then
+      if (FlagTile = NULL_RSTILE) and (r_DistanceBetween(r_PathEnd(ThePath), r_GetLocation) < 4) then
         r_ClickTile(TheClickTile)
       else
       begin
