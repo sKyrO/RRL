@@ -111,7 +111,7 @@ end;
 
 function r_GetInventoryCountEx(const Stacks: Boolean): Integer;
 var
-  Items: TRSItem;
+  Items: TRSItemArray;
   i: Integer;
 begin
   Result := 0;
