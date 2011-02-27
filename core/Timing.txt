@@ -26,6 +26,10 @@ Timing routines.
      By: Timer
  * function r_WaitForInterface(const ID, TimeOut: Integer): Boolean;
      By: Timer
+ * function r_WaitForInterfaceTextEx(const Text: TStringArray; const ParentIDs, ChildIDs: TIntegerArray; const TimeOut: Integer): Boolean;
+     By: Timer
+ * function r_WaitForInterfaceText(const Text: string; const ParentID, ChildID, TimeOut: Integer): Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -162,6 +166,7 @@ var
   m: LongInt;
   i: Integer;
 begin
+  Result := False;
   m := GetSystemTime;
   while (GetSystemTime - m < TimeOut) do
   begin
@@ -178,4 +183,32 @@ end;
 function r_WaitForInterface(const ID, TimeOut: Integer): Boolean;
 begin
   Result := r_WaitForInterfaceEx([ID], TimeOut);
+end;
+
+function r_WaitForInterfaceTextEx(const Text: TStringArray; const ParentIDs, ChildIDs: TIntegerArray; const TimeOut: Integer): Boolean;
+var
+  m: LongInt;
+  i, ii: Integer;
+begin
+  Result := False;
+  if (Length(ParentIDs) <> Length(ChildIDs)) then
+    Exit;
+  m := GetSystemTime;
+  while (GetSystemTime - m < TimeOut) do
+  begin
+    for i := 0 to High(Text) do
+      for ii := 0 to High(ParentIDs) do
+        if (r_IsInterfaceValid(ParentIDs[ii])) then
+          if (Pos(Text[i], r_GetInterfaceText(ParentIDs[ii], ChildIDs[ii])) > 0) then
+          begin
+            Result := True;
+            Exit;
+          end;
+    Wait(10);
+  end;
+end;
+
+function r_WaitForInterfaceText(const Text: string; const ParentID, ChildID, TimeOut: Integer): Boolean;
+begin
+  Result := r_WaitForInterfaceTextEx([Text], [ParentID], [ChildID], TimeOut);
 end;
