@@ -18,6 +18,10 @@ Timing routines.
      By: Timer
  * function r_WaitForUpText(const Text: string; const TimeOut: Integer): Boolean;
      By: Timer
+ * function r_WaitForInteractEx(const Text: TStringArray; const TimeOut: Integer): Boolean;
+     By: Timer
+ * function r_WaitForInteract(const Text: string; const TimeOut: Integer): Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -120,4 +124,30 @@ end;
 function r_WaitForUpText(const Text: string; const TimeOut: Integer): Boolean;
 begin
   Result := r_WaitForUpTextEx([Text], TimeOut);
+end;
+
+function r_WaitForInteractEx(const Text: TStringArray; const TimeOut: Integer): Boolean;
+var
+  m: LongInt;
+  i: Integer;
+begin
+  m := GetSystemTime;
+  while (GetSystemTime - m < TimeOut) do
+  begin
+    for i := 0 to High(Text) do
+      if (WaitForOption(Text[i], 50)) then
+      begin
+        Result := r_Interact(Text[i]);
+        if (Result) then
+          Exit
+        else
+          while (r_IsMenuOpen) do
+            MMouse(Random(MSX1), Random(MSY1), 0, 0);
+      end;
+  end;
+end;
+
+function r_WaitForInteract(const Text: string; const TimeOut: Integer): Boolean;
+begin
+  Result := r_WaitForInteract([Text], TimeOut);
 end;
