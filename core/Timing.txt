@@ -135,7 +135,7 @@ begin
   while (GetSystemTime - m < TimeOut) do
   begin
     for i := 0 to High(Text) do
-      if (WaitForOption(Text[i], 50)) then
+      if (r_WaitForOption(Text[i], 50)) then
       begin
         Result := r_Interact(Text[i]);
         if (Result) then
