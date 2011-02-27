@@ -18,6 +18,10 @@ Inventory routines
      By: Timer
  * function r_IsInventoryEmpty: Boolean;
      By: Timer
+ * function r_GetInventoryItemByIDEx(IDs: TIntegerArray): TRSItem;
+     By: Timer
+ * function r_GetInventoryItemByID(ID: Integer): TRSItem;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -125,4 +129,27 @@ end;
 function r_IsInventoryEmpty: Boolean;
 begin
   Result := r_GetInventoryCount <= 0;
+end;
+
+function r_GetInventoryItemByIDEx(IDs: TIntegerArray): TRSItem;
+var
+  i, ii: Integer;
+  it: TRSItem;
+begin
+  Result := NULL_RSITEM;
+  for i := 1 to 28 do
+  begin
+    it := r_GetInventoryItemAt(i);
+    for ii := 0 to High(IDs) do
+      if (not (it = NULL_RSITEM)) and (it.ID = IDs[ii]) then
+      begin
+        Result := it;
+        Exit;
+      end;
+  end;
+end;
+
+function r_GetInventoryItemByID(ID: Integer): TRSItem;
+begin
+  Result := r_GetInventoryItemByIDEx([ID]);
 end;
