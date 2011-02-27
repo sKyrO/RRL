@@ -22,6 +22,10 @@ Timing routines.
      By: Timer
  * function r_WaitForInteract(const Text: string; const TimeOut: Integer): Boolean;
      By: Timer
+ * function r_WaitForInterfaceEx(const IDs: TIntegerArray; const TimeOut: Integer): Boolean;
+     By: Timer
+ * function r_WaitForInterface(const ID, TimeOut: Integer): Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -144,10 +148,34 @@ begin
           while (r_IsMenuOpen) do
             MMouse(Random(MSX1), Random(MSY1), 0, 0);
       end;
+    Wait(10);
   end;
 end;
 
 function r_WaitForInteract(const Text: string; const TimeOut: Integer): Boolean;
 begin
   Result := r_WaitForInteractEx([Text], TimeOut);
+end;
+
+function r_WaitForInterfaceEx(const IDs: TIntegerArray; const TimeOut: Integer): Boolean;
+var
+  m: LongInt;
+  i: Integer;
+begin
+  m := GetSystemTime;
+  while (GetSystemTime - m < TimeOut) do
+  begin
+    for i := 0 to High(IDs) do
+      if (r_IsInterfaceValid(IDs[i])) then
+      begin
+        Result := True;
+        Exit;
+      end;
+    Wait(10);
+  end;
+end;
+
+function r_WaitForInterface(const ID, TimeOut: Integer): Boolean;
+begin
+  Result := r_WaitForInterfaceEx([ID], TimeOut);
 end;
