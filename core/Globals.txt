@@ -53,6 +53,17 @@ type
   TRSTileArray = array of TRSTile;
   TArea = TBox;
 
+function Area(const ax1, ay1, ax2, ay2: Integer): TArea;
+begin
+  with Result do
+  begin
+    x1 := ax1;
+    y1 := ay1;
+    x2 := ax2;
+    y2 := ay2;
+  end;
+end;
+
 function R_TILE_POSITION_TOP_LEFT: TRSTilePosition;
 begin
   with Result do
