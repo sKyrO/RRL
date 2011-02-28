@@ -33,6 +33,7 @@ Current Client and Hooks version for
 determining if the hooks are updated or not.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
+{.include RRL\core\Hooks.info}
 var
   ClientVersion, HooksVersion: Integer; // Current reversions, declared in SetupRRL; or manually.
 
@@ -265,169 +266,7 @@ Hook variables.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 var
-  hook_MapAngle,
-
-  hook_MyPlayer,
-
-  hook_BaseX, hook_BaseY, hook_LocalX, hook_LocalY,
-
-  hook_FlagX, hook_FlagY,
-
-  hook_LoopCycle,
-
-  hook_Character_Animation,
-  hook_Character_Movement,
-  hook_Character_LoopCycle,
-  hook_Character_Height,
-  hook_Character_Orientation,
-  hook_Character_GetInteracting,
-  hook_Character_HPRatio,
-
-  hook_NPC_Level,
-  hook_NPC_Count,
-  hook_NPC_Index_Array,
-  hook_NPC_Node_Array,
-  hook_NPC_Definition,
-  hook_NPC_ID,
-
-  hook_NPC_Definition_Name,
-
-  hook_Node_GetNPC,
-
-  hook_Login_Index,
-
-  hook_ToolKit, hook_ViewPort,
-
-  hook_ViewPort_xOffset, hook_ViewPort_yOffset, hook_ViewPort_zOffset,
-  hook_ViewPort_xX, hook_ViewPort_xY, hook_ViewPort_xZ,
-  hook_ViewPort_yX, hook_ViewPort_yY, hook_ViewPort_yZ,
-  hook_ViewPort_zX, hook_ViewPort_zY, hook_ViewPort_zZ,
-
-  hook_ToolKit_xScale, hook_ToolKit_yScale,
-  hook_ToolKit_xMin, hook_ToolKit_yMin, hook_ToolKit_zMin,
-  hook_ToolKit_xMax, hook_ToolKit_yMax, hook_ToolKit_zMax,
-
-  hook_Current_Plane, hook_GroundSettings_Array, hook_Plane_Array,
-  hook_Tile_Heights, hook_GroundTiles, hook_Ground_Animables,
-
-  hook_Animable_Get, hook_Animable_GetAreaX1, hook_Animable_GetAreaY1,
-  hook_Animable_GetAreaX2, hook_Animable_GetAreaY2, hook_Animable_Next,
-
-  hook_Object_Interactive_ID, hook_Object_Interactive2_Obj, hook_Object_Interactive2_ID,
-
-  hook_MenuOpen, hook_MenuTabbed, hook_MenuCount, hook_MenuNodeList,
-  hook_Node_Head, hook_Node_Next, hook_Menu_Action, hook_Menu_Option,
-  hook_MenuX, hook_MenuY,
-
-  hook_Valid_Interfaces, hook_Interfaces, hook_Interface_Text,
-  hook_InterfaceX, hook_InterfaceY, hook_InterfaceW, hook_InterfaceH,
-  hook_Interface_Children, hook_InterfaceID, hook_Interface_StackSize,
-  hook_Interface_Name,
-
-  hook_Settings, hook_SettingsData,
-
-  hook_Node_Cache, hook_NodeID, hook_GroundItemCache, hook_Node_List, hook_ItemID,
-  hook_Item_Stack: string;
-
-{
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-Hook constant indexs
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-}
-const
-  index_Client_Version = 0;
-  index_Hook_Version = 1;
-  index_MapAngle = 2;
-  index_MyPlayer = 3;
-  index_BaseX = 4;
-  index_BaseY = 5;
-  index_LocalX = 6;
-  index_LocalY = 7;
-  index_Login_Index = 8;
-  index_Character_Animation = 9;
-  index_ViewPort_xOffset = 10;
-  index_ViewPort_yOffset = 11;
-  index_ViewPort_zOffset = 12;
-  index_ViewPort_xX = 13;
-  index_ViewPort_xY = 14;
-  index_ViewPort_xZ = 15;
-  index_ViewPort_yX = 16;
-  index_ViewPort_yY = 17;
-  index_ViewPort_yZ = 18;
-  index_ViewPort_zX = 19;
-  index_ViewPort_zY = 20;
-  index_ViewPort_zZ = 21;
-  index_ToolKit_xScale = 22;
-  index_ToolKit_yScale = 23;
-  index_ToolKit_xMin = 24;
-  index_ToolKit_yMin = 25;
-  index_ToolKit_zMin = 26;
-  index_ToolKit_xMax = 27;
-  index_ToolKit_yMax = 28;
-  index_ToolKit_zMax = 29;
-  index_Current_Plane = 30;
-  index_GroundSettings_Array = 31;
-  index_Plane_Array = 32;
-  index_Tile_Heights = 33;
-  index_ToolKit = 34;
-  index_ViewPort = 35;
-  index_LoopCycle = 36;
-  index_Character_Movement = 37;
-  index_Character_LoopCycle = 38;
-  index_Character_Height = 39;
-  index_Character_Orientation = 40;
-  index_Character_GetInteracting = 41;
-  index_Character_HPRatio = 42;
-  index_NPC_Level = 43;
-  index_NPC_Count = 44;
-  index_NPC_Index_Array = 45;
-  index_NPC_Node_Array = 46;
-  index_NPC_Definition = 47;
-  index_NPC_ID = 48;
-  index_NPC_Definition_Name = 49;
-  index_Node_GetNPC = 50;
-  index_MenuOpen = 51;
-  index_MenuTabbed = 52;
-  index_MenuCount = 53;
-  index_MenuNodeList = 54;
-  index_Node_Head = 55;
-  index_Node_Next = 56;
-  index_Menu_Action = 57;
-  index_Menu_Option = 58;
-  index_MenuX = 59;
-  index_MenuY = 60;
-  index_GroundTiles = 61;
-  index_Ground_Animables = 62;
-  index_Animable_Get = 63;
-  index_Object_Interactive_ID = 64;
-  index_Animable_GetAreaX1 = 65;
-  index_Animable_GetAreaY1 = 66;
-  index_Animable_GetAreaX2 = 67;
-  index_Animable_GetAreaY2 = 68;
-  index_Object_Interactive2_Obj = 69;
-  index_Object_Interactive2_ID = 70;
-  index_Animable_Next = 71;
-  index_FlagX = 72;
-  index_FlagY = 73;
-  index_Valid_Interfaces = 74;
-  index_Interfaces = 75;
-  index_Interface_Text = 76;
-  index_InterfaceX = 77;
-  index_InterfaceY = 78;
-  index_InterfaceW = 79;
-  index_InterfaceH = 80;
-  index_Interface_Children = 81;
-  index_InterfaceID = 82;
-  index_Interface_StackSize = 83;
-  index_Interface_Name = 84;
-  index_Settings = 85;
-  index_SettingsData = 86;
-  index_Node_Cache = 87;
-  index_NodeID = 88;
-  index_GroundItemCache = 89;
-  index_Node_List = 90;
-  index_ItemID = 91;
-  index_Item_Stack = 92;
+  r_Hooks: TStringArray;
 
 procedure StripComments(var Content: string);
 var
@@ -470,7 +309,7 @@ var
   DataArray: array of TVariantArray;
   LineArray: TStringArray;
   LineData: TStringArray;
-  i, L: Integer;
+  i, L, ML, ii: Integer;
   F: LongInt;
 begin
   {$IFDEF SIMBA}
@@ -496,99 +335,16 @@ begin
         DataArray[L][1] := StrToIntDef(DataArray[l][1], -1);
     end;
   end;
-  ClientVersion := r_Get(DataArray, index_Client_Version);
-  HooksVersion := r_Get(DataArray, index_Hook_Version);
-  hook_MapAngle := r_Get(DataArray, index_MapAngle);
-  hook_MyPlayer := r_Get(DataArray, index_MyPlayer);
-  hook_BaseX := r_Get(DataArray, index_BaseX);
-  hook_BaseY := r_Get(DataArray, index_BaseY);
-  hook_LocalX := r_Get(DataArray, index_LocalX);
-  hook_LocalY := r_Get(DataArray, index_LocalY);
-  hook_Login_Index := r_Get(DataArray, index_Login_Index);
-  hook_Character_Animation := r_Get(DataArray, index_Character_Animation);
-  hook_ViewPort_xOffset := r_Get(DataArray, index_ViewPort_xOffset);
-  hook_ViewPort_yOffset := r_Get(DataArray, index_ViewPort_yOffset);
-  hook_ViewPort_zOffset := r_Get(DataArray, index_ViewPort_zOffset);
-  hook_ViewPort_xX := r_Get(DataArray, index_ViewPort_xX);
-  hook_ViewPort_xY := r_Get(DataArray, index_ViewPort_xY);
-  hook_ViewPort_xZ := r_Get(DataArray, index_ViewPort_xZ);
-  hook_ViewPort_yX := r_Get(DataArray, index_ViewPort_yX);
-  hook_ViewPort_yY := r_Get(DataArray, index_ViewPort_yY);
-  hook_ViewPort_yZ := r_Get(DataArray, index_ViewPort_yZ);
-  hook_ViewPort_zX := r_Get(DataArray, index_ViewPort_zX);
-  hook_ViewPort_zY := r_Get(DataArray, index_ViewPort_zY);
-  hook_ViewPort_zZ := r_Get(DataArray, index_ViewPort_zZ);
-  hook_ToolKit_xScale := r_Get(DataArray, index_ToolKit_xScale);
-  hook_ToolKit_yScale := r_Get(DataArray, index_ToolKit_yScale);
-  hook_ToolKit_xMin := r_Get(DataArray, index_ToolKit_xMin);
-  hook_ToolKit_yMin := r_Get(DataArray, index_ToolKit_yMin);
-  hook_ToolKit_zMin := r_Get(DataArray, index_ToolKit_zMin);
-  hook_ToolKit_xMax := r_Get(DataArray, index_ToolKit_xMax);
-  hook_ToolKit_yMax := r_Get(DataArray, index_ToolKit_yMax);
-  hook_ToolKit_zMax := r_Get(DataArray, index_ToolKit_zMax);
-  hook_Current_Plane := r_Get(DataArray, index_Current_Plane);
-  hook_GroundSettings_Array := r_Get(DataArray, index_GroundSettings_Array);
-  hook_Plane_Array := r_Get(DataArray, index_Plane_Array);
-  hook_Tile_Heights := r_Get(DataArray, index_Tile_Heights);
-  hook_ToolKit := r_Get(DataArray, index_ToolKit);
-  hook_ViewPort := r_Get(DataArray, index_ViewPort);
-  hook_LoopCycle := r_Get(DataArray, index_LoopCycle);
-  hook_Character_Movement := r_Get(DataArray, index_Character_Movement);
-  hook_Character_LoopCycle := r_Get(DataArray, index_Character_Loopcycle);
-  hook_Character_Height := r_Get(DataArray, index_Character_Height);
-  hook_Character_Orientation := r_Get(DataArray, index_Character_Orientation);
-  hook_Character_GetInteracting := r_Get(DataArray, index_Character_GetInteracting);
-  hook_Character_HPRatio := r_Get(DataArray, index_Character_HPRatio);
-  hook_NPC_Level := r_Get(DataArray, index_NPC_Level);
-  hook_NPC_Count := r_Get(DataArray, index_NPC_Count);
-  hook_NPC_Index_Array := r_Get(DataArray, index_NPC_Index_Array);
-  hook_NPC_Node_Array := r_Get(DataArray, index_NPC_Node_Array);
-  hook_NPC_Definition := r_Get(DataArray, index_NPC_Definition);
-  hook_NPC_ID := r_Get(DataArray, index_NPC_ID);
-  hook_NPC_Definition_Name := r_Get(DataArray, index_NPC_Definition_Name);
-  hook_Node_GetNPC := r_Get(DataArray, index_Node_GetNPC);
-  hook_MenuOpen := r_Get(DataArray, index_MenuOpen);
-  hook_MenuTabbed := r_Get(DataArray, index_MenuTabbed);
-  hook_MenuCount := r_Get(DataArray, index_MenuCount);
-  hook_MenuNodeList := r_Get(DataArray, index_MenuNodeList);
-  hook_Node_Head := r_Get(DataArray, index_Node_Head);
-  hook_Node_Next := r_Get(DataArray, index_Node_Next);
-  hook_Menu_Action := r_Get(DataArray, index_Menu_Action);
-  hook_Menu_Option := r_Get(DataArray, index_Menu_Option);
-  hook_MenuX := r_Get(DataArray, index_MenuX);
-  hook_MenuY := r_Get(DataArray, index_MenuY);
-  hook_GroundTiles := r_Get(DataArray, index_GroundTiles);
-  hook_Ground_Animables := r_Get(DataArray, index_Ground_Animables);
-  hook_Animable_Get := r_Get(DataArray, index_Animable_Get);
-  hook_Object_Interactive_ID := r_Get(DataArray, index_Object_Interactive_ID);
-  hook_Animable_GetAreaX1 := r_Get(DataArray, index_Animable_GetAreaX1);
-  hook_Animable_GetAreaY1 := r_Get(DataArray, index_Animable_GetAreaY1);
-  hook_Animable_GetAreaX2 := r_Get(DataArray, index_Animable_GetAreaX2);
-  hook_Animable_GetAreaY2 := r_Get(DataArray, index_Animable_GetAreaY2);
-  hook_Object_Interactive2_Obj := r_Get(DataArray, index_Object_Interactive2_Obj);
-  hook_Object_Interactive2_ID := r_Get(DataArray, index_Object_Interactive2_ID);
-  hook_Animable_Next := r_Get(DataArray, index_Animable_Next);
-  hook_FlagX := r_Get(DataArray, index_FlagX);
-  hook_FlagY := r_Get(DataArray, index_FlagY);
-  hook_Valid_Interfaces := r_Get(DataArray, index_Valid_Interfaces);
-  hook_Interfaces := r_Get(DataArray, index_Interfaces);
-  hook_Interface_Text := r_Get(DataArray, index_Interface_Text);
-  hook_InterfaceX := r_Get(DataArray, index_InterfaceX);
-  hook_InterfaceY := r_Get(DataArray, index_InterfaceY);
-  hook_InterfaceW := r_Get(DataArray, index_InterfaceW);
-  hook_InterfaceH := r_Get(DataArray, index_InterfaceH);
-  hook_Interface_Children := r_Get(DataArray, index_Interface_Children);
-  hook_InterfaceID := r_Get(DataArray, index_InterfaceID);
-  hook_Interface_StackSize := r_Get(DataArray, index_Interface_StackSize);
-  hook_Interface_Name := r_Get(DataArray, index_Interface_Name);
-  hook_Settings := r_Get(DataArray, index_Settings);
-  hook_SettingsData := r_Get(DataArray, index_SettingsData);
-  hook_Node_Cache := r_Get(DataArray, index_Node_Cache);
-  hook_NodeID := r_Get(DataArray, index_NodeID);
-  hook_GroundItemCache := r_Get(DataArray, index_GroundItemCache);
-  hook_Node_List := r_Get(DataArray, index_Node_List);
-  hook_ItemID := r_Get(DataArray, index_ItemID);
-  hook_Item_Stack := r_Get(DataArray, index_Item_Stack);
+  SetLength(r_Hooks, 5000);
+  for i := 0 to High(DataArray) do
+  begin
+    if (DataArray[i][0] > ML) then
+      ML := DataArray[i][0];
+    ii := DataArray[i][0];
+    r_Hooks[ii] := DataArray[i][1];
+  end;
+  Inc(ML);
+  SetLength(r_Hooks, ML);
   Result := True;
 end;
 

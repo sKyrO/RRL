@@ -33,17 +33,17 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 
 function r_IsMenuOpen: Boolean;
 begin
-  Result := SmartGetFieldBoolean(0, hook_MenuOpen);
+  Result := SmartGetFieldBoolean(0, r_Hooks[hook_MenuOpen]);
 end;
 
 function r_IsMenuTabbed: Boolean;
 begin
-  Result := SmartGetFieldBoolean(0, hook_MenuTabbed);
+  Result := SmartGetFieldBoolean(0, r_Hooks[hook_MenuTabbed]);
 end;
 
 function r_GetMenuCount: Integer;
 begin
-  Result := SmartGetFieldInt(0, hook_MenuCount);
+  Result := SmartGetFieldInt(0, r_Hooks[hook_MenuCount]);
 end;
 
 function r_GetMenuText: TStringArray;
@@ -52,16 +52,16 @@ var
   Item: string;
 begin
   try
-    Nodes := SmartGetFieldObject(0, hook_MenuNodeList);
-    Head := SmartGetFieldObject(Nodes, hook_Node_Head);
+    Nodes := SmartGetFieldObject(0, r_Hooks[hook_MenuNodeList]);
+    Head := SmartGetFieldObject(Nodes, r_Hooks[hook_Node_Head]);
     if (r_IsMenuTabbed) then
       Next := Head
     else
-      Next := SmartGetFieldObject(Head, hook_Node_Next);
+      Next := SmartGetFieldObject(Head, r_Hooks[hook_Node_Next]);
     Count := r_GetMenuCount;
     SetLength(Result, Count);
     repeat
-      JavaString := SmartGetFieldObject(Next, hook_Menu_Action);
+      JavaString := SmartGetFieldObject(Next, r_Hooks[hook_Menu_Action]);
       if (JavaString = 0) then
       begin
         SmartFreeObject(JavaString);
@@ -69,12 +69,12 @@ begin
       end;
       Item := r_GetString(JavaString);
       SmartFreeObject(JavaString);
-      JavaString := SmartGetFieldObject(next, hook_Menu_Option);
+      JavaString := SmartGetFieldObject(next, r_Hooks[hook_Menu_Option]);
       Item := Item + ' ' + r_GetString(JavaString);
       SmartFreeObject(JavaString);
       Result[Count - 1] := r_RemoveJunk(Item);
       Last := Next;
-      Next := SmartGetFieldObject(Last, hook_Node_Next);
+      Next := SmartGetFieldObject(Last, r_Hooks[hook_Node_Next]);
       SmartFreeObject(Last);
       Dec(Count);
     until (Count <= 0);
@@ -161,7 +161,7 @@ begin
     end;
   end;
   Item := AllItems[Index];
-  P := Point(SmartGetFieldInt(0, hook_MenuX), SmartGetFieldInt(0, hook_MenuY));
+  P := Point(SmartGetFieldInt(0, r_Hooks[hook_MenuX]), SmartGetFieldInt(0, r_Hooks[hook_MenuY]));
   if (r_IsMenuTabbed) then
   begin
     //We can't click sub-menus yet!

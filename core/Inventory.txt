@@ -90,11 +90,11 @@ begin
   if (InterfaceID > 0) then
     try
       InventoryInterface := r_GetInterface(InterfaceID, 0);
-      TheItem := SmartGetFieldArrayObject(InventoryInterface, hook_Interface_Children, Slot);
-      JName := SmartGetFieldObject(TheItem, hook_Interface_Name);
+      TheItem := SmartGetFieldArrayObject(InventoryInterface, r_Hooks[hook_Interface_Children], Slot);
+      JName := SmartGetFieldObject(TheItem, r_Hooks[hook_Interface_Name]);
       Name := r_RemoveJunk(r_GetString(JName));
-      ID := SmartGetFieldInt(TheItem, hook_InterfaceID);
-      Stack := SmartGetFieldInt(TheItem, hook_Interface_StackSize);
+      ID := SmartGetFieldInt(TheItem, r_Hooks[hook_InterfaceID]);
+      Stack := SmartGetFieldInt(TheItem, r_Hooks[hook_Interface_StackSize]);
       if (ID > 0) then
         Result := RSItem(ID, TSlot, Stack, Name);
     finally

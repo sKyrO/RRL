@@ -43,13 +43,13 @@ function r_GetFlagPosition: TRSTile;
 var
   fx, fy: Integer;
 begin
-  fx := SmartGetFieldInt(0, hook_FlagX);
-  fy := SmartGetFieldInt(0, hook_FlagY);
+  fx := SmartGetFieldInt(0, r_Hooks[hook_FlagX]);
+  fy := SmartGetFieldInt(0, r_Hooks[hook_FlagY]);
   if (fx < 0) or (fy < 0) then
     Result := NULL_RSTILE
   else
-    Result := RSTile(SmartGetFieldInt(0, hook_BaseX) + fx,
-                     SmartGetFieldInt(0, hook_BaseY) + fy);
+    Result := RSTile(SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + fx,
+                     SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + fy);
 end;
 
 function r_IsRunning: Boolean;

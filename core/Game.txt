@@ -32,7 +32,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 function r_GetLoginIndex: Integer;
 begin
   try
-    Result := SmartGetFieldInt(0, hook_Login_Index);
+    Result := SmartGetFieldInt(0, r_Hooks[hook_Login_Index]);
   except
     Result := -1;
   end;
@@ -49,8 +49,8 @@ var
 begin
   Result := -1;
   try
-    SettingsArray := SmartGetFieldObject(0, hook_Settings);
-    Data := SmartGetFieldObject(SettingsArray, hook_SettingsData);
+    SettingsArray := SmartGetFieldObject(0, r_Hooks[hook_Settings]);
+    Data := SmartGetFieldObject(SettingsArray, r_Hooks[hook_SettingsData]);
     DataLength := SmartGetFieldArraySize(Data, '', 1);
     if (Index >= DataLength) then
       Exit;
@@ -122,33 +122,33 @@ begin
   l := GetSystemTime;
   while (GetSystemTime - l < 5000) and (RData.zX <= 0) and (RData.zY <= 0) do
     try
-      ToolKitPath := SmartGetFieldObject(0, hook_ToolKit);
-      ViewPortPath := SmartGetFieldObject(ToolKitPath, hook_ViewPort);
+      ToolKitPath := SmartGetFieldObject(0, r_Hooks[hook_ToolKit]);
+      ViewPortPath := SmartGetFieldObject(ToolKitPath, r_Hooks[hook_ViewPort]);
       with RData do
       begin
-        xOffset := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_xOffset);
-        yOffset := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_yOffset);
-        zOffset := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_zOffset);
-        xX := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_xX);
-        xY := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_xY);
-        xZ := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_xZ);
-        yX := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_yX);
-        yY := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_yY);
-        yZ := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_yZ);
-        zX := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_zX);
-        zY := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_zY);
-        zZ := SmartGetFieldFloat(ViewPortPath, hook_ViewPort_zZ);
+        xOffset := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_xOffset]);
+        yOffset := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_yOffset]);
+        zOffset := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_zOffset]);
+        xX := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_xX]);
+        xY := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_xY]);
+        xZ := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_xZ]);
+        yX := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_yX]);
+        yY := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_yY]);
+        yZ := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_yZ]);
+        zX := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_zX]);
+        zY := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_zY]);
+        zZ := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_zZ]);
       end;
       with Render do
       begin
-        xScale := SmartGetFieldInt(ToolKitPath, hook_ToolKit_xScale);
-        yScale := SmartGetFieldInt(ToolKitPath, hook_ToolKit_yScale);
-        xMin := SmartGetFieldInt(ToolKitPath, hook_ToolKit_xMin);
-        yMin := SmartGetFieldInt(ToolKitPath, hook_ToolKit_yMin);
-        zMin := SmartGetFieldInt(ToolKitPath, hook_ToolKit_zMin);
-        xMax := SmartGetFieldInt(ToolKitPath, hook_ToolKit_xMax);
-        yMax := SmartGetFieldInt(ToolKitPath, hook_ToolKit_yMax);
-        zMax := SmartGetFieldInt(ToolKitPath, hook_ToolKit_zMax);
+        xScale := SmartGetFieldInt(ToolKitPath, r_Hooks[hook_ToolKit_xScale]);
+        yScale := SmartGetFieldInt(ToolKitPath, r_Hooks[hook_ToolKit_yScale]);
+        xMin := SmartGetFieldInt(ToolKitPath, r_Hooks[hook_ToolKit_xMin]);
+        yMin := SmartGetFieldInt(ToolKitPath, r_Hooks[hook_ToolKit_yMin]);
+        zMin := SmartGetFieldInt(ToolKitPath, r_Hooks[hook_ToolKit_zMin]);
+        xMax := SmartGetFieldInt(ToolKitPath, r_Hooks[hook_ToolKit_xMax]);
+        yMax := SmartGetFieldInt(ToolKitPath, r_Hooks[hook_ToolKit_yMax]);
+        zMax := SmartGetFieldInt(ToolKitPath, r_Hooks[hook_ToolKit_zMax]);
       end;
     finally
       try

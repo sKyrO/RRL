@@ -33,11 +33,11 @@ begin
     y := -1;
   end;
   try
-    OurPlayerPath := SmartGetFieldObject(0, hook_MyPlayer);
-    BaseX := SmartGetFieldInt(0, hook_BaseX);
-    BaseY := SmartGetFieldInt(0, hook_BaseY);
-    LocalX := SmartGetFieldInt(OurPlayerPath, hook_LocalX);
-    LocalY := SmartGetFieldInt(OurPlayerPath, hook_LocalY);
+    OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_MyPlayer]);
+    BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+    BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+    LocalX := SmartGetFieldInt(OurPlayerPath, r_Hooks[hook_LocalX]);
+    LocalY := SmartGetFieldInt(OurPlayerPath, r_Hooks[hook_LocalY]);
     Result := RSTile(BaseX + LocalX div 512, BaseY + LocalY div 512);
   finally // We want to rid of memory leaks.
     try
@@ -53,6 +53,6 @@ function r_GetAnimation: Integer;
 var
   OurPlayerPath: LongInt;
 begin
-  OurPlayerPath := SmartGetFieldObject(0, hook_MyPlayer);
+  OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_MyPlayer]);
   Result := r_GetCharacterAnimation(OurPlayerPath, True);
 end;
