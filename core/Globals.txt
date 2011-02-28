@@ -6,8 +6,6 @@ Global File
 ---------------------------------------------------------
  * procedure StripComments(var Content: string);
      By: Timer
- * function r_Get(const arr: array of TVariantArray; const idx: Integer): Variant;
-     By: Timer
  * function r_LoadHooks: Boolean;
      By: Timer
  * function r_GetString(Bytes: LongInt): [AnsiString/string];
@@ -287,20 +285,6 @@ begin
     StartPos := Pos(#13, Content);
   end;
   Trim(Content);
-end;
-
-function r_Get(const arr: array of TVariantArray; const idx: Integer): Variant;
-var
-  i: Integer;
-begin
-  for i := 0 to High(arr) do
-    if (arr[i][0] = idx) then
-    begin
-      Result := arr[i][1];
-      if (StrToIntDef(Result, -1) > -1) then
-        Result := StrToIntDef(Result, -1);
-      Exit;
-    end;
 end;
 
 function r_LoadHooks: Boolean;

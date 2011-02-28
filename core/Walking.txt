@@ -6,12 +6,6 @@ Walking procedures
 
   * function r_GetFlagPosition: TRSTile;
      By: Timer
-  * function r_IsRunning: Boolean;
-      By: Timer
-  * function r_GetRunEnergy: Integer;
-      By: Timer
-  * procedure r_SetRun(Run: Boolean);
-      By: Timer
  * function r_ClickTile(const Tile: TRSTile): Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
@@ -50,22 +44,6 @@ begin
   else
     Result := RSTile(SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + fx,
                      SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + fy);
-end;
-
-function r_IsRunning: Boolean;
-begin
-  Result := r_GetSetting(173) = 1;
-end;
-
-function r_GetRunEnergy: Integer;
-begin
-  Result := StrToInt(r_GetInterfaceText(750, 5));
-end;
-
-procedure r_SetRun(Run: Boolean);
-begin
-  if (Run) xor (r_IsRunning) then
-    Mouse(715, 95, 10, 10, True);
 end;
 
 function r_ClickTile(const Tile: TRSTile): Boolean;

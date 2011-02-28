@@ -25,9 +25,11 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 {.include RRL\core\Menu.txt}
 {.include RRL\core\Game.txt}
 {.include RRL\core\Interfaces.txt}
+{.include RRL\core\Tabs.txt}
 {.include RRL\core\Camera.txt}
 {.include RRL\core\Characters.txt}
 {.include RRL\core\Players.txt}
+{.include RRL\core\Player.txt}
 {.include RRL\core\Calculations.txt}
 {.include RRL\core\Walking.txt}
 {.include RRL\core\Path.txt}
