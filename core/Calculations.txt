@@ -238,9 +238,9 @@ var
   x1, y1, x2, y2: Integer;
 begin
   x1 := Min(Area.x1, Area.x2);
-  y1 := Min(Area.y2, Area.y2);
+  y1 := Min(Area.y1, Area.y2);
   x2 := Max(Area.x1, Area.x2);
-  y2 := Max(Area.y2, Area.y2);
+  y2 := Max(Area.y1, Area.y2);
   Result := PointInBox(Point(Tile.x, Tile.y), IntToBox(x1, y1, x2, y2));
 end;
 
