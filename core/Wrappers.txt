@@ -1,0 +1,164 @@
+{=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+RRL - Reflection Resource Library
+Wrappers
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+{
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/
+or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+
+Copyright (C) 2010 - 2011 by Joe Haddad, all rights reserved.
+This file is part of the RRL project (https://github.com/Timer/RRL).
+
+For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
+}
+
+function _InvokeInteger(const Parent: LongInt; const Path: string): Integer;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldInt(Parent, Path);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _InvokeIntegerArray(const Parent: LongInt; const Path: string; const x: Integer): Integer;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldArrayInt(Parent, Path, x);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _Invoke2DIntegerArray(const Parent: LongInt; const Path: string; const x, y: Integer): Integer;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldArray2DInt(Parent, Path, x, y);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _InvokeFloat(const Parent: LongInt; const Path: string): Extended;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldFloat(Parent, Path);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _InvokeShort(const Parent: LongInt; const Path: string): LongInt;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldShort(Parent, Path);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _Invoke3DByteArray(const Parent: LongInt; const Path: string; const x, y, z: Integer): Integer;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldArray3DByte(Parent, Path, x, y, z);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _InvokeObject(const Parent: LongInt; const Path: string): LongInt;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldObject(Parent, Path);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _InvokeObjectArray(const Parent: LongInt; const Path: string; const x: Integer): LongInt;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldArrayObject(Parent, Path, x);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _Invoke2DObjectArray(const Parent: LongInt; const Path: string; const x, y: Integer): LongInt;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldArray2DObject(Parent, Path, x, y);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _Invoke3DObjectArray(const Parent: LongInt; const Path: string; const x, y, z: Integer): LongInt;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldArray3DObject(Parent, Path, x, y, z);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _InvokeBoolean(const Parent: LongInt; const Path: string): Boolean;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldBoolean(Parent, Path);
+  {$ELSE}
+    Result := False;
+  {$ENDIF}
+end;
+
+function _InvokeBooleanArray(const Parent: LongInt; const Path: string; const x: Integer): Boolean;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldArrayBoolean(Parent, Path, x);
+  {$ELSE}
+    Result := False;
+  {$ENDIF}
+end;
+
+function _Invoke2DBooleanArray(const Parent: LongInt; const Path: string; const x, y: Integer): Boolean;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldArray2DBoolean(Parent, Path, x, y);
+  {$ELSE}
+    Result := False;
+  {$ENDIF}
+end;
+
+function _InvokeArraySize(const Parent: LongInt; const Path: string; const dim: LongInt): Integer;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldArraySize(Parent, Path, dim);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
+function _FreeObject(const Path: LongInt): Boolean;
+begin
+  {$IFDEF SMART}
+    try
+      Result := True;
+      SmartFreeObject(Path);
+    except
+      Result := False;
+    end;
+  {$ELSE}
+    Result := False;
+  {$ENDIF}
+end;
+
+function _ObjectsEqual(Object1, Object2: LongInt): Boolean;
+begin
+  {$IFDEF SMART}
+    Result := SmartIsEqual(Object1, Object2);
+  {$ELSE}
+    Result := False;
+  {$ENDIF}
+end;
