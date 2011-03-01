@@ -8,7 +8,11 @@ Tab handling
       By: Timer
   * function r_GetRunEnergy: Integer;
       By: Timer
-  * procedure r_SetRun(Run: Boolean);
+  * procedure r_SetRun(const Run: Boolean);
+      By: Timer
+  * function r_GetSkillLevel(const SkillIndex: Integer): Integer;
+      By: Timer
+  * function r_GetSkillExperience(const SkillIndex: Integer): Integer;
       By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -33,8 +37,18 @@ begin
   Result := StrToInt(r_GetInterfaceText(750, 5));
 end;
 
-procedure r_SetRun(Run: Boolean);
+procedure r_SetRun(const Run: Boolean);
 begin
   if (Run) xor (r_IsRunning) then
     Mouse(715, 95, 10, 10, True);
+end;
+
+function r_GetSkillLevel(const SkillIndex: Integer): Integer;
+begin
+  Result := SmartGetFieldArrayInt(0, r_Hooks[hook_SkillLevels], SkillIndex);
+end;
+
+function r_GetSkillExperience(const SkillIndex: Integer): Integer;
+begin
+  Result := SmartGetFieldArrayInt(0, r_Hooks[hook_SkillExperiences], SkillIndex);
 end;

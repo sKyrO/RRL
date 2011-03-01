@@ -103,3 +103,5 @@ const
   hook_Node_List = 90;
   hook_ItemID = 91;
   hook_Item_Stack = 92;
+  hook_SkillLevels = 93;
+  hook_SkillExperiences = 94;

@@ -266,6 +266,38 @@ Hook variables.
 var
   r_Hooks: TStringArray;
 
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Skill constants.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+const
+  R_SKILL_ATTACK = 0;
+  R_SKILL_DEFENCE = 1;
+  R_SKILL_STRENGTH = 2;
+  R_SKILL_HEALTH = 3;
+  R_SKILL_RANGING = 4;
+  R_SKILL_PRAYER = 5;
+  R_SKILL_MAGIC = 6;
+  R_SKILL_COOKING = 7;
+  R_SKILL_WOODCUTTING = 8;
+  R_SKILL_FLETCHING = 9;
+  R_SKILL_FISHING = 10;
+  R_SKILL_FIREMAKING = 11;
+  R_SKILL_CRAFTING = 12;
+  R_SKILL_SMITHING = 13;
+  R_SKILL_MINING = 14;
+  R_SKILL_HERBLORE = 15;
+  R_SKILL_AGILITY = 16;
+  R_SKILL_THIEVING = 17;
+  R_SKILL_SLAYER = 18;
+  R_SKILL_FAMRING = 19;
+  R_SKILL_RUNECRAFTING = 20;
+  R_SKILL_HUNTER = 21;
+  R_SKILL_CONSTRUCTION = 22;
+  R_SKILL_SUMMONING = 23;
+  R_SKILL_DUNGEONEERING = 24;
+
 procedure StripComments(var Content: string);
 var
   StartPos, EndPos: Integer;
