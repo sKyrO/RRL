@@ -109,19 +109,19 @@ var
   PathToPlane: LongInt;
 begin
   Result := -1;
-  x := t.x - SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
-  y := t.y - SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+  x := t.x - _InvokeInteger(0, r_Hooks[hook_BaseX]);
+  y := t.y - _InvokeInteger(0, r_Hooks[hook_BaseY]);
   if (x < 0) or (x > 104) or (y < 0) or (y > 104) then
     Exit;
-  CurrentPlane := SmartGetFieldInt(0, r_Hooks[hook_Current_Plane]);
-  if (CurrentPlane < 3) and ((SmartGetFieldArray3DByte(0, r_Hooks[hook_GroundSettings_Array], 1, x, y) and 2) <> 0) then
+  CurrentPlane := _InvokeInteger(0, r_Hooks[hook_Current_Plane]);
+  if (CurrentPlane < 3) and ((_Invoke3DByteArray(0, r_Hooks[hook_GroundSettings_Array], 1, x, y) and 2) <> 0) then
     Inc(CurrentPlane);
-  PathToPlane := SmartGetFieldArrayObject(0, r_Hooks[hook_Plane_Array], CurrentPlane);
-  Result := (SmartGetFieldArray2DInt(PathToPlane, r_Hooks[hook_Tile_Heights], x, y) +
-             SmartGetFieldArray2DInt(PathToPlane, r_Hooks[hook_Tile_Heights], x, y + 1) +
-             SmartGetFieldArray2DInt(PathToPlane, r_Hooks[hook_Tile_Heights], x + 1, y) +
-             SmartGetFieldArray2DInt(PathToPlane, r_Hooks[hook_Tile_Heights], x + 1, y + 1)) / 4;
-  SmartFreeObject(PathToPlane);
+  PathToPlane := _InvokeObjectArray(0, r_Hooks[hook_Plane_Array], CurrentPlane);
+  Result := (_Invoke2DIntegerArray(PathToPlane, r_Hooks[hook_Tile_Heights], x, y) +
+             _Invoke2DIntegerArray(PathToPlane, r_Hooks[hook_Tile_Heights], x, y + 1) +
+             _Invoke2DIntegerArray(PathToPlane, r_Hooks[hook_Tile_Heights], x + 1, y) +
+             _Invoke2DIntegerArray(PathToPlane, r_Hooks[hook_Tile_Heights], x + 1, y + 1)) / 4;
+  _FreeObject(PathToPlane);
 end;
 
 function r_MatrixDataToScreen(const mX, mY, mZ: Extended): TPoint;
@@ -168,9 +168,9 @@ function r_TileToScreenExEx(const t: TRSTile; const h: Extended; const O: TRSTil
 var
   x, y, z: Extended;
 begin
-  x := 512.0 * (t.x - SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + O.xOffset);
+  x := 512.0 * (t.x - _InvokeInteger(0, r_Hooks[hook_BaseX]) + O.xOffset);
   y := r_GetTileHeight(t) - h;
-  z := 512.0 * (t.y - SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + O.yOffset);
+  z := 512.0 * (t.y - _InvokeInteger(0, r_Hooks[hook_BaseY]) + O.yOffset);
   Result := r_WorldToScreen(x, y, z);
 end;
 

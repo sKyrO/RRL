@@ -60,72 +60,72 @@ var
 begin
   try
     SetLength(Result, 0);
-    ItemCache := SmartGetFieldObject(0, r_Hooks[hook_GroundItemCache]);
-    Plane := SmartGetFieldInt(0, r_Hooks[hook_Current_Plane]);
+    ItemCache := _InvokeObject(0, r_Hooks[hook_GroundItemCache]);
+    Plane := _InvokeInteger(0, r_Hooks[hook_Current_Plane]);
     gID := (Tile.x) or (Tile.y shl 14) or (Plane shl 28);
-    NodeCache := SmartGetFieldObject(ItemCache, r_Hooks[hook_Node_Cache]);
-    Len := SmartGetFieldArraySize(NodeCache, '', 1);
-    SmartFreeObject(ItemCache);
+    NodeCache := _InvokeObject(ItemCache, r_Hooks[hook_Node_Cache]);
+    Len := _InvokeArraySize(NodeCache, '', 1);
+    _FreeObject(ItemCache);
     Ind := (gID) and (Len - 1);
-    Dumb := SmartGetFieldArrayObject(NodeCache, '', Ind);
-    SmartFreeObject(NodeCache);
-    Curr := SmartGetFieldObject(Dumb, r_Hooks[hook_Node_Next]);
-    while (not SmartIsEqual(Dumb, Curr)) do
+    Dumb := _InvokeObjectArray(NodeCache, '', Ind);
+    _FreeObject(NodeCache);
+    Curr := _InvokeObject(Dumb, r_Hooks[hook_Node_Next]);
+    while (not _ObjectsEqual(Dumb, Curr)) do
     begin
       if (SmartGetFieldLongL(Curr, r_Hooks[hook_NodeID]) = gID) then
       begin
-        List := SmartGetFieldObject(Curr, r_Hooks[hook_Node_List]);
+        List := _InvokeObject(Curr, r_Hooks[hook_Node_List]);
         Break;
       end;
-      Next := SmartGetFieldObject(Curr, r_Hooks[hook_Node_Next]);
-      SmartFreeObject(Curr);
+      Next := _InvokeObject(Curr, r_Hooks[hook_Node_Next]);
+      _FreeObject(Curr);
       Curr := Next;
     end;
-    SmartFreeObject(Dumb);
-    SmartFreeObject(Curr);
+    _FreeObject(Dumb);
+    _FreeObject(Curr);
     if (List = 0) then
       Exit;
-    Dumb := SmartGetFieldObject(List, r_Hooks[hook_Node_Head]);
-    Curr := SmartGetFieldObject(Dumb, r_Hooks[hook_Node_Next]);
-    while (not SmartIsEqual(Dumb, Curr)) do
+    Dumb := _InvokeObject(List, r_Hooks[hook_Node_Head]);
+    Curr := _InvokeObject(Dumb, r_Hooks[hook_Node_Next]);
+    while (not _ObjectsEqual(Dumb, Curr)) do
     begin
       Len := Length(Result);
       SetLength(Result, Len + 1);
       Item.Stack := -1;
       Item.Name := '';//hook_ItemName?
-      Item.ID := SmartGetFieldInt(Curr, r_Hooks[hook_ItemID]);
-      Item.Stack := SmartGetFieldInt(Curr, r_Hooks[hook_Item_Stack]);
-      Next := SmartGetFieldObject(Curr, r_Hooks[hook_Node_Next]);
-      SmartFreeObject(Curr);
+      Item.ID := _InvokeInteger(Curr, r_Hooks[hook_ItemID]);
+      Item.Stack := _InvokeInteger(Curr, r_Hooks[hook_Item_Stack]);
+      Next := _InvokeObject(Curr, r_Hooks[hook_Node_Next]);
+      _FreeObject(Curr);
       Curr := Next;
       Result[Len] := GroundItem(Item, Tile);
     end;
-    SmartFreeObject(List);
-    SmartFreeObject(Dumb);
-    SmartFreeObject(Curr);
+    _FreeObject(List);
+    _FreeObject(Dumb);
+    _FreeObject(Curr);
   except
     try
-      SmartFreeObject(List);
+      _FreeObject(List);
     except
     end;
     try
-      SmartFreeObject(Dumb);
+      _FreeObject(Dumb);
     except
     end;
     try
-      SmartFreeObject(Curr);
+      _FreeObject(Curr);
     except
     end;
     try
-      SmartFreeObject(Next);
+      _FreeObject(Next);
     except
     end;
     try
-      SmartFreeObject(ItemCache);
+      _FreeObject(ItemCache);
     except
     end;
     try
-      SmartFreeObject(NodeCache);
+      _FreeObject(NodeCache);
     except
     end;
     Result := r_GetGroundItemsAt(Tile);
@@ -139,8 +139,8 @@ var
   Arr: TGroundItemArray;
 begin
   SetLength(Result, 0);
-  BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
-  BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+  BaseX := _InvokeInteger(0, r_Hooks[hook_BaseX]);
+  BaseY := _InvokeInteger(0, r_Hooks[hook_BaseY]);
   mX := BaseX + 104;
   mY := BaseY + 104;
   OurLoc := r_GetLocation;
@@ -176,8 +176,8 @@ var
   Arr: TGroundItemArray;
 begin
   SetLength(Result, 0);
-  BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
-  BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+  BaseX := _InvokeInteger(0, r_Hooks[hook_BaseX]);
+  BaseY := _InvokeInteger(0, r_Hooks[hook_BaseY]);
   mX := BaseX + 104;
   mY := BaseY + 104;
   OurLoc := r_GetLocation;

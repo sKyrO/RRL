@@ -33,17 +33,17 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 
 function r_IsMenuOpen: Boolean;
 begin
-  Result := SmartGetFieldBoolean(0, r_Hooks[hook_MenuOpen]);
+  Result := _InvokeBoolean(0, r_Hooks[hook_MenuOpen]);
 end;
 
 function r_IsMenuTabbed: Boolean;
 begin
-  Result := SmartGetFieldBoolean(0, r_Hooks[hook_MenuTabbed]);
+  Result := _InvokeBoolean(0, r_Hooks[hook_MenuTabbed]);
 end;
 
 function r_GetMenuCount: Integer;
 begin
-  Result := SmartGetFieldInt(0, r_Hooks[hook_MenuCount]);
+  Result := _InvokeInteger(0, r_Hooks[hook_MenuCount]);
 end;
 
 function r_GetMenuText: TStringArray;
@@ -52,50 +52,50 @@ var
   Item: string;
 begin
   try
-    Nodes := SmartGetFieldObject(0, r_Hooks[hook_MenuNodeList]);
-    Head := SmartGetFieldObject(Nodes, r_Hooks[hook_Node_Head]);
+    Nodes := _InvokeObject(0, r_Hooks[hook_MenuNodeList]);
+    Head := _InvokeObject(Nodes, r_Hooks[hook_Node_Head]);
     if (r_IsMenuTabbed) then
       Next := Head
     else
-      Next := SmartGetFieldObject(Head, r_Hooks[hook_Node_Next]);
+      Next := _InvokeObject(Head, r_Hooks[hook_Node_Next]);
     Count := r_GetMenuCount;
     SetLength(Result, Count);
     repeat
-      JavaString := SmartGetFieldObject(Next, r_Hooks[hook_Menu_Action]);
+      JavaString := _InvokeObject(Next, r_Hooks[hook_Menu_Action]);
       if (JavaString = 0) then
       begin
-        SmartFreeObject(JavaString);
+        _FreeObject(JavaString);
         Break;
       end;
       Item := r_GetString(JavaString);
-      SmartFreeObject(JavaString);
-      JavaString := SmartGetFieldObject(next, r_Hooks[hook_Menu_Option]);
+      _FreeObject(JavaString);
+      JavaString := _InvokeObject(next, r_Hooks[hook_Menu_Option]);
       Item := Item + ' ' + r_GetString(JavaString);
-      SmartFreeObject(JavaString);
+      _FreeObject(JavaString);
       Result[Count - 1] := r_RemoveJunk(Item);
       Last := Next;
-      Next := SmartGetFieldObject(Last, r_Hooks[hook_Node_Next]);
-      SmartFreeObject(Last);
+      Next := _InvokeObject(Last, r_Hooks[hook_Node_Next]);
+      _FreeObject(Last);
       Dec(Count);
     until (Count <= 0);
-    SmartFreeObject(Next);
-    SmartFreeObject(Head);
-    SmartFreeObject(Nodes);
+    _FreeObject(Next);
+    _FreeObject(Head);
+    _FreeObject(Nodes);
   except
     try
-      SmartFreeObject(Next);
+      _FreeObject(Next);
     except
     end;
     try
-      SmartFreeObject(Last);
+      _FreeObject(Last);
     except
     end;
     try
-      SmartFreeObject(Head);
+      _FreeObject(Head);
     except
     end;
     try
-      SmartFreeObject(Nodes);
+      _FreeObject(Nodes);
     except
     end;
     WriteLn('GetMenuText failed.. looping again [possible infinite loop].');
@@ -161,7 +161,7 @@ begin
     end;
   end;
   Item := AllItems[Index];
-  P := Point(SmartGetFieldInt(0, r_Hooks[hook_MenuX]), SmartGetFieldInt(0, r_Hooks[hook_MenuY]));
+  P := Point(_InvokeInteger(0, r_Hooks[hook_MenuX]), _InvokeInteger(0, r_Hooks[hook_MenuY]));
   if (r_IsMenuTabbed) then
   begin
     //We can't click sub-menus yet!

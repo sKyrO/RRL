@@ -84,9 +84,9 @@ begin
       Exit;
     end;
   end;
-  PathToCheck := SmartGetFieldArrayObject(0, r_Hooks[hook_Interfaces], 188);
-  CC := SmartGetFieldArraySize(PathToCheck, '', 1);
-  SmartFreeObject(PathToCheck);
+  PathToCheck := _InvokeObjectArray(0, r_Hooks[hook_Interfaces], 188);
+  CC := _InvokeArraySize(PathToCheck, '', 1);
+  _FreeObject(PathToCheck);
   for i := 0 to CC - 1 do
     if (Pos(Lowercase(TextHint), Lowercase(r_GetInterfaceText(188, i))) > 0) then
     begin

@@ -59,10 +59,10 @@ end;
 
 function r_GetSkillLevel(const SkillIndex: Integer): Integer;
 begin
-  Result := SmartGetFieldArrayInt(0, r_Hooks[hook_SkillLevels], SkillIndex);
+  Result := _InvokeIntegerArray(0, r_Hooks[hook_SkillLevels], SkillIndex);
 end;
 
 function r_GetSkillExperience(const SkillIndex: Integer): Integer;
 begin
-  Result := SmartGetFieldArrayInt(0, r_Hooks[hook_SkillExperiences], SkillIndex);
+  Result := _InvokeIntegerArray(0, r_Hooks[hook_SkillExperiences], SkillIndex);
 end;

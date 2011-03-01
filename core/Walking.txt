@@ -37,13 +37,13 @@ function r_GetFlagPosition: TRSTile;
 var
   fx, fy: Integer;
 begin
-  fx := SmartGetFieldInt(0, r_Hooks[hook_FlagX]);
-  fy := SmartGetFieldInt(0, r_Hooks[hook_FlagY]);
+  fx := _InvokeInteger(0, r_Hooks[hook_FlagX]);
+  fy := _InvokeInteger(0, r_Hooks[hook_FlagY]);
   if (fx < 0) or (fy < 0) then
     Result := NULL_RSTILE
   else
-    Result := RSTile(SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + fx,
-                     SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + fy);
+    Result := RSTile(_InvokeInteger(0, r_Hooks[hook_BaseX]) + fx,
+                     _InvokeInteger(0, r_Hooks[hook_BaseY]) + fy);
 end;
 
 function r_ClickTile(const Tile: TRSTile): Boolean;
