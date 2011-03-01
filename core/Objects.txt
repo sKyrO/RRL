@@ -154,15 +154,21 @@ var
   Obj: TRSObject;
   OurLoc: TRSTile;
 begin
-  Result := [];
-  BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
-  BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
-  OurLoc := r_GetLocation;
-  xMi := Max(OurLoc.x - Range, BaseX);
-  yMi := Max(OurLoc.y - Range, BaseY);
-  xMa := Min(OurLoc.x + Range, BaseX + 104);
-  yMa := Min(OurLoc.y + Range, BaseY + 104);
-  SetLength(Result, (yMa - yMi) * (xMa - xMi));
+  try
+    Result := [];
+    BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+    BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+    OurLoc := r_GetLocation;
+    xMi := Max(OurLoc.x - Range, BaseX);
+    yMi := Max(OurLoc.y - Range, BaseY);
+    xMa := Min(OurLoc.x + Range, BaseX + 104);
+    yMa := Min(OurLoc.y + Range, BaseY + 104);
+    SetLength(Result, (yMa - yMi) * (xMa - xMi));
+  except
+    WriteLn('Hooks are incorrect or the game is loading... retrying!');
+    Result := r_GetAllObjectsByTypeOptimized(ObjType, Range);
+    Exit;
+  end;
   for x := xMi to xMa do
     for y := yMi to yMa do
     begin
@@ -187,15 +193,21 @@ var
   Obj: TRSObject;
   OurLoc: TRSTile;
 begin
-  Result := [];
-  BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
-  BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
-  OurLoc := r_GetLocation;
-  xMi := Max(OurLoc.x - Range, BaseX);
-  yMi := Max(OurLoc.y - Range, BaseY);
-  xMa := Min(OurLoc.x + Range, BaseX + 104);
-  yMa := Min(OurLoc.y + Range, BaseY + 104);
-  SetLength(Result, (yMa - yMi) * (xMa - xMi));
+  try
+    Result := [];
+    BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+    BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+    OurLoc := r_GetLocation;
+    xMi := Max(OurLoc.x - Range, BaseX);
+    yMi := Max(OurLoc.y - Range, BaseY);
+    xMa := Min(OurLoc.x + Range, BaseX + 104);
+    yMa := Min(OurLoc.y + Range, BaseY + 104);
+    SetLength(Result, (yMa - yMi) * (xMa - xMi));
+  except
+    WriteLn('Hooks are incorrect or the game is loading... retrying!');
+    Result := r_GetAllObjectsByIDOptimizedEx(IDs, ObjType, Range);
+    Exit;
+  end;
   for x := xMi to xMa do
     for y := yMi to yMa do
     begin
