@@ -58,50 +58,78 @@ var
   Plane, gID, Len, Ind: Integer;
   Item: TRSItem;
 begin
-  SetLength(Result, 0);
-  ItemCache := SmartGetFieldObject(0, r_Hooks[hook_GroundItemCache]);
-  Plane := SmartGetFieldInt(0, r_Hooks[hook_Current_Plane]);
-  gID := (Tile.x) or (Tile.y shl 14) or (Plane shl 28);
-  NodeCache := SmartGetFieldObject(ItemCache, r_Hooks[hook_Node_Cache]);
-  Len := SmartGetFieldArraySize(NodeCache, '', 1);
-  SmartFreeObject(ItemCache);
-  Ind := (gID) and (Len - 1);
-  Dumb := SmartGetFieldArrayObject(NodeCache, '', Ind);
-  SmartFreeObject(NodeCache);
-  Curr := SmartGetFieldObject(Dumb, r_Hooks[hook_Node_Next]);
-  while (not SmartIsEqual(Dumb, Curr)) do
-  begin
-    if (SmartGetFieldLongL(Curr, r_Hooks[hook_NodeID]) = gID) then
+  try
+    SetLength(Result, 0);
+    ItemCache := SmartGetFieldObject(0, r_Hooks[hook_GroundItemCache]);
+    Plane := SmartGetFieldInt(0, r_Hooks[hook_Current_Plane]);
+    gID := (Tile.x) or (Tile.y shl 14) or (Plane shl 28);
+    NodeCache := SmartGetFieldObject(ItemCache, r_Hooks[hook_Node_Cache]);
+    Len := SmartGetFieldArraySize(NodeCache, '', 1);
+    SmartFreeObject(ItemCache);
+    Ind := (gID) and (Len - 1);
+    Dumb := SmartGetFieldArrayObject(NodeCache, '', Ind);
+    SmartFreeObject(NodeCache);
+    Curr := SmartGetFieldObject(Dumb, r_Hooks[hook_Node_Next]);
+    while (not SmartIsEqual(Dumb, Curr)) do
     begin
-      List := SmartGetFieldObject(Curr, r_Hooks[hook_Node_List]);
-      Break;
+      if (SmartGetFieldLongL(Curr, r_Hooks[hook_NodeID]) = gID) then
+      begin
+        List := SmartGetFieldObject(Curr, r_Hooks[hook_Node_List]);
+        Break;
+      end;
+      Next := SmartGetFieldObject(Curr, r_Hooks[hook_Node_Next]);
+      SmartFreeObject(Curr);
+      Curr := Next;
     end;
-    Next := SmartGetFieldObject(Curr, r_Hooks[hook_Node_Next]);
+    SmartFreeObject(Dumb);
     SmartFreeObject(Curr);
-    Curr := Next;
-  end;
-  SmartFreeObject(Dumb);
-  SmartFreeObject(Curr);
-  if (List = 0) then
-    Exit;
-  Dumb := SmartGetFieldObject(List, r_Hooks[hook_Node_Head]);
-  Curr := SmartGetFieldObject(Dumb, r_Hooks[hook_Node_Next]);
-  while (not SmartIsEqual(Dumb, Curr)) do
-  begin
-    Len := Length(Result);
-    SetLength(Result, Len + 1);
-    Item.Stack := -1;
-    Item.Name := '';//hook_ItemName?
-    Item.ID := SmartGetFieldInt(Curr, r_Hooks[hook_ItemID]);
-    Item.Stack := SmartGetFieldInt(Curr, r_Hooks[hook_Item_Stack]);
-    Next := SmartGetFieldObject(Curr, r_Hooks[hook_Node_Next]);
+    if (List = 0) then
+      Exit;
+    Dumb := SmartGetFieldObject(List, r_Hooks[hook_Node_Head]);
+    Curr := SmartGetFieldObject(Dumb, r_Hooks[hook_Node_Next]);
+    while (not SmartIsEqual(Dumb, Curr)) do
+    begin
+      Len := Length(Result);
+      SetLength(Result, Len + 1);
+      Item.Stack := -1;
+      Item.Name := '';//hook_ItemName?
+      Item.ID := SmartGetFieldInt(Curr, r_Hooks[hook_ItemID]);
+      Item.Stack := SmartGetFieldInt(Curr, r_Hooks[hook_Item_Stack]);
+      Next := SmartGetFieldObject(Curr, r_Hooks[hook_Node_Next]);
+      SmartFreeObject(Curr);
+      Curr := Next;
+      Result[Len] := GroundItem(Item, Tile);
+    end;
+    SmartFreeObject(List);
+    SmartFreeObject(Dumb);
     SmartFreeObject(Curr);
-    Curr := Next;
-    Result[Len] := GroundItem(Item, Tile);
+  except
+    try
+      SmartFreeObject(List);
+    except
+    end;
+    try
+      SmartFreeObject(Dumb);
+    except
+    end;
+    try
+      SmartFreeObject(Curr);
+    except
+    end;
+    try
+      SmartFreeObject(Next);
+    except
+    end;
+    try
+      SmartFreeObject(ItemCache);
+    except
+    end;
+    try
+      SmartFreeObject(NodeCache);
+    except
+    end;
+    Result := r_GetGroundItemsAt(Tile);
   end;
-  SmartFreeObject(List);
-  SmartFreeObject(Dumb);
-  SmartFreeObject(Curr);
 end;
 
 function r_GetAllGroundItemsOptimized(const Range: Integer): TGroundItemArray;
