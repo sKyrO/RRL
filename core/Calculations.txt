@@ -40,6 +40,8 @@ Calulation core file
      By: Timer
  * function r_IsPlayerInArea(const Area: TArea): Boolean;
      By: Timer
+ * function r_GetClosestTileOnMinimap(const Tile: TRSTile): TRSTile;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -247,4 +249,19 @@ end;
 function r_IsPlayerInArea(const Area: TArea): Boolean;
 begin
   Result := r_IsTileInArea(r_GetLocation, Area);
+end;
+
+function r_GetClosestTileOnMinimap(const Tile: TRSTile): TRSTile;
+var
+  T: TRSTile;
+  Divisor: Integer;
+begin
+  Result := Tile;
+  T := r_GetLocation;
+  Divisor := 1;
+  while (not r_TileOnMinimap(Result)) do
+  begin
+    Inc(Divisor);
+    Result := RSTile(Round((T.x + Tile.x) / Divisor), Round((T.y + Tile.y) / Divisor));
+  end;
 end;
