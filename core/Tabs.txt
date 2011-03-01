@@ -8,6 +8,10 @@ Tab handling
       By: Timer
   * function r_GetRunEnergy: Integer;
       By: Timer
+  * function r_GetPrayerPoints: Integer;
+      By: Timer
+  * function r_GetCurrentHealth: Integer;
+      By: Timer
   * procedure r_SetRun(const Run: Boolean);
       By: Timer
   * function r_GetSkillLevel(const SkillIndex: Integer): Integer;
@@ -34,7 +38,17 @@ end;
 
 function r_GetRunEnergy: Integer;
 begin
-  Result := StrToInt(r_GetInterfaceText(750, 5));
+  Result := StrToIntDef(r_GetInterfaceText(750, 5), -1);
+end;
+
+function r_GetPrayerPoints: Integer;
+begin
+  Result := StrToIntDef(r_GetInterfaceText(749, 4), -1);
+end;
+
+function r_GetCurrentHealth: Integer;
+begin
+  Result := StrToIntDef(r_GetInterfaceText(748, 8), -1);
 end;
 
 procedure r_SetRun(const Run: Boolean);
