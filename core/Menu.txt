@@ -205,7 +205,7 @@ begin
     Result := False;
     Exit;
   end;
-  if (not r_IsMenuOpen) then
+  if (Index = 0) then
   begin
     {$IFDEF SIMBA}
       ClickMouse2(False);
@@ -213,18 +213,29 @@ begin
       GetMousePos(x, y);
       Mouse(x, y, 0, 0, False);
     {$ENDIF}
-    T := GetSystemTime;
-    while (GetSystemTime - T < 1000) and (not r_IsMenuOpen) do
-      Wait(50);
+  end else
+  begin
     if (not r_IsMenuOpen) then
-      Exit;
-    AllItems := r_GetMenuText;
-    if (Length(AllItems) < Index) then
     begin
-      Result := False;
-      Exit;
+      {$IFDEF SIMBA}
+        ClickMouse2(False);
+      {$ELSE}
+        GetMousePos(x, y);
+        Mouse(x, y, 0, 0, False);
+      {$ENDIF}
+      T := GetSystemTime;
+      while (GetSystemTime - T < 1000) and (not r_IsMenuOpen) do
+        Wait(50);
+      if (not r_IsMenuOpen) then
+        Exit;
+      AllItems := r_GetMenuText;
+      if (Length(AllItems) < Index) then
+      begin
+        Result := False;
+        Exit;
+      end;
     end;
+    Index := r_GetMenuIndex(Option);
+    Result := r_ClickMenuIndex(Index);
   end;
-  Index := r_GetMenuIndex(Option);
-  Result := r_ClickMenuIndex(Index);
 end;
