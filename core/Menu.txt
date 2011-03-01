@@ -208,10 +208,10 @@ begin
   if (Index = 0) then
   begin
     {$IFDEF SIMBA}
-      ClickMouse2(False);
+      ClickMouse2(True);
     {$ELSE}
       GetMousePos(x, y);
-      Mouse(x, y, 0, 0, False);
+      Mouse(x, y, 0, 0, True);
     {$ENDIF}
   end else
   begin
