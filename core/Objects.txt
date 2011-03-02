@@ -72,69 +72,69 @@ var
 begin
   Result := NULL_RSOBJECT;
   try
-    BaseX := _InvokeInteger(0, r_Hooks[hook_BaseX]);
-    BaseY := _InvokeInteger(0, r_Hooks[hook_BaseY]);
+    BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+    BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
     T := RSTile(TT.x - BaseX, TT.y - BaseY);
-    Plane := _InvokeInteger(0, r_Hooks[hook_Current_Plane]);
-    Ground := _Invoke3DObjectArray(0, r_Hooks[hook_GroundTiles], Plane, T.x, T.y);
-    Node := _InvokeObject(Ground, r_Hooks[hook_Ground_Animables]);
+    Plane := SmartGetFieldInt(0, r_Hooks[hook_Current_Plane]);
+    Ground := SmartGetFieldArray3DObject(0, r_Hooks[hook_GroundTiles], Plane, T.x, T.y);
+    Node := SmartGetFieldObject(Ground, r_Hooks[hook_Ground_Animables]);
     while (Node <> 0) do
     begin
-      Obj := _InvokeObject(Node, r_Hooks[hook_Animable_Get]);
+      Obj := SmartGetFieldObject(Node, r_Hooks[hook_Animable_Get]);
       if (Obj <> 0) then
       begin
-        ObjID := _InvokeShort(Obj, r_Hooks[hook_Object_Interactive_ID]) and $FFFF;
-        ObjArea.x1 := (BaseX + _InvokeShort(Obj, r_Hooks[hook_Animable_GetAreaX1]));
-        ObjArea.y1 := (BaseY + _InvokeShort(Obj, r_Hooks[hook_Animable_GetAreaY1]));
-        ObjArea.x2 := (BaseX + _InvokeShort(Obj, r_Hooks[hook_Animable_GetAreaX2]));
-        ObjArea.y2 := (BaseY + _InvokeShort(Obj, r_Hooks[hook_Animable_GetAreaY2]));
-        ObjRTile.x := Round(BaseX + (_InvokeInteger(Obj, r_Hooks[hook_LocalX]) div 512));
-        ObjRTile.y := Round(BaseY + (_InvokeInteger(Obj, r_Hooks[hook_LocalY]) div 512));
+        ObjID := SmartGetFieldShort(Obj, r_Hooks[hook_Object_Interactive_ID]) and $FFFF;
+        ObjArea.x1 := (BaseX + SmartGetFieldShort(Obj, r_Hooks[hook_Animable_GetAreaX1]));
+        ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj, r_Hooks[hook_Animable_GetAreaY1]));
+        ObjArea.x2 := (BaseX + SmartGetFieldShort(Obj, r_Hooks[hook_Animable_GetAreaX2]));
+        ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj, r_Hooks[hook_Animable_GetAreaY2]));
+        ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj, r_Hooks[hook_LocalX]) div 512));
+        ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj, r_Hooks[hook_LocalY]) div 512));
         if (ObjID = -1) or (ObjID = 65535) then
         begin
-          Obj2 := _InvokeObject(Obj, r_Hooks[hook_Object_Interactive2_Obj]);
+          Obj2 := SmartGetFieldObject(Obj, r_Hooks[hook_Object_Interactive2_Obj]);
           if (Obj2 <> 0) then
           begin
-            ObjID := _InvokeShort(Obj2, r_Hooks[hook_Object_Interactive2_ID]) and $FFFF;
+            ObjID := SmartGetFieldShort(Obj2, r_Hooks[hook_Object_Interactive2_ID]) and $FFFF;
             if (ObjID = -1) or (ObjID = 65535) then
               Break;
-            ObjArea.x1 := (BaseX + _InvokeShort(Obj2, r_Hooks[hook_Animable_GetAreaX1]));
-            ObjArea.y1 := (BaseY + _InvokeShort(Obj2, r_Hooks[hook_Animable_GetAreaY1]));
-            ObjArea.x2 := (BaseX + _InvokeShort(Obj2, r_Hooks[hook_Animable_GetAreaX2]));
-            ObjArea.y2 := (BaseY + _InvokeShort(Obj2, r_Hooks[hook_Animable_GetAreaY2]));
-            ObjRTile.x := Round(BaseX + (_InvokeInteger(Obj2, r_Hooks[hook_LocalX]) div 512));
-            ObjRTile.y := Round(BaseY + (_InvokeInteger(Obj2, r_Hooks[hook_LocalY]) div 512));
+            ObjArea.x1 := (BaseX + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_GetAreaX1]));
+            ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_GetAreaY1]));
+            ObjArea.x2 := (BaseX + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_GetAreaX2]));
+            ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_GetAreaY2]));
+            ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj2, r_Hooks[hook_LocalX]) div 512));
+            ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj2, r_Hooks[hook_LocalY]) div 512));
           end;
-          _FreeObject(Obj2);
+          SmartFreeObject(Obj2);
         end;
         Result := RSObject(ObjID, R_OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea);
-        _FreeObject(Obj);
+        SmartFreeObject(Obj);
         Break;
       end;
-      _FreeObject(Obj);
+      SmartFreeObject(Obj);
       Last := Node;
-      _FreeObject(Node);
-      Node := _InvokeObject(Last, r_Hooks[hook_Animable_Next]);
+      SmartFreeObject(Node);
+      Node := SmartGetFieldObject(Last, r_Hooks[hook_Animable_Next]);
     end;
   finally
     try
-      _FreeObject(Node);
+      SmartFreeObject(Node);
     except
     end;
     try
-      _FreeObject(Ground);
+      SmartFreeObject(Ground);
     except
     end;
     try
-      _FreeObject(Obj);
+      SmartFreeObject(Obj);
     except
     end;
     try
-      _FreeObject(Obj2);
+      SmartFreeObject(Obj2);
     except
     end;
     try
-      _FreeObject(Last);
+      SmartFreeObject(Last);
     except
     end;
   end;
@@ -156,8 +156,8 @@ var
 begin
   try
     Result := [];
-    BaseX := _InvokeInteger(0, r_Hooks[hook_BaseX]);
-    BaseY := _InvokeInteger(0, r_Hooks[hook_BaseY]);
+    BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+    BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
     OurLoc := r_GetLocation;
     xMi := Max(OurLoc.x - Range, BaseX);
     yMi := Max(OurLoc.y - Range, BaseY);
@@ -195,8 +195,8 @@ var
 begin
   try
     Result := [];
-    BaseX := _InvokeInteger(0, r_Hooks[hook_BaseX]);
-    BaseY := _InvokeInteger(0, r_Hooks[hook_BaseY]);
+    BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+    BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
     OurLoc := r_GetLocation;
     xMi := Max(OurLoc.x - Range, BaseX);
     yMi := Max(OurLoc.y - Range, BaseY);

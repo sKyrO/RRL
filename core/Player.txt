@@ -33,15 +33,15 @@ begin
     y := -1;
   end;
   try
-    OurPlayerPath := _InvokeObject(0, r_Hooks[hook_MyPlayer]);
-    BaseX := _InvokeInteger(0, r_Hooks[hook_BaseX]);
-    BaseY := _InvokeInteger(0, r_Hooks[hook_BaseY]);
-    LocalX := _InvokeInteger(OurPlayerPath, r_Hooks[hook_LocalX]);
-    LocalY := _InvokeInteger(OurPlayerPath, r_Hooks[hook_LocalY]);
+    OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_MyPlayer]);
+    BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+    BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+    LocalX := SmartGetFieldInt(OurPlayerPath, r_Hooks[hook_LocalX]);
+    LocalY := SmartGetFieldInt(OurPlayerPath, r_Hooks[hook_LocalY]);
     Result := RSTile(BaseX + LocalX div 512, BaseY + LocalY div 512);
   finally // We want to rid of memory leaks.
     try
-      _FreeObject(OurPlayerPath);
+      SmartFreeObject(OurPlayerPath);
     except
       Result := t;
       WriteLn('There was an issue with GetLocation, tried to close a memory leak(?), dunno if it''s still there or not.');
@@ -53,6 +53,6 @@ function r_GetAnimation: Integer;
 var
   OurPlayerPath: LongInt;
 begin
-  OurPlayerPath := _InvokeObject(0, r_Hooks[hook_MyPlayer]);
+  OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_MyPlayer]);
   Result := r_GetCharacterAnimation(OurPlayerPath, True);
 end;

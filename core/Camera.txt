@@ -25,12 +25,12 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 
 function r_GetMinimapAngleDegrees: Extended;
 begin
-  Result := _InvokeFloat(0, r_Hooks[hook_MapAngle]) * 45.0 / 2048.0;
+  Result := SmartGetFieldFloat(0, r_Hooks[hook_MapAngle]) * 45.0 / 2048.0;
 end;
 
 function r_GetMinimapAngleRadians: Extended;
 begin
-  Result := _InvokeFloat(0, r_Hooks[hook_MapAngle]) * pi / 8192.0;
+  Result := SmartGetFieldFloat(0, r_Hooks[hook_MapAngle]) * pi / 8192.0;
 end;
 
 function r_MoveCompass(compassmove: Variant): Boolean;

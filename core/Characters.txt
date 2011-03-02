@@ -25,11 +25,11 @@ Characters routines.
 function r_GetCharacterAnimation(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
-    Result := _InvokeInteger(CharPath, r_Hooks[hook_Character_Animation]);
+    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Animation]);
   finally // We want to rid of memory leaks.
     try
       if (Free) then
-        _FreeObject(CharPath);
+        SmartFreeObject(CharPath);
     except
       Result := -1;
       WriteLn('There was an issue with GetCharacterAnimation, tried to close a memory leak(?), dunno if it''s still there or not.');
@@ -40,11 +40,11 @@ end;
 function r_GetCharacterMovement(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
-    Result := _InvokeInteger(CharPath, r_Hooks[hook_Character_Movement]);
+    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Movement]);
   finally // We want to rid of memory leaks.
     try
       if (Free) then
-        _FreeObject(CharPath);
+        SmartFreeObject(CharPath);
     except
       Result := -1;
       WriteLn('There was an issue with GetCharacterMovement, tried to close a memory leak(?), dunno if it''s still there or not.');
@@ -55,12 +55,12 @@ end;
 function r_GetCharacterFighting(const CharPath: LongInt; const Free: Boolean): Boolean;
 begin
   try
-    Result := _InvokeInteger(CharPath, r_Hooks[hook_Character_LoopCycle]) >
-              _InvokeInteger(0, r_Hooks[hook_LoopCycle]);
+    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_LoopCycle]) >
+              SmartGetFieldInt(0, r_Hooks[hook_LoopCycle]);
   finally // We want to rid of memory leaks.
     try
       if (Free) then
-        _FreeObject(CharPath);
+        SmartFreeObject(CharPath);
     except
       Result := False;
       WriteLn('There was an issue with GetCharacterFighting, tried to close a memory leak(?), dunno if it''s still there or not.');
@@ -71,11 +71,11 @@ end;
 function r_GetCharacterHeight(const CharPath: LongInt; const Free: Boolean): Extended;
 begin
   try
-    Result := iAbs(_InvokeInteger(CharPath, r_Hooks[hook_Character_Height]));
+    Result := iAbs(SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Height]));
   finally // We want to rid of memory leaks.
     try
       if (Free) then
-        _FreeObject(CharPath);
+        SmartFreeObject(CharPath);
     except
       Result := -1;
       WriteLn('There was an issue with GetCharacterHeight, tried to close a memory leak(?), dunno if it''s still there or not.');
@@ -86,11 +86,11 @@ end;
 function r_GetCharacterOrientation(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
-    Result := Round(FixD(180 + (_InvokeInteger(CharPath, r_Hooks[hook_Character_Orientation]) * 45) / 2048));
+    Result := Round(FixD(180 + (SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Orientation]) * 45) / 2048));
   finally // We want to rid of memory leaks.
     try
       if (Free) then
-        _FreeObject(CharPath);
+        SmartFreeObject(CharPath);
     except
       Result := -1;
       WriteLn('There was an issue with GetCharacterOrientation, tried to close a memory leak(?), dunno if it''s still there or not.');
@@ -101,11 +101,11 @@ end;
 function r_GetCharacterLevel(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
-    Result := _InvokeInteger(CharPath, r_Hooks[hook_NPC_Level]);
+    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_NPC_Level]);
   finally // We want to rid of memory leaks.
     try
       if (Free) then
-        _FreeObject(CharPath);
+        SmartFreeObject(CharPath);
     except
       Result := -1;
       WriteLn('There was an issue with GetCharacterLevel, tried to close a memory leak(?), dunno if it''s still there or not.');
@@ -116,11 +116,11 @@ end;
 function r_GetCharacterInteracting(const CharPath: LongInt; const Free: Boolean): LongInt;
 begin
   try
-    Result := _InvokeInteger(CharPath, r_Hooks[hook_Character_GetInteracting]);
+    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_GetInteracting]);
   finally // We want to rid of memory leaks.
     try
       if (Free) then
-        _FreeObject(CharPath);
+        SmartFreeObject(CharPath);
     except
       Result := -1;
       WriteLn('There was an issue with GetCharacterInteracting, tried to close a memory leak(?), dunno if it''s still there or not.');
@@ -131,11 +131,11 @@ end;
 function r_GetCharacterHPRatio(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
-    Result := Round(_InvokeInteger(CharPath, r_Hooks[hook_Character_HPRatio]) * 100 / $FF);
+    Result := Round(SmartGetFieldInt(CharPath, r_Hooks[hook_Character_HPRatio]) * 100 / $FF);
   finally // We want to rid of memory leaks.
     try
       if (Free) then
-        _FreeObject(CharPath);
+        SmartFreeObject(CharPath);
     except
       Result := -1;
       WriteLn('There was an issue with GetCharacterHPRatio, tried to close a memory leak(?), dunno if it''s still there or not.');

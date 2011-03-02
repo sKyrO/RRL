@@ -33,23 +33,23 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 
 function r_IsInterfaceValid(const id: Integer): Boolean;
 begin
-  Result := _InvokeBooleanArray(0, r_Hooks[hook_Valid_Interfaces], id);
+  Result := SmartGetFieldArrayBoolean(0, r_Hooks[hook_Valid_Interfaces], id);
 end;
 
 function r_GetInterface(const ParentID, ChildID: Integer): LongInt;
 begin
-  Result := _Invoke2DObjectArray(0, r_Hooks[hook_Interfaces], ParentID, ChildID);
+  Result := SmartGetFieldArray2DObject(0, r_Hooks[hook_Interfaces], ParentID, ChildID);
 end;
 
 function r_GetInterfaceTextEx(const PathToInterface: LongInt; Free: Boolean): string;
 var
   Text: LongInt;
 begin
-  Text := _InvokeObject(PathToInterface, r_Hooks[hook_Interface_Text]);
+  Text := SmartGetFieldObject(PathToInterface, r_Hooks[hook_Interface_Text]);
   Result := r_GetString(Text);
-  _FreeObject(Text);
+  SmartFreeObject(Text);
   if (Free) then
-    _FreeObject(PathToInterface);
+    SmartFreeObject(PathToInterface);
 end;
 
 function r_GetInterfaceText(const ParentID, ChildID: Integer): string;
@@ -66,12 +66,12 @@ var
   x, y: Integer;
 begin
   PathToInterface := r_GetInterface(ParentID, ChildID);
-  x := _InvokeInteger(PathToInterface, r_Hooks[hook_InterfaceX]);
-  y := _InvokeInteger(PathToInterface, r_Hooks[hook_InterfaceY]);
+  x := SmartGetFieldInt(PathToInterface, r_Hooks[hook_InterfaceX]);
+  y := SmartGetFieldInt(PathToInterface, r_Hooks[hook_InterfaceY]);
   Result := IntToBox(Offset.x + x, Offset.y + y,
-                     Offset.x + x + _InvokeInteger(PathToInterface, r_Hooks[hook_InterfaceW]),
-                     Offset.y + y + _InvokeInteger(PathToInterface, r_Hooks[hook_InterfaceH]));
-  _FreeObject(PathToInterface);
+                     Offset.x + x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_InterfaceW]),
+                     Offset.y + y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_InterfaceH]));
+  SmartFreeObject(PathToInterface);
 end;
 
 function r_IsClickContinue: Boolean;
@@ -84,9 +84,9 @@ begin
                       255, 249, 230, 372, 421, 66, 64, 236, 228];
   for i := 0 to High(CheckInterfaces) do
   begin
-    PathToCheck := _InvokeObjectArray(0, r_Hooks[hook_Interfaces], CheckInterfaces[i]);
-    CC := _InvokeArraySize(PathToCheck, '', 1);
-    _FreeObject(PathToCheck);
+    PathToCheck := SmartGetFieldArrayObject(0, r_Hooks[hook_Interfaces], CheckInterfaces[i]);
+    CC := SmartGetFieldArraySize(PathToCheck, '', 1);
+    SmartFreeObject(PathToCheck);
     for ii := 0 to CC - 1 do
       if (Pos('lick here to cont', Lowercase(r_GetInterfaceText(CheckInterfaces[i], ii))) > 0) then
       begin
@@ -107,9 +107,9 @@ begin
                       255, 249, 230, 372, 421, 66, 64, 236, 228];
   for i := 0 to High(CheckInterfaces) do
   begin
-    PathToCheck := _InvokeObjectArray(0, r_Hooks[hook_Interfaces], CheckInterfaces[i]);
-    CC := _InvokeArraySize(PathToCheck, '', 1);
-    _FreeObject(PathToCheck);
+    PathToCheck := SmartGetFieldArrayObject(0, r_Hooks[hook_Interfaces], CheckInterfaces[i]);
+    CC := SmartGetFieldArraySize(PathToCheck, '', 1);
+    SmartFreeObject(PathToCheck);
     for ii := 0 to CC - 1 do
       if (Pos('lick here to cont', Lowercase(r_GetInterfaceText(CheckInterfaces[i], ii))) > 0) then
       begin

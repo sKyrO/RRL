@@ -381,7 +381,8 @@ function r_GetString(Bytes: LongInt): string;
 function r_GetString(Bytes: LongInt): AnsiString;
 {$ENDIF}
 begin
-  Result := _ConvertString(Bytes);
+  SetLength(Result, 255);
+  SetLength(Result, SmartStringFromString(Bytes, Result));
 end;
 
 function r_RemoveJunk(S: string): string;
