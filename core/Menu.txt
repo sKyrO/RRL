@@ -205,6 +205,7 @@ begin
   begin
     GetMousePos(x, y);
     r_ClickMouse(x, y, 0, 0, True);
+    Result := True;
   end else
   begin
     if (not r_IsMenuOpen) then

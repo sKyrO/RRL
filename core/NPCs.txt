@@ -179,7 +179,7 @@ begin
   Result := NULL_NPC;
   NPCArray := r_GetNPCsByIDEx(IDs);
   SetLength(OurNPCs, C);
-  OurNPCs := r_SortNPCs(OurNPCs, r_GetLocation);
+  OurNPCs := r_SortNPCs(NPCArray, r_GetLocation);
   if (Length(OurNPCs) > 0) then
     Result := OurNPCs[0];
 end;
