@@ -185,7 +185,7 @@ end;
 
 function r_Interact(Option: string): Boolean;
 var
-  Index{$IFNDEF SIMBA}, x, y{$ENDIF}: Integer;
+  Index, x, y: Integer;
   AllItems: TStringArray;
   T: LongInt;
 begin
