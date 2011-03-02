@@ -72,7 +72,7 @@ begin
     Curr := _InvokeObject(Dumb, r_Hooks[hook_Node_Next]);
     while (not _ObjectsEqual(Dumb, Curr)) do
     begin
-      if (SmartGetFieldLongL(Curr, r_Hooks[hook_NodeID]) = gID) then
+      if (_InvokeLongL(Curr, r_Hooks[hook_NodeID]) = gID) then
       begin
         List := _InvokeObject(Curr, r_Hooks[hook_Node_List]);
         Break;

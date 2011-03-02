@@ -131,6 +131,15 @@ begin
   {$ENDIF}
 end;
 
+function _InvokeLongL(const Parent: LongInt; const Path: string): LongInt;
+begin
+  {$IFDEF SMART}
+    Result := SmartGetFieldLongL(Parent, Path);
+  {$ELSE}
+    Result := -1;
+  {$ENDIF}
+end;
+
 function _InvokeArraySize(const Parent: LongInt; const Path: string; const dim: LongInt): Integer;
 begin
   {$IFDEF SMART}
