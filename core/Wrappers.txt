@@ -154,11 +154,25 @@ begin
   {$ENDIF}
 end;
 
-function _ObjectsEqual(Object1, Object2: LongInt): Boolean;
+function _ObjectsEqual(const Object1, Object2: LongInt): Boolean;
 begin
   {$IFDEF SMART}
     Result := SmartIsEqual(Object1, Object2);
   {$ELSE}
     Result := False;
+  {$ENDIF}
+end;
+
+{$IFDEF SIMBA}
+function _ConvertString(const Bytes: LongIng): string;
+{$ELSE}
+function _ConvertString(const Bytes: LongIng): AnsiString;
+{$ENDIF}
+begin
+  {$IFDEF SMART}
+    SetLength(Result, 255);
+    SetLength(Result, SmartStringFromString(Bytes, Result));
+  {$ELSE}
+    Result := '';
   {$ENDIF}
 end;
