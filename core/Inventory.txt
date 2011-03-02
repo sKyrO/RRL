@@ -6,9 +6,9 @@ Inventory routines
 
  * function r_GetInventoryInterface: Integer;
      By: Timer
- * procedure r_MoveMouseItem(const Slot: Integer);
+ * procedure r_MoveMouseItem(Slot: Integer);
      By: Timer
- * procedure r_ClickMouseItem(const Slot: Integer; const Left: Boolean);
+ * procedure r_ClickMouseItem(Slot: Integer; const Left: Boolean);
      By: Timer
  * function r_GetInventoryItemAt(Slot: Integer): TRSItem;
      By: Timer
@@ -81,15 +81,18 @@ begin
     Result := R_INTERFACES_INVENTORY;
 end;
 
-procedure r_MoveMouseItem(const Slot: Integer);
+procedure r_MoveMouseItem(Slot: Integer);
 var
   Offset: TPoint;
   x, y, InterfaceID: Integer;
   Box: TBox;
   InventoryInterface, TheSlot: LongInt;
 begin
+  Dec(Slot);
+  if (Slot < 0) then
+    Inc(Slot);
   try
-    Offset := Point(0, 0);// TODO .
+    Offset := Point(563, 213);
     InterfaceID := r_GetInventoryInterface;
     InventoryInterface := r_GetInterface(InterfaceID, 0);
     TheSlot := SmartGetFieldArrayObject(InventoryInterface, r_Hooks[hook_Interface_Children], Slot);
@@ -111,15 +114,18 @@ begin
   r_MoveMouseBox(Box.x1, Box.y1, Box.x2, Box.y2);
 end;
 
-procedure r_ClickMouseItem(const Slot: Integer; const Left: Boolean);
+procedure r_ClickMouseItem(Slot: Integer; const Left: Boolean);
 var
   Offset: TPoint;
   x, y, InterfaceID: Integer;
   Box: TBox;
   InventoryInterface, TheSlot: LongInt;
 begin
+  Dec(Slot);
+  if (Slot < 0) then
+    Inc(Slot);
   try
-    Offset := Point(0, 0);// TODO .
+    Offset := Point(563, 213);
     InterfaceID := r_GetInventoryInterface;
     InventoryInterface := r_GetInterface(InterfaceID, 0);
     TheSlot := SmartGetFieldArrayObject(InventoryInterface, r_Hooks[hook_Interface_Children], Slot);

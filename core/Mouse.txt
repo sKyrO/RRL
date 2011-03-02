@@ -205,7 +205,7 @@ end;
 
 function r_MouseCalculateTime(const TargetDist, TargetSize: Extended): LongInt;
 begin
-  Result := Round(Random(800) + 105 * Log10(TargetDist / TargetSize + 1) / Log10(2));
+  Result := Round(Random(100) + 105 * Log10(TargetDist / TargetSize + 1) / Log10(2));
 end;
 
 procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
@@ -225,7 +225,7 @@ procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
 begin
   {$IFNDEF OVERRIDE_SRL}
     {$IFDEF SRL_OPENDEV}
-      MMouse(x + Randomrange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0);
+      MMouse(x + RandomRange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0);
     {$ELSE}
   {$ENDIF}
     rx := Max(1, rx);
@@ -241,7 +241,7 @@ begin
     for i := 0 to h do
     begin
       MoveMouse(Path[i].x, Path[i].y);
-      Wait(Max(0, Speed - 2 + Random(4)));
+      Wait(Max(0, Speed - 4 + Random(4)));
     end;
   {$ENDIF}
 end;
