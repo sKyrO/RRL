@@ -173,9 +173,9 @@ begin
 end;
 
 {$IFDEF SIMBA}
-function _ConvertString(const Bytes: LongIng): string;
+function _ConvertString(const Bytes: LongInt): string;
 {$ELSE}
-function _ConvertString(const Bytes: LongIng): AnsiString;
+function _ConvertString(const Bytes: LongInt): AnsiString;
 {$ENDIF}
 begin
   {$IFDEF SMART}

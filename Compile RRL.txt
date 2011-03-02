@@ -15,7 +15,6 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
 {$DEFINE SMART}
-{.include SRL\SRL.scar}
 {.include RRL\RRL.txt}
 {.include RRL\misc\misc.txt}
 
