@@ -24,6 +24,8 @@ Mouse routines.
      By: Timer
  * procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
      By: Timer
+ * function _Mouse(Left: Boolean): [Integer/Boolean];
+     By: Timer
  * procedure r_ClickMouse(const x, y, rx, ry: Integer; const Left: Boolean);
      By: Timer
  * procedure r_MoveMouseBox(const x1, y1, x2, y2: Integer);
@@ -207,16 +209,25 @@ begin
 end;
 
 procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
-{$IFNDEF SRL_OPENDEV}
-var
-  Speed, sx, sy: Integer;
-  Time, i, h: LongInt;
-  Controls, Spline, Path: TPointArray;
+{$IFNDEF OVERRIDE_SRL}
+  {$IFNDEF SRL_OPENDEV}
+    var
+      Speed, sx, sy: Integer;
+      Time, i, h: LongInt;
+      Controls, Spline, Path: TPointArray;
+  {$ENDIF}
+{$ELSE}
+  var
+    Speed, sx, sy: Integer;
+    Time, i, h: LongInt;
+    Controls, Spline, Path: TPointArray;
 {$ENDIF}
 begin
-  {$IFDEF SRL_OPENDEV}
-    MMouse(x + Randomrange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0);
-  {$ELSE}
+  {$IFNDEF OVERRIDE_SRL}
+    {$IFDEF SRL_OPENDEV}
+      MMouse(x + Randomrange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0);
+    {$ELSE}
+  {$ENDIF}
     rx := Max(1, rx);
     ry := Max(1, ry);
     Speed := Min(Max(1, r_MouseSpeed), 18);
@@ -235,11 +246,43 @@ begin
   {$ENDIF}
 end;
 
+function _Mouse(Left: Boolean):{$IFDEF SIMBA} Integer;{$ELSE} Boolean;{$ENDIF}
+begin
+  {$IFDEF SIMBA}
+    if (Left) then
+      Result := mouse_Left
+    else
+      Result := mouse_Right;
+  {$ELSE}
+    Result := Left;
+  {$ENDIF}
+end;
+
 procedure r_ClickMouse(const x, y, rx, ry: Integer; const Left: Boolean);
+{$IFNDEF OVERRIDE_SRL}
+  {$IFNDEF SRL_OPENDEV}
+    var
+      cx, cy: Integer;
+  {$ENDIF}
+{$ELSE}
+  var
+    cx, cy: Integer;
+{$ENDIF}
 begin
   {$IFDEF SRL_OPENDEV}
     Mouse(x + Randomrange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0, Left);
   {$ELSE}
+    GetMousePos(cx, cy);
+    if (cx <> x) or (cy <> y) then
+    begin
+      r_MoveMouse(x, y, rx, ry);
+      Wait(60 + Random(30));
+    end;
+    GetMousePos(cx, cy);
+    HoldMouse(cx, cy, _Mouse(Left));
+    Wait(60 + Random(51));
+    ReleaseMouse(cx, cy, _Mouse(Left));
+    Wait(60 + Random(30));
   {$ENDIF}
 end;
 
