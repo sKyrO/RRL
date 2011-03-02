@@ -219,7 +219,7 @@ begin
   {$ELSE}
     rx := Max(1, rx);
     ry := Max(1, ry);
-    Speed := Max(1, r_MouseSpeed);
+    Speed := Min(Max(1, r_MouseSpeed), 18);
     GetMousePos(sx, sy);
     Controls := r_MouseGenerateControls(sx, sy, x + RandomRange(-1 * rx, rx),
                                         y + RandomRange(-1 * ry, ry), 50, 120);
