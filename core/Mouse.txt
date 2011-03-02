@@ -4,7 +4,25 @@ Mouse routines.
 
 ---------------------------------------------------------
 
- * procedure r_MoveMouse(const x, y, rx, ry: Integer);
+ * function aTan2(const y, x: Extended): Extended;
+     By: Timer
+ * function Factorial(const n: Integer): Extended;
+     By: Timer
+ * function BC(const n, k: Integer): Extended;
+     By: Timer
+ * function r_MouseGaussian(d: Extended): Extended;
+     By: Timer
+ * function r_MouseGenerateGauss(const Steps: Integer): TExtendedArray;
+     By: Timer
+ * function r_MouseGenerateControls(const sx, sy, ex, ey: Integer; ControlSpacing, ControlVariance: Integer): TPointArray;
+     By: Timer
+ * function r_MouseGenerateSpline(const Controls: TPointArray): TPointArray;
+     By: Timer
+ * function r_MouseGeneratePath(const Spline: TPointArray; const MSForMove, MSPerMove: Integer): TPointArray;
+     By: Timer
+ * function r_MouseCalculateTime(const TargetDist, TargetSize: Extended): LongInt;
+     By: Timer
+ * procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
      By: Timer
  * procedure r_ClickMouse(const x, y, rx, ry: Integer; const Left: Boolean);
      By: Timer
@@ -25,11 +43,195 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-procedure r_MoveMouse(const x, y, rx, ry: Integer);
+var
+  r_MouseSpeed: Integer;
+
+function aTan2(const y, x: Extended): Extended;
+var
+  coeff_1, coeff_2, abs_y, Angle, r: Extended;
+begin
+  coeff_1 := Pi / 4.0;
+  coeff_2 := 3.0 * coeff_1;
+  abs_y := Abs(y);
+  if (x >= 0.0) then
+  begin
+    r := (x - abs_y) / (x + abs_y);
+    Angle := coeff_1 - coeff_1 * r;
+  end else
+  begin
+    r := (x + abs_y) / (abs_y - x);
+    Angle := coeff_2 - coeff_1 * r;
+  end;
+  if (y < 0.0) then
+    Result := -angle
+  else
+    Result := angle;
+end;
+
+function Factorial(const n: Integer): Extended;
+var
+  i: Integer;
+begin
+  Result := 1.0;
+  for i := 1 to n do
+    Result := Result * i;
+end;
+
+function BC(const n, k: Integer): Extended;
+begin
+  Result := Factorial(n) / (Factorial(k) * Factorial(n - k));
+end;
+
+function r_MouseGaussian(d: Extended): Extended;
+begin
+  d := 10.0 * d - 5.0;
+  Result := 1.0 / (Sqrt(5.0) * Sqrt(2.0 * Pi)) * Exp(-d * d / 20.0);
+end;
+
+function r_MouseGenerateGauss(const Steps: Integer): TExtendedArray;
+var
+  Step, Sum: Extended;
+  i: Integer;
+begin
+  SetLength(Result, Steps);
+  Step := 1.0 / Steps;
+  for i := 0 to Steps - 1 do
+    Sum := Sum + r_MouseGaussian(i * Step);
+  for i := 0 to Steps - 1 do
+    Result[i] := r_MouseGaussian(i * Step) / Sum;
+end;
+
+function r_MouseGenerateControls(const sx, sy, ex, ey: Integer; ControlSpacing, ControlVariance: Integer): TPointArray;
+var
+  Dist, Angle, Radius, Percent: Extended;
+  ControlPoints, i, CurrVariance: Integer;
+  Curr: TPoint;
+begin
+  Dist := Sqrt((sx - ex) * (sx - ex) + (sy - ey) * (sy - ey));
+  Angle := ATan2(ey - sy, ex - sx);
+  ControlPoints := Floor(Dist / ControlSpacing);
+  if ((ControlPoints * ControlSpacing) = Dist) then
+    Dec(ControlPoints);
+  if (ControlPoints <= 1) then
+  begin
+    ControlPoints := 2;
+    ControlSpacing := Round(Dist / 3);
+    ControlVariance := Round(Dist / 2);
+  end;
+  SetLength(Result, ControlPoints + 2);
+  Result[0] := Point(sx, sy);
+  for i := 1 to ControlPoints do
+  begin
+    Radius := ControlSpacing * i;
+    Curr := Point(Round(sx + Radius * Cos(Angle)), Round(sy + Radius * Sin(Angle)));
+    Percent := 1.0 - (i - 1) / ControlPoints;
+    if (Percent > 0.5) then
+      Percent := Percent - 0.5;
+    Percent := Percent + 0.25;
+    CurrVariance := Round(ControlVariance * Percent);
+    Curr.x := Round(Curr.x + CurrVariance * 2 * (RandomRange(0, 100) / 100) - CurrVariance);
+		Curr.y := Round(Curr.y + CurrVariance * 2 * (RandomRange(0, 100) / 100) - CurrVariance);
+    Result[i] := Curr;
+  end;
+  Result[ControlPoints + 1] := Point(ex, ey);
+end;
+
+function r_MouseGenerateSpline(const Controls: TPointArray): TPointArray;
+var
+  Degree, Index, C: Integer;
+  Theta, x, y, PP: Extended;
+  LastF: Boolean;
+  Temp, Last: TPoint;
+begin
+  C := 0;
+  Degree := GetArrayLength(Controls) - 1;
+  SetLength(Result, 200);
+  Theta := 0.00;
+  while (Theta <= 1.0) do
+  begin
+    x := 0;
+    y := 0;
+    for Index := 0 to Degree do
+    begin
+      PP := BC(Degree, Index) * Pow(Theta, Index) * Pow(1.0 - Theta, Degree - Index);
+      x := x + (PP * Controls[Index].x);
+      y := y + (PP * Controls[Index].y);
+    end;
+    Temp := Point(Round(x), Round(y));
+    if (not (Temp = Last)) then
+    begin
+      Last := Temp;
+      Result[C] := Temp;
+      Inc(C);
+    end;
+    LastF := Theta <> 1.0;
+    Theta := Theta + 0.01;
+  end;
+  if (LastF) then
+  begin
+    Result[C] := Point(Controls[Degree].x, Controls[Degree].y);
+    Inc(C);
+  end;
+  SetLength(Result, C);
+end;
+
+function r_MouseGeneratePath(const Spline: TPointArray; const MSForMove, MSPerMove: Integer): TPointArray;
+var
+  NumberPoints, Steps, i, NextIndex: Integer;
+  MSPerPoint, UnDistStep, CurrentPercent: Extended;
+  GaussTable: TExtendedArray;
+begin
+  NumberPoints := GetArrayLength(Spline);
+  MSPerPoint := msForMove / NumberPoints;
+  UnDistStep := msPerMove / MSPerPoint;
+  Steps := Floor(NumberPoints / UnDistStep);
+  SetLength(Result, Steps);
+  GaussTable := r_MouseGenerateGauss(Steps);
+  CurrentPercent := 0.0;
+  for i := 0 to Steps - 1 do
+  begin
+    CurrentPercent := CurrentPercent + GaussTable[i];
+    NextIndex := Floor(NumberPoints * CurrentPercent);
+    if (NextIndex < NumberPoints) then
+      Result[i] := Spline[NextIndex]
+    else
+      Result[i] := Spline[NumberPoints - 1];
+  end;
+  if (CurrentPercent < 1.0) then
+    Result[Steps - 1] := Spline[NumberPoints - 1];
+end;
+
+function r_MouseCalculateTime(const TargetDist, TargetSize: Extended): LongInt;
+begin
+  Result := Round(Random(800) + 105 * Log10(TargetDist / TargetSize + 1) / Log10(2));
+end;
+
+procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
+{$IFNDEF SRL_OPENDEV}
+var
+  Speed, sx, sy: Integer;
+  Time, i, h: LongInt;
+  Controls, Spline, Path: TPointArray;
+{$ENDIF}
 begin
   {$IFDEF SRL_OPENDEV}
     MMouse(x + Randomrange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0);
   {$ELSE}
+    rx := Max(1, rx);
+    ry := Max(1, ry);
+    Speed := Max(1, r_MouseSpeed);
+    GetMousePos(sx, sy);
+    Controls := r_MouseGenerateControls(sx, sy, x + RandomRange(-1 * rx, rx),
+                                        y + RandomRange(-1 * ry, ry), 50, 120);
+    Spline := r_MouseGenerateSpline(Controls);
+    Time := r_MouseCalculateTime(Sqrt(Pow(x - sx, 2) + Pow(y - sy, 2)), 10.0);
+    Path := r_MouseGeneratePath(Spline, Time, Speed);
+    h := GetArrayLength(Path) - 1;
+    for i := 0 to h do
+    begin
+      MoveMouse(Path[i].x, Path[i].y);
+      Wait(Max(0, Speed - 2 + Random(4)));
+    end;
   {$ENDIF}
 end;
 
@@ -49,4 +251,9 @@ end;
 procedure r_ClickMouseBox(const x1, y1, x2, y2: Integer; const Left: Boolean);
 begin
   r_ClickMouse(RandomRange(x1, x2), RandomRange(y1, y2), 0, 0, Left);
+end;
+
+procedure r_SetMouseSpeed(const Speed: Integer);
+begin
+  r_MouseSpeed := Speed;
 end;

@@ -47,6 +47,7 @@ var
   m: LongInt;
 begin
   m := GetSystemTime;
+  r_SetMouseSpeed(10);
   if (not r_LoadHooks) then
   begin
     Writeln('Failed to load hooks.');
