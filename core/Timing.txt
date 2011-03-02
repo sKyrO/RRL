@@ -150,7 +150,7 @@ begin
           Exit
         else
           while (r_IsMenuOpen) do
-            MMouse(Random(MSX1), Random(MSY1), 0, 0);
+            r_MoveMouse(Random(R_SCREEN_MAIN_X2), Random(R_SCREEN_MAIN_Y2), 0, 0);
       end;
     Wait(10);
   end;

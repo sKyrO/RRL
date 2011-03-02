@@ -6,6 +6,10 @@ Inventory routines
 
  * function r_GetInventoryInterface: Integer;
      By: Timer
+ * procedure r_MoveMouseItem(const Slot: Integer);
+     By: Timer
+ * procedure r_ClickMouseItem(const Slot: Integer; const Left: Boolean);
+     By: Timer
  * function r_GetInventoryItemAt(Slot: Integer): TRSItem;
      By: Timer
  * function r_GetInventoryItems: TRSItemArray;
@@ -75,6 +79,66 @@ begin
     Result := R_INTERFACES_BANK_INVENTORY
   else if (r_IsInterfaceValid(R_INTERFACES_INVENTORY)) then
     Result := R_INTERFACES_INVENTORY;
+end;
+
+procedure r_MoveMouseItem(const Slot: Integer);
+var
+  Offset: TPoint;
+  x, y, InterfaceID: Integer;
+  Box: TBox;
+  InventoryInterface, TheSlot: LongInt;
+begin
+  try
+    Offset := Point(0, 0);// TODO .
+    InterfaceID := r_GetInventoryInterface;
+    InventoryInterface := r_GetInterface(InterfaceID, 0);
+    TheSlot := _InvokeObjectArray(InventoryInterface, r_Hooks[hook_Interface_Children], Slot);
+    x := _InvokeInteger(TheSlot, r_Hooks[hook_InterfaceX]);
+    y := _InvokeInteger(TheSlot, r_Hooks[hook_InterfaceY]);
+    Box := IntToBox(Offset.x + x, Offset.y + y,
+                    Offset.x + x + _InvokeInteger(TheSlot, r_Hooks[hook_InterfaceW]),
+                    Offset.y + y + _InvokeInteger(TheSlot, r_Hooks[hook_InterfaceH]));
+  finally
+    try
+    except
+      _FreeObject(InventoryInterface);
+    end;
+    try
+    except
+      _FreeObject(TheSlot);
+    end;
+  end;
+  r_MoveMouseBox(Box.x1, Box.y1, Box.x2, Box.y2);
+end;
+
+procedure r_ClickMouseItem(const Slot: Integer; const Left: Boolean);
+var
+  Offset: TPoint;
+  x, y, InterfaceID: Integer;
+  Box: TBox;
+  InventoryInterface, TheSlot: LongInt;
+begin
+  try
+    Offset := Point(0, 0);// TODO .
+    InterfaceID := r_GetInventoryInterface;
+    InventoryInterface := r_GetInterface(InterfaceID, 0);
+    TheSlot := _InvokeObjectArray(InventoryInterface, r_Hooks[hook_Interface_Children], Slot);
+    x := _InvokeInteger(TheSlot, r_Hooks[hook_InterfaceX]);
+    y := _InvokeInteger(TheSlot, r_Hooks[hook_InterfaceY]);
+    Box := IntToBox(Offset.x + x, Offset.y + y,
+                    Offset.x + x + _InvokeInteger(TheSlot, r_Hooks[hook_InterfaceW]),
+                    Offset.y + y + _InvokeInteger(TheSlot, r_Hooks[hook_InterfaceH]));
+  finally
+    try
+    except
+      _FreeObject(InventoryInterface);
+    end;
+    try
+    except
+      _FreeObject(TheSlot);
+    end;
+  end;
+  r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, Left);
 end;
 
 function r_GetInventoryItemAt(Slot: Integer): TRSItem;
@@ -258,7 +322,7 @@ begin
       end;
     if (Drop) then
     begin
-      MMouseItem(i);
+      r_MoveMouseItem(i);
       if (r_WaitForInteract('Drop', 1200)) then
       begin
         m := GetSystemTime;
@@ -288,7 +352,7 @@ begin
     for ii := 0 to High(IDs) do
       if (not (it = NULL_RSITEM)) and (it.ID = IDs[ii]) then
       begin
-        MMouseItem(i);
+        r_MoveMouseItem(i);
         if (r_WaitForInteract('Drop', 1200)) then
         begin
           m := GetSystemTime;

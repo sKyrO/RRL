@@ -298,6 +298,17 @@ const
   R_SKILL_SUMMONING = 23;
   R_SKILL_DUNGEONEERING = 24;
 
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Screen coords.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+const
+  R_SCREEN_MAIN_X1 = 4;
+  R_SCREEN_MAIN_Y1 = 4;
+  R_SCREEN_MAIN_X2 = 515;
+  R_SCREEN_MAIN_Y2 = 337;
+
 procedure StripComments(var Content: string);
 var
   StartPos, EndPos: Integer;

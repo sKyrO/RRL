@@ -12,7 +12,7 @@ Menu routines.
      By: Timer
  * function r_GetInterfaceText(const ParentID, ChildID: Integer): string;
      By: Timer
- * function r_GetInterfaceBox(const Offset: TPoint; ParentID, ChildID: Integer): TBox;
+ * function r_GetInterfaceBox(const Offset: TPoint; const ParentID, ChildID: Integer): TBox;
      By: Timer
  * function r_IsClickContinue: Boolean;
      By: Timer
@@ -60,7 +60,7 @@ begin
   Result := r_GetInterfaceTextEx(PathToInterface, True);
 end;
 
-function r_GetInterfaceBox(const Offset: TPoint; ParentID, ChildID: Integer): TBox;
+function r_GetInterfaceBox(const Offset: TPoint; const ParentID, ChildID: Integer): TBox;
 var
   PathToInterface: LongInt;
   x, y: Integer;
@@ -114,7 +114,7 @@ begin
       if (Pos('lick here to cont', Lowercase(r_GetInterfaceText(CheckInterfaces[i], ii))) > 0) then
       begin
         Box := r_GetInterfaceBox(Point(7, 347), CheckInterfaces[i], ii);
-        MouseBox(Box.x1, Box.y1, Box.x2, Box.y2, 1);
+        r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, True);
         Wait(RandomRange(500, 800));
         Result := True;
         Exit;

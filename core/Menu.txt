@@ -142,12 +142,8 @@ begin
   end;
   if (not r_IsMenuOpen) then
   begin
-    {$IFDEF SIMBA}
-      ClickMouse2(False);
-    {$ELSE}
-      GetMousePos(xOff, yOff);
-      Mouse(xOff, yOff, 0, 0, False);
-    {$ENDIF}
+    GetMousePos(xOff, yOff);
+    r_ClickMouse(xOff, yOff, 0, 0, False);
     T := GetSystemTime;
     while (GetSystemTime - T < 1000) and (not r_IsMenuOpen) do
       Wait(50);
@@ -170,19 +166,19 @@ begin
   begin
     xOff := RandomRange(4, 4 + Random(Length(Item) * 4 - 4));
     yOff := 21 + (16 * index) + RandomRange(2, 10);
-    Mouse(P.x + xOff, P.y + yOff, 0, 0, True);
+    r_ClickMouse(P.x + xOff, P.y + yOff, 0, 0, True);
     Wait(RandomRange(80, 100));
     Result := not r_IsMenuOpen;
     while (r_IsMenuOpen) do
     begin
-      MMouse(Random(MSX2), Random(MSY2), 0, 0);
+      r_MoveMouse(Random(R_SCREEN_MAIN_X2), Random(R_SCREEN_MAIN_Y2), 0, 0);
       Wait(RandomRange(100, 200));
     end;
     Exit;
   end;
   while (r_IsMenuOpen) do
   begin
-    MMouse(Random(MSX2), Random(MSY2), 0, 0);
+    r_MoveMouse(Random(R_SCREEN_MAIN_X2), Random(R_SCREEN_MAIN_Y2), 0, 0);
     Wait(RandomRange(100, 200));
   end;
 end;
@@ -207,22 +203,14 @@ begin
   end;
   if (Index = 0) then
   begin
-    {$IFDEF SIMBA}
-      ClickMouse2(True);
-    {$ELSE}
-      GetMousePos(x, y);
-      Mouse(x, y, 0, 0, True);
-    {$ENDIF}
+    GetMousePos(x, y);
+    r_ClickMouse(x, y, 0, 0, True);
   end else
   begin
     if (not r_IsMenuOpen) then
     begin
-      {$IFDEF SIMBA}
-        ClickMouse2(False);
-      {$ELSE}
-        GetMousePos(x, y);
-        Mouse(x, y, 0, 0, False);
-      {$ENDIF}
+      GetMousePos(x, y);
+      r_ClickMouse(x, y, 0, 0, False);
       T := GetSystemTime;
       while (GetSystemTime - T < 1000) and (not r_IsMenuOpen) do
         Wait(50);

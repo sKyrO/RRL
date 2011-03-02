@@ -1,0 +1,52 @@
+{=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+RRL - Reflection Resource Library
+Mouse routines.
+
+---------------------------------------------------------
+
+ * procedure r_MoveMouse(const x, y, rx, ry: Integer);
+     By: Timer
+ * procedure r_ClickMouse(const x, y, rx, ry: Integer; const Left: Boolean);
+     By: Timer
+ * procedure r_MoveMouseBox(const x1, y1, x2, y2: Integer);
+     By: Timer
+ * procedure r_ClickMouseBox(const x1, y1, x2, y2: Integer; const Left: Boolean);
+     By: Timer
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+{
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/
+or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+
+Copyright (C) 2010 - 2011 by Joe Haddad, all rights reserved.
+This file is part of the RRL project (https://github.com/Timer/RRL).
+
+For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
+}
+
+procedure r_MoveMouse(const x, y, rx, ry: Integer);
+begin
+  {$IFDEF SRL_OPENDEV}
+    MMouse(x + Randomrange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0);
+  {$ELSE}
+  {$ENDIF}
+end;
+
+procedure r_ClickMouse(const x, y, rx, ry: Integer; const Left: Boolean);
+begin
+  {$IFDEF SRL_OPENDEV}
+    Mouse(x + Randomrange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0, Left);
+  {$ELSE}
+  {$ENDIF}
+end;
+
+procedure r_MoveMouseBox(const x1, y1, x2, y2: Integer);
+begin
+  r_MoveMouse(RandomRange(x1, x2), RandomRange(y1, y2), 0, 0);
+end;
+
+procedure r_ClickMouseBox(const x1, y1, x2, y2: Integer; const Left: Boolean);
+begin
+  r_ClickMouse(RandomRange(x1, x2), RandomRange(y1, y2), 0, 0, Left);
+end;

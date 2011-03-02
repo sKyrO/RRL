@@ -54,7 +54,7 @@ end;
 procedure r_SetRun(const Run: Boolean);
 begin
   if (Run) xor (r_IsRunning) then
-    Mouse(715, 95, 10, 10, True);
+    r_ClickMouse(715, 95, 10, 10, True);
 end;
 
 function r_GetSkillLevel(const SkillIndex: Integer): Integer;
@@ -65,4 +65,9 @@ end;
 function r_GetSkillExperience(const SkillIndex: Integer): Integer;
 begin
   Result := _InvokeIntegerArray(0, r_Hooks[hook_SkillExperiences], SkillIndex);
+end;
+
+function r_Logout: Boolean;
+begin
+  Result := False;// TODO .
 end;

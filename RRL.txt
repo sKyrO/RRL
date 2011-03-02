@@ -22,6 +22,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 {$DEFINE RRL}
 
 {.include RRL\core\Wrappers.txt}
+{.include RRL\core\Mouse.txt}
 {.include RRL\core\Globals.txt}
 {.include RRL\core\Menu.txt}
 {.include RRL\core\Game.txt}

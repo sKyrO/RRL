@@ -48,22 +48,22 @@ end;
 
 function r_ClickTile(const Tile: TRSTile): Boolean;
 var
-  MousePosition: TPoint;
-  MouseX, MouseY: Integer;
+  r_ClickMousePosition: TPoint;
+  r_ClickMouseX, r_ClickMouseY: Integer;
 begin
   Result := False;
   if (r_TileOnMinimap(Tile)) then
   begin
-    MousePosition := r_TileToMinimap(Tile);
-    MMouse(MousePosition.x + RandomRange(-5, 5), MousePosition.y + RandomRange(-5, 5), 0, 0);
-    MousePosition := r_TileToMinimap(Tile);
-    if (Distance(MouseX, MouseY, MousePosition.x, MousePosition.y) > 5) then
+    r_ClickMousePosition := r_TileToMinimap(Tile);
+    r_MoveMouse(r_ClickMousePosition.x + RandomRange(-5, 5), r_ClickMousePosition.y + RandomRange(-5, 5), 0, 0);
+    r_ClickMousePosition := r_TileToMinimap(Tile);
+    if (Distance(r_ClickMouseX, r_ClickMouseY, r_ClickMousePosition.x, r_ClickMousePosition.y) > 5) then
     begin
       if (not r_TileOnMinimap(Tile)) then
         Exit;
-      Mouse(MousePosition.x + RandomRange(-5, 5), MousePosition.y + RandomRange(-5, 5), 0, 0, True);
+      r_ClickMouse(r_ClickMousePosition.x + RandomRange(-5, 5), r_ClickMousePosition.y + RandomRange(-5, 5), 0, 0, True);
     end else
-      Mouse(MouseX, MouseY, 0, 0, True);
+      r_ClickMouse(r_ClickMouseX, r_ClickMouseY, 0, 0, True);
     Result := True;
   end;
 end;
