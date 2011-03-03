@@ -4,11 +4,11 @@ NPC routines.
 
 ---------------------------------------------------------
 
- * function r_GetNPCs: TNPCArray;
+ * function r_GetAllNPCs: TNPCArray;
      By: Timer
- * function r_GetNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
+ * function r_GetAllNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
      By: Timer
- * function r_GetNPCsByID(const ID: Integer): TNPCArray;
+ * function r_GetAllNPCsByID(const ID: Integer): TNPCArray;
      By: Timer
  * function r_SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
      By: Timer
@@ -48,7 +48,7 @@ begin
   end;
 end;
 
-function r_GetNPCs: TNPCArray;
+function r_GetAllNPCs: TNPCArray;
 var
   NumberOfNPCs, i, C, BaseX, BaseY, h: Integer;
   PathToNPCNode, PathToNPC, PathToNPCDefinition, JavaName: LongInt;
@@ -124,12 +124,12 @@ begin
   SetLength(Result, C);
 end;
 
-function r_GetNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
+function r_GetAllNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
 var
   NPCArray: TNPCArray;
   i, l, C, ii, ll: Integer;
 begin
-  NPCArray := r_GetNPCs;
+  NPCArray := r_GetAllNPCs;
   l := Length(NPCArray);
   ll := Length(IDs);
   SetLength(Result, l);
@@ -144,9 +144,9 @@ begin
   SetLength(Result, C);
 end;
 
-function r_GetNPCsByID(const ID: Integer): TNPCArray;
+function r_GetAllNPCsByID(const ID: Integer): TNPCArray;
 begin
-  Result := r_GetNPCsByIDEx([ID]);
+  Result := r_GetAllNPCsByIDEx([ID]);
 end;
 
 function r_SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
@@ -177,7 +177,7 @@ var
   C: Integer;
 begin
   Result := NULL_NPC;
-  NPCArray := r_GetNPCsByIDEx(IDs);
+  NPCArray := r_GetAllNPCsByIDEx(IDs);
   SetLength(OurNPCs, C);
   OurNPCs := r_SortNPCs(NPCArray, r_GetLocation);
   if (Length(OurNPCs) > 0) then
