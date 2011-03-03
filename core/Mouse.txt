@@ -223,11 +223,27 @@ procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
     Controls, Spline, Path: TPointArray;
 {$ENDIF}
 begin
-  {$IFNDEF OVERRIDE_SRL}
-    {$IFDEF SRL_OPENDEV}
+  {$IFDEF SRL_OPENDEV}
+    {$IFNDEF OVERRIDE_SRL}
       MMouse(x + RandomRange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0);
     {$ELSE}
-  {$ENDIF}
+      rx := Max(1, rx);
+      ry := Max(1, ry);
+      Speed := Min(Max(1, r_MouseSpeed), 18);
+      GetMousePos(sx, sy);
+      Controls := r_MouseGenerateControls(sx, sy, x + RandomRange(-1 * rx, rx),
+                                          y + RandomRange(-1 * ry, ry), 50, 120);
+      Spline := r_MouseGenerateSpline(Controls);
+      Time := r_MouseCalculateTime(Sqrt(Pow(x - sx, 2) + Pow(y - sy, 2)), 10.0);
+      Path := r_MouseGeneratePath(Spline, Time, Speed);
+      h := GetArrayLength(Path) - 1;
+      for i := 0 to h do
+      begin
+        MoveMouse(Path[i].x, Path[i].y);
+        Wait(Max(0, Speed - 4 + Random(4)));
+      end;
+    {$ENDIF}
+  {$ELSE}
     rx := Max(1, rx);
     ry := Max(1, ry);
     Speed := Min(Max(1, r_MouseSpeed), 18);
@@ -270,7 +286,21 @@ procedure r_ClickMouse(const x, y, rx, ry: Integer; const Left: Boolean);
 {$ENDIF}
 begin
   {$IFDEF SRL_OPENDEV}
-    Mouse(x + Randomrange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0, Left);
+    {$IFNDEF OVERRIDE_SRL}
+      Mouse(x + Randomrange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0, Left);
+    {$ELSE}
+      GetMousePos(cx, cy);
+      if (cx <> x) or (cy <> y) then
+      begin
+        r_MoveMouse(x, y, rx, ry);
+        Wait(60 + Random(30));
+      end;
+      GetMousePos(cx, cy);
+      HoldMouse(cx, cy, _Mouse(Left));
+      Wait(60 + Random(51));
+      ReleaseMouse(cx, cy, _Mouse(Left));
+      Wait(60 + Random(30));
+    {$ENDIF}
   {$ELSE}
     GetMousePos(cx, cy);
     if (cx <> x) or (cy <> y) then
