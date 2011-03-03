@@ -64,7 +64,7 @@ var
   OurLocation: TRSTile;
 begin
   OurLocation := r_GetLocation;
-  RadiansAngle := r_GetMinimapAngleRadians;
+  RadiansAngle := -1 * r_GetMinimapAngleRadians;
   TempX := (Tile.x - OurLocation.x) * 4 - 2;
   TempY := (OurLocation.y - Tile.y) * 4 - 2;
   Result := Point(
