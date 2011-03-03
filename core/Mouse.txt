@@ -205,7 +205,11 @@ end;
 
 function r_MouseCalculateTime(const TargetDist, TargetSize: Extended): LongInt;
 begin
-  Result := Round(Random(100) + 105 * Log10(TargetDist / TargetSize + 1) / Log10(2));
+  {$IFDEF Simba}
+    Result := Round(Random(100) + 105 * Logn(10, TargetDist / TargetSize + 1) / Logn(10, 2));
+  {$ELSE}
+    Result := Round(Random(100) + 105 * Log10(TargetDist / TargetSize + 1) / Log10(2));
+  {$ENDIF}
 end;
 
 procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
