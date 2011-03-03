@@ -2,13 +2,20 @@ program RRLMouseTest;
 {.include RRL\RRL.txt}
 
 const
-  Moves = 5;
+  Moves = 2;//Moves per speed
+  StartSpeed = 1;
+  EndSpeed = 18;
 
 var
-  w, h, i: Integer;
+  w, h, i, s: Integer;
 begin
   SetupRRL;
   GetClientDimensions(w, h);
-  for i := 1 to Moves do
-    r_MoveMouse(Random(w), Random(h), 0, 0);
+  for s := StartSpeed to EndSpeed do
+  begin
+    r_SetMouseSpeed(s);
+    WriteLn('Speed: ' + IntToStr(s));
+    for i := 1 to Moves do
+      r_MoveMouse(Random(w), Random(h), 0, 0);
+  end;
 end.
