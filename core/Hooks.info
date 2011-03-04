@@ -13,12 +13,12 @@ const
   hook_Client_Version = 0;
   hook_Hook_Version = 1;
   hook_MapAngle = 2;
-  hook_MyPlayer = 3;
+  hook_LocalPlayer = 3;
   hook_BaseX = 4;
   hook_BaseY = 5;
   hook_LocalX = 6;
   hook_LocalY = 7;
-  hook_Login_Index = 8;
+  hook_LoginIndex = 8;
   hook_Character_Animation = 9;
   hook_ViewPort_xOffset = 10;
   hook_ViewPort_yOffset = 11;

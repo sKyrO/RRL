@@ -32,7 +32,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 function r_GetLoginIndex: Integer;
 begin
   try
-    Result := SmartGetFieldInt(0, r_Hooks[hook_Login_Index]);
+    Result := SmartGetFieldInt(0, r_Hooks[hook_LoginIndex]);
   except
     Result := -1;
   end;

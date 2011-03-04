@@ -33,7 +33,7 @@ begin
     y := -1;
   end;
   try
-    OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_MyPlayer]);
+    OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
     BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
     BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
     LocalX := SmartGetFieldInt(OurPlayerPath, r_Hooks[hook_LocalX]);
@@ -53,6 +53,6 @@ function r_GetAnimation: Integer;
 var
   OurPlayerPath: LongInt;
 begin
-  OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_MyPlayer]);
+  OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
   Result := r_GetCharacterAnimation(OurPlayerPath, True);
 end;
