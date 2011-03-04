@@ -10,98 +10,171 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 **/
-0:640
-1:640
-2:ea.m
-3:vaa.x
-4:eaa.f
-5:wb.u
-6:m
-7:j
-8:qk.f
-9:Cb
-10:r
-11:i
-12:g
-13:t
-14:l
-15:o
-16:H
-17:D
-18:C
-19:z
-20:x
-21:E
-22:G
-23:eb
-24:N
-25:ab
-26:Y
-27:db
-28:kb
-29:D
-30:ko.i
-31:r.z
-32:ko.e
-33:c
-34:rd.a
-35:P
-36:iha.J
-37:Jc
-38:ab
-39:zc
-40:lb
-41:gc
-42:wb
-43:i
-44:caa.j
-45:go.Y
-46:nba.p
-47:sd
-48:nb
-49:ob
-50:i
-51:jba.q
-52:uq.z
-53:wp.a
-54:vj.g
-55:k
-56:d
-57:G
-58:M
-59:oga.c
-60:ww.n
-61:sv.k
-62:n
-63:d
-64:fb
-65:O
-66:B
-67:I
-68:H
-69:sb
-70:d
-71:h
-72:jp.M
-73:eda.e
-74:eia.d
-75:pn.F
-76:U
-77:bb
-78:kd
-79:yc
-80:t
-81:Db
-82:dd
-83:hb
-84:g
-85:u.j
-86:l
-87:l
-88:g
-89:og.G
-90:i
-91:m
-92:j
-93:in.K
-94:al.Q
+0:qk.f/*** LoginIndex = 'qk.f'.I [LoginIndex] ***/
+44:rca.a/*** getFriendsWorlds = 'rca.a'.[I [FriendsWorlds] ***/
+43:gh.l/*** getFriendsList = 'gh.l'.[Ljava/lang/String; [FriendsList] ***/
+1:au.e/*** getChatLines = 'au.e'.[Lfk; [Messages] ***/
+2:vaa.x/*** getMyRSPlayer = 'vaa.x'.Lfha; [LocalPlayer] ***/
+3:eaa.f/*** getBaseX = 'eaa.f'.I [BaseX] ***/
+4:wb.u/*** getBaseY = 'wb.u'.I [BaseY] ***/
+7:go.Y/*** getNPCIndexArray = 'go.Y'.[I [NPCIndexes] ***/
+38:iha.J/*** getLoopCycle = 'iha.J'.I [LoopCycle] ***/
+6:nba.p/*** getNPCNodes = 'nba.p'.[Leea; [NPCNodes] ***/
+5:caa.j/*** getNPCCount = 'caa.j'.I [NPCCount] ***/
+33:r.z/*** getGroundByteArray = 'r.z'.[[[B [GroundBytes] ***/
+30:ko.i/*** getLoadedPlane = 'ko.i'.I [CurrentPlane] ***/
+31:ko.e/*** getPlaneArray = 'ko.e'.[Ls; [Planes] ***/
+34:rd.a/*** getToolkit = 'rd.a'.Lha; [ToolKit] ***/
+14:oga.c/*** getMenuX = 'oga.c'.I [MenuX] ***/
+15:ww.n/*** getMenuY = 'ww.n'.I [MenuY] ***/
+16:bha.n/*** getMenuWidth = 'bha.n'.I [MenuW] ***/
+17:ls.z/*** getMenuHeight = 'ls.z'.I [MenuH] ***/
+19:ta.h/*** getMenuY2 = 'ta.h'.I [SubMenuY] ***/
+20:rr.i/*** getMenuWidth2 = 'rr.i'.I [SubMenuW] ***/
+21:jl.h/*** getMenuHeight2 = 'jl.h'.I [SubMenuH] ***/
+18:mda.l/*** getMenuX2 = 'mda.l'.I [SubMenuX] ***/
+12:pn.F/*** getInterfaces = 'pn.F'.[[Lvfa; [Interfaces] ***/
+13:eia.d/*** getValidInterfaces = 'eia.d'.[Z [ValidInterfaces] ***/
+8:bp.B/*** getRSNPCNC = 'bp.B'.Ldu; [NPCNC] ***/
+40:qw.u/*** getItemDefLoader = 'qw.u'.Luq; [ItemDefinition] ***/
+37:u.j/*** getSettingsArray = 'u.j'.Lrl; [Settings] ***/
+41:sl.M/*** getObjectDefLoader = 'sl.M'.Lwb; [ObjectDefinition] ***/
+39:og.G/*** getRSItemHashTable = 'og.G'.Ldu; [GroundCache] ***/
+36:al.Q/*** getSkillExperiences = 'al.Q'.[I [Experience] ***/
+35:in.K/*** getSkillLevels = 'in.K'.[I [Levels] ***/
+22:ea.m/*** MapAngle = 'ea.m'.F [MapAngle] ***/
+23:jp.M/*** getDestX = 'jp.M'.I [DestX] ***/
+24:eda.e/*** getDestY = 'eda.e'.I [DestY] ***/
+9:id.i/*** getPlayerCount = 'id.i'.I [PlayerCount] ***/
+10:qia.r/*** getPlayerIndexArray = 'qia.r'.[I [PlayerIndexes] ***/
+11:nj.k/*** getRSPlayerArray = 'nj.k'.[Lfha; [Players] ***/
+25:cj.L/*** getCamPosX = 'cj.L'.I [CamX] ***/
+26:wt.x/*** getCamPosY = 'wt.x'.I [CamY] ***/
+27:hm.b/*** getCamPosZ = 'hm.b'.I [CamZ] ***/
+28:qw.p/*** getCamCurveX = 'qw.p'.[[[B [CamCurveX] ***/
+29:mha.b/*** getCamCurveY = 'mha.b'.[I [CamCurveY] ***/
+32:sv.k/*** getGroundTiles = 'sv.k'.[[[Lih; [GroundTiles] ***/
+42:qo.G/*** getCrossHairColor = 'qo.G'.I [CrossHairColor] ***/
+45:f/*** hook.chatline.getName = 'fk.f'.Ljava/lang/String; [Message_Name] ***/
+46:m/*** hook.chatline.getMessage = 'fk.m'.Ljava/lang/String; [Message_Message] ***/
+66:m/*** hook.rsinteractable.getX = 'kf.m'.I [Animable_X] ***/
+67:j/*** hook.rsinteractable.getY = 'kf.j'.I [Animable_Y] ***/
+68:p/*** hook.rsinteractable.getPlane = 'kf.p'.B [Animable_Plane] ***/
+59:ad/*** hook.rsplayer.getTeam = 'fha.ad'.I [Player_Team] ***/
+60:ed/*** hook.rsplayer.getLevel = 'fha.ed'.I [Player_Level] ***/
+61:id/*** hook.rsplayer.getName = 'fha.id'.Ljava/lang/String; [Player_Name] ***/
+62:hd/*** hook.rsplayer.PlayerDef = 'fha.hd'.Luea; [Player_Definition] ***/
+63:dd/*** hook.rsplayer.getSkillLevels = 'fha.dd'.I [Player_SkillLevels] ***/
+51:Cb/*** hook.rscharacter.getAnimation = 'kn.Cb'.I [Character_Animation] ***/
+52:Pc/*** hook.rscharacter.LocationX = 'kn.Pc'.[I [Character_X] ***/
+53:Oc/*** hook.rscharacter.LocationY = 'kn.Oc'.[I [Character_Y] ***/
+54:zc/*** hook.rscharacter.getHeight = 'kn.zc'.I [Character_Height] ***/
+55:lb/*** hook.rscharacter.getOrientation = 'kn.lb'.I [Character_Orientation] ***/
+56:ab/*** hook.rscharacter.LoopCycleStatus = 'kn.ab'.I [Character_LoopCycleStatus] ***/
+57:wb/*** hook.rscharacter.getHPRatio = 'kn.wb'.I [Character_HPRatio] ***/
+58:gc/*** hook.rscharacter.getInteracting = 'kn.gc'.I [Character_Interacting] ***/
+69:d/*** hook.animablenode.getAnimable = 'daa.d'.Lfb; [AnimableNode_Animable] ***/
+70:h/*** hook.animablenode.getNext = 'daa.h'.Ldaa; [AnimableNode_Next] ***/
+47:O/*** hook.rsanimable.getX1 = 'fb.O'.S [Animable_AreaX1] ***/
+49:I/*** hook.rsanimable.getX2 = 'fb.I'.S [Animable_AreaX2] ***/
+48:B/*** hook.rsanimable.getY1 = 'fb.B'.S [Animable_AreaY1] ***/
+50:H/*** hook.rsanimable.getY2 = 'fb.H'.S [Animable_AreaY2] ***/
+64:t/*** hook.playerdef.getEquipment = 'uea.t'.[I [PlayerDefinition_Equipment] ***/
+65:b/*** hook.playerdef.getModelID = 'uea.b'.J [PlayerDefinition_ModelID] ***/
+92:sd/*** hook.rsnpc.getNPCDef = 'fs.sd'.Lpha; [NPC_Definition] ***/
+93:U/*** hook.npcdef.getActions = 'pha.U'.[Ljava/lang/String; [NPCDefinition_Actions] ***/
+94:ob/*** hook.npcdef.getName = 'pha.ob'.Ljava/lang/String; [NPCDefinition_Name] ***/
+95:md/*** hook.npcdef.getLevel = 'pha.md'.I [NPCDefinition_Level] ***/
+96:nb/*** hook.npcdef.getID = 'pha.nb'.I [NPCDefinition_ID] ***/
+97:i/*** hook.rsnpcnode.getRSNPC = 'eea.i'.Lfs; [NPCNode_NPC] ***/
+80:g/*** hook.sdviewport.zOff = 'fu.g'.F [ViewPort_zOff] ***/
+81:z/*** hook.sdviewport.zX = 'fu.z'.F [ViewPort_zX] ***/
+82:x/*** hook.sdviewport.zY = 'fu.x'.F [ViewPort_zY] ***/
+83:E/*** hook.sdviewport.zZ = 'fu.E'.F [ViewPort_zZ] ***/
+84:r/*** hook.sdviewport.xOff = 'fu.r'.F [ViewPort_xOff] ***/
+85:t/*** hook.sdviewport.xX = 'fu.t'.F [ViewPort_xX] ***/
+86:l/*** hook.sdviewport.xY = 'fu.l'.F [ViewPort_xY] ***/
+87:o/*** hook.sdviewport.xZ = 'fu.o'.F [ViewPort_xZ] ***/
+88:i/*** hook.sdviewport.yOff = 'fu.i'.F [ViewPort_yOff] ***/
+89:H/*** hook.sdviewport.yX = 'fu.H'.F [ViewPort_yX] ***/
+90:D/*** hook.sdviewport.yY = 'fu.D'.F [ViewPort_yY] ***/
+91:C/*** hook.sdviewport.yZ = 'fu.C'.F [ViewPort_yZ] ***/
+71:P/*** hook.sdtoolkit.Viewport = 'gf.P'.Lfu; [ToolKit_Viewport] ***/
+72:N/*** hook.sdtoolkit.xMin = 'gf.N'.I [ToolKit_xMin] ***/
+73:db/*** hook.sdtoolkit.xMax = 'gf.db'.I [ToolKit_xMax] ***/
+74:ab/*** hook.sdtoolkit.yMin = 'gf.ab'.I [ToolKit_yMin] ***/
+75:kb/*** hook.sdtoolkit.yMax = 'gf.kb'.I [ToolKit_yMax] ***/
+76:Y/*** hook.sdtoolkit.zMin = 'gf.Y'.I [ToolKit_zMin] ***/
+77:D/*** hook.sdtoolkit.zMax = 'gf.D'.I [ToolKit_zMax] ***/
+78:G/*** hook.sdtoolkit.xScale = 'gf.G'.I [ToolKit_xScale] ***/
+79:eb/*** hook.sdtoolkit.yScale = 'gf.eb'.I [ToolKit_yScale] ***/
+98:c/*** hook.sdplane.getTileHeights = 's.c'.[[I [Plane_TileHeights] ***/
+99:Jb/*** hook.ldmodel.getIndices1 = 'ub.Jb'.[S [Model_Indexes1] ***/
+100:bb/*** hook.ldmodel.getIndices2 = 'ub.bb'.[S [Model_Indexes2] ***/
+101:U/*** hook.ldmodel.getIndices3 = 'ub.U'.[S [Model_Indexes3] ***/
+102:X/*** hook.ldmodel.getPointsX = 'ub.X'.[I [Model_xPoints] ***/
+103:Xb/*** hook.ldmodel.getPointsY = 'ub.Xb'.[I [Model_yPoints] ***/
+104:qb/*** hook.ldmodel.getPointsZ = 'ub.qb'.[I [Model_zPoints] ***/
+126:i/*** hook.nodelistcache.getNodeList = 'gj.i'.Lro; [NodeListCache_NodeList] ***/
+127:u/*** hook.nodelist.getCurrent = 'ro.u'.Lpb; [NodeList_Current] ***/
+128:k/*** hook.nodelist.getHead = 'ro.k'.Lpb; [NodeList_Head] ***/
+129:d/*** hook.node.getNext = 'pb.d'.Lpb; [Node_Next] ***/
+130:g/*** hook.node.getID = 'pb.g'.J [Node_ID] ***/
+131:h/*** hook.node.getPrevious = 'pb.h'.Lpb; [Node_Previous] ***/
+132:F/*** hook.menugroupnode.getNodeSubListItems = 'fa.F'.Ldr; [MenuGroupNode_NodeSubListItems] ***/
+133:a/*** hook.nodesublist.getHead = 'dr.a'.Ldg; [NodeSubList_Head] ***/
+134:t/*** hook.nodesub.getNext = 'dg.t'.Ldg; [NodeSub_Next] ***/
+123:G/*** hook.menu.getAction = 'li.G'.Ljava/lang/String; [Menu_Action] ***/
+124:M/*** hook.menu.getOption = 'li.M'.Ljava/lang/String; [Menu_Option] ***/
+105:ac/*** hook.rsinterface.GetTextColor = 'vfa.ac'.I [Interface_TextColor] ***/
+106:nb/*** hook.rsinterface.GetModelID = 'vfa.nb'.I [Interface_ModelID] ***/
+107:bb/*** hook.rsinterface.GetX = 'vfa.bb'.I [Interface_X] ***/
+108:kd/*** hook.rsinterface.GetY = 'vfa.kd'.I [Interface_Y] ***/
+109:yc/*** hook.rsinterface.GetWidth2 = 'vfa.yc'.I [Interface_Width] ***/
+110:t/*** hook.rsinterface.GetHeight2 = 'vfa.t'.I [Interface_Height] ***/
+111:Lb/*** hook.rsinterface.IsHidden = 'vfa.Lb'.Z [Interface_Hidden] ***/
+112:Sb/*** hook.rsinterface.GetParentID = 'vfa.Sb'.I [Interface_ParentID] ***/
+113:P/*** hook.rsinterface.GetID = 'vfa.P'.I [Interface_ID] ***/
+114:dd/*** hook.rsinterface.GetComponentID = 'vfa.dd'.I [Interface_ComponentID] ***/
+115:hb/*** hook.rsinterface.GetComponentStackSize = 'vfa.hb'.I [Interface_StackSize] ***/
+116:oc/*** hook.rsinterface.GetComponentIndex = 'vfa.oc'.I [Interface_ComponentIndex] ***/
+117:pd/*** hook.rsinterface.GetActions = 'vfa.pd'.[Ljava/lang/String; [Interface_Actions] ***/
+118:g/*** hook.rsinterface.GetComponentName = 'vfa.g'.Ljava/lang/String; [Interface_ComponentName] ***/
+119:U/*** hook.rsinterface.GetText = 'vfa.U'.Ljava/lang/String; [Interface_Text] ***/
+120:Y/*** hook.rsinterface.GetTextureID = 'vfa.Y'.I [Interface_TextureID] ***/
+121:Db/*** hook.rsinterface.GetComponents = 'vfa.Db'.[Lvfa; [Interface_Components] ***/
+122:Fc/*** hook.rsinterface.getBoundsArrayIndex = 'vfa.Fc'.I [Interface_BoundsIndex] ***/
+135:l/*** hook.hashtable.getNodes = 'du.l'.[Lpb; [HashTable_Nodes] ***/
+136:m/*** hook.rsitem.getID = 'ma.m'.I [Item_ID] ***/
+137:j/*** hook.rsitem.getStackSize = 'ma.j'.I [Item_StackSize] ***/
+138:i/*** hook.itemdefloader.getCache = 'uq.i'.Lqr; [ItemDefinitionLoader_Cache] ***/
+139:i/*** hook.itemdef.getGroundActions = 'th.i'.[Ljava/lang/String; [ItemDefinition_GroundItems] ***/
+140:f/*** hook.itemdef.getActions = 'th.f'.[Ljava/lang/String; [ItemDefinition_Actions] ***/
+141:R/*** hook.itemdef.isMembers = 'th.R'.Z [ItemDefinition_Members] ***/
+142:s/*** hook.itemdef.getLoader = 'th.s'.Luq; [ItemDefinition_Loader] ***/
+143:i/*** hook.cache.getTable = 'qr.i'.Ldu; [Cache_Table] ***/
+144:c/*** hook.cache.getList = 'qr.c'.Ldr; [Cache_List] ***/
+145:r/*** hook.cache.getInitialCount = 'qr.r'.I [Cache_InitialCount] ***/
+146:t/*** hook.cache.getSpaceLeft = 'qr.t'.I [Cache_SpaceLeft] ***/
+125:l/*** hook.settings.getData = 'rl.l'.[I [Settings_Data] ***/
+147:g/*** hook.objectdefloader.getCache = 'wb.g'.Lqr; [ObjectDefinitionLoader_Cache] ***/
+148:j/*** hook.rsground.getFloorDecoration = 'ih.j'.Lnl; [Ground_FloorDecoration] ***/
+149:i/*** hook.rsground.getWallDecoration2 = 'ih.i'.Lcj; [Ground_WallDecoration2] ***/
+150:g/*** hook.rsground.getWallDecoration1 = 'ih.g'.Lcj; [Ground_WallDecoration1] ***/
+151:a/*** hook.rsground.getWallObject2 = 'ih.a'.Log; [Ground_WallObject1] ***/
+152:k/*** hook.rsground.getWallObject1 = 'ih.k'.Log; [Ground_WallObject2] ***/
+153:n/*** hook.rsground.getRSAnimableList = 'ih.n'.Ldaa; [Ground_AnimableList] ***/
+154:qb/*** hook.wallobjectdata.getID = 'eca.qb'.S [WallObjectData_ID] ***/
+155:ob/*** hook.wallobjectdata.getModel = 'eca.ob'.Lka; [WallObjectData_Model] ***/
+156:cb/*** hook.walldecorationdata.getID = 'nq.cb'.S [WallDecorationData_ID] ***/
+157:mb/*** hook.walldecorationdata.getModel = 'nq.mb'.Lka; [WallDecorationData_Model] ***/
+161:K/*** hook.floordecorationdata.getID = 'et.K'.S [FloorDecorationData_ID] ***/
+162:eb/*** hook.floordecorationdata.getModel = 'et.eb'.Lka; [FloorDecorationData_Model] ***/
+165:mb/*** hook.interactiveobject.getModel = 'ah.mb'.Lka; [InteractiveObject_ID] ***/
+166:fb/*** hook.interactiveobject.getID = 'ah.fb'.S [InteractiveObject_Model] ***/
+167:sb/*** hook.interactiveobjectsub.getObjectData = 'kd.sb'.Ljh; [InteractiveObjectSub_Data] ***/
+163:d/*** hook.rsobjectcomposite.getID = 'jh.d'.I [ObjectComposite_ID] ***/
+164:c/*** hook.rsobjectcomposite.getModel = 'jh.c'.Lka; [ObjectComposite_Model] ***/
+158:ib/*** hook.wallobjectsub2.getComposite = 'uba.ib'.Ljh; [WallObjectSub2_Composite] ***/
+159:hb/*** hook.walldecorationsub2.getComposite = 'tu.hb'.Ljh; [WallDecorationSub2_Composite] ***/
+160:J/*** hook.floordecorationsub2.getComposite = 'sl.J'.Ljh; [FloorDecorationSub2_Composite] ***/
