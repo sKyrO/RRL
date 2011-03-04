@@ -52,7 +52,17 @@ begin
                    'hook.rsinterface.IsHidden', 'hook.rsinterface.GetParentID', 'hook.rsinterface.GetID',
                    'hook.rsinterface.GetComponentID', 'hook.rsinterface.GetComponentStackSize', 'hook.rsinterface.GetComponentIndex',
                    'hook.rsinterface.GetActions', 'hook.rsinterface.GetComponentName', 'hook.rsinterface.GetText',
-                   'hook.rsinterface.GetTextureID', 'hook.rsinterface.GetComponents', 'hook.rsinterface.getBoundsArrayIndex'];
+                   'hook.rsinterface.GetTextureID', 'hook.rsinterface.GetComponents', 'hook.rsinterface.getBoundsArrayIndex',
+                   'hook.menu.getAction', 'hook.menu.getOption', 'hook.settings.getData',
+                   'hook.nodelistcache.getNodeList', 'hook.nodelist.getCurrent', 'hook.nodelist.getHead',
+                   'hook.node.getNext', 'hook.node.getID', 'hook.node.getPrevious',
+                   'hook.menugroupnode.getNodeSubListItems', 'hook.nodesublist.getHead', 'hook.nodesub.getNext',
+                   'hook.hashtable.getNodes', 'hook.rsitem.getID', 'hook.rsitem.getStackSize',
+                   'hook.itemdefloader.getCache', 'hook.itemdef.getGroundActions', 'hook.itemdef.getActions',
+                   'hook.itemdef.isMembers', 'hook.itemdef.getLoader',
+                   'hook.cache.getTable', 'hook.cache.getList', 'hook.cache.getInitialCount',
+                   'hook.cache.getSpaceLeft',
+                   'hook.objectdefloader.getCache'];
   IncludeNames := ['LoginIndex', 'Messages', 'LocalPlayer', 'BaseX',
                    'BaseY', 'NPCCount', 'NPCNodes', 'NPCIndexes',
                    'NPCNC', 'PlayerCount', 'PlayerIndexes',
@@ -94,7 +104,17 @@ begin
                    'Interface_Hidden', 'Interface_ParentID', 'Interface_ID',
                    'Interface_ComponentID', 'Interface_StackSize', 'Interface_ComponentIndex',
                    'Interface_Actions', 'Interface_ComponentName', 'Interface_Text',
-                   'Interface_TextureID', 'Interface_Components', 'Interface_BoundsIndex'];
+                   'Interface_TextureID', 'Interface_Components', 'Interface_BoundsIndex',
+                   'Menu_Action', 'Menu_Option', 'Settings_Data',
+                   'NodeListCache_NodeList', 'NodeList_Current', 'NodeList_Head',
+                   'Node_Next', 'Node_ID', 'Node_Previous',
+                   'MenuGroupNode_NodeSubListItems', 'NodeSubList_Head', 'NodeSub_Next',
+                   'HashTable_Nodes', 'Item_ID', 'Item_StackSize',
+                   'ItemDefinitionLoader_Cache', 'ItemDefinition_GroundItems', 'ItemDefinition_Actions',
+                   'ItemDefinition_Members', 'ItemDefinition_Loader',
+                   'Cache_Table', 'Cache_List', 'Cache_InitialCount',
+                   'Cache_SpaceLeft',
+                   'ObjectDefinitionLoader_Cache'];
   Indexes      := [0, 1, 2, 3,
                    4, 5, 6, 7,
                    8, 9, 10,
@@ -136,7 +156,17 @@ begin
                    111, 112, 113,
                    114, 115, 116,
                    117, 118, 119,
-                   120, 121, 122];
+                   120, 121, 122,
+                   123, 124, 125,
+                   126, 127, 128,
+                   129, 130, 131,
+                   132, 133, 134,
+                   135, 136, 137,
+                   138, 139, 140,
+                   141, 142,
+                   143, 144, 145,
+                   146,
+                   147];
   Types        := [0, 0, 0, 0,
                    0, 0, 0, 0,
                    0, 0, 0,
@@ -178,7 +208,17 @@ begin
                    1, 1, 1,
                    1, 1, 1,
                    1, 1, 1,
-                   1, 1, 1];
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1,
+                   1, 1, 1,
+                   1,
+                   1];
   WriteLn('We want to find ' + IntToStr(GetArrayLength(RawHookNames)) + ' hooks from the file!');
 end;
 
