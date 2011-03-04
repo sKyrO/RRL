@@ -34,7 +34,10 @@ begin
                    'hook.rsplayer.PlayerDef', 'hook.rsplayer.getSkillLevels',
                    'hook.playerdef.getEquipment', 'hook.playerdef.getModelID',
                    'hook.rsinteractable.getX', 'hook.rsinteractable.getY', 'hook.rsinteractable.getPlane',
-                   'hook.animablenode.getAnimable', 'hook.animablenode.getNext'];
+                   'hook.animablenode.getAnimable', 'hook.animablenode.getNext',
+                   'hook.sdtoolkit.Viewport', 'hook.sdtoolkit.xMin', 'hook.sdtoolkit.xMax',
+                   'hook.sdtoolkit.yMin', 'hook.sdtoolkit.yMax', 'hook.sdtoolkit.zMin',
+                   'hook.sdtoolkit.zMax', 'hook.sdtoolkit.xScale', 'hook.sdtoolkit.yScale'];
   IncludeNames := ['LoginIndex', 'Messages', 'LocalPlayer', 'BaseX',
                    'BaseY', 'NPCCount', 'NPCNodes', 'NPCIndexes',
                    'NPCNC', 'PlayerCount', 'PlayerIndexes',
@@ -58,7 +61,10 @@ begin
                    'Player_Definition', 'Player_SkillLevels',
                    'PlayerDefinition_Equipment', 'PlayerDefinition_ModelID',
                    'Animable_X', 'Animable_Y', 'Animable_Plane',
-                   'AnimableNode_Animable', 'AnimableNode_Next'];
+                   'AnimableNode_Animable', 'AnimableNode_Next',
+                   'ToolKit_Viewport', 'ToolKit_xMin', 'ToolKit_xMax',
+                   'ToolKit_yMin', 'ToolKit_yMax', 'ToolKit_zMin',
+                   'ToolKit_zMax', 'ToolKit_xScale', 'ToolKit_yScale'];
   Indexes      := [0, 1, 2, 3,
                    4, 5, 6, 7,
                    8, 9, 10,
@@ -82,7 +88,10 @@ begin
                    62, 63,
                    64, 65,
                    66, 67, 68,
-                   69, 70];
+                   69, 70,
+                   71, 72, 73,
+                   74, 75, 76,
+                   77, 78, 79];
   Types        := [0, 0, 0, 0,
                    0, 0, 0, 0,
                    0, 0, 0,
@@ -106,7 +115,10 @@ begin
                    1, 1,
                    1, 1,
                    1, 1, 1,
-                   1, 1];
+                   1, 1,
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1, 1];
   WriteLn('We want to find ' + IntToStr(GetArrayLength(RawHookNames)) + ' hooks from the file!');
 end;
 
