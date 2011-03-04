@@ -46,7 +46,13 @@ begin
                    'hook.npcdef.getLevel', 'hook.npcdef.getID', 'hook.rsnpcnode.getRSNPC',
                    'hook.sdplane.getTileHeights',
                    'hook.ldmodel.getIndices1', 'hook.ldmodel.getIndices2', 'hook.ldmodel.getIndices3',
-                   'hook.ldmodel.getPointsX', 'hook.ldmodel.getPointsY', 'hook.ldmodel.getPointsZ'];
+                   'hook.ldmodel.getPointsX', 'hook.ldmodel.getPointsY', 'hook.ldmodel.getPointsZ',
+                   'hook.rsinterface.GetTextColor', 'hook.rsinterface.GetModelID', 'hook.rsinterface.GetX',
+                   'hook.rsinterface.GetY', 'hook.rsinterface.GetWidth2', 'hook.rsinterface.GetHeight2',
+                   'hook.rsinterface.IsHidden', 'hook.rsinterface.GetParentID', 'hook.rsinterface.GetID',
+                   'hook.rsinterface.GetComponentID', 'hook.rsinterface.GetComponentStackSize', 'hook.rsinterface.GetComponentIndex',
+                   'hook.rsinterface.GetActions', 'hook.rsinterface.GetComponentName', 'hook.rsinterface.GetText',
+                   'hook.rsinterface.GetTextureID', 'hook.rsinterface.GetComponents', 'hook.rsinterface.getBoundsArrayIndex'];
   IncludeNames := ['LoginIndex', 'Messages', 'LocalPlayer', 'BaseX',
                    'BaseY', 'NPCCount', 'NPCNodes', 'NPCIndexes',
                    'NPCNC', 'PlayerCount', 'PlayerIndexes',
@@ -82,7 +88,13 @@ begin
                    'NPCDefinition_Level', 'NPCDefinition_ID', 'NPCNode_NPC',
                    'Plane_TileHeights',
                    'Model_Indexes1', 'Model_Indexes2', 'Model_Indexes3',
-                   'Model_xPoints', 'Model_yPoints', 'Model_zPoints'];
+                   'Model_xPoints', 'Model_yPoints', 'Model_zPoints',
+                   'Interface_TextColor', 'Interface_ModelID', 'Interface_X',
+                   'Interface_Y', 'Interface_Width', 'Interface_Height',
+                   'Interface_Hidden', 'Interface_ParentID', 'Interface_ID',
+                   'Interface_ComponentID', 'Interface_StackSize', 'Interface_ComponentIndex',
+                   'Interface_Actions', 'Interface_ComponentName', 'Interface_Text',
+                   'Interface_TextureID', 'Interface_Components', 'Interface_BoundsIndex'];
   Indexes      := [0, 1, 2, 3,
                    4, 5, 6, 7,
                    8, 9, 10,
@@ -118,7 +130,13 @@ begin
                    95, 96, 97,
                    98,
                    99, 100, 101,
-                   102, 103, 104];
+                   102, 103, 104,
+                   105, 106, 107,
+                   108, 109, 110,
+                   111, 112, 113,
+                   114, 115, 116,
+                   117, 118, 119,
+                   120, 121, 122];
   Types        := [0, 0, 0, 0,
                    0, 0, 0, 0,
                    0, 0, 0,
@@ -153,6 +171,12 @@ begin
                    1, 1, 1,
                    1, 1, 1,
                    1,
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1, 1,
+                   1, 1, 1,
                    1, 1, 1,
                    1, 1, 1];
   WriteLn('We want to find ' + IntToStr(GetArrayLength(RawHookNames)) + ' hooks from the file!');
