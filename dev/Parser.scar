@@ -23,7 +23,15 @@ begin
                    'getGroundByteArray', 'getToolkit',
                    'getSkillLevels', 'getSkillExperiences', 'getSettingsArray',
                    'getLoopCycle', 'getRSItemHashTable', 'getItemDefLoader', 'getObjectDefLoader',
-                   'getCrossHairColor', 'getFriendsList', 'getFriendsWorlds'];
+                   'getCrossHairColor', 'getFriendsList', 'getFriendsWorlds',
+                   'hook.chatline.getName', 'hook.chatline.getMessage',
+                   'hook.rsanimable.getX1', 'hook.rsanimable.getY1', 'hook.rsanimable.getX2', 'hook.rsanimable.getY2',
+                   'hook.rscharacter.getAnimation', 'hook.rscharacter.LocationX', 'hook.rscharacter.LocationY',
+                   'hook.rscharacter.getHeight', 'hook.rscharacter.getOrientation',
+                   'hook.rscharacter.LoopCycleStatus', 'hook.rscharacter.getHPRatio',
+                   'hook.rscharacter.getInteracting',
+                   'hook.rsplayer.getTeam', 'hook.rsplayer.getLevel', 'hook.rsplayer.getName',
+                   'hook.rsplayer.PlayerDef', 'hook.rsplayer.getSkillLevels'];
   IncludeNames := ['LoginIndex', 'Messages', 'LocalPlayer', 'BaseX',
                    'BaseY', 'NPCCount', 'NPCNodes', 'NPCIndexes',
                    'NPCNC', 'PlayerCount', 'PlayerIndexes',
@@ -36,7 +44,15 @@ begin
                    'GroundBytes', 'ToolKit',
                    'Levels', 'Experience', 'Settings',
                    'LoopCycle', 'GroundCache', 'ItemDefinition', 'ObjectDefinition',
-                   'CrossHairColor', 'FriendsList', 'FriendsWorlds'];
+                   'CrossHairColor', 'FriendsList', 'FriendsWorlds',
+                   'Message_Name', 'Message_Message',
+                   'Animable_AreaX1', 'Animable_AreaY1', 'Animable_AreaX2', 'Animable_AreaY2',
+                   'Character_Animation', 'Character_X', 'Character_Y',
+                   'Character_Height', 'Character_Orientation',
+                   'Character_LoopCycleStatus', 'Character_HPRatio',
+                   'Character_Interacting',
+                   'Player_Team', 'Player_Level', 'Player_Name',
+                   'Player_Definition', 'Player_SkillLevels'];
   Indexes      := [0, 1, 2, 3,
                    4, 5, 6, 7,
                    8, 9, 10,
@@ -49,7 +65,15 @@ begin
                    33, 34,
                    35, 36, 37,
                    38, 39, 40, 41,
-                   42, 43, 44];
+                   42, 43, 44,
+                   45, 46,
+                   47, 48, 49, 50,
+                   51, 52, 53,
+                   54, 55,
+                   56, 57,
+                   58,
+                   59, 60, 61,
+                   62, 63];
   Types        := [0, 0, 0, 0,
                    0, 0, 0, 0,
                    0, 0, 0,
@@ -62,7 +86,15 @@ begin
                    0, 0,
                    0, 0, 0,
                    0, 0, 0, 0,
-                   0, 0, 0];
+                   0, 0, 0,
+                   1, 1,
+                   1, 1, 1, 1,
+                   1, 1, 1,
+                   1, 1,
+                   1, 1,
+                   1,
+                   1, 1, 1,
+                   1, 1];
   WriteLn('We want to find ' + IntToStr(GetArrayLength(RawHookNames)) + ' hooks from the file!');
 end;
 
