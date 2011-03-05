@@ -1,7 +1,7 @@
 program Hooks_Parser;
 
 const
-  ClientVersion = 640;//Have the 640.txt hook output file in the same directory
+  ClientVersion = 640;//Have the ###.txt hook output file in the same directory
                       //As this script.
 
 var
