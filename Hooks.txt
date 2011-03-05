@@ -170,16 +170,16 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 157:mb/*** hook.walldecorationdata.getModel = 'nq.mb'.Lka; [WallDecorationData_Model] ***/
 161:K/*** hook.floordecorationdata.getID = 'et.K'.S [FloorDecorationData_ID] ***/
 162:eb/*** hook.floordecorationdata.getModel = 'et.eb'.Lka; [FloorDecorationData_Model] ***/
-165:mb/*** hook.interactiveobject.getModel = 'ah.mb'.Lka; [InteractiveObject_ID] ***/
-166:fb/*** hook.interactiveobject.getID = 'ah.fb'.S [InteractiveObject_Model] ***/
+166:mb/*** hook.interactiveobject.getModel = 'ah.mb'.Lka; [InteractiveObject_ID] ***/
+165:fb/*** hook.interactiveobject.getID = 'ah.fb'.S [InteractiveObject_Model] ***/
 167:sb/*** hook.interactiveobjectsub.getObjectData = 'kd.sb'.Ljh; [InteractiveObjectSub_Data] ***/
 163:d/*** hook.rsobjectcomposite.getID = 'jh.d'.I [ObjectComposite_ID] ***/
 164:c/*** hook.rsobjectcomposite.getModel = 'jh.c'.Lka; [ObjectComposite_Model] ***/
 158:ib/*** hook.wallobjectsub2.getComposite = 'uba.ib'.Ljh; [WallObjectSub2_Composite] ***/
 159:hb/*** hook.walldecorationsub2.getComposite = 'tu.hb'.Ljh; [WallDecorationSub2_Composite] ***/
 160:J/*** hook.floordecorationsub2.getComposite = 'sl.J'.Ljh; [FloorDecorationSub2_Composite] ***/
-161:jba.q
-162:uq.z
-163:wp.a
-164:vj.g
-165:Jc
+168:jba.q
+169:uq.z
+170:wp.a
+171:vj.g
+172:Jc

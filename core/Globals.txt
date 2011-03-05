@@ -192,7 +192,7 @@ var
   Good: Boolean;
 begin
   Result.Constructed := Construct;
-  while (not Good) do
+  {while (not Good) do
   begin
     lI1 := -1;
     lI2 := -1;
@@ -244,7 +244,7 @@ begin
   Result.zPoints := zPoints;
   if (Construct) then
     Result.Triangles := r_ConstructModel(Index0, Index1, Index2,
-                                         xPoints, yPoints, zPoints);
+                                         xPoints, yPoints, zPoints);}
 end;
 
 type
