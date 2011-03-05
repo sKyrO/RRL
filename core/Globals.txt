@@ -180,14 +180,14 @@ end;
 
 type
   TRSModelData = record
-    Indexes, Points: array[0..2] of TIntegerArray;
+    Index1, Index2, Index3, xPoints, yPoints, zPoints: TIntegerArray;
     Triangles: TRSModelTriangleArray;
     Constructed: Boolean;
   end;
 
 function RSModelData(const Model: LongInt; const Construct: Boolean): TRSModelData;
 var
-  Indexes, Points: array[0..2] of TIntegerArray;
+  Index0, Index1, Index2, xPoints, yPoints, zPoints: TIntegerArray;
   lI1, lI2, lI3, lP1, lP2, lP3, i: Integer;
   Good: Boolean;
 begin
@@ -201,45 +201,50 @@ begin
     lP2 := -1;
     lP3 := -1;
     lI1 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_Indexes1], 0);
-    SetLength(Indexes[0], lI1);
+    WriteLn(lI1);
+    SetLength(Index0, lI1);
     for i := 0 to lI1 - 1 do
-      Indexes[0][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes1], i);
+      Index0[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes1], i);
     lI2 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_Indexes2], 0);
     if (lI1 <> lI2) then
       Continue;
-    SetLength(Indexes[1], lI2);
+    SetLength(Index1, lI2);
     for i := 0 to lI2 - 1 do
-      Indexes[1][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes2], i);
+      Index1[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes2], i);
     lI3 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_Indexes3], 0);
     if (lI2 <> lI3) then
       Continue;
-    SetLength(Indexes[2], lI3);
+    SetLength(Index2, lI3);
     for i := 0 to lI3 - 1 do
-      Indexes[2][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes3], i);
+      Index2[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes3], i);
     lP1 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_xPoints], 0);
-    SetLength(Points[0], lP1);
+    SetLength(xPoints, lP1);
     for i := 0 to lP1 - 1 do
-      Points[0][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_xPoints], i);
+      xPoints[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_xPoints], i);
     lP2 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_yPoints], 0);
     if (lP1 <> lP2) then
       Continue;
-    SetLength(Points[1], lP2);
+    SetLength(yPoints, lP2);
     for i := 0 to lP2 - 1 do
-      Points[1][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_yPoints], i);
+      yPoints[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_yPoints], i);
     lP3 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_zPoints], 0);
     if (lP2 <> lP3) then
       Continue;
-    SetLength(Points[2], lP3);
+    SetLength(zPoints, lP3);
     for i := 0 to lP3 - 1 do
-      Points[2][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_zPoints], i);
+      zPoints[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_zPoints], i);
     Good := (lI1 = lI2) and (lI2 = lI3) and (lI1 = lP1) and (lP1 = lP2) and
             (lP2 = lP3);
   end;
-  Result.Indexes := Indexes;
-  Result.Points := Points;
+  Result.Index1 := Index0;
+  Result.Index2 := Index1;
+  Result.Index3 := Index2;
+  Result.xPoints := xPoints;
+  Result.yPoints := yPoints;
+  Result.zPoints := zPoints;
   if (Construct) then
-    Result.Triangles := r_ConstructModel(Indexes[0], Indexes[1], Indexes[2],
-                                         Points[0], Points[1], Points[2]);
+    Result.Triangles := r_ConstructModel(Index0, Index1, Index2,
+                                         xPoints, yPoints, zPoints);
 end;
 
 type

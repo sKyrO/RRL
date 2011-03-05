@@ -48,7 +48,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 const
   R_OBJECT_TYPE_INTERACTABLE = 1;
   R_OBJECT_TYPE_WALL_OBJECT = 2;
-  R_OBJCET_TYPE_WALL_DECORATION = 3;
+  R_OBJECT_TYPE_WALL_DECORATION = 3;
   R_OBJECT_TYPE_FLOOR_DECORATION = 4;
 
 function NULL_RSOBJECT: TRSObject;
@@ -99,7 +99,8 @@ begin
             ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj2, r_Hooks[hook_Animable_X]) div 512));
             ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj2, r_Hooks[hook_Animable_Y]) div 512));
             Model := SmartGetFieldObject(Obj, r_Hooks[hook_ObjectComposite_Model]);
-          end;
+          end else
+            Break;
           SmartFreeObject(Obj2);
         end else
         begin
@@ -117,8 +118,8 @@ begin
       end;
       SmartFreeObject(Obj);
       Last := Node;
-      SmartFreeObject(Node);
       Node := SmartGetFieldObject(Last, r_Hooks[hook_AnimableNode_Next]);
+      SmartFreeObject(Last);
     end;
   finally
     try
