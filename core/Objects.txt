@@ -67,7 +67,7 @@ function r_GetObjectInteractableAt(const TT: TRSTile): TRSObject;
 var
   BaseX, BaseY, Plane, ObjID: Integer;
   T, ObjRTile: TRSTile;
-  Ground, Node, Last, Obj, Obj2: LongInt;
+  Ground, Node, Last, Obj, Obj2, Model: LongInt;
   ObjArea: TArea;
 begin
   Result := NULL_RSOBJECT;
@@ -98,6 +98,7 @@ begin
             ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_AreaY2]));
             ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj2, r_Hooks[hook_Animable_X]) div 512));
             ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj2, r_Hooks[hook_Animable_Y]) div 512));
+            Model := SmartGetFieldObject(Obj, r_Hooks[hook_ObjectComposite_Model]);
           end;
           SmartFreeObject(Obj2);
         end else
@@ -108,8 +109,9 @@ begin
           ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj, r_Hooks[hook_Animable_AreaY2]));
           ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj, r_Hooks[hook_Animable_X]) div 512));
           ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj, r_Hooks[hook_Animable_Y]) div 512));
+          Model := SmartGetFieldObject(Obj, r_Hooks[hook_InteractiveObject_Model]);
         end;
-        Result := RSObject(ObjID, R_OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea);
+        Result := RSObject(ObjID, R_OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea, Model);
         SmartFreeObject(Obj);
         Break;
       end;

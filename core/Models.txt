@@ -3,6 +3,9 @@ RRL - Reflection Resource Library
 Model routines.
 
 ---------------------------------------------------------
+
+ * function r_ConstructModel(i1, i2, i3, xp, yp, zp: TIntegerArray): TRSModelTriangleArray;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -15,3 +18,8 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
+
+function r_ConstructModel(i1, i2, i3, xp, yp, zp: TIntegerArray): TRSModelTriangleArray;
+begin
+  //TODO .
+end;

@@ -37,6 +37,14 @@ var
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Hook variables.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+var
+  r_Hooks: TStringArray;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Tile data types.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
@@ -152,6 +160,108 @@ end;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Model type.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TRSModelTriangle = record
+    x, y, z: Integer;
+  end;
+  TRSModelTriangleArray = array of TRSModelTriangle;
+
+function r_ConstructModel(i1, i2, i3, xp, yp, zp: TIntegerArray): TRSModelTriangleArray; forward;
+
+function RSModelTriangle(const mX, mY, mZ: Integer): TRSModelTriangle;
+begin
+  Result.x := mX;
+  Result.y := mY;
+  Result.z := mZ;
+end;
+
+type
+  TRSModelData = record
+    Indexes, Points: array[0..2] of TIntegerArray;
+    Triangles: TRSModelTriangleArray;
+    Constructed: Boolean;
+  end;
+
+function RSModelData(const Model: LongInt; const Construct: Boolean): TRSModelData;
+var
+  Indexes, Points: array[0..2] of TIntegerArray;
+  lI1, lI2, lI3, lP1, lP2, lP3, i: Integer;
+  Good: Boolean;
+begin
+  Result.Constructed := Construct;
+  while (not Good) do
+  begin
+    lI1 := -1;
+    lI2 := -1;
+    lI3 := -1;
+    lP1 := -1;
+    lP2 := -1;
+    lP3 := -1;
+    lI1 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_Indexes1], 0);
+    SetLength(Indexes[0], lI1);
+    for i := 0 to lI1 - 1 do
+      Indexes[0][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes1], i);
+    lI2 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_Indexes2], 0);
+    if (lI1 <> lI2) then
+      Continue;
+    SetLength(Indexes[1], lI2);
+    for i := 0 to lI2 - 1 do
+      Indexes[1][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes2], i);
+    lI3 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_Indexes3], 0);
+    if (lI2 <> lI3) then
+      Continue;
+    SetLength(Indexes[2], lI3);
+    for i := 0 to lI3 - 1 do
+      Indexes[2][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes3], i);
+    lP1 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_xPoints], 0);
+    SetLength(Points[0], lP1);
+    for i := 0 to lP1 - 1 do
+      Points[0][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_xPoints], i);
+    lP2 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_yPoints], 0);
+    if (lP1 <> lP2) then
+      Continue;
+    SetLength(Points[1], lP2);
+    for i := 0 to lP2 - 1 do
+      Points[1][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_yPoints], i);
+    lP3 := SmartGetFieldArraySize(Model, r_Hooks[hook_Model_zPoints], 0);
+    if (lP2 <> lP3) then
+      Continue;
+    SetLength(Points[2], lP3);
+    for i := 0 to lP3 - 1 do
+      Points[2][i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_zPoints], i);
+    Good := (lI1 = lI2) and (lI2 = lI3) and (lI1 = lP1) and (lP1 = lP2) and
+            (lP2 = lP3);
+  end;
+  Result.Indexes := Indexes;
+  Result.Points := Points;
+  if (Construct) then
+    Result.Triangles := r_ConstructModel(Indexes[0], Indexes[1], Indexes[2],
+                                         Points[0], Points[1], Points[2]);
+end;
+
+type
+  TRSModel = record
+    ID: Integer;
+    Model: LongInt;
+    Data: TRSModelData;
+    Constructed: Boolean;
+  end;
+
+function RSModel(const Model: LongInt; const ID: Integer; const FreeModel, ConstructModel: Boolean): TRSModel;
+begin
+  Result.ID := ID;
+  Result.Model := Model;
+  Result.Constructed := ConstructModel;
+  Result.Data := RSModelData(Model, ConstructModel);
+  if (FreeModel) then
+    SmartFreeObject(Model);
+end;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 NPC types.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
@@ -177,11 +287,12 @@ type
     ID, ObjectType: Integer;
     Tile, MainTile: TRSTile;
     Area: TArea;
+    Model: TRSModel;
   end;
 
   TRSObjectArray = array of TRSObject;
 
-function RSObject(const ObjID, ObjType: Integer; const ObjTile, ObjMainTile: TRSTile; const ObjArea: TArea): TRSObject;
+function RSObject(const ObjID, ObjType: Integer; const ObjTile, ObjMainTile: TRSTile; const ObjArea: TArea; const ObjModel: LongInt): TRSObject;
 begin
   with Result do
   begin
@@ -190,6 +301,7 @@ begin
     Tile := ObjTile;
     MainTile := ObjMainTile;
     Area := ObjArea;
+    Model := RSModel(ObjModel, -1, True, True);
   end;
 end;
 
@@ -257,14 +369,6 @@ type
 
 var
   r_Randoms: array of TRSRandom;
-
-{
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-Hook variables.
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-}
-var
-  r_Hooks: TStringArray;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
