@@ -37,8 +37,8 @@ function r_GetFlagPosition: TRSTile;
 var
   fx, fy: Integer;
 begin
-  fx := SmartGetFieldInt(0, r_Hooks[hook_FlagX]);
-  fy := SmartGetFieldInt(0, r_Hooks[hook_FlagY]);
+  fx := SmartGetFieldInt(0, r_Hooks[hook_DestX]);
+  fy := SmartGetFieldInt(0, r_Hooks[hook_DestY]);
   if (fx < 0) or (fy < 0) then
     Result := NULL_RSTILE
   else

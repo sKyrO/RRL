@@ -55,7 +55,7 @@ end;
 function r_GetCharacterFighting(const CharPath: LongInt; const Free: Boolean): Boolean;
 begin
   try
-    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_LoopCycle]) >
+    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_LoopCycleStatus]) >
               SmartGetFieldInt(0, r_Hooks[hook_LoopCycle]);
   finally // We want to rid of memory leaks.
     try
@@ -101,7 +101,7 @@ end;
 function r_GetCharacterLevel(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
-    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_NPC_Level]);
+    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_NPCDefinition_Level]);
   finally // We want to rid of memory leaks.
     try
       if (Free) then
@@ -116,7 +116,7 @@ end;
 function r_GetCharacterInteracting(const CharPath: LongInt; const Free: Boolean): LongInt;
 begin
   try
-    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_GetInteracting]);
+    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Interacting]);
   finally // We want to rid of memory leaks.
     try
       if (Free) then

@@ -33,7 +33,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 
 function r_IsInterfaceValid(const id: Integer): Boolean;
 begin
-  Result := SmartGetFieldArrayBoolean(0, r_Hooks[hook_Valid_Interfaces], id);
+  Result := SmartGetFieldArrayBoolean(0, r_Hooks[hook_ValidInterfaces], id);
 end;
 
 function r_GetInterface(const ParentID, ChildID: Integer): LongInt;
@@ -66,11 +66,11 @@ var
   x, y: Integer;
 begin
   PathToInterface := r_GetInterface(ParentID, ChildID);
-  x := SmartGetFieldInt(PathToInterface, r_Hooks[hook_InterfaceX]);
-  y := SmartGetFieldInt(PathToInterface, r_Hooks[hook_InterfaceY]);
+  x := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
+  y := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
   Result := IntToBox(Offset.x + x, Offset.y + y,
-                     Offset.x + x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_InterfaceW]),
-                     Offset.y + y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_InterfaceH]));
+                     Offset.x + x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]),
+                     Offset.y + y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]));
   SmartFreeObject(PathToInterface);
 end;
 

@@ -53,7 +53,7 @@ var
 begin
   try
     Nodes := SmartGetFieldObject(0, r_Hooks[hook_MenuNodeList]);
-    Head := SmartGetFieldObject(Nodes, r_Hooks[hook_Node_Head]);
+    Head := SmartGetFieldObject(Nodes, r_Hooks[hook_NodeList_Head]);
     if (r_IsMenuTabbed) then
       Next := Head
     else

@@ -50,7 +50,7 @@ begin
   Result := -1;
   try
     SettingsArray := SmartGetFieldObject(0, r_Hooks[hook_Settings]);
-    Data := SmartGetFieldObject(SettingsArray, r_Hooks[hook_SettingsData]);
+    Data := SmartGetFieldObject(SettingsArray, r_Hooks[hook_Settings_Data]);
     DataLength := SmartGetFieldArraySize(Data, '', 1);
     if (Index >= DataLength) then
       Exit;
@@ -123,21 +123,21 @@ begin
   while (GetSystemTime - l < 5000) and (RData.zX <= 0) and (RData.zY <= 0) do
     try
       ToolKitPath := SmartGetFieldObject(0, r_Hooks[hook_ToolKit]);
-      ViewPortPath := SmartGetFieldObject(ToolKitPath, r_Hooks[hook_ViewPort]);
+      ViewPortPath := SmartGetFieldObject(ToolKitPath, r_Hooks[hook_ToolKit_Viewport]);
       with RData do
       begin
-        xOffset := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_xOffset]);
-        yOffset := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_yOffset]);
-        zOffset := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_zOffset]);
-        xX := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_xX]);
-        xY := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_xY]);
-        xZ := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_xZ]);
-        yX := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_yX]);
-        yY := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_yY]);
-        yZ := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_yZ]);
-        zX := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_zX]);
-        zY := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_zY]);
-        zZ := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_ViewPort_zZ]);
+        xOffset := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_xOff]);
+        yOffset := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_yOff]);
+        zOffset := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_zOff]);
+        xX := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_xX]);
+        xY := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_xY]);
+        xZ := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_xZ]);
+        yX := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_yX]);
+        yY := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_yY]);
+        yZ := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_yZ]);
+        zX := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_zX]);
+        zY := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_zY]);
+        zZ := SmartGetFieldFloat(ViewPortPath, r_Hooks[hook_Viewport_zZ]);
       end;
       with Render do
       begin

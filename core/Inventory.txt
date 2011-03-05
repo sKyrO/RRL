@@ -95,12 +95,12 @@ begin
     Offset := Point(563, 213);
     InterfaceID := r_GetInventoryInterface;
     InventoryInterface := r_GetInterface(InterfaceID, 0);
-    TheSlot := SmartGetFieldArrayObject(InventoryInterface, r_Hooks[hook_Interface_Children], Slot);
-    x := SmartGetFieldInt(TheSlot, r_Hooks[hook_InterfaceX]);
-    y := SmartGetFieldInt(TheSlot, r_Hooks[hook_InterfaceY]);
+    TheSlot := SmartGetFieldArrayObject(InventoryInterface, r_Hooks[hook_Interface_Components], Slot);
+    x := SmartGetFieldInt(TheSlot, r_Hooks[hook_Interface_X]);
+    y := SmartGetFieldInt(TheSlot, r_Hooks[hook_Interface_Y]);
     Box := IntToBox(Offset.x + x, Offset.y + y,
-                    Offset.x + x + SmartGetFieldInt(TheSlot, r_Hooks[hook_InterfaceW]),
-                    Offset.y + y + SmartGetFieldInt(TheSlot, r_Hooks[hook_InterfaceH]));
+                    Offset.x + x + SmartGetFieldInt(TheSlot, r_Hooks[hook_Interface_Width]),
+                    Offset.y + y + SmartGetFieldInt(TheSlot, r_Hooks[hook_Interface_Height]));
   finally
     try
     except
@@ -128,12 +128,12 @@ begin
     Offset := Point(563, 213);
     InterfaceID := r_GetInventoryInterface;
     InventoryInterface := r_GetInterface(InterfaceID, 0);
-    TheSlot := SmartGetFieldArrayObject(InventoryInterface, r_Hooks[hook_Interface_Children], Slot);
-    x := SmartGetFieldInt(TheSlot, r_Hooks[hook_InterfaceX]);
-    y := SmartGetFieldInt(TheSlot, r_Hooks[hook_InterfaceY]);
+    TheSlot := SmartGetFieldArrayObject(InventoryInterface, r_Hooks[hook_Interface_Components], Slot);
+    x := SmartGetFieldInt(TheSlot, r_Hooks[hook_Interface_X]);
+    y := SmartGetFieldInt(TheSlot, r_Hooks[hook_Interface_Y]);
     Box := IntToBox(Offset.x + x, Offset.y + y,
-                    Offset.x + x + SmartGetFieldInt(TheSlot, r_Hooks[hook_InterfaceW]),
-                    Offset.y + y + SmartGetFieldInt(TheSlot, r_Hooks[hook_InterfaceH]));
+                    Offset.x + x + SmartGetFieldInt(TheSlot, r_Hooks[hook_Interface_Width]),
+                    Offset.y + y + SmartGetFieldInt(TheSlot, r_Hooks[hook_Interface_Height]));
   finally
     try
     except
@@ -160,10 +160,10 @@ begin
   if (InterfaceID > 0) then
     try
       InventoryInterface := r_GetInterface(InterfaceID, 0);
-      TheItem := SmartGetFieldArrayObject(InventoryInterface, r_Hooks[hook_Interface_Children], Slot);
-      JName := SmartGetFieldObject(TheItem, r_Hooks[hook_Interface_Name]);
+      TheItem := SmartGetFieldArrayObject(InventoryInterface, r_Hooks[hook_Interface_Components], Slot);
+      JName := SmartGetFieldObject(TheItem, r_Hooks[hook_Interface_ComponentName]);
       Name := r_RemoveJunk(r_GetString(JName));
-      ID := SmartGetFieldInt(TheItem, r_Hooks[hook_InterfaceID]);
+      ID := SmartGetFieldInt(TheItem, r_Hooks[hook_Interface_ID]);
       Stack := SmartGetFieldInt(TheItem, r_Hooks[hook_Interface_StackSize]);
       if (ID > 0) then
         Result := RSItem(ID, TSlot, Stack, Name);

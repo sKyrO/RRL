@@ -59,12 +59,12 @@ end;
 
 function r_GetSkillLevel(const SkillIndex: Integer): Integer;
 begin
-  Result := SmartGetFieldArrayInt(0, r_Hooks[hook_SkillLevels], SkillIndex);
+  Result := SmartGetFieldArrayInt(0, r_Hooks[hook_Levels], SkillIndex);
 end;
 
 function r_GetSkillExperience(const SkillIndex: Integer): Integer;
 begin
-  Result := SmartGetFieldArrayInt(0, r_Hooks[hook_SkillExperiences], SkillIndex);
+  Result := SmartGetFieldArrayInt(0, r_Hooks[hook_Experience], SkillIndex);
 end;
 
 function r_Logout: Boolean;
