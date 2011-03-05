@@ -16,6 +16,8 @@ Calulation core file
      By: Timer
  * function r_GetTileHeight(const t: TRSTile): Extended;
      By: Timer
+ * function r_MatrixDataToScreenEx(const mX, mY, mZ: Extended; const RD: TRenderData; const R: TRender): TPoint;
+     By: Timer
  * function r_MatrixDataToScreen(const mX, mY, mZ: Extended): TPoint;
      By: Timer
  * function r_WorldToScreen(const x, y, z: Extended): TPoint;
@@ -122,6 +124,29 @@ begin
              SmartGetFieldArray2DInt(PathToPlane, r_Hooks[hook_Plane_TileHeights], x + 1, y) +
              SmartGetFieldArray2DInt(PathToPlane, r_Hooks[hook_Plane_TileHeights], x + 1, y + 1)) / 4;
   SmartFreeObject(PathToPlane);
+end;
+
+function r_MatrixDataToScreenEx(const mX, mY, mZ: Extended; const RD: TRenderData; const R: TRender): TPoint;
+var
+  x, y, z: Extended;
+  l: LongInt;
+  NULL_TPOINT: TPoint;
+  Tries: Byte;
+begin
+  NULL_TPOINT := Point(-1, -1);
+  Result := NULL_TPOINT;
+  l := GetSystemTime;
+  z := RD.zOffset + (RD.zX * mX + RD.zY * mY + RD.zZ * mZ);
+  if (z < R.zMin) or (z > R.zMax) then
+    Exit;
+  x := R.xScale * (RD.xOffset + (RD.xX * mX + RD.xY * mY + RD.xZ * mZ)) / z;
+  y := R.yScale * (RD.yOffset + (RD.yX * mX + RD.yY * mY + RD.yZ * mZ)) / z;
+  if (x >= R.xMin) and (x <= R.xMax) and (y >= R.yMin) and (y <= R.yMax) then
+  begin
+    Result.x := Round((x - R.xMin) + 4);
+    Result.y := Round((y - R.yMin) + 4);
+  end else
+    Inc(Tries);
 end;
 
 function r_MatrixDataToScreen(const mX, mY, mZ: Extended): TPoint;

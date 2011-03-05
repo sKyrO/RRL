@@ -165,13 +165,13 @@ Model type.
 }
 type
   TRSModelTriangle = record
-    x, y, z: Integer;
+    x, y, z: TPoint;
   end;
   TRSModelTriangleArray = array of TRSModelTriangle;
 
 function r_ConstructModel(i1, i2, i3, xp, yp, zp: TIntegerArray): TRSModelTriangleArray; forward;
 
-function RSModelTriangle(const mX, mY, mZ: Integer): TRSModelTriangle;
+function RSModelTriangle(const mX, mY, mZ: TPoint): TRSModelTriangle;
 begin
   Result.x := mX;
   Result.y := mY;
