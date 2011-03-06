@@ -75,6 +75,7 @@ const
   hook_Character_LoopCycleStatus = 56;
   hook_Character_HPRatio = 57;
   hook_Character_Interacting = 58;
+  hook_Character_Model = 173;
   hook_AnimableNode_Animable = 69;
   hook_AnimableNode_Next = 70;
   hook_Animable_AreaX1 = 47;

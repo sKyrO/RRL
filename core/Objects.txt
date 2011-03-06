@@ -112,7 +112,7 @@ begin
           ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj, r_Hooks[hook_Animable_Y]) div 512));
           Model := SmartGetFieldObject(Obj, r_Hooks[hook_InteractiveObject_Model]);
         end;
-        Result := RSObject(ObjID, R_OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea, Model);
+        Result := RSObject(ObjID, R_OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea, Model, 0);
         SmartFreeObject(Obj);
         Break;
       end;

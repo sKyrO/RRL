@@ -49,6 +49,7 @@ var
 begin
   m := GetSystemTime;
   r_SetMouseSpeed(10);
+  BuildCalculationTables;
   if (not r_LoadHooks) then
   begin
     Writeln('Failed to load hooks.');
@@ -63,6 +64,6 @@ begin
     Exit;
   end;
   r_LoadRandoms;
-  WriteLn('RRL was set up in ' + IntToStr(GetSystemTime - m) + ' ms.');
+  WriteLn('RRL was set up in ' + IntToStr(GetSystemTime - m) + ' ms, loaded ' + IntToStr(Length(r_Hooks)) + ' hooks.');
   Result := True;
 end;

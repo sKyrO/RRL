@@ -37,6 +37,14 @@ var
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Calculation tables
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+var
+  SinTable, CosTable: TExtendedArray;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Hook variables.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
@@ -163,13 +171,17 @@ end;
 Model type.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
+const
+  R_MODEL_TYPE_OBJECT = 0;
+  R_MODEL_TYPE_CHARACTER = 1;
+
 type
   TRSModelTriangle = record
     x, y, z: TPoint;
   end;
   TRSModelTriangleArray = array of TRSModelTriangle;
 
-function r_ConstructModel(i1, i2, i3, xp, yp, zp: TIntegerArray): TRSModelTriangleArray; forward;
+function r_ConstructModel(i1, i2, i3, xp, yp, zp: TIntegerArray; const mType, Orient: Integer): TRSModelTriangleArray; forward;
 
 function RSModelTriangle(const mX, mY, mZ: TPoint): TRSModelTriangle;
 begin
@@ -183,9 +195,10 @@ type
     Index1, Index2, Index3, xPoints, yPoints, zPoints: TIntegerArray;
     Triangles: TRSModelTriangleArray;
     Constructed: Boolean;
+    mType, Orient: Integer;
   end;
 
-function RSModelData(const Model: LongInt; const Construct: Boolean): TRSModelData;
+function RSModelData(const Model: LongInt; const Construct: Boolean; const mType, Orient: Integer): TRSModelData;
 var
   Index0, Index1, Index2, xPoints, yPoints, zPoints: TIntegerArray;
   lI1, lI2, lI3, lP1, lP2, lP3, i: Integer;
@@ -193,6 +206,7 @@ var
   Good: Boolean;
 begin
   Result.Constructed := Construct;
+  Result.mType := mType;
   while (not Good) do
   begin
     lI1 := -1;
@@ -252,23 +266,24 @@ begin
   Result.zPoints := zPoints;
   if (Construct) then
     Result.Triangles := r_ConstructModel(Index0, Index1, Index2,
-                                         xPoints, yPoints, zPoints);
+                                         xPoints, yPoints, zPoints, mType, Orient);
 end;
 
 type
   TRSModel = record
-    ID: Integer;
+    ID, mType, Orient: Integer;
     Model: LongInt;
     Data: TRSModelData;
     Constructed: Boolean;
   end;
 
-function RSModel(const Model: LongInt; const ID: Integer; const FreeModel, ConstructModel: Boolean): TRSModel;
+function RSModel(const Model: LongInt; const ID, mType, Orient: Integer; const FreeModel, ConstructModel: Boolean): TRSModel;
 begin
   Result.ID := ID;
+  Result.mType := mType;
   Result.Model := Model;
   Result.Constructed := ConstructModel;
-  Result.Data := RSModelData(Model, ConstructModel);
+  Result.Data := RSModelData(Model, ConstructModel, mType, Orient);
   if (FreeModel) then
     SmartFreeObject(Model);
 end;
@@ -305,7 +320,7 @@ type
 
   TRSObjectArray = array of TRSObject;
 
-function RSObject(const ObjID, ObjType: Integer; const ObjTile, ObjMainTile: TRSTile; const ObjArea: TArea; const ObjModel: LongInt): TRSObject;
+function RSObject(const ObjID, ObjType: Integer; const ObjTile, ObjMainTile: TRSTile; const ObjArea: TArea; const ObjModel, Orient: LongInt): TRSObject;
 begin
   with Result do
   begin
@@ -314,7 +329,7 @@ begin
     Tile := ObjTile;
     MainTile := ObjMainTile;
     Area := ObjArea;
-    Model := RSModel(ObjModel, -1, True, True);
+    Model := RSModel(ObjModel, -1, R_MODEL_TYPE_OBJECT, Orient, True, True);
   end;
 end;
 

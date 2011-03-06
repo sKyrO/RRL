@@ -101,7 +101,7 @@ end;
 function r_GetCharacterLevel(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
   try
-    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_NPCDefinition_Level]);
+    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_NPCDefinition_Level]);//TODO player support.
   finally // We want to rid of memory leaks.
     try
       if (Free) then
