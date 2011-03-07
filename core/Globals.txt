@@ -175,6 +175,9 @@ const
   R_MODEL_TYPE_OBJECT = 0;
   R_MODEL_TYPE_CHARACTER = 1;
 
+var
+  r_UseModels: Boolean;
+
 type
   TRSModelTriangle = record
     x, y, z: TPoint;
@@ -279,11 +282,14 @@ type
 
 function RSModel(const Model: LongInt; const ID, mType, Orient: Integer; const FreeModel, ConstructModel: Boolean): TRSModel;
 begin
-  Result.ID := ID;
-  Result.mType := mType;
-  Result.Model := Model;
-  Result.Constructed := ConstructModel;
-  Result.Data := RSModelData(Model, ConstructModel, mType, Orient);
+  if (r_UseModels) then
+  begin
+    Result.ID := ID;
+    Result.mType := mType;
+    Result.Model := Model;
+    Result.Constructed := ConstructModel;
+    Result.Data := RSModelData(Model, ConstructModel, mType, Orient);
+  end;
   if (FreeModel) then
     SmartFreeObject(Model);
 end;

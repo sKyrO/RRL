@@ -6,6 +6,8 @@ Model routines.
 
  * function r_ConstructModel(i1, i2, i3, xp, yp, zp: TIntegerArray; const mType, Orient: Integer): TRSModelTriangleArray;
      By: Timer
+ * procedure r_SetModels(const UseModels: Boolean);
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -66,4 +68,9 @@ begin
                                         Height + yp[i3[i]], RD, R);
     Result[i] := RSModelTriangle(aPoint[0], aPoint[1], aPoint[2]);
   end;
+end;
+
+procedure r_SetModels(const UseModels: Boolean);
+begin
+  r_UseModels := UseModels;
 end;

@@ -49,6 +49,7 @@ var
 begin
   m := GetSystemTime;
   r_SetMouseSpeed(10);
+  r_SetModels(False);
   BuildCalculationTables;
   if (not r_LoadHooks) then
   begin
