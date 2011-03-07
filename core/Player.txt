@@ -22,6 +22,8 @@ My Player file.
      By: Timer
  * function r_GetHPRatio: Integer;
      By: Timer
+ * function r_GetLocalPlayer: TPlayer;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -122,4 +124,57 @@ var
 begin
   OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
   Result := r_GetCharacterHPRatio(OurPlayerPath, True);
+end;
+
+function r_GetLocalPlayer: TPlayer;
+var
+  CharPath, CharDefPath, Str: LongInt;
+  i: Integer;
+begin
+  try
+    CharPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
+    CharDefPath := SmartGetFieldObject(CharPath, r_Hooks[hook_Player_Definition]);
+    with Result do
+    begin
+      with Character do
+      begin
+        Animation := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Animation]);
+        Orientation := Round(FixD(180 + (SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Orientation]) * 45) / 2048));
+        LoopCycleStatus := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_LoopCycleStatus]);
+        HPRatio := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_HPRatio]);
+        Speed := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Movement]);
+        Height := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Height]);
+        Location.x := SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Character_X]) div 512;
+        Location.y := SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Y]) div 512;
+        Interacting := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Interacting]);
+        Model := 0;//TODO model.
+        IsFighting := LoopCycleStatus > SmartGetFieldInt(0, r_Hooks[hook_LoopCycle]);
+        IsMoving := Speed > 0;
+        IsAnimating := Animation > -1;
+        IsIdle := (not IsFighting) and (not IsAnimating) and (not IsMoving);
+      end;
+      Index := -1;
+      Team := SmartGetFieldInt(CharPath, r_Hooks[hook_Player_Team]);
+      Level := SmartGetFieldInt(CharPath, r_Hooks[hook_Player_Level]);
+      Str := SmartGetFieldObject(CharPath, r_Hooks[hook_Player_Name]);
+      Name := r_GetString(Str);
+      SmartFreeObject(Str);
+      for i := 0 to 24 do
+      begin
+        Levels[i] := r_GetSkillLevel(i);
+        Experiences[i] := r_GetSkillExperience(i);
+      end;
+      for i := 0 to 10 do
+        Equipment[i] := SmartGetFieldArrayInt(CharDefPath, r_Hooks[hook_PlayerDefinition_Equipment], i) - 1073741824;
+    end;
+  finally
+    try
+      SmartFreeObject(CharPath);
+    except
+    end;
+    try
+      SmartFreeObject(CharDefPath);
+    except
+    end;
+  end;
 end;
