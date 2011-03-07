@@ -35,47 +35,72 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+{.include RRL\core\Randoms\Abyss.txt}
 {.include RRL\core\Randoms\Beehive.txt}
+{.include RRL\core\Randoms\Box.txt}
 {.include RRL\core\Randoms\CapnArnav.txt}
 {.include RRL\core\Randoms\Certer.txt}
 {.include RRL\core\Randoms\DrillDemon.txt}
+{.include RRL\core\Randoms\Exam.txt}
+{.include RRL\core\Randoms\FirstTimeDeath.txt}
 {.include RRL\core\Randoms\FreakyForester.txt}
 {.include RRL\core\Randoms\Frog.txt}
+{.include RRL\core\Randoms\GraveDigger.txt}
+{.include RRL\core\Randoms\Maze.txt}
 {.include RRL\core\Randoms\Mime.txt}
+{.include RRL\core\Randoms\Molly.txt}
 {.include RRL\core\Randoms\Pillory.txt}
 {.include RRL\core\Randoms\Pinball.txt}
+{.include RRL\core\Randoms\Prison.txt}
 {.include RRL\core\Randoms\Quiz.txt}
 {.include RRL\core\Randoms\Sandwhich.txt}
 {.include RRL\core\Randoms\ScapeRuneIsland.txt}
 
 const
-  R_RANDOMS_BEEHIVE = 0;
-  R_RANDOMS_CAPTAIN_ARNAV = 1;
-  R_RANDOMS_CERTER = 2;
-  R_RANDOMS_DRILL_DEMON = 3;
-  R_RANDOMS_FREAKY_FORESTER = 4;
-  R_RANDOMS_FROG = 5;
-  R_RANDOMS_MIME = 6;
-  R_RANDOMS_PILLORY = 7;
-  R_RANDOMS_PINBALL = 8;
-  R_RANDOMS_QUIZ = 9;
-  R_RANDOMS_SANDWHICH = 10;
-  R_RANDOMS_SCAPE_RUNE_ISLAND = 11;
+  R_RANDOMS_ABYSS = 0;
+  R_RANDOMS_BEEHIVE = 1;
+  R_RANDOMS_BOX = 2;
+  R_RANDOMS_CAPTAIN_ARNAV = 3;
+  R_RANDOMS_CERTER = 4;
+  R_RANDOMS_DRILL_DEMON = 5;
+  R_RANDOMS_EXAM = 6;
+  R_RANDOMS_DEATH = 7;
+  R_RANDOMS_FREAKY_FORESTER = 8;
+  R_RANDOMS_FROG = 9;
+  R_RANDOMS_GRAVE_DIGGER = 10;
+  R_RANDOMS_MAZE = 11;
+  R_RANDOMS_MIME = 12;
+  R_RANDOMS_MOLLY = 13;
+  R_RANDOMS_PILLORY = 14;
+  R_RANDOMS_PINBALL = 15;
+  R_RANDOMS_PRISON = 16;
+  R_RANDOMS_QUIZ = 17;
+  R_RANDOMS_SANDWHICH = 18;
+  R_RANDOMS_SCAPE_RUNE_ISLAND = 19;
 
   R_RANDOMC_MIN = 0;
-  R_RANDOMC_MAX = 11;
+  R_RANDOMC_MAX = 19;
 
 function r_GetRandomName(const Rand: Byte): string;
 begin
   case Rand of
+    R_RANDOMS_ABYSS: Result := 'Abyss';
     R_RANDOMS_BEEHIVE: Result := 'Beehive';
+    R_RANDOMS_BOX: Result := 'Box';
     R_RANDOMS_CAPTAIN_ARNAV: Result := 'Captain Arnav';
+    R_RANDOMS_CERTER: Result := 'Certer';
     R_RANDOMS_DRILL_DEMON: Result := 'Drill Demon';
+    R_RANDOMS_EXAM: Result := 'Exam';
+    R_RANDOMS_DEATH: Result := 'First Time Death';
     R_RANDOMS_FREAKY_FORESTER: Result := 'Freaky Forester';
     R_RANDOMS_FROG: Result := 'Frog';
+    R_RANDOMS_GRAVE_DIGGER: Result := 'Grave Digger';
+    R_RANDOMS_MAZE: Result := 'Maze';
     R_RANDOMS_MIME: Result := 'Mime';
+    R_RANDOMS_MOLLY: Result := 'Molly';
     R_RANDOMS_PILLORY: Result := 'Pillory';
     R_RANDOMS_PINBALL: Result := 'Pinball';
+    R_RANDOMS_PRISON: Result := 'Prison';
     R_RANDOMS_QUIZ: Result := 'Quiz';
     R_RANDOMS_SANDWHICH: Result := 'Sandwhich Lady';
     R_RANDOMS_SCAPE_RUNE_ISLAND: Result := 'ScapeRune Island';
@@ -86,14 +111,23 @@ function r_GetRandomActive(const Rand: Byte): TBoolFunc;
 begin
   Result := nil;
   case Rand of
+    R_RANDOMS_ABYSS: Result := @r_Abyss_InRandom;
     R_RANDOMS_BEEHIVE: Result := @r_Beehive_InRandom;
+    R_RANDOMS_BOX: Result := @r_Box_InRandom;
     R_RANDOMS_CAPTAIN_ARNAV: Result := @r_CapnArnav_InRandom;
+    R_RANDOMS_CERTER: Result := @r_Certer_InRandom;
     R_RANDOMS_DRILL_DEMON: Result := @r_DrillDemon_InRandom;
+    R_RANDOMS_EXAM: Result := @r_Exam_InRandom;
+    R_RANDOMS_DEATH: Result := @r_Death_InRandoms;
     R_RANDOMS_FREAKY_FORESTER: Result := @r_FreakyForester_InRandom;
     R_RANDOMS_FROG: Result := @r_Frog_InRandom;
+    R_RANDOMS_GRAVE_DIGGER: Result := @r_GraveDigger_InRandom;
+    R_RANDOMS_MAZE: Result := @r_Maze_InRandom;
     R_RANDOMS_MIME: Result := @r_Mime_InRandom;
+    R_RANDOMS_MOLLY: Result := @r_Molly_InRandom;
     R_RANDOMS_PILLORY: Result := @r_Pillory_InRandom;
     R_RANDOMS_PINBALL: Result := @r_Pinball_InRandom;
+    R_RANDOMS_PRISON: Result := @r_Prison_InRandom;
     R_RANDOMS_QUIZ: Result := @r_Quiz_InRandom;
     R_RANDOMS_SANDWHICH: Result := @r_Sandwhich_InRandom;
     R_RANDOMS_SCAPE_RUNE_ISLAND: Result := @r_ScapeRuneIsland_InRandom;
@@ -104,14 +138,23 @@ function r_GetRandomSolve(const Rand: Byte): TBoolFunc;
 begin
   Result := nil;
   case Rand of
+    R_RANDOMS_ABYSS: Result := @r_Abyss_Solve;
     R_RANDOMS_BEEHIVE: Result := @r_Beehive_Solve;
+    R_RANDOMS_BOX: Result := @r_Box_Solve;
     R_RANDOMS_CAPTAIN_ARNAV: Result := @r_CapnArnav_Solve;
+    R_RANDOMS_CERTER: Result := @r_Certer_Solve;
     R_RANDOMS_DRILL_DEMON: Result := @r_DrillDemon_Solve;
+    R_RANDOMS_EXAM: Result := @r_Exam_Solve;
+    R_RANDOMS_DEATH: Result := @r_Death_Solves;
     R_RANDOMS_FREAKY_FORESTER: Result := @r_FreakyForester_Solve;
     R_RANDOMS_FROG: Result := @r_Frog_Solve;
+    R_RANDOMS_GRAVE_DIGGER: Result := @r_GraveDigger_Solve;
+    R_RANDOMS_MAZE: Result := @r_Maze_Solve;
     R_RANDOMS_MIME: Result := @r_Mime_Solve;
+    R_RANDOMS_MOLLY: Result := @r_Molly_Solve;
     R_RANDOMS_PILLORY: Result := @r_Pillory_Solve;
     R_RANDOMS_PINBALL: Result := @r_Pinball_Solve;
+    R_RANDOMS_PRISON: Result := @r_Prison_Solve;
     R_RANDOMS_QUIZ: Result := @r_Quiz_Solve;
     R_RANDOMS_SANDWHICH: Result := @r_Sandwhich_Solve;
     R_RANDOMS_SCAPE_RUNE_ISLAND: Result := @r_ScapeRuneIsland_Solve;
@@ -119,21 +162,6 @@ begin
 end;
 
 function r_GetRandomMaxTime(const Rand: Byte): LongInt;
-{begin
-  case Rand of
-    R_RANDOMS_BEEHIVE: Result := 'Beehive';
-    R_RANDOMS_CAPTAIN_ARNAV: Result := 'Captain Arnav';
-    R_RANDOMS_DRILL_DEMON: Result := 'Drill Demon';
-    R_RANDOMS_FREAKY_FORESTER: Result := 'Freaky Forester';
-    R_RANDOMS_FROG: Result := 'Frog';
-    R_RANDOMS_MIME: Result := 'Mime';
-    R_RANDOMS_PILLORY: Result := 'Pillory';
-    R_RANDOMS_PINBALL: Result := 'Pinball';
-    R_RANDOMS_QUIZ: Result := 'Quiz';
-    R_RANDOMS_SANDWHICH: Result := 'Sandwhich Lady';
-    R_RANDOMS_SCAPE_RUNE_ISLAND: Result := 'ScapeRune Island';
-  end;
-end;}
 begin
   Result := RandomRange(1000 * 60 * 8, 1000 * 60 * 10);
 end;
