@@ -36,15 +36,13 @@ begin
    Index := -1;
    ID := -1;
    Level := -1;
-   Animation := -1;
-   Orientation := -1;
-   HPRatio := -1;
-   Height := -1.0;
-   Interacting := -1;
+   Character.Animation := -1;
+   Character.Orientation := -1;
+   Character.HPRatio := -1;
+   Character.Height := -1.0;
+   Character.Interacting := -1;
    Name := '';
-   Moving := False;
-   Fighting := False;
-   Tile := NULL_RSTILE;
+   Character.Location := NULL_RSTILE;
   end;
 end;
 
@@ -89,15 +87,19 @@ begin
         Index := SmartGetFieldArrayInt(0, r_Hooks[hook_NPCIndexes], i);
         ID := SmartGetFieldInt(PathToNPCDefinition, r_Hooks[hook_NPCDefinition_ID]);
         Name := r_GetString(JavaName);
-        Tile := r_GetCharacterLocation(PathToNPC, False);
-        Moving := r_GetCharacterMovement(PathToNPC, False) > 0;
-        Fighting := r_GetCharacterFighting(PathToNPC, False);
-        Animation := r_GetCharacterAnimation(PathToNPC, False);
-        Height := r_GetCharacterHeight(PathToNPC, False);
-        HPRatio := r_GetCharacterHPRatio(PathToNPC, False);
-        Orientation := r_GetCharacterOrientation(PathToNPC, False);
+        Character.Location := r_GetCharacterLocation(PathToNPC, False);
+        Character.Speed := r_GetCharacterMovement(PathToNPC, False);
+        Character.IsMoving := Character.Speed > 0;
+        Character.IsFighting := r_GetCharacterFighting(PathToNPC, False);
+        Character.LoopCycleStatus := r_GetCharacterLoopCycleStatus(PathToNPC, False);
+        Character.Animation := r_GetCharacterAnimation(PathToNPC, False);
+        Character.IsAnimating := Character.Animation > 0;
+        Character.IsIdle := (not Character.IsAnimating) and (not Character.IsFighting) and (not Character.IsMoving);
+        Character.Height := r_GetCharacterHeight(PathToNPC, False);
+        Character.HPRatio := r_GetCharacterHPRatio(PathToNPC, False);
+        Character.Orientation := r_GetCharacterOrientation(PathToNPC, False);
         Level := r_GetCharacterLevel(PathToNPC, True, False);
-        Interacting := r_GetCharacterInteracting(PathToNPC, False);
+        Character.Interacting := r_GetCharacterInteracting(PathToNPC, False);
       end;
       Inc(C);
     finally
@@ -157,11 +159,11 @@ begin
   SetLength(Result, L);
   SetLength(TPA, L);
   for i := 0 to L - 1 do
-    TPA[i] := Point(Arr[i].Tile.x, Arr[i].Tile.y);
+    TPA[i] := Point(Arr[i].Character.Location.x, Arr[i].Character.Location.y);
   SortTPAFrom(TPA, Point(From.x, From.y));
   for i := 0 to L - 1 do
     for ii := 0 to L - 1 do
-      if (TPA[i].x = Arr[ii].Tile.x) and (TPA[i].y = Arr[ii].Tile.y) then
+      if (TPA[i].x = Arr[ii].Character.Location.x) and (TPA[i].y = Arr[ii].Character.Location.y) then
       begin
         Result[i] := Arr[ii];
         Break;

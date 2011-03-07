@@ -168,6 +168,20 @@ end;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Character type.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TCharacter = record
+    Animation, Orientation, LoopCycleStatus, HPRatio, Speed: Integer;
+    Height: Extended;
+    Location: TRSTile;
+    Interacting, Model: LongInt;
+    IsFighting, IsMoving, IsAnimating, IsIdle: Boolean;
+  end;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Model type.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
@@ -296,17 +310,28 @@ end;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-NPC types.
+NPC type.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 type
   TNPC = record
-    Index, ID, Level, Animation, Orientation, HPRatio: Integer;
-    Height: Extended;
-    Interacting: LongInt;
+    Index, ID, Level: Integer;
     Name: string;
-    Moving, Fighting: Boolean;
-    Tile: TRSTile;
+    Character: TCharacter;
+  end;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Player type.
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TPlayer = record
+    Index, Team, Level: Integer;
+    Name: string;
+    Levels, Experiences: array[0..24] of Integer;
+    Equipment: array[0..10] of Integer;
+    Character: TCharacter;
   end;
 
   TNPCArray = array of TNPC;
