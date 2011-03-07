@@ -50,7 +50,7 @@ end;
 
 function r_GetAllNPCs: TNPCArray;
 var
-  NumberOfNPCs, i, C, BaseX, BaseY, h: Integer;
+  NumberOfNPCs, i, C, h: Integer;
   PathToNPCNode, PathToNPC, PathToNPCDefinition, JavaName: LongInt;
 begin
   NumberOfNPCs := SmartGetFieldInt(0, r_Hooks[hook_NPCCount]);
@@ -89,17 +89,14 @@ begin
         Index := SmartGetFieldArrayInt(0, r_Hooks[hook_NPCIndexes], i);
         ID := SmartGetFieldInt(PathToNPCDefinition, r_Hooks[hook_NPCDefinition_ID]);
         Name := r_GetString(JavaName);
-        BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
-        BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
-        Tile.x := BaseX + SmartGetFieldInt(PathToNPC, r_Hooks[hook_Animable_X]) div 512;
-        Tile.y := BaseY + SmartGetFieldInt(PathToNPC, r_Hooks[hook_Animable_Y]) div 512;
+        Tile := r_GetCharacterLocation(PathToNPC, False);
         Moving := r_GetCharacterMovement(PathToNPC, False) > 0;
         Fighting := r_GetCharacterFighting(PathToNPC, False);
         Animation := r_GetCharacterAnimation(PathToNPC, False);
         Height := r_GetCharacterHeight(PathToNPC, False);
         HPRatio := r_GetCharacterHPRatio(PathToNPC, False);
         Orientation := r_GetCharacterOrientation(PathToNPC, False);
-        Level := r_GetCharacterLevel(PathToNPC, False);
+        Level := r_GetCharacterLevel(PathToNPC, True, False);
         Interacting := r_GetCharacterInteracting(PathToNPC, False);
       end;
       Inc(C);

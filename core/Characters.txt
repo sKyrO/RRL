@@ -6,6 +6,8 @@ Characters routines.
 
  * function r_GetCharacterAnimation(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
+ * function r_GetCharacterLocation(const CharPath: LongInt; const Free: Boolean): TRSTile;
+     By: Timer
  * function r_GetCharacterMovement(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
  * function r_GetCharacterFighting(const CharPath: LongInt; const Free: Boolean): Boolean;
@@ -14,13 +16,15 @@ Characters routines.
      By: Timer
  * function r_GetCharacterOrientation(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
- * function r_GetCharacterLevel(const CharPath: LongInt; const Free: Boolean): Integer;
+ * function r_GetCharacterLevel(const CharPath: LongInt; const NPC, Free: Boolean): Integer;
      By: Timer
  * function r_GetCharacterInteracting(const CharPath: LongInt; const Free: Boolean): LongInt;
      By: Timer
  * function r_GetCharacterHPRatio(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+function NULL_RSTILE: TRSTile; forward;
 
 function r_GetCharacterAnimation(const CharPath: LongInt; const Free: Boolean): Integer;
 begin
@@ -32,6 +36,22 @@ begin
         SmartFreeObject(CharPath);
     except
       Result := -1;
+      WriteLn('There was an issue with GetCharacterAnimation, tried to close a memory leak(?), dunno if it''s still there or not.');
+    end;
+  end;
+end;
+
+function r_GetCharacterLocation(const CharPath: LongInt; const Free: Boolean): TRSTile;
+begin
+  try
+    Result.x := SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Character_X]) div 512;
+    Result.y := SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Y]) div 512;
+  finally // We want to rid of memory leaks.
+    try
+      if (Free) then
+        SmartFreeObject(CharPath);
+    except
+      Result := NULL_RSTILE;
       WriteLn('There was an issue with GetCharacterAnimation, tried to close a memory leak(?), dunno if it''s still there or not.');
     end;
   end;
@@ -98,10 +118,13 @@ begin
   end;
 end;
 
-function r_GetCharacterLevel(const CharPath: LongInt; const Free: Boolean): Integer;
+function r_GetCharacterLevel(const CharPath: LongInt; const NPC, Free: Boolean): Integer;
 begin
   try
-    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_NPCDefinition_Level]);//TODO player support.
+    if (NPC) then
+      Result := SmartGetFieldInt(CharPath, r_Hooks[hook_NPCDefinition_Level])
+    else
+      Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Player_Level]);
   finally // We want to rid of memory leaks.
     try
       if (Free) then

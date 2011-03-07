@@ -8,6 +8,20 @@ My Player file.
      By: Timer
  * function r_GetAnimation: Integer;
      By: Timer
+ * function r_GetSpeed: Integer;
+     By: Timer
+ * function r_isMoving: Boolean;
+     By: Timer
+ * function r_IsFighting: Boolean;
+     By: Timer
+ * function r_GetOrientation: Integer;
+     By: Timer
+ * function r_GetLevel: Integer;
+     By: Timer
+ * function r_GetInteracting: LongInt;
+     By: Timer
+ * function r_GetHPRatio: Integer;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -55,4 +69,57 @@ var
 begin
   OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
   Result := r_GetCharacterAnimation(OurPlayerPath, True);
+end;
+
+function r_GetSpeed: Integer;
+var
+  OurPlayerPath: LongInt;
+begin
+  OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
+  Result := r_GetCharacterMovement(OurPlayerPath, True);
+end;
+
+function r_IsMoving: Boolean;
+begin
+  Result := r_GetSpeed > 0;
+end;
+
+function r_IsFighting: Boolean;
+var
+  OurPlayerPath: LongInt;
+begin
+  OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
+  Result := r_GetCharacterFighting(OurPlayerPath, True);
+end;
+
+function r_GetOrientation: Integer;
+var
+  OurPlayerPath: LongInt;
+begin
+  OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
+  Result := r_GetCharacterOrientation(OurPlayerPath, True);
+end;
+
+function r_GetLevel: Integer;
+var
+  OurPlayerPath: LongInt;
+begin
+  OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
+  Result := r_GetCharacterLevel(OurPlayerPath, False, True);
+end;
+
+function r_GetInteracting: LongInt;
+var
+  OurPlayerPath: LongInt;
+begin
+  OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
+  Result := r_GetCharacterInteracting(OurPlayerPath, True);
+end;
+
+function r_GetHPRatio: Integer;
+var
+  OurPlayerPath: LongInt;
+begin
+  OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
+  Result := r_GetCharacterHPRatio(OurPlayerPath, True);
 end;

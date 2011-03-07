@@ -59,8 +59,6 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function NULL_RSTILE: TRSTile; forward;
-
 function r_TileToMinimap(const Tile: TRSTile): TPoint;
 var
   RadiansAngle: Extended;
