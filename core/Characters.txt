@@ -10,6 +10,8 @@ Characters routines.
      By: Timer
  * function r_GetCharacterMovement(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
+ * function r_GetCharacterLoopCycleStatus(const CharPath: LongInt; const Free: Boolean): Integer;
+     By: Timer
  * function r_GetCharacterFighting(const CharPath: LongInt; const Free: Boolean): Boolean;
      By: Timer
  * function r_GetCharacterHeight(const CharPath: LongInt; const Free: Boolean): Extended;
@@ -68,6 +70,21 @@ begin
     except
       Result := -1;
       WriteLn('There was an issue with GetCharacterMovement, tried to close a memory leak(?), dunno if it''s still there or not.');
+    end;
+  end;
+end;
+
+function r_GetCharacterLoopCycleStatus(const CharPath: LongInt; const Free: Boolean): Integer;
+begin
+  try
+    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_LoopCycleStatus]);
+  finally // We want to rid of memory leaks.
+    try
+      if (Free) then
+        SmartFreeObject(CharPath);
+    except
+      Result := -1;
+      WriteLn('There was an issue with GetCharacterLoopCycleStatus, tried to close a memory leak(?), dunno if it''s still there or not.');
     end;
   end;
 end;
