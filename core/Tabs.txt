@@ -79,40 +79,51 @@ end;
 
 function r_GetTabInterface(const Tab: Integer): LongInt;
 var
-  GameInterface, i: Integer;
-  Components: TIntegerArray;
-  Actions: TStringArray;
+  GameInterface: Integer;
 begin
   GameInterface := 548;
-  Components := r_GetInterfaceComponents(GameInterface);
-  for i := 0 to High(Components) do
-  begin
-    Actions := r_GetInterfaceActions(GameInterface, i);
-    if (Length(Actions) > 0) then
-      if (Lowercase(Actions[0]) = R_TAB_NAMES[TAB]) then
-      begin
-        Result := r_GetInterface(GameInterface, i);
-        Exit;
-      end;
-  end;
   Result := -1;
+  case (Tab) of
+  	R_TAB_ATTACK: Result := 128;
+  	R_TAB_ACHIEVEMENTS: Result := 129;
+  	R_TAB_STATS: Result := 130;
+  	R_TAB_QUESTS: Result := 131;
+  	R_TAB_INVENTORY: Result := 132;
+  	R_TAB_EQUIPMENT: Result := 133;
+  	R_TAB_PRAYER: Result := 134;
+  	R_TAB_MAGIC: Result := 135;
+  	R_TAB_SUMMONING: Result := 98;
+  	R_TAB_FRIENDS: Result := 99;
+  	R_TAB_IGNORE: Result := 10;
+  	R_TAB_CLAN: Result := 101;
+  	R_TAB_OPTIONS: Result := 102;
+  	R_TAB_CONTROLS: Result := 103;
+  	R_TAB_MUSIC: Result := 104;
+  	R_TAB_NOTES: Result := 105;
+  	R_TAB_LOGOUT: Result := 181;
+  end;
+  if (Result <> -1) then
+    Result := r_GetInterface(GameInterface, Result);
 end;
 
 function r_GetCurrentTab: Integer;
 var
-  l, Texture: Integer;
+  l, i, Texture: Integer;
   TabHandle: LongInt;
 begin
   l := Length(R_TAB_NAMES);
   Dec(l);
-  for Result := 0 to l do
+  for i := 0 to l do
   begin
     TabHandle := r_GetTabInterface(Result);
     if (TabHandle  <> -1) then
     begin
       Texture := r_GetInterfaceTextureEx(TabHandle, True);
-      if (Texture > -1) then
+      if (Texture <> -1) then
+      begin
+        Result := i;
         Exit;
+      end;
     end;
   end;
   Result := -1;
@@ -120,23 +131,38 @@ end;
 
 function r_GetTabBox(const Tab: Integer): TBox;
 var
-  GameInterface, i: Integer;
-  Components: TIntegerArray;
-  Actions: TStringArray;
+  GameInterface, ci: Integer;
 begin
   GameInterface := 548;
-  Components := r_GetInterfaceComponents(GameInterface);
-  for i := 0 to High(Components) do
-  begin
-    Actions := r_GetInterfaceActions(GameInterface, i);
-    if (Length(Actions) > 0) then
-      if (Lowercase(Actions[0]) = R_TAB_NAMES[TAB]) then
-      begin
-        Result := r_GetInterfaceBox(Point(516, 168), GameInterface, i);
-        Exit;
-      end;
+  ci := -1;
+  case (Tab) of
+  	R_TAB_ATTACK: ci := 128;
+  	R_TAB_ACHIEVEMENTS: ci := 129;
+  	R_TAB_STATS: ci := 130;
+  	R_TAB_QUESTS: ci := 131;
+  	R_TAB_INVENTORY: ci := 132;
+  	R_TAB_EQUIPMENT: ci := 133;
+  	R_TAB_PRAYER: ci := 134;
+  	R_TAB_MAGIC: ci := 135;
+  	R_TAB_SUMMONING: ci := 98;
+  	R_TAB_FRIENDS: ci := 99;
+  	R_TAB_IGNORE: ci := 100;
+  	R_TAB_CLAN: ci := 101;
+  	R_TAB_OPTIONS: ci := 102;
+  	R_TAB_CONTROLS: ci := 103;
+  	R_TAB_MUSIC: ci := 104;
+  	R_TAB_NOTES: ci := 105;
+  	R_TAB_LOGOUT: ci := 181;
   end;
-  Result := IntToBox(-1, -1, -1, -1);
+  if (ci <> -1) then
+    if (ci >= 181) then
+      Result := r_GetInterfaceBox(Point(516, 0), GameInterface, ci)
+    else if (ci >= 128) then
+      Result := r_GetInterfaceBox(Point(516, 168), GameInterface, ci)
+    else
+      Result := r_GetInterfaceBox(Point(519, 466), GameInterface, ci)
+  else
+    Result := IntToBox(-1, -1, -1, -1);
 end;
 
 function r_OpenTab(const Tab: Integer): Boolean;
