@@ -18,6 +18,16 @@ Tab handling
       By: Timer
   * function r_GetSkillExperience(const SkillIndex: Integer): Integer;
       By: Timer
+  * function r_GetTabInterface(const Tab: Integer): LongInt;
+      By: Timer
+  * function r_GetCurrentTab: Integer;
+      By: Timer
+  * function r_GetTabBox(const Tab: Integer): TBox;
+      By: Timer
+  * function r_OpenTab(const Tab: Integer): Boolean;
+      By: Timer
+  * function r_Logout: Boolean;
+      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -65,6 +75,81 @@ end;
 function r_GetSkillExperience(const SkillIndex: Integer): Integer;
 begin
   Result := SmartGetFieldArrayInt(0, r_Hooks[hook_Experience], SkillIndex);
+end;
+
+function r_GetTabInterface(const Tab: Integer): LongInt;
+var
+  GameInterface, i: Integer;
+  Components: TIntegerArray;
+  Actions: TStringArray;
+begin
+  GameInterface := 548;
+  Components := r_GetInterfaceComponents(GameInterface);
+  for i := 0 to High(Components) do
+  begin
+    Actions := r_GetInterfaceActions(GameInterface, i);
+    if (Length(Actions) > 0) then
+      if (Lowercase(Actions[0]) = R_TAB_NAMES[TAB]) then
+      begin
+        Result := r_GetInterface(GameInterface, i);
+        Exit;
+      end;
+  end;
+  Result := -1;
+end;
+
+function r_GetCurrentTab: Integer;
+var
+  l, Texture: Integer;
+  TabHandle: LongInt;
+begin
+  l := Length(R_TAB_NAMES);
+  Dec(l);
+  for Result := 0 to l do
+  begin
+    TabHandle := r_GetTabInterface(Result);
+    if (TabHandle  <> -1) then
+    begin
+      Texture := r_GetInterfaceTextureEx(TabHandle, True);
+      if (Texture > -1) then
+        Exit;
+    end;
+  end;
+  Result := -1;
+end;
+
+function r_GetTabBox(const Tab: Integer): TBox;
+var
+  GameInterface, i: Integer;
+  Components: TIntegerArray;
+  Actions: TStringArray;
+begin
+  GameInterface := 548;
+  Components := r_GetInterfaceComponents(GameInterface);
+  for i := 0 to High(Components) do
+  begin
+    Actions := r_GetInterfaceActions(GameInterface, i);
+    if (Length(Actions) > 0) then
+      if (Lowercase(Actions[0]) = R_TAB_NAMES[TAB]) then
+      begin
+        Result := r_GetInterfaceBox(Point(516, 168), GameInterface, i);
+        Exit;
+      end;
+  end;
+  Result := IntToBox(-1, -1, -1, -1);
+end;
+
+function r_OpenTab(const Tab: Integer): Boolean;
+var
+  Box: TBox;
+begin
+  Result := True;
+  if (r_GetCurrentTab = Tab) then
+    Exit;
+  Box := r_GetTabBox(Tab);
+  r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, True);
+  Wait(RandomRange(400, 600));
+  Result := r_GetCurrentTab = Tab;
 end;
 
 function r_Logout: Boolean;

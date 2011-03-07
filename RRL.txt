@@ -64,6 +64,11 @@ begin
             'Sorry, and goodbye! - Reflection Resource Library [RRL].');
     Exit;
   end;
+  R_TAB_NAMES := ['Combat Styles', 'Stats', 'Quest List', 'Achievements',
+                  'Inventory', 'Worn Equipment', 'Prayer List',
+                  'Magic Spellbook', 'Objectives', 'Friends List',
+                  'Ignore List', 'Clan Chat', 'Options', 'Emotes',
+                  'Music Player', 'Notes', 'Exit'];
   r_LoadRandoms;
   WriteLn('RRL was set up in ' + IntToStr(GetSystemTime - m) + ' ms, loaded ' + IntToStr(Length(r_Hooks)) + ' hooks.');
   Result := True;
