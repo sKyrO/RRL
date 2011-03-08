@@ -89,18 +89,19 @@ begin
           Obj2 := SmartGetFieldObject(Obj, r_Hooks[hook_InteractiveObjectSub_Data]);
           if (Obj2 <> 0) then
           begin
-            ObjID := SmartGetFieldShort(Obj2, r_Hooks[hook_ObjectComposite_ID]) and $FFFF;
-            if (ObjID = -1) or (ObjID = 65535) then
+            ObjID := SmartGetFieldInt(Obj2, r_Hooks[hook_ObjectComposite_ID]) and $FFFF;
+            if (ObjID <> -1) and (ObjID <> 65535) then
+            begin
+              ObjArea.x1 := (BaseX + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_AreaX1]));
+              ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_AreaY1]));
+              ObjArea.x2 := (BaseX + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_AreaX2]));
+              ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_AreaY2]));
+              ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj2, r_Hooks[hook_Animable_X]) div 512));
+              ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj2, r_Hooks[hook_Animable_Y]) div 512));
+              Model := SmartGetFieldObject(Obj, r_Hooks[hook_ObjectComposite_Model]);
+            end else
               Break;
-            ObjArea.x1 := (BaseX + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_AreaX1]));
-            ObjArea.y1 := (BaseY + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_AreaY1]));
-            ObjArea.x2 := (BaseX + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_AreaX2]));
-            ObjArea.y2 := (BaseY + SmartGetFieldShort(Obj2, r_Hooks[hook_Animable_AreaY2]));
-            ObjRTile.x := Round(BaseX + (SmartGetFieldInt(Obj2, r_Hooks[hook_Animable_X]) div 512));
-            ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj2, r_Hooks[hook_Animable_Y]) div 512));
-            Model := SmartGetFieldObject(Obj, r_Hooks[hook_ObjectComposite_Model]);
-          end else
-            Break;
+          end;
           SmartFreeObject(Obj2);
         end else
         begin
@@ -272,12 +273,12 @@ end;
 
 function r_GetClosestObjectByIDOptimizedEx(const IDs: TIntegerArray; const ObjType, Range: Integer): TRSObject;
 var
-  Arr: TRSObjectArray;
+  TArr, Arr: TRSObjectArray;
 begin
   Result := NULL_RSOBJECT;
   Arr := r_GetAllObjectsByIDOptimizedEx(IDs, ObjType, Range);
-  Arr := r_SortObjects(Arr);
-  if (Length(Arr) > 0) then
+  TArr := r_SortObjects(Arr);
+  if (Length(TArr) > 0) then
     Result := Arr[0];
 end;
 

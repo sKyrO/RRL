@@ -227,9 +227,27 @@ procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
     Controls, Spline, Path: TPointArray;
 {$ENDIF}
 begin
-  {$IFDEF SRL_OPENDEV}
-    {$IFNDEF OVERRIDE_SRL}
-      MMouse(x + RandomRange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0);
+  try
+    {$IFDEF SRL_OPENDEV}
+      {$IFNDEF OVERRIDE_SRL}
+        MMouse(x + RandomRange(-1 * rx, rx), y + RandomRange(-1 * ry, ry), 0, 0);
+      {$ELSE}
+        rx := Max(1, rx);
+        ry := Max(1, ry);
+        Speed := Min(Max(1, r_MouseSpeed), 18);
+        GetMousePos(sx, sy);
+        Controls := r_MouseGenerateControls(sx, sy, x + RandomRange(-1 * rx, rx),
+                                            y + RandomRange(-1 * ry, ry), 50, 120);
+        Spline := r_MouseGenerateSpline(Controls);
+        Time := r_MouseCalculateTime(Sqrt(Pow(x - sx, 2) + Pow(y - sy, 2)), 10.0);
+        Path := r_MouseGeneratePath(Spline, Time, Speed);
+        h := GetArrayLength(Path) - 1;
+        for i := 0 to h do
+        begin
+          MoveMouse(Path[i].x, Path[i].y);
+          Wait(Max(0, Speed - 4 + Random(4)));
+        end;
+      {$ENDIF}
     {$ELSE}
       rx := Max(1, rx);
       ry := Max(1, ry);
@@ -247,23 +265,8 @@ begin
         Wait(Max(0, Speed - 4 + Random(4)));
       end;
     {$ENDIF}
-  {$ELSE}
-    rx := Max(1, rx);
-    ry := Max(1, ry);
-    Speed := Min(Max(1, r_MouseSpeed), 18);
-    GetMousePos(sx, sy);
-    Controls := r_MouseGenerateControls(sx, sy, x + RandomRange(-1 * rx, rx),
-                                        y + RandomRange(-1 * ry, ry), 50, 120);
-    Spline := r_MouseGenerateSpline(Controls);
-    Time := r_MouseCalculateTime(Sqrt(Pow(x - sx, 2) + Pow(y - sy, 2)), 10.0);
-    Path := r_MouseGeneratePath(Spline, Time, Speed);
-    h := GetArrayLength(Path) - 1;
-    for i := 0 to h do
-    begin
-      MoveMouse(Path[i].x, Path[i].y);
-      Wait(Max(0, Speed - 4 + Random(4)));
-    end;
-  {$ENDIF}
+  except
+  end;
 end;
 
 function _Mouse(Left: Boolean):{$IFDEF SIMBA} Integer;{$ELSE} Boolean;{$ENDIF}

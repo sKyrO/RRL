@@ -3,8 +3,16 @@ RRL - Reflection Resource Library
 Pinball random routines.
 
 ---------------------------------------------------------
-
+ * function r_Pinball_InRandom: Boolean;
+     By: Timer
+ * function r_Pinball_Solve: Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+{
+[ With Accounts From ]
+  - Mylesmadness
+}
 
 {
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -17,12 +25,79 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+const
+  RANDOM_PINBALL_INTERFACE = 263;
+
 function r_Pinball_InRandom: Boolean;
+var
+  PillarsS: TIntegerArray;
+  Obj: TRSObject;
 begin
-  Result := False;
+  Obj := NULL_RSOBJECT;
+  PillarsS := [15000, 15001, 15002, 15003, 15004,
+               15005, 15006, 15007, 15008, 15009];
+  Obj := r_GetClosestObjectByIDOptimizedEx(PillarsS, R_OBJECT_TYPE_INTERACTABLE, 18);
+  Result := (not (Obj = NULL_RSOBJECT));
+end;
+
+function r_Pinball_GetScore: Integer;
+var
+  str: string;
+  Arr: TStringArray;
+begin
+  str := r_GetInterfaceText(RANDOM_PINBALL_INTERFACE, 1);
+  Arr := Explode(' ', str);
+  Result := StrToIntDef(Arr[1], 0);
 end;
 
 function r_Pinball_Solve: Boolean;
+var
+  Pillars: TIntegerArray;
+  ExitObj, i, s: Integer;
+  Obj: TRSObject;
+  p: TPoint;
 begin
-  Result := False;
+  Result := not r_Pinball_InRandom;
+  Pillars := [15000, 15002, 15004, 15006, 15008];
+  if (r_IsMoving) or (r_GetAnimation > 0) or (Result) then
+  begin
+    WriteLn('[Pinball] We''re moving or animating!');
+    Wait(RandomRange(1000, 2000));
+    Exit;
+  end;
+  if (r_Pinball_GetScore >= 10) then
+  begin
+    ExitObj := 15010;
+    Obj := r_GetClosestObjectByIDOptimized(ExitObj, R_OBJECT_TYPE_INTERACTABLE, 18);
+    if (not (Obj = NULL_RSOBJECT)) then
+    begin
+      if (not r_TileOnScreen(Obj.Tile)) then
+      begin
+        r_MoveCompass('s');
+        KeyDown(40);
+        Wait(1000 + Random(300));
+        KeyUp(40);
+      end;
+      p := r_TileToScreen(Obj.Tile);
+      r_MoveMouse(p.x, p.y, 10, 10);
+      if (r_WaitForInteract('Exit', 500)) then
+        Wait(RandomRange(5000, 8000));
+    end;
+    Exit;
+  end;
+  Obj := r_GetClosestObjectByIDOptimizedEx(Pillars, R_OBJECT_TYPE_INTERACTABLE, 18);
+  if (not (Obj = NULL_RSOBJECT)) and (r_TileOnScreen(Obj.Tile)) then
+  begin
+    p := r_TileToScreen(Obj.Tile);
+    r_MoveMouse(p.x, p.y, 8, 8);
+    s := r_Pinball_GetScore;
+    if (r_WaitForInteract('Tag', 120)) then
+    begin
+      for i := 1 to 10 do
+        if (r_Pinball_GetScore > s) then
+          Break
+        else
+          Wait(RandomRange(100, 200));
+    end;
+  end;
 end;

@@ -181,8 +181,8 @@ const
   hook_WallObjectSub2_Composite = 158;
   hook_WallDecorationSub2_Composite = 159;
   hook_FloorDecorationSub2_Composite = 160;
-  hook_MenuOpen = 161;
-  hook_MenuTabbed = 162;
-  hook_MenuCount = 163;
-  hook_MenuNodeList = 164;
-  hook_Character_Movement = 165;
+  hook_MenuOpen = 168;
+  hook_MenuTabbed = 169;
+  hook_MenuCount = 170;
+  hook_MenuNodeList = 171;
+  hook_Character_Movement = 172;
