@@ -103,12 +103,12 @@ begin
                     Offset.y + y + SmartGetFieldInt(TheSlot, r_Hooks[hook_Interface_Height]));
   finally
     try
-    except
       SmartFreeObject(InventoryInterface);
+    except
     end;
     try
-    except
       SmartFreeObject(TheSlot);
+    except
     end;
   end;
   r_MoveMouseBox(Box.x1, Box.y1, Box.x2, Box.y2);
@@ -136,12 +136,12 @@ begin
                     Offset.y + y + SmartGetFieldInt(TheSlot, r_Hooks[hook_Interface_Height]));
   finally
     try
-    except
       SmartFreeObject(InventoryInterface);
+    except
     end;
     try
-    except
       SmartFreeObject(TheSlot);
+    except
     end;
   end;
   r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, Left);
