@@ -53,7 +53,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 {.include RRL\core\Randoms\Pinball.txt}
 {.include RRL\core\Randoms\Prison.txt}
 {.include RRL\core\Randoms\Quiz.txt}
-{.include RRL\core\Randoms\Sandwhich.txt}
+{.include RRL\core\Randoms\Sandwich.txt}
 {.include RRL\core\Randoms\ScapeRuneIsland.txt}
 
 const
