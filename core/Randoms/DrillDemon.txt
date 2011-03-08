@@ -17,12 +17,293 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+const
+  RANDOM_NPC_DRILL_DEMON = 2790;
+
+var
+  RANDOM_DRILL_DEMON_S1, RANDOM_DRILL_DEMON_S2, RANDOM_DRILL_DEMON_S3,
+  RANDOM_DRILL_DEMON_S4: Integer;
+
 function r_DrillDemon_InRandom: Boolean;
 begin
-  Result := False;
+  Result := r_IsPlayerInArea(Area(3159, 4818, 3167, 4822));
+end;
+
+procedure r_DrillDemon_TalkToDemon;
+begin
+  //TODO .
 end;
 
 function r_DrillDemon_Solve: Boolean;
+var
+  Demon: TNPC;
+  Sett, Desir, i: Integer;
+  P: TPoint;
+  m: LongInt;
+  Mats: TRSTileArray;
 begin
   Result := False;
+  Mats := [RSTile(3160, 4820), RSTile(3162, 4820),
+           RSTile(3164, 4820), RSTile(3166, 4820)];
+  if (r_GetAnimation > -1) or (r_GetSpeed > 0) then
+  begin
+    WriteLn('[Demon] Animating or moving, waiting.');
+    Wait(RandomRange(1200, 3000));
+    Exit;
+  end;
+  m := GetSystemTime;
+  while (GetSystemTime - m < 10000) do
+  begin
+    if (not r_ClickContinue) then
+      Break;
+    WriteLn('[Demon] Continue was up.');
+    Wait(RandomRange(750, 1200));
+  end;
+  Wait(RandomRange(750, 1200));
+  Demon := r_GetClosestNPCByID(RANDOM_NPC_DRILL_DEMON);
+  if (r_IsInterfaceValid(148)) then
+  begin
+    WriteLn('[Demon] Interface is valid, getting positions of mats.');
+    Sett := r_GetSetting(531);
+    case (Sett) of
+      668:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 1;
+        RANDOM_DRILL_DEMON_S2 := 2;
+        RANDOM_DRILL_DEMON_S3 := 3;
+        RANDOM_DRILL_DEMON_S4 := 4;
+      end;
+      675:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 2;
+        RANDOM_DRILL_DEMON_S2 := 1;
+        RANDOM_DRILL_DEMON_S3 := 3;
+        RANDOM_DRILL_DEMON_S4 := 4;
+      end;
+      724:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 1;
+        RANDOM_DRILL_DEMON_S2 := 3;
+        RANDOM_DRILL_DEMON_S3 := 2;
+        RANDOM_DRILL_DEMON_S4 := 4;
+      end;
+      734:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 3;
+        RANDOM_DRILL_DEMON_S2 := 1;
+        RANDOM_DRILL_DEMON_S3 := 2;
+        RANDOM_DRILL_DEMON_S4 := 4;
+      end;
+      787:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 2;
+        RANDOM_DRILL_DEMON_S2 := 3;
+        RANDOM_DRILL_DEMON_S3 := 1;
+        RANDOM_DRILL_DEMON_S4 := 4;
+      end;
+      794:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 3;
+        RANDOM_DRILL_DEMON_S2 := 2;
+        RANDOM_DRILL_DEMON_S3 := 1;
+        RANDOM_DRILL_DEMON_S4 := 4;
+      end;
+      1116:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 1;
+        RANDOM_DRILL_DEMON_S2 := 2;
+        RANDOM_DRILL_DEMON_S3 := 4;
+        RANDOM_DRILL_DEMON_S4 := 3;
+      end;
+      1123:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 2;
+        RANDOM_DRILL_DEMON_S2 := 1;
+        RANDOM_DRILL_DEMON_S3 := 4;
+        RANDOM_DRILL_DEMON_S4 := 3;
+      end;
+      1228:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 1;
+        RANDOM_DRILL_DEMON_S2 := 4;
+        RANDOM_DRILL_DEMON_S3 := 2;
+        RANDOM_DRILL_DEMON_S4 := 3;
+      end;
+      1249:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 4;
+        RANDOM_DRILL_DEMON_S2 := 1;
+        RANDOM_DRILL_DEMON_S3 := 2;
+        RANDOM_DRILL_DEMON_S4 := 3;
+      end;
+      1291:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 2;
+        RANDOM_DRILL_DEMON_S2 := 4;
+        RANDOM_DRILL_DEMON_S3 := 1;
+        RANDOM_DRILL_DEMON_S4 := 3;
+      end;
+      1305:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 4;
+        RANDOM_DRILL_DEMON_S2 := 2;
+        RANDOM_DRILL_DEMON_S3 := 1;
+        RANDOM_DRILL_DEMON_S4 := 3;
+      end;
+      1620:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 1;
+        RANDOM_DRILL_DEMON_S2 := 3;
+        RANDOM_DRILL_DEMON_S3 := 4;
+        RANDOM_DRILL_DEMON_S4 := 2;
+      end;
+      1634:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 3;
+        RANDOM_DRILL_DEMON_S2 := 1;
+        RANDOM_DRILL_DEMON_S3 := 4;
+        RANDOM_DRILL_DEMON_S4 := 2;
+      end;
+      1676:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 1;
+        RANDOM_DRILL_DEMON_S2 := 4;
+        RANDOM_DRILL_DEMON_S3 := 3;
+        RANDOM_DRILL_DEMON_S4 := 2;
+      end;
+      1697:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 4;
+        RANDOM_DRILL_DEMON_S2 := 1;
+        RANDOM_DRILL_DEMON_S3 := 3;
+        RANDOM_DRILL_DEMON_S4 := 2;
+      end;
+      1802:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 3;
+        RANDOM_DRILL_DEMON_S2 := 4;
+        RANDOM_DRILL_DEMON_S3 := 1;
+        RANDOM_DRILL_DEMON_S4 := 2;
+      end;
+     1809:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 4;
+        RANDOM_DRILL_DEMON_S2 := 3;
+        RANDOM_DRILL_DEMON_S3 := 1;
+        RANDOM_DRILL_DEMON_S4 := 2;
+      end;
+      2131:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 2;
+        RANDOM_DRILL_DEMON_S2 := 3;
+        RANDOM_DRILL_DEMON_S3 := 4;
+        RANDOM_DRILL_DEMON_S4 := 1;
+      end;
+      2138:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 3;
+        RANDOM_DRILL_DEMON_S2 := 2;
+        RANDOM_DRILL_DEMON_S3 := 4;
+        RANDOM_DRILL_DEMON_S4 := 1;
+      end;
+      2187:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 2;
+        RANDOM_DRILL_DEMON_S2 := 4;
+        RANDOM_DRILL_DEMON_S3 := 3;
+        RANDOM_DRILL_DEMON_S4 := 1;
+      end;
+      2201:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 4;
+        RANDOM_DRILL_DEMON_S2 := 2;
+        RANDOM_DRILL_DEMON_S3 := 3;
+        RANDOM_DRILL_DEMON_S4 := 1;
+      end;
+      2250:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 3;
+        RANDOM_DRILL_DEMON_S2 := 4;
+        RANDOM_DRILL_DEMON_S3 := 2;
+        RANDOM_DRILL_DEMON_S4 := 1;
+      end;
+      2257:
+      begin
+        RANDOM_DRILL_DEMON_S1 := 4;
+        RANDOM_DRILL_DEMON_S2 := 3;
+        RANDOM_DRILL_DEMON_S3 := 2;
+        RANDOM_DRILL_DEMON_S4 := 1;
+      end;
+    end;
+  end;
+  WriteLn('Positions: [' + IntToStr(RANDOM_DRILL_DEMON_S1) + ', ' + IntToStr(RANDOM_DRILL_DEMON_S2) +
+          ', ' + IntToStr(RANDOM_DRILL_DEMON_S3) + ', ' + IntToStr(RANDOM_DRILL_DEMON_S4) + ']');
+  Desir := -1;
+  if (Pos('jumps', r_GetInterfaceText(148, 1)) > 0) then
+    Desir := 1
+  else if (Pos('push ups', r_GetInterfaceText(148, 1)) > 0) then
+    Desir := 2
+  else if (Pos('sit ups', r_GetInterfaceText(148, 1)) > 0) then
+    Desir := 3
+  else if (Pos('jog on', r_GetInterfaceText(148, 1)) > 0) then
+    Desir := 4
+  else if (r_DrillDemon_InRandom) then
+    r_DrillDemon_TalkToDemon;
+  WriteLn('Wanted mat [' + IntToStr(Desir) + '].');
+  if (Desir <> -1) then
+  begin
+    if (RANDOM_DRILL_DEMON_S1 = Desir) then
+    begin
+      if (not r_TileOnScreen(Mats[0])) then
+      begin
+        WriteLn('[Demon] Moving closer to mat.');
+        r_ClickTile(Mats[0]);
+        Wait(RandomRange(4000, 6000));
+      end;
+      P := r_TileToScreen(Mats[0]);
+      r_ClickMouse(P.x, P.y, 10, 10, True);
+      WriteLn('[Demon] Waiting to interact [1].');
+      r_WaitForAnimation(3000);
+    end else
+    if (RANDOM_DRILL_DEMON_S2 = Desir) then
+    begin
+      if (not r_TileOnScreen(Mats[1])) then
+      begin
+        WriteLn('[Demon] Moving closer to mat.');
+        r_ClickTile(Mats[1]);
+        Wait(RandomRange(4000, 6000));
+      end;
+      P := r_TileToScreen(Mats[1]);
+      r_ClickMouse(P.x, P.y, 10, 10, True);
+      WriteLn('[Demon] Waiting to interact [2].');
+      r_WaitForAnimation(3000);
+    end else
+    if (RANDOM_DRILL_DEMON_S3 = Desir) then
+    begin
+      if (not r_TileOnScreen(Mats[2])) then
+      begin
+        WriteLn('[Demon] Moving closer to mat.');
+        r_ClickTile(Mats[2]);
+        Wait(RandomRange(4000, 6000));
+      end;
+      P := r_TileToScreen(Mats[2]);
+      r_ClickMouse(P.x, P.y, 10, 10, True);
+      WriteLn('[Demon] Waiting to interact [3].');
+      r_WaitForAnimation(3000);
+    end else
+    if (RANDOM_DRILL_DEMON_S4 = Desir) then
+    begin
+      if (not r_TileOnScreen(Mats[3])) then
+      begin
+        WriteLn('[Demon] Moving closer to mat.');
+        r_ClickTile(Mats[3]);
+        Wait(RandomRange(4000, 6000));
+      end;
+      P := r_TileToScreen(Mats[3]);
+      r_ClickMouse(P.x, P.y, 10, 10, True);
+      WriteLn('[Demon] Waiting to interact [4].');
+      r_WaitForAnimation(3000);
+    end;
+  end;
+  Result := (not r_DrillDemon_InRandom);
 end;

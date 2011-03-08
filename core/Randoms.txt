@@ -118,7 +118,7 @@ begin
     R_RANDOMS_CERTER: Result := @r_Certer_InRandom;
     R_RANDOMS_DRILL_DEMON: Result := @r_DrillDemon_InRandom;
     R_RANDOMS_EXAM: Result := @r_Exam_InRandom;
-    R_RANDOMS_DEATH: Result := @r_Death_InRandoms;
+    R_RANDOMS_DEATH: Result := @r_Death_InRandom;
     R_RANDOMS_FREAKY_FORESTER: Result := @r_FreakyForester_InRandom;
     R_RANDOMS_FROG: Result := @r_Frog_InRandom;
     R_RANDOMS_GRAVE_DIGGER: Result := @r_GraveDigger_InRandom;
@@ -145,7 +145,7 @@ begin
     R_RANDOMS_CERTER: Result := @r_Certer_Solve;
     R_RANDOMS_DRILL_DEMON: Result := @r_DrillDemon_Solve;
     R_RANDOMS_EXAM: Result := @r_Exam_Solve;
-    R_RANDOMS_DEATH: Result := @r_Death_Solves;
+    R_RANDOMS_DEATH: Result := @r_Death_Solve;
     R_RANDOMS_FREAKY_FORESTER: Result := @r_FreakyForester_Solve;
     R_RANDOMS_FROG: Result := @r_Frog_Solve;
     R_RANDOMS_GRAVE_DIGGER: Result := @r_GraveDigger_Solve;
