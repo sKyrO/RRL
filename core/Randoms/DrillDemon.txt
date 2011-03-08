@@ -4,6 +4,12 @@ Drill Demon random routines.
 
 ---------------------------------------------------------
 
+ * function r_DrillDemon_InRandom: Boolean;
+     By: Timer
+ * procedure r_DrillDemon_TalkToDemon;
+     By: Timer
+ * function r_DrillDemon_Solve: Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
