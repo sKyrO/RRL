@@ -4,7 +4,28 @@ Exam random routines.
 
 ---------------------------------------------------------
 
+ * function r_Exam_NewSimilarObject(const q: string; const Ansrs: TIntegerArray): Exam_SimilarObjectQuestion;
+     By: Timer
+ * function r_Exam_SimilarObjectCondition(const so: Exam_SimilarObjectQuestion): Boolean;
+     By: Timer
+ * function r_Exam_SimilarObject_ClickObjects(const so: Exam_SimilarObjectQuestion): Boolean;
+     By: Timer
+ * function r_Exam_GetNextObjects(Rec: Exam_NextObjectQuestion): Boolean;
+     By: Timer
+ * procedure r_Exam_NextObject_Guess;
+     By: Timer
+ * function r_Exam_NextObject_ClickAnswer(const ob: Exam_NextObjectQuestion): Boolean;
+     By: Timer
+ * function r_Exam_InRandom: Boolean;
+     By: Timer
+ * function r_Exam_Solve: Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+
+{
+[ With Accounts From ]
+  - Zyt3x
+}
 
 {
 This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License.
@@ -17,12 +38,377 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function r_Exam_InRandom: Boolean;
+type
+  Exam_NextObjectQuestion = record
+    IDs: array [0..2] of Integer;
+  end;
+  Exam_SimilarObjectQuestion = record
+    Question: string;
+    Answers: TIntegerArray;
+  end;
+  TExam_SimilarObjectQuestionArray = array of Exam_SimilarObjectQuestion;
+
+const
+  NextObjectInterface = 103;
+	RelatedCardsInterface = 559;
+
+var
+  Exam_Items: T2DIntegerArray;
+  Exam_Ranged, Exam_Cooking, Exam_Fishing, Exam_Combat, Exam_Farming, Exam_Magic,
+  Exam_Firemaking, Exam_Hats, Exam_Pirate, Exam_Jewls, Exam_Jewls2, Exam_Drinks,
+  Exam_Woodcutting, Exam_Boots, Exam_Crafting, Exam_Mining, Exam_Smithing: TIntegerArray;
+  Exam_SimObjects: TExam_SimilarObjectQuestionArray;
+  Exam_Door: TRSObject;
+
+function r_Exam_NewSimilarObject(const q: string; const Ansrs: TIntegerArray): Exam_SimilarObjectQuestion;
 begin
+  Result.Question := Lowercase(q);
+  Result.Answers := Ansrs;
+end;
+
+function r_Exam_SimilarObjectAccept: Boolean;
+var
+  B: TBox;
+begin
+  Result := True;
+  try
+    B := r_GetInterfaceBox(Point(0, 0), RelatedCardsInterface, 26);
+    r_ClickMouseBox(B.x1, B.y1, B.x2, B.y2, True);
+    Wait(RandomRange(500, 800));
+  except
+    Result := False;
+  end;
+end;
+
+function r_Exam_SimilarObjectCondition(const so: Exam_SimilarObjectQuestion): Boolean;
+begin
+  Result := False;
+  if (r_IsInterfaceValid(RelatedCardsInterface)) then
+    Result := Pos(so.Question, Lowercase(r_GetInterfaceText(RelatedCardsInterface, 25))) > 0;
+end;
+
+function r_Exam_SimilarObject_ClickObjects(const so: Exam_SimilarObjectQuestion): Boolean;
+var
+  Count, i, ii: Integer;
+  IH: LongInt;
+  B: TBox;
+begin
+  for i := 42 to 56 do
+    for ii := 0 to High(so.Answers) do
+    begin
+      try
+        IH := r_GetInterface(RelatedCardsInterface, i);
+        if (SmartGetFieldInt(IH, r_Hooks[hook_Interface_ID]) = so.Answers[ii]) then
+        begin
+          B := r_GetInterfaceBox(Point(0, 0), RelatedCardsInterface, i);
+          r_ClickMouseBox(B.x1, B.y1, B.x2, B.y2, True);
+          Wait(RandomRange(800, 1300));
+          Inc(Count);
+          if (Count >= 3) then
+          begin
+            Result := True;
+            Exit;
+          end;
+        end;
+      finally
+        try
+          SmartFreeObject(IH);
+        except
+        end;
+      end;
+    end;
+end;
+
+function r_Exam_GetNextObjects(Rec: Exam_NextObjectQuestion): Boolean;
+var
+  IH: LongInt;
+begin
+  try
+    Rec.IDs[0] := -1;
+    Rec.IDs[1] := -1;
+    Rec.IDs[2] := -1;
+    IH := r_GetInterface(NextObjectInterface, 6);
+    Rec.IDs[0] := SmartGetFieldInt(IH, r_Hooks[hook_Interface_ID]);
+    SmartFreeObject(IH);
+    IH := r_GetInterface(NextObjectInterface, 7);
+    Rec.IDs[1] := SmartGetFieldInt(IH, r_Hooks[hook_Interface_ID]);
+    SmartFreeObject(IH);
+    IH := r_GetInterface(NextObjectInterface, 8);
+    Rec.IDs[2] := SmartGetFieldInt(IH, r_Hooks[hook_Interface_ID]);
+    SmartFreeObject(IH);
+    Result := (Rec.IDs[0] <> -1) and (Rec.IDs[1] <> -1) and (Rec.IDs[2] <> -1);
+  except
+    try
+      SmartFreeObject(IH);
+    except
+    end;
+  end;
+end;
+
+procedure r_Exam_NextObject_Guess;
+begin
+  // TODO: this.
+end;
+
+function r_Exam_NextObject_ReturnAnswers(const IDs: array [0..2] of Integer): TIntegerArray;
+var
+  Count: TIntegerArray;
+  Cards: array[0..2] of Integer;
+  i, ii: Integer;
+begin
+  SetLength(Count, Length(Exam_Items));
+  for i := 0 to High(Exam_Items) do
+    for ii := 0 to High(Exam_Items[i]) do
+      case (Exam_Items[i][ii]) of
+        IDs[0]: Cards[0] := 1;
+        IDs[1]: Cards[1] := 1;
+        IDs[2]: Cards[2] := 1;
+      end;
+  for i := 0 to High(Exam_Items) do
+    for ii := 0 to High(Exam_Items[i]) do
+    begin
+      if (Exam_Items[i][ii] = IDs[0]) then
+        Inc(Count[i]);
+      if (Exam_Items[i][ii] = IDs[1]) then
+        Inc(Count[i]);
+      if (Exam_Items[i][ii] = IDs[3]) then
+        Inc(Count[i]);
+      if (Count[i] >= 2) then
+      begin
+        Result := Exam_Items[i];
+        Exit;
+      end;
+    end;
+end;
+
+function r_Exam_NextObject_ClickAnswer(const ob: Exam_NextObjectQuestion): Boolean;
+var
+  Answers: TIntegerArray;
+  i, ID: Integer;
+  IH: LongInt;
+  B: TBox;
+begin
+  Answers := r_Exam_NextObject_ReturnAnswers(ob.IDs);
+  for i := 10 to 13 do
+  begin
+    try
+      IH := r_GetInterface(NextObjectInterface, i);
+      ID := SmartGetFieldInt(IH, r_Hooks[hook_Interface_ID]);
+      if (InIntArray(Answers, ID)) then
+      begin
+        B := r_GetInterfaceBox(Point(0, 0), NextObjectInterface, i);
+        r_ClickMouseBox(B.x1, B.y1, B.x2, B.y2, True);
+        Wait(500 + Random(300));
+        Result := True;
+      end;
+    finally
+      try
+        SmartFreeObject(IH);
+      except
+      end;
+    end;
+  end;
   Result := False;
 end;
 
-function r_Exam_Solve: Boolean;
+function r_Exam_InRandom: Boolean;
 begin
-  Result := False;
+  Exam_Door := NULL_RSOBJECT;
+  Result := (not (r_GetClosestNPCByID(6117) = NULL_NPC));
+end;
+
+function r_Exam_Solve: Boolean;
+var
+  t: TRSTile;
+  p: TPoint;
+  s: string;
+  NOQ: Exam_NextObjectQuestion;
+  i: Integer;
+  NPC: TNPC;
+begin
+  Exam_Ranged := [11539, 11540, 11541, 11614, 11615, 11633];
+  Exam_Cooking := [11526, 11529, 11545, 11549, 11550, 11555, 11560, 11563, 11564,
+                   11607, 11608, 11616, 11620, 11621, 11622, 11623, 11628, 11629,
+                   11634, 11639, 11641, 11649, 11624];
+  Exam_Fishing := [11527, 11574, 11578, 11580, 11599, 11600, 11601, 11602, 11603,
+                   11604, 11605, 11606, 11625];
+  Exam_Combat := [11528, 11531, 11536, 11537, 11579, 11591, 11592, 11593, 11597,
+                  11627, 11631, 11635, 11636, 11638, 11642, 11648, 11617];
+  Exam_Farming := [11530, 11532, 11547, 11548, 11554, 11556, 11571, 11581, 11586,
+                   11610, 11645];
+  Exam_Magic := [11533, 11534, 11538, 11562, 11567, 11582];
+  Exam_Firemaking := [11535, 11551, 11552, 11559, 11646];
+  Exam_Hats := [11540, 11557, 11558, 11560, 11570, 11619, 11626, 11630, 11632,
+                11637, 11654];
+  Exam_Pirate := [11570, 11626, 11558];
+  Exam_Jewls := [11572, 11576, 11652];
+  Exam_Jewls2 := [11572, 11576, 11652];
+  Exam_Drinks := [11542, 11543, 11544, 11644, 11647];
+  Exam_Woodcutting := [11573, 11595];
+  Exam_Boots := [11561, 11618, 11650, 11651];
+  Exam_Crafting := [11546, 11553, 11565, 11566, 11568, 11569, 11572, 11575,
+                    11576, 11577, 11581, 11583, 11584, 11585, 11643, 11652, 11653];
+  Exam_Mining := [11587, 11588, 11594, 11596, 11598, 11609, 11610];
+  Exam_Smithing := [11611, 11612, 11613];
+  Exam_Items := [Exam_Ranged, Exam_Cooking, Exam_Fishing, Exam_Combat,
+                 Exam_Farming, Exam_Magic, Exam_Firemaking, Exam_Hats,
+                 Exam_Drinks, Exam_Woodcutting, Exam_Boots, Exam_Crafting,
+                 Exam_Mining, Exam_Smithing];
+ 	Exam_SimObjects := [
+    r_Exam_NewSimilarObject('I never leave the house without some sort of jewellery.', Exam_Jewls),
+    r_Exam_NewSimilarObject('There is no better feeling than', Exam_Jewls2),
+    r_Exam_NewSimilarObject('I''m feeling dehydrated', Exam_Drinks),
+    r_Exam_NewSimilarObject('All this work is making me thirsty', Exam_Drinks),
+    r_Exam_NewSimilarObject('quenched my thirst', Exam_Drinks),
+    r_Exam_NewSimilarObject('light my fire', Exam_Firemaking),
+    r_Exam_NewSimilarObject('fishy', Exam_Fishing),
+    r_Exam_NewSimilarObject('fishing for answers', Exam_Fishing),
+    r_Exam_NewSimilarObject('fish out of water', Exam_Drinks),
+    r_Exam_NewSimilarObject('strange headgear', Exam_Hats),
+    r_Exam_NewSimilarObject('tip my hat', Exam_Hats),
+    r_Exam_NewSimilarObject('thinking cap', Exam_Hats),
+    r_Exam_NewSimilarObject('wizardry here', Exam_Magic),
+    r_Exam_NewSimilarObject('rather mystical', Exam_Magic),
+    r_Exam_NewSimilarObject('abracada', Exam_Magic),
+    r_Exam_NewSimilarObject('hide one''s face', Exam_Hats),
+    r_Exam_NewSimilarObject('shall unmask', Exam_Hats),
+    r_Exam_NewSimilarObject('hand-to-hand', Exam_Combat),
+    r_Exam_NewSimilarObject('melee weapon', Exam_Combat),
+    r_Exam_NewSimilarObject('prefers melee', Exam_Combat),
+    r_Exam_NewSimilarObject('me hearties', Exam_Pirate),
+    r_Exam_NewSimilarObject('puzzle for landlubbers', Exam_Pirate),
+    r_Exam_NewSimilarObject('mighty pirate', Exam_Pirate),
+    r_Exam_NewSimilarObject('mighty archer', Exam_Ranged),
+    r_Exam_NewSimilarObject('as an arrow', Exam_Ranged),
+    r_Exam_NewSimilarObject('Ranged attack', Exam_Ranged),
+    r_Exam_NewSimilarObject('shiny things', Exam_Crafting),
+    r_Exam_NewSimilarObject('igniting', Exam_Firemaking),
+    r_Exam_NewSimilarObject('sparks from my synapses.', Exam_Firemaking),
+    r_Exam_NewSimilarObject('fire.', Exam_Firemaking),
+    r_Exam_NewSimilarObject('disguised', Exam_Hats),
+
+    r_Exam_NewSimilarObject('range', Exam_Ranged),
+    r_Exam_NewSimilarObject('arrow', Exam_Ranged),
+    r_Exam_NewSimilarObject('drink', Exam_Drinks),
+    r_Exam_NewSimilarObject('logs', Exam_Firemaking),
+    r_Exam_NewSimilarObject('light', Exam_Firemaking),
+    r_Exam_NewSimilarObject('headgear', Exam_Hats),
+    r_Exam_NewSimilarObject('hat', Exam_Hats),
+    r_Exam_NewSimilarObject('cap', Exam_Hats),
+    r_Exam_NewSimilarObject('mine', Exam_Mining),
+    r_Exam_NewSimilarObject('mining', Exam_Mining),
+    r_Exam_NewSimilarObject('ore', Exam_Mining),
+    r_Exam_NewSimilarObject('fish', Exam_Fishing),
+    r_Exam_NewSimilarObject('fishing', Exam_Fishing),
+    r_Exam_NewSimilarObject('thinking cap', Exam_Hats),
+    r_Exam_NewSimilarObject('cooking', Exam_Cooking),
+    r_Exam_NewSimilarObject('cook', Exam_Cooking),
+    r_Exam_NewSimilarObject('bake', Exam_Cooking),
+    r_Exam_NewSimilarObject('farm', Exam_Farming),
+    r_Exam_NewSimilarObject('farming', Exam_Farming),
+    r_Exam_NewSimilarObject('cast', Exam_Magic),
+    r_Exam_NewSimilarObject('magic', Exam_Magic),
+    r_Exam_NewSimilarObject('craft', Exam_Crafting),
+    r_Exam_NewSimilarObject('boot', Exam_Boots),
+    r_Exam_NewSimilarObject('chop', Exam_Woodcutting),
+    r_Exam_NewSimilarObject('cut', Exam_Woodcutting),
+    r_Exam_NewSimilarObject('tree', Exam_Woodcutting)
+  ];
+  if (r_IsMoving) or (r_GetAnimation > 0) then
+  begin
+    WriteLn('[Exam] Walking.');
+    Wait(RandomRange(2500, 3500));
+    Result := (r_GetClosestNPCByID(6117) = NULL_NPC);
+    Exit;
+  end;
+  if (not (Exam_Door = NULL_RSOBJECT)) then
+  begin
+    WriteLn('[Exam] Exiting.');
+    t := r_GetLocation;
+    if (r_DistanceBetween(t, Exam_Door.Tile) > 3) then
+    begin
+      r_ClickTile(Exam_Door.Tile);
+      Wait(RandomRange(6500, 8500));
+    end;
+    case (Exam_Door.ID) of
+      2188: r_MoveCompass('w');
+      2193: r_MoveCompass('e');
+      2189: r_MoveCompass('w');
+      2192: r_MoveCompass('n');
+    end;
+    if (r_TileOnScreenEx(Exam_Door.Tile, 400)) then
+    begin
+      p := r_TileToScreenEx(Exam_Door.Tile, 400);
+      r_MoveMouse(p.x, p.y, 8, 8);
+      if (r_WaitForInteract('Open', 800)) then
+      begin
+        Wait(RandomRange(6500, 8500));
+        Result := (r_GetClosestNPCByID(6117) = NULL_NPC);
+        Exit;
+      end;
+    end;
+  end;
+  if (not Result) then
+  begin
+    WriteLn('[Exam] Attempting solve.');
+    if (r_IsInterfaceValid(242)) then
+    begin
+      WriteLn('[Exam] Door interface is up!');
+      s := Lowercase(r_GetInterfaceText(242, 4));
+      if (Pos('to exit,', s) > 0) then
+        if (Pos('red', s) > 0) then
+          Exam_Door := r_GetClosestObjectByIDOptimized(2188, R_OBJECT_TYPE_WALL_OBJECT, 20)
+        else if (Pos('green', s) > 0) then
+          Exam_Door := r_GetClosestObjectByIDOptimized(2193, R_OBJECT_TYPE_WALL_OBJECT, 20)
+        else if (Pos('blue', s) > 0) then
+          Exam_Door := r_GetClosestObjectByIDOptimized(2189, R_OBJECT_TYPE_WALL_OBJECT, 20)
+        else if (Pos('purple', s) > 0) then
+          Exam_Door := r_GetClosestObjectByIDOptimized(2192, R_OBJECT_TYPE_WALL_OBJECT, 20);
+      Wait(800 + Random(300));
+      Exit;
+    end;
+    if (not r_IsInterfaceValid(NextObjectInterface)) and (not r_IsInterfaceValid(RelatedCardsInterface)) and
+       (not r_IsMoving) and (not r_ClickContinue) and (Exam_Door = NULL_RSOBJECT) then
+    begin
+      WriteLn('[Exam] Nothing is up, talking to Mordaut.');
+      NPC := r_GetClosestNPCByID(6117);
+      if (not (NPC = NULL_NPC)) then
+      begin
+        if (not r_TileOnScreenEx(NPC.Character.Location, NPC.Character.Height)) then
+        begin
+          WriteLn('[Exam] Tile not on screen, walking to it.');
+          r_ClickTile(NPC.Character.Location);
+          Wait(RandomRange(5000, 7000));
+        end;
+        p := r_TileToScreenEx(NPC.Character.Location, NPC.Character.Height);
+        r_MoveMouse(p.x, p.y, 10, 10);
+        r_WaitForInteract('Talk-to', 250);
+      end;
+      Wait(RandomRange(3000, 5000));
+      Exit;
+    end;
+    if (r_IsInterfaceValid(NextObjectInterface)) then
+    begin
+      if (r_Exam_GetNextObjects(NOQ)) then
+      begin
+        if (not r_Exam_NextObject_ClickAnswer(NOQ)) then
+          r_Exam_NextObject_Guess;
+      end else
+        r_Exam_NextObject_Guess;
+      Wait(RandomRange(800, 1200));
+      Exit;
+    end;
+    if (r_IsInterfaceValid(RelatedCardsInterface)) then
+      for i := 0 to High(Exam_SimObjects) do
+        if (r_Exam_SimilarObjectCondition(Exam_SimObjects[i])) then
+          if (r_Exam_SimilarObject_ClickObjects(Exam_SimObjects[i])) then
+          begin
+            r_Exam_SimilarObjectAccept;
+            Wait(RandomRange(800, 1200));
+            Exit;
+          end;
+  end;
+  r_ClickContinue;
+  Wait(RandomRange(800, 1200));
+  Result := (r_GetClosestNPCByID(6117) = NULL_NPC);
 end;
