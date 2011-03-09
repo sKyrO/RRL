@@ -10,11 +10,19 @@ NPC routines.
      By: Timer
  * function r_GetAllNPCsByID(const ID: Integer): TNPCArray;
      By: Timer
+ * function r_GetAllNPCsByNameEx(const Names: TStringArray): TNPCArray;
+     By: Timer
+ * function r_GetAllNPCsByName(const Name: string): TNPCArray;
+     By: Timer
  * function r_SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
      By: Timer
  * function r_GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
      By: Timer
  * function r_GetClosestNPCByID(const ID: Integer): TNPC;
+     By: Timer
+ * function r_GetClosestNPCByNameEx(const Names: TStringArray): TNPC;
+     By: Timer
+ * function r_GetClosestNPCByName(const Name: string): TNPC;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -62,26 +70,6 @@ begin
       PathToNPC := SmartGetFieldObject(PathToNPCNode, r_Hooks[hook_NPCNode_NPC]);
       PathToNPCDefinition := SmartGetFieldObject(PathToNPC, r_Hooks[hook_NPC_Definition]);
       JavaName := SmartGetFieldObject(PathToNPCDefinition, r_Hooks[hook_NPCDefinition_Name]);
-      if (Lowercase(Trim(r_GetString(JavaName))) = 'null') then
-      begin
-        try
-          SmartFreeObject(PathToNPCNode);
-        except
-        end;
-        try
-          SmartFreeObject(PathToNPC);
-        except
-        end;
-        try
-          SmartFreeObject(PathToNPCDefinition);
-        except
-        end;
-        try
-          SmartFreeObject(JavaName);
-        except
-        end;
-        Continue;
-      end;
       with Result[C] do
       begin
         Index := SmartGetFieldArrayInt(0, r_Hooks[hook_NPCIndexes], i);
@@ -148,6 +136,31 @@ begin
   Result := r_GetAllNPCsByIDEx([ID]);
 end;
 
+function r_GetAllNPCsByNameEx(const Names: TStringArray): TNPCArray;
+var
+  NPCArray: TNPCArray;
+  i, l, C, ii, ll: Integer;
+begin
+  NPCArray := r_GetAllNPCs;
+  l := Length(NPCArray);
+  ll := Length(Names);
+  SetLength(Result, l);
+  for i := 0 to l - 1 do
+    for ii := 0 to ll - 1 do
+      if (Pos(Lowercase(Names[ii]), Lowercase(NPCArray[i].Name)) > 0) then
+      begin
+        Result[C] := NPCArray[i];
+        Inc(C);
+        Break;
+      end;
+  SetLength(Result, C);
+end;
+
+function r_GetAllNPCsByName(const Name: string): TNPCArray;
+begin
+  Result := r_GetAllNPCsByNameEx([Name]);
+end;
+
 function r_SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
 var
   i, ii, L: LongInt;
@@ -186,4 +199,22 @@ end;
 function r_GetClosestNPCByID(const ID: Integer): TNPC;
 begin
   Result := r_GetClosestNPCByIDEx([ID]);
+end;
+
+function r_GetClosestNPCByNameEx(const Names: TStringArray): TNPC;
+var
+  NPCArray, OurNPCs: TNPCArray;
+  C: Integer;
+begin
+  Result := NULL_NPC;
+  NPCArray := r_GetAllNPCsByNameEx(Names);
+  SetLength(OurNPCs, C);
+  OurNPCs := r_SortNPCs(NPCArray, r_GetLocation);
+  if (Length(OurNPCs) > 0) then
+    Result := OurNPCs[0];
+end;
+
+function r_GetClosestNPCByName(const Name: string): TNPC;
+begin
+  Result := r_GetClosestNPCByNameEx([Name]);
 end;
