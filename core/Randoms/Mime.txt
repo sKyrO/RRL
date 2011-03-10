@@ -40,7 +40,7 @@ var
 function r_Mime_InRandom: Boolean;
 begin
   Mime := r_GetClosestNPCByID(1056);
-  Result := (not (Mime = NULL_NPC)) and (r_DistanceBetween(r_GetLocation, Mime.Character.Location) < 10);
+  Result := (not (Mime = NULL_NPC));
 end;
 
 function Mime_GetMimeAnimation: Integer;
@@ -101,8 +101,8 @@ function r_Mime_Solve: Boolean;
 var
   A: Integer;
 begin
-  Result := False;
-  if (not r_Mime_InRandom) then
+  Result := not r_Mime_InRandom;
+  if (Result) then
     Exit;
   case (Mime_GetState) of
     MIME_CLICK_CONTINUE:
