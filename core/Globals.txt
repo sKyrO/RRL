@@ -53,6 +53,24 @@ var
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Accounts
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+type
+  TAccount = record
+    Name, Password: string;
+    Pin: Integer;
+    Active, Members: Boolean;
+    BoxRewards: TStringArray;
+  end;
+  TAccountArray = array of TAccount;
+
+var
+  r_Accounts: TAccountArray;
+  r_CurrentAccount: Integer;
+
+{
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Tile data types.
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
