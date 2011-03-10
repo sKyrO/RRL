@@ -4,6 +4,14 @@ Box random routines.
 
 ---------------------------------------------------------
 
+ * function r_Box_InRandom: Boolean;
+     By: Timer
+ * function r_Box_GetChoices: TStringArray;
+     By: Timer
+ * function r_Box_SlotPoint(const s: Integer): TPoint;
+     By: Timer
+ * function r_Box_Solve: Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -17,12 +25,111 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+const
+  R_BOX_BOOK_KNOWLEDGE_ID = 11640;
+  R_BOX_LAMP_ID = 2528;
+  R_BOX_MYSTERY_BOX_ID = 6199;
+  R_BOX_BOX_ID = 14664;
+  R_BOX_BOX_IF = 202;
+  R_BOX_BOX_CONFIRM_IF = 28;
+  R_BOX_BOX_SELECTION_IF = 15;
+  R_BOX_BOX_SCROLL_IF = 24;
+  R_BOX_XP_IF = 134;
+
 function r_Box_InRandom: Boolean;
 begin
-  Result := False;
+  Result := (not r_IsFighting) and
+            (r_DoesInventoryContainIDEx([R_BOX_BOOK_KNOWLEDGE_ID,
+                                         R_BOX_BOX_ID, R_BOX_LAMP_ID,
+                                         R_BOX_MYSTERY_BOX_ID]));
+end;
+
+function r_Box_GetChoices: TStringArray;
+var
+  Com: TIntegerArray;
+  i, C: Integer;
+  F: LongInt;
+  Texts: TStringArray;
+  Str: string;
+begin
+  Com := r_GetSubInterfaceComponents(R_BOX_BOX_IF, R_BOX_BOX_SELECTION_IF);
+  SetLength(Texts, Length(Com));
+  for i := 0 to High(Com) do
+  begin
+    F := r_GetSubInterface(R_BOX_BOX_IF, R_BOX_BOX_SELECTION_IF, Com[i]);
+    Texts[C] := r_GetInterfaceTextEx(F, True);
+    if (Texts[C] <> '') then
+      Inc(C);
+  end;
+  SetLength(Texts, C);
+  Str := '[Box] Choices: [';
+  for i := 0 to High(Texts) do
+  begin
+    Str := Str + Texts[i];
+    if (i < High(Texts)) then
+      Str := Str + ', ';
+  end;
+  Str := Str + '];';
+  WriteLn(Str);
+  Result := Texts;
+end;
+
+function r_Box_SlotPoint(const s: Integer): TPoint;
+begin
+  Result := Point(130 + (180 * (s mod 2)), 100 + (70 * (s div 2)));
 end;
 
 function r_Box_Solve: Boolean;
+var
+  Choices: TStringArray;
+  i, ii, OptionS: Integer;
+  F: LongInt;
+  Com: TIntegerArray;
+  P: TPoint;
+  It: TRSItem;
 begin
-  Result := False;
+  Result := not r_Box_InRandom;
+  if (Result) then
+    Exit;
+  if (r_IsInterfaceValid(R_BOX_BOX_IF)) then
+  begin
+    WriteLn('[Box] Interface up.');
+    Choices := r_Box_GetChoices;
+    OptionS := -1;
+    for i := 0 to High(r_Accounts[r_CurrentAccount].BoxRewards) do
+    begin
+      for ii := 0 to High(Choices) do
+        if (Pos(Lowercase(r_Accounts[r_CurrentAccount].BoxRewards[i]), Lowercase(Choices[ii])) > 0) then
+        begin
+          OptionS := ii;
+          Break;
+        end;
+      if (OptionS <> -1) then
+        Break;
+    end;
+    if (OptionS = -1) then
+      OptionS := 0;
+    WriteLn('[Box] Desired option: ' + IntToStr(OptionS + 1) + '.');
+    if (OptionS >= 6) then
+    begin
+      WriteLn('[Box] Selections higher than 6 not yet supported.');
+      OptionS := Random(6);
+    end;
+    P := r_Box_SlotPoint(OptionS);
+    r_ClickMouse(p.x, p.y, 8, 8, True);
+    Wait(RandomRange(300, 800));
+    r_ClickMouse(440, 185, 15, 15, True);
+    Wait(RandomRange(1200, 3000));
+    Exit;
+  end;
+  if (r_DoesInventoryContainID(R_BOX_BOX_ID)) then
+  begin
+    It := r_GetInventoryItemByID(R_BOX_BOX_ID);
+    r_ClickMouseItem(It.Slot, True);
+    Wait(RandomRange(1200, 3000));
+    Exit;
+  end;
+  Result := (not r_DoesInventoryContainIDEx([R_BOX_BOOK_KNOWLEDGE_ID,
+                                         R_BOX_BOX_ID, R_BOX_LAMP_ID,
+                                         R_BOX_MYSTERY_BOX_ID]));;
 end;
