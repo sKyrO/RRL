@@ -32,13 +32,15 @@ Inventory routines
      By: Timer
  * function r_GetInventoryItemByID(const ID: Integer): TRSItem;
      By: Timer
- * function r_DoesInventoryItemIDExistEx(const IDs: TIntegerArray): Boolean;
+ * function r_DoesInventoryContainIDEx(const IDs: TIntegerArray): Boolean;
      By: Timer
- * function r_DoesInventoryItemIDExist(const ID: Integer): Boolean;
+ * function r_DoesInventoryContainID(const ID: Integer): Boolean;
      By: Timer
- * function r_DoesInventoryItemSlotExistEx(const Slots: TIntegerArray): Boolean;
+ * function r_DoesInventoryContainIDs(const IDs: TIntegerArray): Boolean;
      By: Timer
- * function r_DoesInventoryItemSlotExist(const Slot: Integer): Boolean;
+ * function r_DoesInventoryItemExistEx(const Slots: TIntegerArray): Boolean;
+     By: Timer
+ * function r_DoesInventoryItemExist(const Slot: Integer): Boolean;
      By: Timer
  * function r_DropAllItemsButByIDEx(const IDs: TIntegerArray): Boolean;
      By: Timer
@@ -163,7 +165,7 @@ begin
       TheItem := SmartGetFieldArrayObject(InventoryInterface, r_Hooks[hook_Interface_Components], Slot);
       JName := SmartGetFieldObject(TheItem, r_Hooks[hook_Interface_ComponentName]);
       Name := r_RemoveJunk(r_GetString(JName));
-      ID := SmartGetFieldInt(TheItem, r_Hooks[hook_Interface_ID]);
+      ID := SmartGetFieldInt(TheItem, r_Hooks[hook_Interface_ComponentID]);
       Stack := SmartGetFieldInt(TheItem, r_Hooks[hook_Interface_StackSize]);
       if (ID > 0) then
         Result := RSItem(ID, TSlot, Stack, Name);
@@ -280,17 +282,28 @@ begin
   Result := r_GetInventoryItemByIDEx([ID]);
 end;
 
-function r_DoesInventoryItemIDExistEx(const IDs: TIntegerArray): Boolean;
+function r_DoesInventoryContainIDEx(const IDs: TIntegerArray): Boolean;
 begin
   Result := (not (r_GetInventoryItemByIDEx(IDs) = NULL_RSITEM));
 end;
 
-function r_DoesInventoryItemIDExist(const ID: Integer): Boolean;
+function r_DoesInventoryContainID(const ID: Integer): Boolean;
 begin
-  Result := r_DoesInventoryItemIDExistEx([ID]);
+  Result := r_DoesInventoryContainIDEx([ID]);
 end;
 
-function r_DoesInventoryItemSlotExistEx(const Slots: TIntegerArray): Boolean;
+function r_DoesInventoryContainIDs(const IDs: TIntegerArray): Boolean;
+var
+  i: Integer;
+begin
+  Result := False;
+  for i := 0 to High(IDs) do
+    if (not r_DoesInventoryContainIDEx([IDs[i]])) then
+      Exit;
+  Result := True;
+end;
+
+function r_DoesInventoryItemExistEx(const Slots: TIntegerArray): Boolean;
 var
   i: Integer;
 begin
@@ -303,9 +316,9 @@ begin
     end;
 end;
 
-function r_DoesInventoryItemSlotExist(const Slot: Integer): Boolean;
+function r_DoesInventoryItemExist(const Slot: Integer): Boolean;
 begin
-  Result := r_DoesInventoryItemSlotExistEx([Slot]);
+  Result := r_DoesInventoryItemExistEx([Slot]);
 end;
 
 function r_DropAllItemsButByIDEx(const IDs: TIntegerArray): Boolean;
@@ -332,7 +345,7 @@ begin
       if (r_WaitForInteract('Drop', 1200)) then
       begin
         m := GetSystemTime;
-        while (GetSystemTime - m < 2000) and (r_DoesInventoryItemSlotExist(i)) do
+        while (GetSystemTime - m < 2000) and (r_DoesInventoryItemExist(i)) do
           Wait(RandomRange(150, 200));
         Wait(RandomRange(150, 200));
       end;
@@ -362,7 +375,7 @@ begin
         if (r_WaitForInteract('Drop', 1200)) then
         begin
           m := GetSystemTime;
-          while (GetSystemTime - m < 2000) and (r_DoesInventoryItemSlotExist(i)) do
+          while (GetSystemTime - m < 2000) and (r_DoesInventoryItemExist(i)) do
             Wait(RandomRange(150, 200));
           Wait(RandomRange(150, 200));
         end;
