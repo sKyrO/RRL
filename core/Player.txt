@@ -10,7 +10,9 @@ My Player file.
      By: Timer
  * function r_GetSpeed: Integer;
      By: Timer
- * function r_isMoving: Boolean;
+ * function r_IsAnimating: Boolean;
+     By: Timer
+ * function r_IsMoving: Boolean;
      By: Timer
  * function r_IsFighting: Boolean;
      By: Timer
@@ -79,6 +81,11 @@ var
 begin
   OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
   Result := r_GetCharacterMovement(OurPlayerPath, True);
+end;
+
+function r_IsAnimating: Boolean;
+begin
+  Result := r_GetAnimation > -1;
 end;
 
 function r_IsMoving: Boolean;

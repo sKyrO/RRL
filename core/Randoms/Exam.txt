@@ -331,12 +331,12 @@ begin
       Wait(RandomRange(6500, 8500));
     end;
     case (Exam_Door.ID) of
-      2188: r_MoveCompass('w');
-      2193: r_MoveCompass('e');
-      2189: r_MoveCompass('w');
-      2192: r_MoveCompass('n');
+      2188: r_SetCompass('w');
+      2193: r_SetCompass('e');
+      2189: r_SetCompass('w');
+      2192: r_SetCompass('n');
     end;
-    if (r_TileOnScreenEx(Exam_Door.Tile, 400)) then
+    if (r_IsTileOnScreenEx(Exam_Door.Tile, 400)) then
     begin
       p := r_TileToScreenEx(Exam_Door.Tile, 400);
       r_MoveMouse(p.x, p.y, 8, 8);
@@ -357,13 +357,13 @@ begin
       s := Lowercase(r_GetInterfaceText(242, 4));
       if (Pos('to exit,', s) > 0) then
         if (Pos('red', s) > 0) then
-          Exam_Door := r_GetClosestObjectByIDOptimized(2188, R_OBJECT_TYPE_WALL_OBJECT, 20)
+          Exam_Door := r_GetClosestObjectByIDEx(2188, R_OBJECT_TYPE_WALL_OBJECT, 20)
         else if (Pos('green', s) > 0) then
-          Exam_Door := r_GetClosestObjectByIDOptimized(2193, R_OBJECT_TYPE_WALL_OBJECT, 20)
+          Exam_Door := r_GetClosestObjectByIDEx(2193, R_OBJECT_TYPE_WALL_OBJECT, 20)
         else if (Pos('blue', s) > 0) then
-          Exam_Door := r_GetClosestObjectByIDOptimized(2189, R_OBJECT_TYPE_WALL_OBJECT, 20)
+          Exam_Door := r_GetClosestObjectByIDEx(2189, R_OBJECT_TYPE_WALL_OBJECT, 20)
         else if (Pos('purple', s) > 0) then
-          Exam_Door := r_GetClosestObjectByIDOptimized(2192, R_OBJECT_TYPE_WALL_OBJECT, 20);
+          Exam_Door := r_GetClosestObjectByIDEx(2192, R_OBJECT_TYPE_WALL_OBJECT, 20);
       Wait(800 + Random(300));
       Exit;
     end;
@@ -374,7 +374,7 @@ begin
       NPC := r_GetClosestNPCByID(6117);
       if (not (NPC = NULL_NPC)) then
       begin
-        if (not r_TileOnScreenEx(NPC.Character.Location, NPC.Character.Height)) then
+        if (not r_IsTileOnScreenEx(NPC.Character.Location, NPC.Character.Height)) then
         begin
           WriteLn('[Exam] Tile not on screen, walking to it.');
           r_ClickTile(NPC.Character.Location);

@@ -26,9 +26,9 @@ Calulation core file
      By: Timer
  * function r_TileToScreenEx(const t: TRSTile; const h: Extended): TPoint;
      By: Timer
- * function r_TileToScreen(const t: TRSTile): TPoint;
+ * function r_IsTileToScreen(const t: TRSTile): TPoint;
      By: Timer
- * function r_TileOnScreenEx(const t: TRSTile; const h: Extended): Boolean;
+ * function r_IsTileOnScreenEx(const t: TRSTile; const h: Extended): Boolean;
      By: Timer
  * function r_TileOnScreen(const t: TRSTile): Boolean;
      By: Timer
@@ -44,7 +44,7 @@ Calulation core file
      By: Timer
  * function r_GetClosestTileOnMinimap(const Tile: TRSTile): TRSTile;
      By: Timer
- * procedure BuildCalculationTables;
+ * procedure r_BuildCalculationTables;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -209,12 +209,12 @@ begin
   Result := r_TileToScreenEx(t, 0);
 end;
 
-function r_TileOnScreenEx(const t: TRSTile; const h: Extended): Boolean;
+function r_IsTileOnScreenEx(const t: TRSTile; const h: Extended): Boolean;
 begin
   Result := r_PointOnScreen(r_TileToScreenEx(t, h));
 end;
 
-function r_TileOnScreen(const t: TRSTile): Boolean;
+function r_IsTileOnScreen(const t: TRSTile): Boolean;
 begin
   Result := r_PointOnScreen(r_TileToScreenEx(t, 0));
 end;
@@ -291,7 +291,7 @@ begin
   end;
 end;
 
-procedure BuildCalculationTables;
+procedure r_BuildCalculationTables;
 var
   i: Integer;
   d: Extended;

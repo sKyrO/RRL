@@ -6,7 +6,7 @@ NPC routines.
 
  * function r_GetAllNPCs: TNPCArray;
      By: Timer
- * function r_GetAllNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
+ * function r_GetAllNPCsByIDs(const IDs: TIntegerArray): TNPCArray;
      By: Timer
  * function r_GetAllNPCsByID(const ID: Integer): TNPCArray;
      By: Timer
@@ -16,11 +16,11 @@ NPC routines.
      By: Timer
  * function r_SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
      By: Timer
- * function r_GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
+ * function r_GetClosestNPCByIDs(const IDs: TIntegerArray): TNPC;
      By: Timer
  * function r_GetClosestNPCByID(const ID: Integer): TNPC;
      By: Timer
- * function r_GetClosestNPCByNameEx(const Names: TStringArray): TNPC;
+ * function r_GetClosestNPCByNames(const Names: TStringArray): TNPC;
      By: Timer
  * function r_GetClosestNPCByName(const Name: string): TNPC;
      By: Timer
@@ -111,7 +111,7 @@ begin
   SetLength(Result, C);
 end;
 
-function r_GetAllNPCsByIDEx(const IDs: TIntegerArray): TNPCArray;
+function r_GetAllNPCsByIDs(const IDs: TIntegerArray): TNPCArray;
 var
   NPCArray: TNPCArray;
   i, l, C, ii, ll: Integer;
@@ -133,7 +133,7 @@ end;
 
 function r_GetAllNPCsByID(const ID: Integer): TNPCArray;
 begin
-  Result := r_GetAllNPCsByIDEx([ID]);
+  Result := r_GetAllNPCsByIDs([ID]);
 end;
 
 function r_GetAllNPCsByNameEx(const Names: TStringArray): TNPCArray;
@@ -183,13 +183,13 @@ begin
       end;
 end;
 
-function r_GetClosestNPCByIDEx(const IDs: TIntegerArray): TNPC;
+function r_GetClosestNPCByIDs(const IDs: TIntegerArray): TNPC;
 var
   NPCArray, OurNPCs: TNPCArray;
   C: Integer;
 begin
   Result := NULL_NPC;
-  NPCArray := r_GetAllNPCsByIDEx(IDs);
+  NPCArray := r_GetAllNPCsByIDs(IDs);
   SetLength(OurNPCs, C);
   OurNPCs := r_SortNPCs(NPCArray, r_GetLocation);
   if (Length(OurNPCs) > 0) then
@@ -198,10 +198,10 @@ end;
 
 function r_GetClosestNPCByID(const ID: Integer): TNPC;
 begin
-  Result := r_GetClosestNPCByIDEx([ID]);
+  Result := r_GetClosestNPCByIDs([ID]);
 end;
 
-function r_GetClosestNPCByNameEx(const Names: TStringArray): TNPC;
+function r_GetClosestNPCByNames(const Names: TStringArray): TNPC;
 var
   NPCArray, OurNPCs: TNPCArray;
   C: Integer;
@@ -216,5 +216,5 @@ end;
 
 function r_GetClosestNPCByName(const Name: string): TNPC;
 begin
-  Result := r_GetClosestNPCByNameEx([Name]);
+  Result := r_GetClosestNPCByNames([Name]);
 end;

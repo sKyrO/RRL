@@ -36,7 +36,7 @@ begin
   Obj := NULL_RSOBJECT;
   PillarsS := [15000, 15001, 15002, 15003, 15004,
                15005, 15006, 15007, 15008, 15009];
-  Obj := r_GetClosestObjectByIDOptimizedEx(PillarsS, R_OBJECT_TYPE_INTERACTABLE, 18);
+  Obj := r_GetClosestObjectByIDsEx(PillarsS, R_OBJECT_TYPE_INTERACTABLE, 18);
   Result := (not (Obj = NULL_RSOBJECT));
 end;
 
@@ -68,12 +68,12 @@ begin
   if (r_Pinball_GetScore >= 10) then
   begin
     ExitObj := 15010;
-    Obj := r_GetClosestObjectByIDOptimized(ExitObj, R_OBJECT_TYPE_INTERACTABLE, 18);
+    Obj := r_GetClosestObjectByIDEx(ExitObj, R_OBJECT_TYPE_INTERACTABLE, 18);
     if (not (Obj = NULL_RSOBJECT)) then
     begin
-      if (not r_TileOnScreen(Obj.Tile)) then
+      if (not r_IsTileOnScreen(Obj.Tile)) then
       begin
-        r_MoveCompass('s');
+        r_SetCompass('s');
         KeyDown(40);
         Wait(1000 + Random(300));
         KeyUp(40);
@@ -85,8 +85,8 @@ begin
     end;
     Exit;
   end;
-  Obj := r_GetClosestObjectByIDOptimizedEx(Pillars, R_OBJECT_TYPE_INTERACTABLE, 18);
-  if (not (Obj = NULL_RSOBJECT)) and (r_TileOnScreen(Obj.Tile)) then
+  Obj := r_GetClosestObjectByIDsEx(Pillars, R_OBJECT_TYPE_INTERACTABLE, 18);
+  if (not (Obj = NULL_RSOBJECT)) and (r_IsTileOnScreen(Obj.Tile)) then
   begin
     p := r_TileToScreen(Obj.Tile);
     r_MoveMouse(p.x, p.y, 8, 8);

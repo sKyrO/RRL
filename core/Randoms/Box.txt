@@ -83,8 +83,6 @@ function r_Box_Solve: Boolean;
 var
   Choices: TStringArray;
   i, ii, OptionS: Integer;
-  F: LongInt;
-  Com: TIntegerArray;
   P: TPoint;
   It: TRSItem;
 begin

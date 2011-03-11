@@ -18,9 +18,9 @@ Inventory routines
      By: Timer
  * function r_GetInventoryCount: Integer;
      By: Timer
- * function r_GetInventoryCountByIDExEx(const IDs: TIntegerArray; const Stacks: Boolean): Integer;
+ * function r_GetInventoryCountByIDsEx(const IDs: TIntegerArray; const Stacks: Boolean): Integer;
      By: Timer
- * function r_GetInventoryCountByIDEx(const IDs: TIntegerArray): Integer;
+ * function r_GetInventoryCountByIDs(const IDs: TIntegerArray): Integer;
      By: Timer
  * function r_GetInventoryCountByID(const ID: Integer): Integer;
      By: Timer
@@ -28,7 +28,7 @@ Inventory routines
      By: Timer
  * function r_IsInventoryEmpty: Boolean;
      By: Timer
- * function r_GetInventoryItemByIDEx(const IDs: TIntegerArray): TRSItem;
+ * function r_GetInventoryItemByIDs(const IDs: TIntegerArray): TRSItem;
      By: Timer
  * function r_GetInventoryItemByID(const ID: Integer): TRSItem;
      By: Timer
@@ -42,11 +42,11 @@ Inventory routines
      By: Timer
  * function r_DoesInventoryItemExist(const Slot: Integer): Boolean;
      By: Timer
- * function r_DropAllItemsButByIDEx(const IDs: TIntegerArray): Boolean;
+ * function r_DropAllItemsButByIDs(const IDs: TIntegerArray): Boolean;
      By: Timer
  * function r_DropAllItemsButByID(const ID: Integer): Boolean;
      By: Timer
- * function r_DropAllItemsByIDEx(const IDs: TIntegerArray): Boolean;
+ * function r_DropAllItemsByIDs(const IDs: TIntegerArray): Boolean;
      By: Timer
  * function r_DropAllItemsByID(const ID: Integer): Boolean;
      By: Timer
@@ -219,7 +219,7 @@ begin
   Result := r_GetInventoryCountEx(False);
 end;
 
-function r_GetInventoryCountByIDExEx(const IDs: TIntegerArray; const Stacks: Boolean): Integer;
+function r_GetInventoryCountByIDsEx(const IDs: TIntegerArray; const Stacks: Boolean): Integer;
 var
   i, ii: Integer;
   Item: TRSItem;
@@ -239,14 +239,14 @@ begin
   end;
 end;
 
-function r_GetInventoryCountByIDEx(const IDs: TIntegerArray): Integer;
+function r_GetInventoryCountByIDs(const IDs: TIntegerArray): Integer;
 begin
-  Result := r_GetInventoryCountByIDExEx(IDs, False);
+  Result := r_GetInventoryCountByIDsEx(IDs, False);
 end;
 
 function r_GetInventoryCountByID(const ID: Integer): Integer;
 begin
-  Result := r_GetInventoryCountByIDEx([ID]);
+  Result := r_GetInventoryCountByIDs([ID]);
 end;
 
 function r_IsInventoryFull: Boolean;
@@ -259,7 +259,7 @@ begin
   Result := r_GetInventoryCount <= 0;
 end;
 
-function r_GetInventoryItemByIDEx(const IDs: TIntegerArray): TRSItem;
+function r_GetInventoryItemByIDs(const IDs: TIntegerArray): TRSItem;
 var
   i, ii: Integer;
   it: TRSItem;
@@ -279,12 +279,12 @@ end;
 
 function r_GetInventoryItemByID(const ID: Integer): TRSItem;
 begin
-  Result := r_GetInventoryItemByIDEx([ID]);
+  Result := r_GetInventoryItemByIDs([ID]);
 end;
 
 function r_DoesInventoryContainIDEx(const IDs: TIntegerArray): Boolean;
 begin
-  Result := (not (r_GetInventoryItemByIDEx(IDs) = NULL_RSITEM));
+  Result := (not (r_GetInventoryItemByIDs(IDs) = NULL_RSITEM));
 end;
 
 function r_DoesInventoryContainID(const ID: Integer): Boolean;
@@ -321,7 +321,7 @@ begin
   Result := r_DoesInventoryItemExistEx([Slot]);
 end;
 
-function r_DropAllItemsButByIDEx(const IDs: TIntegerArray): Boolean;
+function r_DropAllItemsButByIDs(const IDs: TIntegerArray): Boolean;
 var
   i, ii: Integer;
   m: LongInt;
@@ -355,10 +355,10 @@ end;
 
 function r_DropAllItemsButByID(const ID: Integer): Boolean;
 begin
-  Result := r_DropAllItemsButByIDEx([ID]);
+  Result := r_DropAllItemsButByIDs([ID]);
 end;
 
-function r_DropAllItemsByIDEx(const IDs: TIntegerArray): Boolean;
+function r_DropAllItemsByIDs(const IDs: TIntegerArray): Boolean;
 var
   i, ii: Integer;
   m: LongInt;
@@ -386,5 +386,5 @@ end;
 
 function r_DropAllItemsByID(const ID: Integer): Boolean;
 begin
-  Result := r_DropAllItemsByIDEx([ID]);
+  Result := r_DropAllItemsByIDs([ID]);
 end;

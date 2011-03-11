@@ -8,7 +8,7 @@ Camera handling file
      By: Timer
  * function r_GetMinimapAngleRadians: Extended;
      By: Timer
- * function r_MoveCompass(compassmove: Variant): Boolean;
+ * function r_SetCompass(compassmove: Variant): Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -33,7 +33,7 @@ begin
   Result := SmartGetFieldFloat(0, r_Hooks[hook_MapAngle]) * pi / 8192.0;
 end;
 
-function r_MoveCompass(compassmove: Variant): Boolean;
+function r_SetCompass(compassmove: Variant): Boolean;
 var
   Angle, DesiredAngle: Extended;
   Left: Boolean;

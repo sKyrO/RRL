@@ -4,15 +4,15 @@ Path routines
 
 ---------------------------------------------------------
 
- * function r_PathStart(const ThePath: TPath): TRSTile;
+ * function r_GetPathStart(const ThePath: TPath): TRSTile;
      By: Timer
- * function r_PathEnd(const ThePath: TPath): TRSTile;
+ * function r_GetPathEnd(const ThePath: TPath): TRSTile;
      By: Timer
- * function r_PathNextTileEx(const ThePath: TPath; const Dist: Integer): TRSTile;
+ * function r_GetPathNextTileEx(const ThePath: TPath; const Dist: Integer): TRSTile;
      By: Timer
- * function r_PathNextTile(const ThePath: TPath): TRSTile;
+ * function r_GetPathNextTile(const ThePath: TPath): TRSTile;
      By: Timer
- * function r_PathAtDestination(const ThePath: TPath): Boolean;
+ * function r_IsPathAtDestination(const ThePath: TPath): Boolean;
      By: Timer
  * function r_PathStep(const ThePath: TPath): Boolean;
      By: Timer
@@ -47,21 +47,21 @@ begin
   Result := NullPath;
 end;
 
-function r_PathStart(const ThePath: TPath): TRSTile;
+function r_GetPathStart(const ThePath: TPath): TRSTile;
 begin
   Result := NULL_RSTile;
   if (Length(ThePath.Tiles) > 0) then
     Result := ThePath.Tiles[0];
 end;
 
-function r_PathEnd(const ThePath: TPath): TRSTile;
+function r_GetPathEnd(const ThePath: TPath): TRSTile;
 begin
   Result := NULL_RSTile;
   if (Length(ThePath.Tiles) > 0) then
     Result := ThePath.Tiles[Length(ThePath.Tiles) - 1];
 end;
 
-function r_PathNextTileEx(const ThePath: TPath; const Dist: Integer): TRSTile;
+function r_GetPathNextTileEx(const ThePath: TPath; const Dist: Integer): TRSTile;
 var
   i, l: Integer;
 begin
@@ -73,7 +73,7 @@ begin
         Result := ThePath.Tiles[i];
 end;
 
-function r_PathNextTile(const ThePath: TPath): TRSTile;
+function r_GetPathNextTile(const ThePath: TPath): TRSTile;
 var
   i, l: Integer;
 begin
@@ -85,9 +85,9 @@ begin
         Result := ThePath.Tiles[i];
 end;
 
-function r_PathAtDestination(const ThePath: TPath): Boolean;
+function r_IsPathAtDestination(const ThePath: TPath): Boolean;
 begin
-  Result := r_DistanceBetween(r_GetLocation, r_PathEnd(ThePath)) < 4;
+  Result := r_DistanceBetween(r_GetLocation, r_GetPathEnd(ThePath)) < 4;
 end;
 
 function r_PathStep(const ThePath: TPath): Boolean;
@@ -101,13 +101,13 @@ begin
   if (l > 0) then
   begin
     OurTile := r_GetLocation;
-    if (r_DistanceBetween(OurTile, r_PathEnd(ThePath)) < 3) then
+    if (r_DistanceBetween(OurTile, r_GetPathEnd(ThePath)) < 3) then
     begin
       Result := True;
       Exit;
     end;
     r := RandomRange(14, 17);
-    TheClickTile := r_PathNextTileEx(ThePath, r);
+    TheClickTile := r_GetPathNextTileEx(ThePath, r);
   end;
   if (not (TheClickTile = NULL_RSTILE)) then
   begin
@@ -123,12 +123,12 @@ begin
       FlagTile := r_GetFlagPosition;
       if (FlagTile.x < 0) then
         FlagTile := NULL_RSTILE;
-      if (FlagTile = NULL_RSTILE) and (r_DistanceBetween(r_PathEnd(ThePath), r_GetLocation) >= 4) then
+      if (FlagTile = NULL_RSTILE) and (r_DistanceBetween(r_GetPathEnd(ThePath), r_GetLocation) >= 4) then
         r_ClickTile(TheClickTile)
       else
       begin
         rr := RandomRange(4, 8);
-        if (r_DistanceBetween(r_GetLocation, FlagTile) <= rr) and (r_DistanceBetween(r_PathEnd(ThePath), FlagTile) >= 4) then
+        if (r_DistanceBetween(r_GetLocation, FlagTile) <= rr) and (r_DistanceBetween(r_GetPathEnd(ThePath), FlagTile) >= 4) then
           r_ClickTile(TheClickTile);
       end;
     end else

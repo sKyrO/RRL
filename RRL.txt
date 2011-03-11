@@ -50,7 +50,7 @@ begin
   m := GetSystemTime;
   r_SetMouseSpeed(10);
   r_SetModels(False);
-  BuildCalculationTables;
+  r_BuildCalculationTables;
   if (not r_LoadHooks) then
   begin
     Writeln('Failed to load hooks.');

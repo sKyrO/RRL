@@ -265,7 +265,7 @@ begin
   begin
     if (RANDOM_DRILL_DEMON_S1 = Desir) then
     begin
-      if (not r_TileOnScreen(Mats[0])) then
+      if (not r_IsTileOnScreen(Mats[0])) then
       begin
         WriteLn('[Demon] Moving closer to mat.');
         r_ClickTile(Mats[0]);
@@ -278,7 +278,7 @@ begin
     end else
     if (RANDOM_DRILL_DEMON_S2 = Desir) then
     begin
-      if (not r_TileOnScreen(Mats[1])) then
+      if (not r_IsTileOnScreen(Mats[1])) then
       begin
         WriteLn('[Demon] Moving closer to mat.');
         r_ClickTile(Mats[1]);
@@ -291,7 +291,7 @@ begin
     end else
     if (RANDOM_DRILL_DEMON_S3 = Desir) then
     begin
-      if (not r_TileOnScreen(Mats[2])) then
+      if (not r_IsTileOnScreen(Mats[2])) then
       begin
         WriteLn('[Demon] Moving closer to mat.');
         r_ClickTile(Mats[2]);
@@ -304,7 +304,7 @@ begin
     end else
     if (RANDOM_DRILL_DEMON_S4 = Desir) then
     begin
-      if (not r_TileOnScreen(Mats[3])) then
+      if (not r_IsTileOnScreen(Mats[3])) then
       begin
         WriteLn('[Demon] Moving closer to mat.');
         r_ClickTile(Mats[3]);

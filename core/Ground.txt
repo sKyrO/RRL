@@ -6,15 +6,15 @@ Ground item routines.
 
  * function r_GetGroundItemsAt(const Tile: TRSTile): TGroundItemArray;
      By: Timer
- * function r_GetAllGroundItemsOptimized(const Range: Integer): TGroundItemArray;
+ * function r_GetAllGroundItemsEx(const Range: Integer): TGroundItemArray;
      By: Timer
  * function r_GetAllGroundItems: TGroundItemArray;
      By: Timer
- * function r_GetAllGroundItemsByIDOptimizedEx(const IDs: TIntegerArray; const Range: Integer): TGroundItemArray;
+ * function r_GetAllGroundItemsByIDsEx(const IDs: TIntegerArray; const Range: Integer): TGroundItemArray;
      By: Timer
- * function r_GetAllGroundItemsByIDOptimized(const ID: Integer; const Range: Integer): TGroundItemArray;
+ * function r_GetAllGroundItemsByIDEx(const ID: Integer; const Range: Integer): TGroundItemArray;
      By: Timer
- * function r_GetAllGroundItemsByIDEx(const IDs: TIntegerArray): TGroundItemArray;
+ * function r_GetAllGroundItemsByIDs(const IDs: TIntegerArray): TGroundItemArray;
      By: Timer
  * function r_GetAllGroundItemsByID(const ID: Integer): TGroundItemArray;
      By: Timer
@@ -22,13 +22,13 @@ Ground item routines.
      By: Timer
  * function r_SortGroundItems(const Arr: TGroundItemArray): TGroundItemArray;
      By: Timer
- * function r_GetClosestGroundItemByIDOptimizedEx(const IDs: TIntegerArray; const Range: Integer): TGroundItem;
+ * function r_GetClosestGroundItemByIDsEx(const IDs: TIntegerArray; const Range: Integer): TGroundItem;
      By: Timer
- * function r_GetClosestGroundItemByIDOptimized(const ID, Range: Integer): TGroundItem;
+ * function r_GetClosestGroundItemByIDEx(const ID, Range: Integer): TGroundItem;
      By: Timer
- * function r_GetClosestGroundItemByIDEx(const IDs: TIntegerArray): TGroundItem;
+ * function r_GetClosestGroundItemByIDs(const IDs: TIntegerArray): TGroundItem;
      By: Timer
- * function r_GetClosestGroundItemByID(const ID, Range: Integer): TGroundItem;
+ * function r_GetClosestGroundItemByID(const ID: Integer): TGroundItem;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -132,7 +132,7 @@ begin
   end;
 end;
 
-function r_GetAllGroundItemsOptimized(const Range: Integer): TGroundItemArray;
+function r_GetAllGroundItemsEx(const Range: Integer): TGroundItemArray;
 var
   BaseX, BaseY, mX, mY, xMi, yMi, xMa, yMa, C, x, y, i: Integer;
   OurLoc: TRSTile;
@@ -166,10 +166,10 @@ end;
 
 function r_GetAllGroundItems: TGroundItemArray;
 begin
-  Result := r_GetAllGroundItemsOptimized(104);
+  Result := r_GetAllGroundItemsEx(104);
 end;
 
-function r_GetAllGroundItemsByIDOptimizedEx(const IDs: TIntegerArray; const Range: Integer): TGroundItemArray;
+function r_GetAllGroundItemsByIDsEx(const IDs: TIntegerArray; const Range: Integer): TGroundItemArray;
 var
   BaseX, BaseY, mX, mY, xMi, yMi, xMa, yMa, C, x, y, i, ii: Integer;
   OurLoc: TRSTile;
@@ -205,19 +205,19 @@ begin
     end;
 end;
 
-function r_GetAllGroundItemsByIDOptimized(const ID: Integer; const Range: Integer): TGroundItemArray;
+function r_GetAllGroundItemsByIDEx(const ID: Integer; const Range: Integer): TGroundItemArray;
 begin
-  Result := r_GetAllGroundItemsByIDOptimizedEx([ID], Range);
+  Result := r_GetAllGroundItemsByIDsEx([ID], Range);
 end;
 
-function r_GetAllGroundItemsByIDEx(const IDs: TIntegerArray): TGroundItemArray;
+function r_GetAllGroundItemsByIDs(const IDs: TIntegerArray): TGroundItemArray;
 begin
-  Result := r_GetAllGroundItemsByIDOptimizedEx(IDs, 104);
+  Result := r_GetAllGroundItemsByIDsEx(IDs, 104);
 end;
 
 function r_GetAllGroundItemsByID(const ID: Integer): TGroundItemArray;
 begin
-  Result := r_GetAllGroundItemsByIDEx([ID]);
+  Result := r_GetAllGroundItemsByIDs([ID]);
 end;
 
 function r_SortGroundItemsEx(const Arr: TGroundItemArray; const From: TRSTile): TGroundItemArray;
@@ -247,34 +247,34 @@ begin
   Result := r_SortGroundItemsEx(Arr, r_GetLocation);
 end;
 
-function r_GetClosestGroundItemByIDOptimizedEx(const IDs: TIntegerArray; const Range: Integer): TGroundItem;
+function r_GetClosestGroundItemByIDsEx(const IDs: TIntegerArray; const Range: Integer): TGroundItem;
 var
   Arr: TGroundItemArray;
 begin
   Result := NULL_GROUNDITEM;
-  Arr := r_GetAllGroundItemsByIDOptimizedEx(IDs, Range);
+  Arr := r_GetAllGroundItemsByIDsEx(IDs, Range);
   Arr := r_SortGroundItems(Arr);
   if (GetArrayLength(Arr) > 0) then
     Result := Arr[0];
 end;
 
-function r_GetClosestGroundItemByIDOptimized(const ID, Range: Integer): TGroundItem;
+function r_GetClosestGroundItemByIDEx(const ID, Range: Integer): TGroundItem;
 begin
-  Result := r_GetClosestGroundItemByIDOptimizedEx([ID], Range);
+  Result := r_GetClosestGroundItemByIDsEx([ID], Range);
 end;
 
-function r_GetClosestGroundItemByIDEx(const IDs: TIntegerArray): TGroundItem;
+function r_GetClosestGroundItemByIDs(const IDs: TIntegerArray): TGroundItem;
 var
   Arr: TGroundItemArray;
 begin
   Result := NULL_GROUNDITEM;
-  Arr := r_GetAllGroundItemsByIDEx(IDs);
+  Arr := r_GetAllGroundItemsByIDs(IDs);
   Arr := r_SortGroundItems(Arr);
   if (GetArrayLength(Arr) > 0) then
     Result := Arr[0];
 end;
 
-function r_GetClosestGroundItemByID(const ID, Range: Integer): TGroundItem;
+function r_GetClosestGroundItemByID(const ID: Integer): TGroundItem;
 begin
-  Result := r_GetClosestGroundItemByIDEx([ID]);
+  Result := r_GetClosestGroundItemByIDs([ID]);
 end;
