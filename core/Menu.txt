@@ -12,11 +12,11 @@ Menu routines.
      By: Timer
  * function r_GetMenuText: TStringArray;
      By: Timer
- * function r_GetMenuIndex(Text: string): Integer;
+ * function r_GetMenuIndex(const Text: string): Integer;
      By: Timer
- * function r_ClickMenuIndex(Index: Integer): Boolean;
+ * function r_ClickMenuIndex(const Index: Integer): Boolean;
      By: Timer
- * function r_Interact(Option: string): Boolean;
+ * function r_Interact(const Option: string): Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -104,7 +104,7 @@ begin
   end;
 end;
 
-function r_GetMenuIndex(Text: string): Integer;
+function r_GetMenuIndex(const Text: string): Integer;
 var
   Menu: TStringArray;
   i: Integer;
@@ -120,7 +120,7 @@ begin
       end;
 end;
 
-function r_ClickMenuIndex(Index: Integer): Boolean;
+function r_ClickMenuIndex(const Index: Integer): Boolean;
 var
   AllItems: TStringArray;
   Item: string;
@@ -165,7 +165,7 @@ begin
   end else
   begin
     xOff := RandomRange(4, 4 + Random(Length(Item) * 4 - 4));
-    yOff := 21 + (16 * index) + RandomRange(2, 10);
+    yOff := 21 + (16 * Index) + RandomRange(2, 10);
     r_ClickMouse(P.x + xOff, P.y + yOff, 0, 0, True);
     Wait(RandomRange(80, 100));
     Result := not r_IsMenuOpen;
@@ -183,7 +183,7 @@ begin
   end;
 end;
 
-function r_Interact(Option: string): Boolean;
+function r_Interact(const Option: string): Boolean;
 var
   Index, x, y: Integer;
   AllItems: TStringArray;

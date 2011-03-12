@@ -23,6 +23,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 
 {.include RRL\core\Mouse.txt}
 {.include RRL\core\Globals.txt}
+{.include RRL\core\Accounts.txt}
 {.include RRL\core\Menu.txt}
 {.include RRL\core\Game.txt}
 {.include RRL\core\Models.txt}
@@ -42,6 +43,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 {.include RRL\core\Ground.txt}
 {.include RRL\core\Timing.txt}
 {.include RRL\core\Randoms.txt}
+{.include RRL\core\Text.txt}
 
 function SetupRRL: Boolean;
 var

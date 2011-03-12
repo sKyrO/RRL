@@ -8,6 +8,14 @@ Bank routines.
      By: Timer
  * function r_IsPinScreen: Boolean;
      By: Timer
+ * function r_EnterPin(const Pin: string): Boolean;
+     By: Timer
+ * function r_DepositAll: Boolean;
+     By: Timer
+ * function r_GetAllBankItems: TRSItemArray;
+     By: Timer
+ * function r_WithdrawItemByID(const ID, Amount: Integer): Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -21,6 +29,8 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+function r_WaitForUpText(const Text: string; const TimeOut: Integer): Boolean; forward;
+
 function r_IsBankScreen: Boolean;
 begin
   Result := r_IsInterfaceValid(762);
@@ -29,4 +39,118 @@ end;
 function r_IsPinScreen: Boolean;
 begin
   Result := r_IsInterfaceValid(13);
+end;
+
+function r_EnterPin(const Pin: string): Boolean;
+begin
+  //TODO <This>.
+  Result := False;
+end;
+
+function r_DepositAll: Boolean;
+var
+  B: TBox;
+begin
+  B := r_GetInterfaceBox(Point(4, 4), 762, 33);
+  if (B.x1 <= 4) then
+    Exit;
+  r_MoveMouseBox(B.x1, B.y1, B.x2, B.y2);
+  Result := r_WaitForInteract('Deposit carried items', 800);
+end;
+
+function r_GetAllBankItems: TRSItemArray;
+var
+  Components: TIntegerArray;
+  tI, tN: LongInt;
+  ID, Stack, i, C: Integer;
+  Name: string;
+begin
+  if (not r_IsBankScreen) then
+    Exit;
+  Components := r_GetSubInterfaceComponents(762, 93);
+  SetLength(Result, Length(Components));
+  for i := 0 to High(Components) do
+  begin
+    try
+      tI := r_GetSubInterface(762, 93, i);
+      ID := SmartGetFieldInt(tI, r_Hooks[hook_Interface_ComponentID]);
+      if (ID > 0) then
+      begin
+        Stack := SmartGetFieldInt(tI, r_Hooks[hook_Interface_StackSize]);
+        tN := SmartGetFieldObject(tI, r_Hooks[hook_Interface_ComponentName]);
+        Name := r_RemoveJunk(r_GetString(tN));
+        Result[i] := RSItem(ID, (i + 1), Stack, Name);
+        Inc(C);
+      end;
+    finally
+      try
+        if (tI > -1) then
+          SmartFreeObject(tI);
+        tI := -1;
+      except
+      end;
+      try
+        if (tN > -1) then
+          SmartFreeObject(tN);
+        tN := -1;
+      except
+      end;
+    end;
+  end;
+  SetLength(Result, C);
+end;
+
+function r_WithdrawItemByID(const ID, Amount: Integer): Boolean;
+var
+  ItemArray: TRSItemArray;
+  i, Slot: Integer;
+  B: TBox;
+  O: string;
+begin
+  Result := False;
+  if (not r_IsBankScreen) then
+    Exit;
+  ItemArray := r_GetAllBankItems;
+  Slot := -1;
+  for i := 0 to High(ItemArray) do
+    if (ItemArray[i].ID = ID) then
+    begin
+      Slot := i;
+      Break;
+    end;
+  if (Slot = -1) then
+  begin
+    WriteLn('Item is not in bank!');
+    Exit;
+  end;
+  B := r_GetSubInterfaceBox(Point(30, 87), 762, 93, Slot);
+  if (B.x1 <= 30) or (B.y1 <= 87) then
+  begin
+    WriteLn('The item is not in the current tab!');
+    Exit;
+  end;
+  r_MoveMouseBox(B.x1, B.y1, B.x2, B.y2);
+  if (r_WaitForUpText(ItemArray[i].Name, 500)) then
+  begin
+    case Amount of
+      0: O := 'Withdraw-All ';
+      1: O := 'Withdraw-1 ';
+      5: O := 'Withdraw-5 ';
+      10: O := 'Withdraw-10 ';
+    else
+      O := 'Withdraw-' + IntToStr(Amount) + ' ';
+    end;
+    Result := r_WaitForInteract(O, 500);
+    if (not Result) then
+      if (Amount > 0) then
+        if (r_WaitForInteract('Withdraw-X', 200)) then
+        begin
+          Wait(RandomRange(1500, 2800));
+          //r_SendKeys(IntToStr(Amount));
+          SmartSendKeys(IntToStr(Amount));//TODO .
+          Result := True;
+        end;
+    if (Result) then
+      Wait(RandomRange(10, 200));
+  end;
 end;

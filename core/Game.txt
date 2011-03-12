@@ -8,7 +8,7 @@ Game functions
      By: Timer
  * function r_IsLoggedIn: Boolean;
      By: Timer
- * function r_GetSetting(Index: Integer): Integer;
+ * function r_GetSetting(const Index: Integer): Integer;
      By: Timer
  * procedure r_DeleteRenderMatrix(var RData: TRenderData; var Render: TRender);
      By: Timer
@@ -43,7 +43,7 @@ begin
   Result := (r_GetLoginIndex = 10) or (r_GetLoginIndex = 11);
 end;
 
-function r_GetSetting(Index: Integer): Integer;
+function r_GetSetting(const Index: Integer): Integer;
 var
   SettingsArray, Data, DataLength: Integer;
 begin

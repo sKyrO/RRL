@@ -20,6 +20,8 @@ Menu routines.
      By: Timer
  * function r_GetInterfaceBox(const Offset: TPoint; const ParentID, ChildID: Integer): TBox;
      By: Timer
+ * function r_GetSubInterfaceBox(const Offset: TPoint; const ParentID, ChildID, ComponentID: Integer): TBox;
+     By: Timer
  * function r_GetInterfaceActionsEx(const PathToInterface: LongInt; Free: Boolean): TStringArray;
      By: Timer
  * function r_GetInterfaceActions(const ParentID, ChildID: Integer): TStringArray;
@@ -153,6 +155,30 @@ var
   x, y: Integer;
 begin
   PathToInterface := r_GetInterface(ParentID, ChildID);
+  x := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
+  y := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
+  Result := IntToBox(Offset.x + x, Offset.y + y,
+                     Offset.x + x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]),
+                     Offset.y + y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]));
+  if (Result.x1 >= 766) then
+  begin
+    DecEx(Result.x1, 766);
+    DecEx(Result.x2, 766);
+  end;
+  if (Result.y1 >= 504) then
+  begin
+    DecEx(Result.y1, 504);
+    DecEx(Result.y2, 504);
+  end;
+  SmartFreeObject(PathToInterface);
+end;
+
+function r_GetSubInterfaceBox(const Offset: TPoint; const ParentID, ChildID, ComponentID: Integer): TBox;
+var
+  PathToInterface: LongInt;
+  x, y: Integer;
+begin
+  PathToInterface := r_GetSubInterface(ParentID, ChildID, ComponentID);
   x := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
   y := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
   Result := IntToBox(Offset.x + x, Offset.y + y,

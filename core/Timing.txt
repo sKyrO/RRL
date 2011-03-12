@@ -4,31 +4,35 @@ Timing routines.
 
 ---------------------------------------------------------
 
- * function r_WaitForOptions(const Options: TStringArray; const Timeout: Integer): Boolean;
+ * function r_WaitForOptionEx(const Options: TStringArray; const Timeout: Integer): Boolean;
      By: Timer
  * function r_WaitForOption(const Option: string; const Timeout: Integer): Boolean;
      By: Timer
- * function r_WaitForAnimationsEx(const IDs: TIntegerArray; const Timeout: Integer): Boolean;
+ * function r_WaitForAnimationExEx(const IDs: TIntegerArray; const Timeout: Integer): Boolean;
      By: Timer
  * function r_WaitForAnimationEx(const ID, Timeout: Integer): Boolean;
      By: Timer
  * function r_WaitForAnimation(const Timeout: Integer): Boolean;
      By: Timer
- * function r_WaitForUpTexts(const Text: TextringArray; const TimeOut: Integer): Boolean;
+ * function r_WaitForUpTextEx(const Text: TextringArray; const TimeOut: Integer): Boolean;
      By: Timer
  * function r_WaitForUpText(const Text: string; const TimeOut: Integer): Boolean;
      By: Timer
- * function r_WaitForInteracts(const Text: TextringArray; const TimeOut: Integer): Boolean;
+ * function r_WaitForInteractEx(const Text: TextringArray; const TimeOut: Integer): Boolean;
      By: Timer
  * function r_WaitForInteract(const Text: string; const TimeOut: Integer): Boolean;
      By: Timer
- * function r_WaitForInterfaces(const IDs: TIntegerArray; const TimeOut: Integer): Boolean;
+ * function r_WaitForInterfaceEx(const IDs: TIntegerArray; const TimeOut: Integer): Boolean;
      By: Timer
  * function r_WaitForInterface(const ID, TimeOut: Integer): Boolean;
      By: Timer
- * function r_WaitForInterfaceTexts(const Text: TextringArray; const ParentIDs, ChildIDs: TIntegerArray; const TimeOut: Integer): Boolean;
+ * function r_WaitForInterfaceTextEx(const Text: TextringArray; const ParentIDs, ChildIDs: TIntegerArray; const TimeOut: Integer): Boolean;
      By: Timer
  * function r_WaitForInterfaceText(const Text: string; const ParentID, ChildID, TimeOut: Integer): Boolean;
+     By: Timer
+ * procedure r_MarkTime(out i: LongInt);
+     By: Timer
+ * function r_GetTimeFromMark(i: LongInt): LongInt;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -43,14 +47,27 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For stended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function r_WaitForOptions(const Options: TStringArray; const Timeout: Integer): Boolean;
+function r_WaitFunc(const TheFunction: TBoolFunc; const Interval, Timeout: Integer): Boolean;
+var
+  m: LongInt;
+begin
+  Result := False;
+  m := GetSystemTime;
+  while (not Result) and (GetSystemTime - m < Timeout) do
+  begin
+    Result := TheFunction();
+    Wait(Interval);
+  end;
+end;
+
+function r_WaitForOptionEx(const Options: TStringArray; const Timeout: Integer): Boolean;
 var
   Inds, i: Integer;
   m: LongInt;
 begin
   Result := False;
   m := GetSystemTime;
-  while (not Result) and (GetSystemTime - m < Timeout) do
+  while (GetSystemTime - m < Timeout) do
   begin
     for i := 0 to High(Options) do
     begin
@@ -67,17 +84,17 @@ end;
 
 function r_WaitForOption(const Option: string; const Timeout: Integer): Boolean;
 begin
-  Result := r_WaitForOptions([Option], Timeout);
+  Result := r_WaitForOptionEx([Option], Timeout);
 end;
 
-function r_WaitForAnimationsEx(const IDs: TIntegerArray; const Timeout: Integer): Boolean;
+function r_WaitForAnimationExEx(const IDs: TIntegerArray; const Timeout: Integer): Boolean;
 var
   i: Integer;
   m: LongInt;
 begin
   Result := False;
   m := GetSystemTime;
-  while (not Result) and (GetSystemTime - m < Timeout) do
+  while (GetSystemTime - m < Timeout) do
   begin
     for i := 0 to High(IDs) do
       if (r_GetAnimation = IDs[i]) then
@@ -91,7 +108,7 @@ end;
 
 function r_WaitForAnimationEx(const ID, Timeout: Integer): Boolean;
 begin
-  Result := r_WaitForOptions([ID], Timeout);
+  Result := r_WaitForAnimationExEx([ID], Timeout);
 end;
 
 function r_WaitForAnimation(const Timeout: Integer): Boolean;
@@ -100,15 +117,18 @@ var
 begin
   Result := False;
   m := GetSystemTime;
-  while (not Result) and (GetSystemTime - m < Timeout) do
+  while (GetSystemTime - m < Timeout) do
   begin
     if (r_GetAnimation > 0) then
+    begin
       Result := True;
+      Exit;
+    end;
     Wait(50);
   end;
 end;
 
-function r_WaitForUpTexts(const Text: TStringArray; const TimeOut: Integer): Boolean;
+function r_WaitForUpTextEx(const Text: TStringArray; const TimeOut: Integer): Boolean;
 var
   m: LongInt;
   i: Integer;
@@ -116,7 +136,7 @@ var
 begin
   Result := False;
   m := GetSystemTime;
-  while (not Result) and (GetSystemTime - m < TimeOut) do
+  while (GetSystemTime - m < TimeOut) do
   begin
     tt := r_GetUpText;
     for i := 0 to High(Text) do
@@ -131,10 +151,10 @@ end;
 
 function r_WaitForUpText(const Text: string; const TimeOut: Integer): Boolean;
 begin
-  Result := r_WaitForUpTexts([Text], TimeOut);
+  Result := r_WaitForUpTextEx([Text], TimeOut);
 end;
 
-function r_WaitForInteracts(const Text: TStringArray; const TimeOut: Integer): Boolean;
+function r_WaitForInteractEx(const Text: TStringArray; const TimeOut: Integer): Boolean;
 var
   m: LongInt;
   i: Integer;
@@ -158,10 +178,10 @@ end;
 
 function r_WaitForInteract(const Text: string; const TimeOut: Integer): Boolean;
 begin
-  Result := r_WaitForInteracts([Text], TimeOut);
+  Result := r_WaitForInteractEx([Text], TimeOut);
 end;
 
-function r_WaitForInterfaces(const IDs: TIntegerArray; const TimeOut: Integer): Boolean;
+function r_WaitForInterfaceEx(const IDs: TIntegerArray; const TimeOut: Integer): Boolean;
 var
   m: LongInt;
   i: Integer;
@@ -182,10 +202,10 @@ end;
 
 function r_WaitForInterface(const ID, TimeOut: Integer): Boolean;
 begin
-  Result := r_WaitForInterfaces([ID], TimeOut);
+  Result := r_WaitForInterfaceEx([ID], TimeOut);
 end;
 
-function r_WaitForInterfaceTexts(const Text: TStringArray; const ParentIDs, ChildIDs: TIntegerArray; const TimeOut: Integer): Boolean;
+function r_WaitForInterfaceTextEx(const Text: TStringArray; const ParentIDs, ChildIDs: TIntegerArray; const TimeOut: Integer): Boolean;
 var
   m: LongInt;
   i, ii: Integer;
@@ -210,5 +230,15 @@ end;
 
 function r_WaitForInterfaceText(const Text: string; const ParentID, ChildID, TimeOut: Integer): Boolean;
 begin
-  Result := r_WaitForInterfaceTexts([Text], [ParentID], [ChildID], TimeOut);
+  Result := r_WaitForInterfaceTextEx([Text], [ParentID], [ChildID], TimeOut);
+end;
+
+procedure r_MarkTime(out i: LongInt);
+begin
+  i := GetSystemTime;
+end;
+
+function r_GetTimeFromMark(i: LongInt): LongInt;
+begin
+  Result := GetSystemTime - i;
 end;

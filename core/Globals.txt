@@ -8,9 +8,9 @@ Global File
      By: Timer
  * function r_LoadHooks: Boolean;
      By: Timer
- * function r_GetString(Bytes: LongInt): [AnsiString/string];
+ * function r_GetString(const Bytes: LongInt): [AnsiString/string];
      By: Timer
- * function r_RemoveJunk(S: string): string;
+ * function r_RemoveJunk(const S: string): string;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -58,10 +58,13 @@ Accounts
 }
 type
   TAccount = record
-    Name, Password: string;
-    Pin: Integer;
+    Name, Password, Pin: string;
     Active, Members: Boolean;
     BoxRewards: TStringArray;
+    Integers: array[0..99] of Integer;
+    Booleans: array[0..99] of Boolean;
+    Extendeds: array[0..9] of Extended;
+    Strings: array[0..99] of string;
   end;
   TAccountArray = array of TAccount;
 
@@ -395,7 +398,7 @@ type
 
   TRSItemArray = array of TRSItem;
 
-function RSItem(const iID, iSlot, iStack: Integer; iName: string): TRSItem;
+function RSItem(const iID, iSlot, iStack: Integer; const iName: string): TRSItem;
 begin
   with Result do
   begin
@@ -578,16 +581,16 @@ begin
 end;
 
 {$IFDEF SIMBA}
-function r_GetString(Bytes: LongInt): string;
+function r_GetString(const Bytes: LongInt): string;
 {$ELSE}
-function r_GetString(Bytes: LongInt): AnsiString;
+function r_GetString(const Bytes: LongInt): AnsiString;
 {$ENDIF}
 begin
   SetLength(Result, 255);
   SetLength(Result, SmartStringFromString(Bytes, Result));
 end;
 
-function r_RemoveJunk(S: string): string;
+function r_RemoveJunk(const S: string): string;
 var
   P, P2, PLength: integer;
 begin
@@ -595,6 +598,7 @@ begin
   P2 := Pos('>', S);
   Result := S;
   PLength := P2 - P + 1;
+  Result := Replace(Result, '->', '#98525093293052309203920395');
   while (P <> 0) and (P2 <> 0) do
   begin
     Delete(Result, P, PLength);
@@ -602,4 +606,5 @@ begin
     P2 := Pos('>', Result);
     PLength := P2 - P + 1;
   end;
+  Result := Replace(Result, '#98525093293052309203920395', '->');
 end;
