@@ -87,7 +87,7 @@ begin
   Result := True;
 end;
 
-procedure SetupSmart(const Server: Integer; const Members, Signed: Boolean);
+procedure SetupSmart(const Server: Integer; const Members: Boolean);
 begin
   SmartSetup('http://world' + IntToStr(Server) + '.runescape.com/', 'plugin.js?param=o0,a0,m' + IntToStr(Integer(Members)), 765, 503, 's');
 end;
