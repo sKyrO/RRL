@@ -65,6 +65,7 @@ begin
     Wait(RandomRange(1000, 2000));
     Exit;
   end;
+  r_ClickContinue;
   if (r_Pinball_GetScore >= 10) then
   begin
     ExitObj := 15010;
