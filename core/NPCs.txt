@@ -14,7 +14,9 @@ NPC routines.
      By: Timer
  * function r_GetAllNPCsByName(const Name: string): TNPCArray;
      By: Timer
- * function r_SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
+ * function r_SortNPCsEx(const Arr: TNPCArray; const From: TRSTile): TNPCArray;
+     By: Timer
+ * function r_SortNPCs(const Arr: TNPCArray): TNPCArray;
      By: Timer
  * function r_GetClosestNPCByIDs(const IDs: TIntegerArray): TNPC;
      By: Timer
@@ -161,7 +163,7 @@ begin
   Result := r_GetAllNPCsByNameEx([Name]);
 end;
 
-function r_SortNPCs(const Arr: array of TNPC; const From: TRSTile): array of TNPC;
+function r_SortNPCsEx(const Arr: TNPCArray; const From: TRSTile): TNPCArray;
 var
   i, ii, L: LongInt;
   TPA: TPointArray;
@@ -181,6 +183,11 @@ begin
         Result[i] := Arr[ii];
         Break;
       end;
+end;
+
+function r_SortNPCs(const Arr: TNPCArray): TNPCArray;
+begin
+  Result := r_SortNPCsEx(Arr, r_GetLocation);
 end;
 
 function r_GetClosestNPCByIDs(const IDs: TIntegerArray): TNPC;
