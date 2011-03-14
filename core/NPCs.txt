@@ -198,7 +198,7 @@ begin
   Result := NULL_NPC;
   NPCArray := r_GetAllNPCsByIDs(IDs);
   SetLength(OurNPCs, C);
-  OurNPCs := r_SortNPCs(NPCArray, r_GetLocation);
+  OurNPCs := r_SortNPCs(NPCArray);
   if (Length(OurNPCs) > 0) then
     Result := OurNPCs[0];
 end;
@@ -216,7 +216,7 @@ begin
   Result := NULL_NPC;
   NPCArray := r_GetAllNPCsByNameEx(Names);
   SetLength(OurNPCs, C);
-  OurNPCs := r_SortNPCs(NPCArray, r_GetLocation);
+  OurNPCs := r_SortNPCs(NPCArray);
   if (Length(OurNPCs) > 0) then
     Result := OurNPCs[0];
 end;
