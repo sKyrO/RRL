@@ -197,7 +197,6 @@ function GenerateSplineFromControls(const Controls: TPointArray): TPointArray;
 var
   Degree, Index, C: Integer;
   Theta, x, y, PP: Extended;
-  LastF: Boolean;
   Temp, Last: TPoint;
 begin
   C := 0;

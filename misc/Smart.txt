@@ -14,14 +14,40 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-function IsKeyDown(const C: Char): Boolean;
-begin
-  Result := SmartIsKeyDown(Ord(C));
-end;
-
 procedure MoveMouse(const x, y: Integer);
 begin
   SmartMoveMouse(x, y);
+end;
+
+{$IFDEF SIMBA}
+function IsKeyDown(const C: Byte): Boolean;
+begin
+  Result := SmartIsKeyDown(C);
+end;
+
+procedure HoldMouse(const x, y: Integer; const Button: Integer);
+begin
+  if (Button = mouse_Left) then
+    SmartHoldMouse(x, y, True)
+  else if (Button = mouse_Right) then
+    SmartHoldMouse(x, y, False)
+  else
+    RaiseException(erCustomError, 'Unknown mouse button in Simba for SMART.');
+end;
+
+procedure ReleaseMouse(const x, y: Integer; const Button: Integer);
+begin
+  if (Button = mouse_Left) then
+    SmartReleaseMouse(x, y, True)
+  else if (Button = mouse_Right) then
+    SmartReleaseMouse(x, y, False)
+  else
+    RaiseException(erCustomError, 'Unknown mouse button in Simba for SMART.');
+end;
+{$ELSE}
+function IsKeyDown(const C: Char): Boolean;
+begin
+  Result := SmartIsKeyDown(Ord(C));
 end;
 
 procedure HoldMouse(const x, y: Integer; const Left: Boolean);
@@ -33,6 +59,7 @@ procedure ReleaseMouse(const x, y: Integer; const Left: Boolean);
 begin
   SmartReleaseMouse(x, y, Left);
 end;
+{$ENDIF}
 
 procedure KeyDown(const Key: Byte);
 begin
