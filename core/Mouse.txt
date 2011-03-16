@@ -8,6 +8,32 @@ Mouse routines.
      By: Timer
  * function Factorial(const n: Integer): Integer;
      By: Timer
+ * function BC(const c, cc: Integer): Extended;
+     By: Timer
+ * function FittsLaw(const TargetDist, TargetSize: Extended): LongInt;
+     By: Timer
+ * function CalculateGaussianCurve(const p: Extended): Extended;
+     By: Timer
+ * function GenerateGaussianTable(const a: Integer): TExtendedArray;
+     By: Timer
+ * function GenerateControlPoints(const sx, sy, ex, ey: Integer; ControlSpacing, ControlVariance: Integer): TPointArray;
+     By: Timer
+ * function GenerateSplineFromControls(const Controls: TPointArray): TPointArray;
+     By: Timer
+ * function ApplyBreadth(const Spline: TPointArray; const msTime, msSplit: Integer): TPointArray;
+     By: Timer
+ * procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
+     By: Timer
+ * function _Mouse(Left: Boolean): [Integer/Boolean];
+     By: Timer
+ * procedure r_ClickMouse(const x, y, rx, ry: Integer; const Left: Boolean);
+     By: Timer
+ * procedure r_MoveMouseBox(const x1, y1, x2, y2: Integer);
+     By: Timer
+ * procedure r_ClickMouseBox(const x1, y1, x2, y2: Integer; const Left: Boolean);
+     By: Timer
+ * procedure r_SetMouseSpeed(const Speed: Integer);
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -267,8 +293,8 @@ begin
 end;
 
 procedure r_ClickMouse(const x, y, rx, ry: Integer; const Left: Boolean);
-  var
-    cx, cy: Integer;
+var
+  cx, cy: Integer;
 begin
   GetMousePos(cx, cy);
   if (cx <> x) or (cy <> y) then
