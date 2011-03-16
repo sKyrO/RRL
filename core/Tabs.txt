@@ -26,7 +26,7 @@ Tab handling
       By: Timer
   * function r_OpenTab(const Tab: Integer): Boolean;
       By: Timer
-  * function r_Logout: Boolean;
+  * function r_Logout(const Lobby: Boolean): Boolean;
       By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
@@ -178,7 +178,24 @@ begin
   Result := r_GetCurrentTab = Tab;
 end;
 
-function r_Logout: Boolean;
+function r_Logout(const Lobby: Boolean): Boolean;
+var
+  Box: TBox;
+  m: LongInt;
+  iI: Integer;
 begin
-  Result := False;// TODO .
+  if (r_OpenTab(R_TAB_LOGOUT)) then
+  begin
+    if (Lobby) then
+      iI := 1
+    else
+      iI := 6;
+    Box := r_GetInterfaceBox(Point(547, 205), 182, iI);
+    r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, True);
+    r_MarkTime(m);
+    while (r_GetTimeFromMark(m) < 6000) and (r_IsLoggedIn) do
+      Wait(50);
+    Result := not r_IsLoggedIn;
+  end;
+  Result := False;
 end;
