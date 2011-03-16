@@ -67,12 +67,13 @@ procedure SmartSetTarget;
 {$IFDEF SIMBA}
 begin
   SetTargetArray(SmartImageArray, 765, 503);
+end;
 {$ELSE}
 var
   BMP: Integer;
 begin
   BMP := BitmapFromString(765, 503, '');
-  GetBitmapCanvas(BMP).Handle:= SmartGetDC;
+  GetBitmapCanvas(BMP).Handle := SmartGetDC;
   SetTargetBitmap(BMP);
   FreeBitmap(BMP);
 end;
