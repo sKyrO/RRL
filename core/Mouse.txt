@@ -24,7 +24,7 @@ Mouse routines.
      By: Timer
  * procedure r_MoveMouse(const x, y: Integer; rx, ry: Integer);
      By: Timer
- * function _Mouse(Left: Boolean): [Integer/Boolean];
+ * function _Mouse(const Left: Boolean): [LongInt/Boolean];
      By: Timer
  * procedure r_ClickMouse(const x, y, rx, ry: Integer; const Left: Boolean);
      By: Timer
@@ -280,7 +280,7 @@ begin
   end;
 end;
 
-function _Mouse(Left: Boolean):{$IFDEF SIMBA} Integer;{$ELSE} Boolean;{$ENDIF}
+function _Mouse(const Left: Boolean):{$IFDEF SIMBA} LongInt;{$ELSE} Boolean;{$ENDIF}
 begin
   {$IFDEF SIMBA}
     if (Left) then

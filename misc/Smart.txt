@@ -64,6 +64,10 @@ begin
 end;
 
 procedure SmartSetTarget;
+{$IFDEF SIMBA}
+begin
+  SetTargetArray(SmartImageArray, 765, 503);
+{$ELSE}
 var
   BMP: Integer;
 begin
@@ -72,6 +76,7 @@ begin
   SetTargetBitmap(BMP);
   FreeBitmap(BMP);
 end;
+{$ENDIF}
 
 procedure ActivateClient;
 begin
