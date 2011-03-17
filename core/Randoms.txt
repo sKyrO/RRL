@@ -247,7 +247,7 @@ begin
         else
         begin
           WriteLn('Random solving failed [' + r_Randoms[i].Name + ']!');
-          r_Logout;
+          r_Logout(False);
         end;
         Exit;
       end;

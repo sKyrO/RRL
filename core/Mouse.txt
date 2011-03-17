@@ -4,8 +4,6 @@ Mouse routines.
 
 ---------------------------------------------------------
 
- * function aTan2(const y, x: Extended): Extended;
-     By: Timer
  * function Factorial(const n: Integer): Integer;
      By: Timer
  * function BC(const c, cc: Integer): Extended;
@@ -49,35 +47,6 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 
 var
   r_MouseSpeed: Integer;
-
-{
-  - aTan2
-    * Computes the angle in radians between the positive x-axis of a plane and
-      the point given by the coordinates (x, y) on it.
-
-    # x and y must both not be equal to zero.
-}
-function aTan2(const y, x: Extended): Extended;
-var
-  coeff_1, coeff_2, abs_y, Angle, r: Extended;
-begin
-  coeff_1 := Pi / 4.0;
-  coeff_2 := 3.0 * coeff_1;
-  abs_y := Abs(y);
-  if (x >= 0.0) then
-  begin
-    r := (x - abs_y) / (x + abs_y);
-    Angle := coeff_1 - coeff_1 * r;
-  end else
-  begin
-    r := (x + abs_y) / (abs_y - x);
-    Angle := coeff_2 - coeff_1 * r;
-  end;
-  if (y < 0.0) then
-    Result := -angle
-  else
-    Result := angle;
-end;
 
 {
   - Factorial
@@ -165,7 +134,7 @@ var
   Curr: TPoint;
 begin
   Dist := Sqrt((sx - ex) * (sx - ex) + (sy - ey) * (sy - ey));
-  Angle := ATan2(ey - sy, ex - sx);
+  Angle := ArcTan2(ey - sy, ex - sx);
   ControlPoints := Floor(Dist / ControlSpacing);
   if ((ControlPoints * ControlSpacing) = Dist) then
     Dec(ControlPoints);
