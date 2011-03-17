@@ -196,6 +196,7 @@ begin
     while (r_GetTimeFromMark(m) < 6000) and (r_IsLoggedIn) do
       Wait(50);
     Result := not r_IsLoggedIn;
+    Exit;
   end;
   Result := False;
 end;
