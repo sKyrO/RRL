@@ -14,6 +14,12 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+{$DEFINE RRL_SMART}
+
+{$IFDEF SIMBA}
+  {.loadlib libsmart}
+{$ENDIF}
+
 procedure MoveMouse(const x, y: Integer);
 begin
   SmartMoveMouse(x, y);
