@@ -46,8 +46,8 @@ end;
 function r_GetCharacterLocation(const CharPath: LongInt; const Free: Boolean): TRSTile;
 begin
   try
-    Result.x := SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Character_X]) div 512;
-    Result.y := SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Y]) div 512;
+    Result.x := SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Animable_X]) div 512;
+    Result.y := SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Animable_Y]) div 512;
   finally // We want to rid of memory leaks.
     try
       if (Free) then

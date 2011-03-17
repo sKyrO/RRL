@@ -151,8 +151,8 @@ begin
         HPRatio := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_HPRatio]);
         Speed := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Movement]);
         Height := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Height]);
-        Location.x := SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Character_X]) div 512;
-        Location.y := SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Y]) div 512;
+        Location.x := SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Animable_X]) div 512;
+        Location.y := SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Animable_Y]) div 512;
         Interacting := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Interacting]);
         Model := 0;//TODO model.
         IsFighting := LoopCycleStatus > SmartGetFieldInt(0, r_Hooks[hook_LoopCycle]);
