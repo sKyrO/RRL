@@ -10,7 +10,7 @@ NPC routines.
      By: Timer
  * function r_GetAllNPCsByID(const ID: Integer): TNPCArray;
      By: Timer
- * function r_GetAllNPCsByNameEx(const Names: TStringArray): TNPCArray;
+ * function r_GetAllNPCsByNames(const Names: TStringArray): TNPCArray;
      By: Timer
  * function r_GetAllNPCsByName(const Name: string): TNPCArray;
      By: Timer
@@ -138,7 +138,7 @@ begin
   Result := r_GetAllNPCsByIDs([ID]);
 end;
 
-function r_GetAllNPCsByNameEx(const Names: TStringArray): TNPCArray;
+function r_GetAllNPCsByNames(const Names: TStringArray): TNPCArray;
 var
   NPCArray: TNPCArray;
   i, l, C, ii, ll: Integer;
@@ -160,7 +160,7 @@ end;
 
 function r_GetAllNPCsByName(const Name: string): TNPCArray;
 begin
-  Result := r_GetAllNPCsByNameEx([Name]);
+  Result := r_GetAllNPCsByNames([Name]);
 end;
 
 function r_SortNPCsEx(const Arr: TNPCArray; const From: TRSTile): TNPCArray;
@@ -214,7 +214,7 @@ var
   C: Integer;
 begin
   Result := NULL_NPC;
-  NPCArray := r_GetAllNPCsByNameEx(Names);
+  NPCArray := r_GetAllNPCsByNames(Names);
   SetLength(OurNPCs, C);
   OurNPCs := r_SortNPCs(NPCArray);
   if (Length(OurNPCs) > 0) then
