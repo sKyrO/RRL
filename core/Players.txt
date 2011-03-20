@@ -81,15 +81,14 @@ begin
         begin
           with Character do
           begin
-            Animation := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Animation]);
-            Orientation := Round(FixD(180 + (SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Orientation]) * 45) / 2048));
-            LoopCycleStatus := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_LoopCycleStatus]);
-            HPRatio := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_HPRatio]);
-            Speed := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Movement]);
-            Height := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Height]);
-            Location.x := SmartGetFieldInt(0, r_Hooks[hook_BaseX]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Animable_X]) div 512;
-            Location.y := SmartGetFieldInt(0, r_Hooks[hook_BaseY]) + SmartGetFieldInt(CharPath, r_Hooks[hook_Animable_Y]) div 512;
-            Interacting := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_Interacting]);
+            Animation := r_GetCharacterAnimation(CharPath, False);
+            Orientation := r_GetCharacterOrientation(CharPath, False);
+            LoopCycleStatus := r_GetCharacterLoopCycleStatus(CharPath, False);
+            HPRatio := r_GetCharacterHPRatio(CharPath, False);
+            Speed := r_GetCharacterMovement(CharPath, False);
+            Height := r_GetCharacterHeight(CharPath, False);
+            Location := r_GetCharacterLocation(CharPath, False);
+            Interacting := r_GetCharacterInteracting(CharPath, False);
             Model := 0;//TODO model.
             IsFighting := LoopCycleStatus > SmartGetFieldInt(0, r_Hooks[hook_LoopCycle]);
             IsMoving := Speed > 0;
