@@ -95,9 +95,8 @@ begin
             IsAnimating := Animation > -1;
             IsIdle := (not IsFighting) and (not IsAnimating) and (not IsMoving);
           end;
-          Index := -1;
           Team := SmartGetFieldInt(CharPath, r_Hooks[hook_Player_Team]);
-          Level := SmartGetFieldInt(CharPath, r_Hooks[hook_Player_Level]);
+          Level := r_GetCharacterLevel(CharPath, False, False);
           Str := SmartGetFieldObject(CharPath, r_Hooks[hook_Player_Name]);
           Name := r_GetString(Str);
           SmartFreeObject(Str);
