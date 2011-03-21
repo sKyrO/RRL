@@ -279,14 +279,14 @@ end;
 function r_GetClosestTileOnMinimap(const Tile: TRSTile): TRSTile;
 var
   T: TRSTile;
-  Divisor: Integer;
+  Divisor: Extended;
 begin
   Result := Tile;
   T := r_GetLocation;
-  Divisor := 1;
+  Divisor := 0.0;
   while (not r_TileOnMinimap(Result)) do
   begin
-    Inc(Divisor);
+    Divisor := Divisor + 0.2;
     Result := RSTile(Round((T.x + Tile.x) / Divisor), Round((T.y + Tile.y) / Divisor));
   end;
 end;
