@@ -276,18 +276,42 @@ begin
   Result := r_IsTileInArea(r_GetLocation, Area);
 end;
 
+{---
+  Uses basic geometry to figure out the closest point.
+   - Requires a radius [16-18], minimap range.
+   ^ 1
+  | \
+  |  \
+  |   \
+  |    \
+ 3|_____\2
+-}
+
 function r_GetClosestTileOnMinimap(const Tile: TRSTile): TRSTile;
 var
-  T: TRSTile;
-  Divisor: Extended;
+  OurTile: TRSTile;
+  MinimapRadius: Integer;
+  triangleVertex1, triangleVertex2, triangleVertex3: TPoint;
+  triangleW, triangleH, triangleHypot, relationFraction: Extended;
+  relatedtriangleW, relatedtriangleH: Extended;
+  normalizedPoint: TPoint;
 begin
+  OurTile := r_GetLocation;
   Result := Tile;
-  T := r_GetLocation;
-  Divisor := 0.0;
-  while (not r_TileOnMinimap(Result)) do
+  if (not r_TileOnMinimap(Result)) then
   begin
-    Divisor := Divisor + 0.2;
-    Result := RSTile(Round((T.x + Tile.x) / Divisor), Round((T.y + Tile.y) / Divisor));
+    MinimapRadius := 16;
+    triangleVertex1 := Point(Tile.x, Tile.y);
+    triangleVertex2 := Point(OurTile.x, OurTile.y);
+    triangleVertex3 := Point(Tile.x, OurTile.y);
+    triangleW := Round(triangleVertex2.x - triangleVertex3.x);
+    triangleH := Round(triangleVertex1.y - triangleVertex3.y);
+    triangleHypot := Sqrt((triangleW * triangleW) + (triangleH * triangleH));
+    relationFraction := MinimapRadius / triangleHypot;
+    relatedtriangleW := relationFraction * triangleW * -1;
+    relatedtriangleH := relationFraction * triangleH;
+    normalizedPoint := Point(Round(OurTile.x + relatedtriangleW), Round(OurTile.y + relatedtriangleH));
+    Result := RSTile(normalizedPoint.x, normalizedPoint.y);
   end;
 end;
 
