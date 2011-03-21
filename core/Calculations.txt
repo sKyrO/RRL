@@ -304,11 +304,11 @@ begin
     triangleVertex1 := Point(Tile.x, Tile.y);
     triangleVertex2 := Point(OurTile.x, OurTile.y);
     triangleVertex3 := Point(Tile.x, OurTile.y);
-    triangleW := Round(triangleVertex2.x - triangleVertex3.x);
+    triangleW := Round(triangleVertex3.x - triangleVertex2.x);
     triangleH := Round(triangleVertex1.y - triangleVertex3.y);
     triangleHypot := Sqrt((triangleW * triangleW) + (triangleH * triangleH));
     relationFraction := MinimapRadius / triangleHypot;
-    relatedtriangleW := relationFraction * triangleW * -1;
+    relatedtriangleW := relationFraction * triangleW;
     relatedtriangleH := relationFraction * triangleH;
     normalizedPoint := Point(Round(OurTile.x + relatedtriangleW), Round(OurTile.y + relatedtriangleH));
     Result := RSTile(normalizedPoint.x, normalizedPoint.y);
