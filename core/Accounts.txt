@@ -39,7 +39,7 @@ end;
 
 function r_GetNextAccount: Integer;
 var
-  i, sP, oP: Integer;
+  sP: Integer;
 begin
   sP := -1;
   if (r_ArePlayersActive) then
