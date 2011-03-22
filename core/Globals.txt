@@ -515,6 +515,9 @@ const
   R_SCREEN_MAIN_X2 = 515;
   R_SCREEN_MAIN_Y2 = 337;
 
+  R_SCREEN_MAIN_CX = 259;
+  R_SCREEN_MAIN_CY = 170;
+
 procedure StripComments(var Content: string);
 var
   StartPos, EndPos: Integer;
