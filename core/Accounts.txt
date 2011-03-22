@@ -8,6 +8,8 @@ Accounts file.
      By: Timer
  * function r_ArePlayersActive: Boolean;
      By: Timer
+ * function r_GetNextAccount: Integer;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -33,4 +35,25 @@ begin
   Result := Length(r_Accounts) > 0;
   for i := 0 to High(r_Accounts) do
     Result := Result and r_Accounts[i].Active;
+end;
+
+function r_GetNextAccount: Integer;
+var
+  i, sP, oP: Integer;
+begin
+  sP := -1;
+  if (r_ArePlayersActive) then
+  begin
+    sP := r_CurrentAccount;
+    Inc(sP);
+    if (sP > High(r_Accounts)) then
+      sP := 0;
+    while (not r_Accounts[sP].Active) do
+    begin
+      Inc(sP);
+      if (sP > High(r_Accounts)) then
+        sP := 0;
+    end;
+  end;
+  Result := sP;
 end;
