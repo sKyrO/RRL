@@ -102,13 +102,8 @@ begin
   SetTargetArray(SmartImageArray, 765, 503);
 end;
 {$ELSE}
-var
-  BMP: Integer;
 begin
-  BMP := BitmapFromString(765, 503, '');
-  GetBitmapCanvas(BMP).Handle := SmartGetDC;
-  SetTargetBitmap(BMP);
-  FreeBitmap(BMP);
+  SetTargetDC(SmartGetDC);
 end;
 {$ENDIF}
 
@@ -129,4 +124,5 @@ end;
 procedure SetupSmart(const Server: Integer; const Members: Boolean);
 begin
   SmartSetup('http://world' + IntToStr(Server) + '.runescape.com/', 'plugin.js?param=o0,a0,m' + IntToStr(Integer(Members)), 765, 503, 's');
+  SmartSetTarget;
 end;
