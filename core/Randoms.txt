@@ -229,6 +229,8 @@ var
   m: LongInt;
 begin
   Result := False;
+  if (not r_IsLoggedIn) then
+    Exit;
   H := Length(r_Randoms) - 1;
   for i := 0 to H do
     if (r_Randoms[i].Active) then
