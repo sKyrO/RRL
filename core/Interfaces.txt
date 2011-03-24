@@ -12,7 +12,7 @@ Menu routines.
      By: Timer
  * function r_GetInterfaceComponentCount(const ParentID: Integer): Integer;
      By: Timer
- * function r_GetSubInterfaceComponentCount(const ParentID, ChildID: Integer): IntegerArray;
+ * function r_GetSubInterfaceComponentCount(const ParentID, ChildID: Integer): Integer;
      By: Timer
  * function r_GetInterfaceTextEx(const PathToInterface: LongInt; Free: Boolean): string;
      By: Timer
