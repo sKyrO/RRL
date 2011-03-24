@@ -46,17 +46,17 @@ end;
 
 function r_Box_GetChoices: TStringArray;
 var
-  Com: TIntegerArray;
+  Com: Integer;
   i, C: Integer;
   F: LongInt;
   Texts: TStringArray;
   Str: string;
 begin
-  Com := r_GetSubInterfaceComponents(R_BOX_BOX_IF, R_BOX_BOX_SELECTION_IF);
+  Com := r_GetSubInterfaceComponentCount(R_BOX_BOX_IF, R_BOX_BOX_SELECTION_IF);
   SetArrayLength(Texts, GetArrayLength(Com));
-  for i := 0 to High(Com) do
+  for i := 0 to Com - 1 do
   begin
-    F := r_GetSubInterface(R_BOX_BOX_IF, R_BOX_BOX_SELECTION_IF, Com[i]);
+    F := r_GetSubInterface(R_BOX_BOX_IF, R_BOX_BOX_SELECTION_IF, i);
     Texts[C] := r_GetInterfaceTextEx(F, True);
     if (Texts[C] <> '') then
       Inc(C);

@@ -60,16 +60,16 @@ end;
 
 function r_GetAllBankItems: TRSItemArray;
 var
-  Components: TIntegerArray;
+  Components: Integer;
   tI, tN: LongInt;
   ID, Stack, i, C: Integer;
   Name: string;
 begin
   if (not r_IsBankScreen) then
     Exit;
-  Components := r_GetSubInterfaceComponents(762, 93);
+  Components := r_GetSubInterfaceComponentCount(762, 93);
   SetArrayLength(Result, GetArrayLength(Components));
-  for i := 0 to High(Components) do
+  for i := 0 to Components - 1 do
   begin
     try
       tI := r_GetSubInterface(762, 93, i);

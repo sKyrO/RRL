@@ -10,9 +10,9 @@ Menu routines.
      By: Timer
  * function r_GetSubInterface(const ParentID, ChildID, ComponentID: Integer): LongInt;
      By: Timer
- * function r_GetInterfaceComponents(const ParentID: Integer): TIntegerArray;
+ * function r_GetInterfaceComponentCount(const ParentID: Integer): Integer;
      By: Timer
- * function r_GetSubInterfaceComponents(const ParentID, ChildID: Integer): TIntegerArray;
+ * function r_GetSubInterfaceComponentCount(const ParentID, ChildID: Integer): IntegerArray;
      By: Timer
  * function r_GetInterfaceTextEx(const PathToInterface: LongInt; Free: Boolean): string;
      By: Timer
@@ -70,20 +70,18 @@ begin
   end;
 end;
 
-function r_GetInterfaceComponents(const ParentID: Integer): TIntegerArray;
+function r_GetInterfaceComponentCount(const ParentID: Integer): Integer;
 var
-  i: Integer;
   F: LongInt;
 begin
   try
-    F := r_GetInterface(ParentID, i);
+    Result := 0;
+    F := r_GetInterface(ParentID, Result);
     while (not SmartIsNull(F)) do
     begin
-      Inc(i);
-      SetArrayLength(Result, i);
-      Result[i - 1] := i;
+      Inc(Result);
       SmartFreeObject(F);
-      F := r_GetInterface(ParentID, i);
+      F := r_GetInterface(ParentID, Result);
     end;
     SmartFreeObject(F);
   except
@@ -94,12 +92,13 @@ begin
   end;
 end;
 
-function r_GetSubInterfaceComponents(const ParentID, ChildID: Integer): TIntegerArray;
+function r_GetSubInterfaceComponentCount(const ParentID, ChildID: Integer): Integer;
 var
   F, FF: LongInt;
-  AC, C: Integer;
+  AC: Integer;
 begin
   try
+    Result := 0;
     F := r_GetInterface(ParentID, ChildID);
     if (SmartIsNull(F)) then
     begin
@@ -107,14 +106,12 @@ begin
       Exit;
     end;
     AC := SmartGetFieldArraySize(F, r_Hooks[hook_Interface_Components], 1);
-    FF := SmartGetFieldArrayObject(F, r_Hooks[hook_Interface_Components], C);
+    FF := SmartGetFieldArrayObject(F, r_Hooks[hook_Interface_Components], Result);
     while (not SmartIsNull(FF)) do
     begin
-      SetArrayLength(Result, C + 1);
-      Result[C] := C;
-      Inc(C);
+      Inc(Result);
       SmartFreeObject(FF);
-      FF := SmartGetFieldArrayObject(F, r_Hooks[hook_Interface_Components], C);
+      FF := SmartGetFieldArrayObject(F, r_Hooks[hook_Interface_Components], Result);
     end;
     SmartFreeObject(FF);
     SmartFreeObject(F);
