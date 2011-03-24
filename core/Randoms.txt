@@ -35,26 +35,26 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
-{.include RRLDev\core\Randoms\Abyss.txt}
-{.include RRLDev\core\Randoms\Beehive.txt}
-{.include RRLDev\core\Randoms\Box.txt}
-{.include RRLDev\core\Randoms\CapnArnav.txt}
-{.include RRLDev\core\Randoms\Certer.txt}
-{.include RRLDev\core\Randoms\DrillDemon.txt}
-{.include RRLDev\core\Randoms\Exam.txt}
-{.include RRLDev\core\Randoms\FirstTimeDeath.txt}
-{.include RRLDev\core\Randoms\FreakyForester.txt}
-{.include RRLDev\core\Randoms\Frog.txt}
-{.include RRLDev\core\Randoms\GraveDigger.txt}
-{.include RRLDev\core\Randoms\Maze.txt}
-{.include RRLDev\core\Randoms\Mime.txt}
-{.include RRLDev\core\Randoms\Molly.txt}
-{.include RRLDev\core\Randoms\Pillory.txt}
-{.include RRLDev\core\Randoms\Pinball.txt}
-{.include RRLDev\core\Randoms\Prison.txt}
-{.include RRLDev\core\Randoms\Quiz.txt}
-{.include RRLDev\core\Randoms\Sandwich.txt}
-{.include RRLDev\core\Randoms\ScapeRuneIsland.txt}
+{.include RRL\core\Randoms\Abyss.txt}
+{.include RRL\core\Randoms\Beehive.txt}
+{.include RRL\core\Randoms\Box.txt}
+{.include RRL\core\Randoms\CapnArnav.txt}
+{.include RRL\core\Randoms\Certer.txt}
+{.include RRL\core\Randoms\DrillDemon.txt}
+{.include RRL\core\Randoms\Exam.txt}
+{.include RRL\core\Randoms\FirstTimeDeath.txt}
+{.include RRL\core\Randoms\FreakyForester.txt}
+{.include RRL\core\Randoms\Frog.txt}
+{.include RRL\core\Randoms\GraveDigger.txt}
+{.include RRL\core\Randoms\Maze.txt}
+{.include RRL\core\Randoms\Mime.txt}
+{.include RRL\core\Randoms\Molly.txt}
+{.include RRL\core\Randoms\Pillory.txt}
+{.include RRL\core\Randoms\Pinball.txt}
+{.include RRL\core\Randoms\Prison.txt}
+{.include RRL\core\Randoms\Quiz.txt}
+{.include RRL\core\Randoms\Sandwich.txt}
+{.include RRL\core\Randoms\ScapeRuneIsland.txt}
 
 const
   R_RANDOMS_ABYSS = 0;
