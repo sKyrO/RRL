@@ -68,7 +68,7 @@ begin
   if (not r_IsBankScreen) then
     Exit;
   Components := r_GetSubInterfaceComponentCount(762, 93);
-  SetArrayLength(Result, GetArrayLength(Components));
+  SetArrayLength(Result, Components);
   for i := 0 to Components - 1 do
   begin
     try

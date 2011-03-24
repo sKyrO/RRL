@@ -53,7 +53,7 @@ var
   Str: string;
 begin
   Com := r_GetSubInterfaceComponentCount(R_BOX_BOX_IF, R_BOX_BOX_SELECTION_IF);
-  SetArrayLength(Texts, GetArrayLength(Com));
+  SetArrayLength(Texts, Com);
   for i := 0 to Com - 1 do
   begin
     F := r_GetSubInterface(R_BOX_BOX_IF, R_BOX_BOX_SELECTION_IF, i);
