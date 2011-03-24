@@ -37,8 +37,8 @@ var
   TileArray: TRSTileArray;
   HandlerArray: TIntegerArray;
 begin
-  SetLength(TileArray, 0);
-  SetLength(HandlerArray, 0);
+  SetArrayLength(TileArray, 0);
+  SetArrayLength(HandlerArray, 0);
   with NullPath do
   begin
     Tiles := TileArray;
@@ -66,7 +66,7 @@ var
   i, l: Integer;
 begin
   Result := NULL_RSTile;
-  l := Length(ThePath.Tiles);
+  l := GetArrayLength(ThePath.Tiles);
   if (l > 0) then
     for i := 0 to l - 1 do
       if (r_TileOnMinimapEx(ThePath.Tiles[i], Dist)) then
@@ -78,7 +78,7 @@ var
   i, l: Integer;
 begin
   Result := NULL_RSTile;
-  l := Length(ThePath.Tiles);
+  l := GetArrayLength(ThePath.Tiles);
   if (l > 0) then
     for i := 0 to l - 1 do
       if (r_TileOnMinimap(ThePath.Tiles[i])) then
@@ -96,7 +96,7 @@ var
   l, r, rr: Integer;
   Params: TIntegerArray;
 begin
-  l := Length(ThePath.Tiles);
+  l := GetArrayLength(ThePath.Tiles);
   TheClickTile := NULL_RSTILE;
   if (l > 0) then
   begin
@@ -143,8 +143,8 @@ function r_PathReverse(const ThePath: TRSTileArray): TRSTileArray;
 var
   i, l: Integer;
 begin
-  l := Length(ThePath);
-  SetLength(Result, l);
+  l := GetArrayLength(ThePath);
+  SetArrayLength(Result, l);
   for i := 0 to l - 1 do
     Result[l - i - 1] := ThePath[i];
 end;

@@ -170,7 +170,7 @@ procedure r_LoadRandoms;
 var
   b: Byte;
 begin
-  SetLength(r_Randoms, R_RANDOMC_MAX - R_RANDOMC_MIN + 1);
+  SetArrayLength(r_Randoms, R_RANDOMC_MAX - R_RANDOMC_MIN + 1);
   for b := R_RANDOMC_MIN to R_RANDOMC_MAX do
     with r_Randoms[b] do
     begin
@@ -187,7 +187,7 @@ procedure r_EnableRandom(const id: Byte);
 var
   i, H: Integer;
 begin
-  H := Length(r_Randoms) - 1;
+  H := GetArrayLength(r_Randoms) - 1;
   for i := 0 to H do
     if (r_Randoms[i].ID = id) then
     begin
@@ -200,7 +200,7 @@ procedure r_DisableRandom(const id: Byte);
 var
   i, H: Integer;
 begin
-  H := Length(r_Randoms) - 1;
+  H := GetArrayLength(r_Randoms) - 1;
   for i := 0 to H do
     if (r_Randoms[i].ID = id) then
     begin
@@ -214,7 +214,7 @@ var
   i, H: Integer;
 begin
   Result := False;
-  H := Length(r_Randoms) - 1;
+  H := GetArrayLength(r_Randoms) - 1;
   for i := 0 to H do
     if (r_Randoms[i].ID = id) then
     begin
@@ -231,7 +231,7 @@ begin
   Result := False;
   if (not r_IsLoggedIn) then
     Exit;
-  H := Length(r_Randoms) - 1;
+  H := GetArrayLength(r_Randoms) - 1;
   for i := 0 to H do
     if (r_Randoms[i].Active) then
     begin

@@ -111,7 +111,7 @@ var
   l, i, Texture: Integer;
   TabHandle: LongInt;
 begin
-  l := Length(R_TAB_NAMES);
+  l := GetArrayLength(R_TAB_NAMES);
   Dec(l);
   for i := 0 to l do
   begin

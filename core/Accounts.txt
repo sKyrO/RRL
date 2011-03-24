@@ -25,14 +25,14 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 
 procedure r_SetNumberOfAccounts(const Amount: Integer);
 begin
-  SetLength(r_Accounts, Amount);
+  SetArrayLength(r_Accounts, Amount);
 end;
 
 function r_ArePlayersActive: Boolean;
 var
   i: Integer;
 begin
-  Result := Length(r_Accounts) > 0;
+  Result := GetArrayLength(r_Accounts) > 0;
   for i := 0 to High(r_Accounts) do
     Result := Result and r_Accounts[i].Active;
 end;

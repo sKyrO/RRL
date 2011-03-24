@@ -256,7 +256,7 @@ begin
     T := SmartGetFieldObject(Model, r_Hooks[hook_Model_Indexes1]);
     lI1 := SmartGetFieldArraySize(T, '', 1);
     SmartFreeObject(T);
-    SetLength(Index0, lI1);
+    SetArrayLength(Index0, lI1);
     for i := 0 to lI1 - 1 do
       Index0[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes1], i);
     T := SmartGetFieldObject(Model, r_Hooks[hook_Model_Indexes2]);
@@ -264,7 +264,7 @@ begin
     SmartFreeObject(T);
     if (lI1 <> lI2) then
       Continue;
-    SetLength(Index1, lI2);
+    SetArrayLength(Index1, lI2);
     for i := 0 to lI2 - 1 do
       Index1[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes2], i);
     T := SmartGetFieldObject(Model, r_Hooks[hook_Model_Indexes3]);
@@ -272,26 +272,26 @@ begin
     SmartFreeObject(T);
     if (lI2 <> lI3) then
       Continue;
-    SetLength(Index2, lI3);
+    SetArrayLength(Index2, lI3);
     for i := 0 to lI3 - 1 do
       Index2[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes3], i);
     T := SmartGetFieldObject(Model, r_Hooks[hook_Model_xPoints]);
     lP1 := SmartGetFieldArraySize(T, '', 1);
     SmartFreeObject(T);
-    SetLength(xPoints, lP1);
+    SetArrayLength(xPoints, lP1);
     for i := 0 to lP1 - 1 do
       xPoints[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_xPoints], i);
     T := SmartGetFieldObject(Model, r_Hooks[hook_Model_yPoints]);
     lP2 := SmartGetFieldArraySize(T, '', 0);
     lP2 := lp1;
     SmartFreeObject(T);
-    SetLength(yPoints, lP2);
+    SetArrayLength(yPoints, lP2);
     for i := 0 to lP2 - 1 do
       yPoints[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_yPoints], i);
     T := SmartGetFieldObject(Model, r_Hooks[hook_Model_zPoints]);
     lP3 := SmartGetFieldArraySize(T, '', 1);
     SmartFreeObject(T);
-    SetLength(zPoints, lP3);
+    SetArrayLength(zPoints, lP3);
     for i := 0 to lP3 - 1 do
       zPoints[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_zPoints], i);
     Good := (lI1 = lI2) and (lI2 = lI3);
@@ -563,15 +563,15 @@ begin
     if (Length(LineData) = 2) then
     begin
       L := Length(DataArray);
-      SetLength(DataArray, L + 1);
-      SetLength(DataArray[L], 2);
+      SetArrayLength(DataArray, L + 1);
+      SetArrayLength(DataArray[L], 2);
       DataArray[L][0] := StrToIntDef(LineData[0], -1);
       DataArray[L][1] := LineData[1];
       if (StrToIntDef(DataArray[L][1], -1) > -1) then
         DataArray[L][1] := StrToIntDef(DataArray[l][1], -1);
     end;
   end;
-  SetLength(r_Hooks, 5000);
+  SetArrayLength(r_Hooks, 5000);
   for i := 0 to High(DataArray) do
   begin
     if (DataArray[i][0] > ML) then
@@ -580,7 +580,7 @@ begin
     r_Hooks[ii] := DataArray[i][1];
   end;
   Inc(ML);
-  SetLength(r_Hooks, ML);
+  SetArrayLength(r_Hooks, ML);
   Result := True;
 end;
 

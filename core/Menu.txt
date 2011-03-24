@@ -59,7 +59,7 @@ begin
     else
       Next := SmartGetFieldObject(Head, r_Hooks[hook_Node_Next]);
     Count := r_GetMenuCount;
-    SetLength(Result, Count);
+    SetArrayLength(Result, Count);
     repeat
       JavaString := SmartGetFieldObject(Next, r_Hooks[hook_Menu_Action]);
       if (JavaString = 0) then

@@ -211,7 +211,7 @@ var
   i, ii: Integer;
 begin
   Result := False;
-  if (Length(ParentIDs) <> Length(ChildIDs)) then
+  if (Length(ParentIDs) <> GetArrayLength(ChildIDs)) then
     Exit;
   m := GetSystemTime;
   while (GetSystemTime - m < TimeOut) do

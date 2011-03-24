@@ -56,8 +56,8 @@ begin
     end;
   end;
   r_FetchRenderMatrix(RD, R);
-  l := Length(i1);
-  SetLength(Result, l);
+  l := GetArrayLength(i1);
+  SetArrayLength(Result, l);
   for i := 0 to l - 1 do
   begin
     aPoint[0] := r_MatrixDataToScreenEx(Loc.x + xp[i1[i]], Loc.y + zp[i1[i]],

@@ -59,7 +59,7 @@ var
   Item: TRSItem;
 begin
   try
-    SetLength(Result, 0);
+    SetArrayLength(Result, 0);
     ItemCache := SmartGetFieldObject(0, r_Hooks[hook_GroundCache]);
     Plane := SmartGetFieldInt(0, r_Hooks[hook_CurrentPlane]);
     gID := (Tile.x) or (Tile.y shl 14) or (Plane shl 28);
@@ -89,8 +89,8 @@ begin
     Curr := SmartGetFieldObject(Dumb, r_Hooks[hook_Node_Next]);
     while (not SmartIsEqual(Dumb, Curr)) do
     begin
-      Len := Length(Result);
-      SetLength(Result, Len + 1);
+      Len := GetArrayLength(Result);
+      SetArrayLength(Result, Len + 1);
       Item.Stack := -1;
       Item.Name := '';//hook_ItemName?
       Item.ID := SmartGetFieldInt(Curr, r_Hooks[hook_Item_ID]);
@@ -138,7 +138,7 @@ var
   OurLoc: TRSTile;
   Arr: TGroundItemArray;
 begin
-  SetLength(Result, 0);
+  SetArrayLength(Result, 0);
   BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
   BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
   mX := BaseX + 104;
@@ -156,7 +156,7 @@ begin
         for i := 0 to High(Arr) do
         begin
           Inc(C);
-          SetLength(Result, C);
+          SetArrayLength(Result, C);
           Dec(C);
           Result[C] := Arr[i];
           Inc(C);
@@ -175,7 +175,7 @@ var
   OurLoc: TRSTile;
   Arr: TGroundItemArray;
 begin
-  SetLength(Result, 0);
+  SetArrayLength(Result, 0);
   BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
   BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
   mX := BaseX + 104;
@@ -196,7 +196,7 @@ begin
             if (Arr[i].Item.ID = IDs[ii]) then
             begin
               Inc(C);
-              SetLength(Result, C);
+              SetArrayLength(Result, C);
               Dec(C);
               Result[C] := Arr[i];
               Inc(C);
@@ -225,11 +225,11 @@ var
   i, ii, L: LongInt;
   TPA: TPointArray;
 begin
-  L := Length(Arr);
+  L := GetArrayLength(Arr);
   if (L < 1) then
     Exit;
-  SetLength(Result, L);
-  SetLength(TPA, L);
+  SetArrayLength(Result, L);
+  SetArrayLength(TPA, L);
   for i := 0 to L - 1 do
     TPA[i] := Point(Arr[i].Tile.x, Arr[i].Tile.y);
   SortTPAFrom(TPA, Point(From.x, From.y));

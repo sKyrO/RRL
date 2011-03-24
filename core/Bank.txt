@@ -68,7 +68,7 @@ begin
   if (not r_IsBankScreen) then
     Exit;
   Components := r_GetSubInterfaceComponents(762, 93);
-  SetLength(Result, Length(Components));
+  SetArrayLength(Result, GetArrayLength(Components));
   for i := 0 to High(Components) do
   begin
     try
@@ -97,7 +97,7 @@ begin
       end;
     end;
   end;
-  SetLength(Result, C);
+  SetArrayLength(Result, C);
 end;
 
 function r_WithdrawItemByID(const ID, Amount: Integer): Boolean;

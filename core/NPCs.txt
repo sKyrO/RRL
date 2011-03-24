@@ -64,7 +64,7 @@ begin
   NumberOfNPCs := SmartGetFieldInt(0, r_Hooks[hook_NPCCount]);
   if (NumberOfNPCs < 1) then
     Exit;
-  SetLength(Result, NumberOfNPCs);
+  SetArrayLength(Result, NumberOfNPCs);
   h := NumberOfNPCs - 1;//Simba compatibility.
   for i := 0 to h do
     try
@@ -110,7 +110,7 @@ begin
       except
       end;
     end;
-  SetLength(Result, C);
+  SetArrayLength(Result, C);
 end;
 
 function r_GetAllNPCsByIDs(const IDs: TIntegerArray): TNPCArray;
@@ -119,9 +119,9 @@ var
   i, l, C, ii, ll: Integer;
 begin
   NPCArray := r_GetAllNPCs;
-  l := Length(NPCArray);
-  ll := Length(IDs);
-  SetLength(Result, l);
+  l := GetArrayLength(NPCArray);
+  ll := GetArrayLength(IDs);
+  SetArrayLength(Result, l);
   for i := 0 to l - 1 do
     for ii := 0 to ll - 1 do
       if (NPCArray[i].ID = IDs[ii]) then
@@ -130,7 +130,7 @@ begin
         Inc(C);
         Break;
       end;
-  SetLength(Result, C);
+  SetArrayLength(Result, C);
 end;
 
 function r_GetAllNPCsByID(const ID: Integer): TNPCArray;
@@ -144,9 +144,9 @@ var
   i, l, C, ii, ll: Integer;
 begin
   NPCArray := r_GetAllNPCs;
-  l := Length(NPCArray);
-  ll := Length(Names);
-  SetLength(Result, l);
+  l := GetArrayLength(NPCArray);
+  ll := GetArrayLength(Names);
+  SetArrayLength(Result, l);
   for i := 0 to l - 1 do
     for ii := 0 to ll - 1 do
       if (Pos(Lowercase(Names[ii]), Lowercase(NPCArray[i].Name)) > 0) then
@@ -155,7 +155,7 @@ begin
         Inc(C);
         Break;
       end;
-  SetLength(Result, C);
+  SetArrayLength(Result, C);
 end;
 
 function r_GetAllNPCsByName(const Name: string): TNPCArray;
@@ -168,11 +168,11 @@ var
   i, ii, L: LongInt;
   TPA: TPointArray;
 begin
-  L := Length(Arr);
+  L := GetArrayLength(Arr);
   if (L < 1) then
     Exit;
-  SetLength(Result, L);
-  SetLength(TPA, L);
+  SetArrayLength(Result, L);
+  SetArrayLength(TPA, L);
   for i := 0 to L - 1 do
     TPA[i] := Point(Arr[i].Character.Location.x, Arr[i].Character.Location.y);
   SortTPAFrom(TPA, Point(From.x, From.y));
@@ -197,7 +197,7 @@ var
 begin
   Result := NULL_NPC;
   NPCArray := r_GetAllNPCsByIDs(IDs);
-  SetLength(OurNPCs, C);
+  SetArrayLength(OurNPCs, C);
   OurNPCs := r_SortNPCs(NPCArray);
   if (Length(OurNPCs) > 0) then
     Result := OurNPCs[0];
@@ -215,7 +215,7 @@ var
 begin
   Result := NULL_NPC;
   NPCArray := r_GetAllNPCsByNames(Names);
-  SetLength(OurNPCs, C);
+  SetArrayLength(OurNPCs, C);
   OurNPCs := r_SortNPCs(NPCArray);
   if (Length(OurNPCs) > 0) then
     Result := OurNPCs[0];

@@ -169,7 +169,7 @@ begin
     yMi := Max(OurLoc.y - Range, BaseY);
     xMa := Min(OurLoc.x + Range, BaseX + 104);
     yMa := Min(OurLoc.y + Range, BaseY + 104);
-    SetLength(Result, (yMa - yMi) * (xMa - xMi));
+    SetArrayLength(Result, (yMa - yMi) * (xMa - xMi));
   except
     WriteLn('Hooks are incorrect or the game is loading... retrying!');
     Result := r_GetAllObjectsByTypeEx(ObjType, Range);
@@ -185,7 +185,7 @@ begin
         Inc(C);
       end;
     end;
-  SetLength(Result, C);
+  SetArrayLength(Result, C);
 end;
 
 function r_GetAllObjectsByType(const ObjType: Integer): TRSObjectArray;
@@ -208,7 +208,7 @@ begin
     yMi := Max(OurLoc.y - Range, BaseY);
     xMa := Min(OurLoc.x + Range, BaseX + 104);
     yMa := Min(OurLoc.y + Range, BaseY + 104);
-    SetLength(Result, (yMa - yMi) * (xMa - xMi));
+    SetArrayLength(Result, (yMa - yMi) * (xMa - xMi));
   except
     WriteLn('Hooks are incorrect or the game is loading... retrying!');
     Result := r_GetAllObjectsByIDsEx(IDs, ObjType, Range);
@@ -226,7 +226,7 @@ begin
           Break;
         end;
     end;
-  SetLength(Result, C);
+  SetArrayLength(Result, C);
 end;
 
 function r_GetAllObjectsByIDEx(const ID, ObjType, Range: Integer): TRSObjectArray;
@@ -249,11 +249,11 @@ var
   i, ii, L: LongInt;
   TPA: TPointArray;
 begin
-  L := Length(Arr);
+  L := GetArrayLength(Arr);
   if (L < 1) then
     Exit;
-  SetLength(Result, L);
-  SetLength(TPA, L);
+  SetArrayLength(Result, L);
+  SetArrayLength(TPA, L);
   for i := 0 to L - 1 do
     TPA[i] := Point(Arr[i].Tile.x, Arr[i].Tile.y);
   SortTPAFrom(TPA, Point(From.x, From.y));

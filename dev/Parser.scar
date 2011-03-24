@@ -314,14 +314,14 @@ begin
     l := GetArrayLength(TheExplosion);
     ll := GetArrayLength(RawHookNames);
     WriteLn('Loaded ' + IntToStr(l) + ' lines!');
-    SetLength(Result, l);
+    SetArrayLength(Result, l);
     for i := 0 to l - 1 do
       Result[i].Index := -1;
     for i := 0 to l - 1 do
     begin
       AddToReport('Reading line ' + IntToStr(i + 1) + '!');
       HookLine := TheExplosion[i];
-      Delete(HookLine, Length(HookLine), 1);
+      Delete(HookLine, GetArrayLength(HookLine), 1);
       for ii := 0 to ll - 1 do
         if (Pos(RawHookNames[ii] + ' = ', HookLine) > 0) and (not FoundAlready(Result, Indexes[ii])) then
         begin
@@ -339,7 +339,7 @@ begin
           Break;
         end;
     end;
-    SetLength(Result, C);
+    SetArrayLength(Result, C);
   end;
 end;
 
@@ -390,7 +390,7 @@ var
   Found: TIntegerArray;
   i: Integer;
 begin
-  SetLength(Found, Length(missing));
+  SetArrayLength(Found, GetArrayLength(missing));
   for i := 0 to High(missing) do
     Found[i] := missing[i].Index;
   for i:= 0 to High(Indexes) do

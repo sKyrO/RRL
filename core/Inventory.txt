@@ -189,14 +189,14 @@ function r_GetInventoryItems: TRSItemArray;
 var
   i, C: Integer;
 begin
-  SetLength(Result, 28);
+  SetArrayLength(Result, 28);
   for i := 1 to 28 do
   begin
     Result[C] := r_GetInventoryItemAt(i);
     if (not (Result[C] = NULL_RSITEM)) then
       Inc(C);
   end;
-  SetLength(Result, C);
+  SetArrayLength(Result, C);
 end;
 
 function r_GetInventoryCountEx(const Stacks: Boolean): Integer;
@@ -211,7 +211,7 @@ begin
     for i := 0 to High(Items) do
       IncEx(Result, Items[i].Stack);
   end else
-    Result := Length(Items);
+    Result := GetArrayLength(Items);
 end;
 
 function r_GetInventoryCount: Integer;

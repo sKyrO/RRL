@@ -71,7 +71,7 @@ begin
     Count := SmartGetFieldInt(0, r_Hooks[hook_PlayerCount]);
     if (Count < 1) then
       Exit;
-    SetLength(Result, Count);
+    SetArrayLength(Result, Count);
     for ii := 0 to Count - 1 do
       try
         Index := SmartGetFieldArrayInt(0, r_Hooks[hook_PlayerIndexes], ii);
@@ -129,9 +129,9 @@ var
   i, l, C, ii, ll: Integer;
 begin
   PArray := r_GetAllPlayers;
-  l := Length(PArray);
-  ll := Length(fLevels);
-  SetLength(Result, l);
+  l := GetArrayLength(PArray);
+  ll := GetArrayLength(fLevels);
+  SetArrayLength(Result, l);
   for i := 0 to l - 1 do
     for ii := 0 to ll - 1 do
       if (PArray[i].Level = fLevels[ii]) then
@@ -140,7 +140,7 @@ begin
         Inc(C);
         Break;
       end;
-  SetLength(Result, C);
+  SetArrayLength(Result, C);
 end;
 
 function r_GetAllPlayersByLevel(const fLevel: Integer): TPlayerArray;
@@ -154,9 +154,9 @@ var
   i, l, C, ii, ll: Integer;
 begin
   PArray := r_GetAllPlayers;
-  l := Length(PArray);
-  ll := Length(Names);
-  SetLength(Result, l);
+  l := GetArrayLength(PArray);
+  ll := GetArrayLength(Names);
+  SetArrayLength(Result, l);
   for i := 0 to l - 1 do
     for ii := 0 to ll - 1 do
       if (Pos(Lowercase(Names[ii]), Lowercase(PArray[i].Name)) > 0) then
@@ -165,7 +165,7 @@ begin
         Inc(C);
         Break;
       end;
-  SetLength(Result, C);
+  SetArrayLength(Result, C);
 end;
 
 function r_GetAllPlayersByName(const Name: string): TPlayerArray;
@@ -178,11 +178,11 @@ var
   i, ii, L: LongInt;
   TPA: TPointArray;
 begin
-  L := Length(Arr);
+  L := GetArrayLength(Arr);
   if (L < 1) then
     Exit;
-  SetLength(Result, L);
-  SetLength(TPA, L);
+  SetArrayLength(Result, L);
+  SetArrayLength(TPA, L);
   for i := 0 to L - 1 do
     TPA[i] := Point(Arr[i].Character.Location.x, Arr[i].Character.Location.y);
   SortTPAFrom(TPA, Point(From.x, From.y));
@@ -207,7 +207,7 @@ var
 begin
   Result := NULL_PLAYER;
   PArray := r_GetAllPlayersByLevels(fLevels);
-  SetLength(OurPs, C);
+  SetArrayLength(OurPs, C);
   OurPs := r_SortPlayers(PArray);
   if (Length(OurPs) > 0) then
     Result := OurPs[0];
@@ -225,7 +225,7 @@ var
 begin
   Result := NULL_PLAYER;
   PArray := r_GetAllPlayersByNames(Names);
-  SetLength(OurPs, C);
+  SetArrayLength(OurPs, C);
   OurPs := r_SortPlayers(PArray);
   if (Length(OurPs) > 0) then
     Result := OurPs[0];

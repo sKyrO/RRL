@@ -156,7 +156,7 @@ var
   Cards: array[0..2] of Integer;
   i, ii: Integer;
 begin
-  SetLength(Count, Length(Exam_Items));
+  SetArrayLength(Count, GetArrayLength(Exam_Items));
   for i := 0 to High(Exam_Items) do
     for ii := 0 to High(Exam_Items[i]) do
       case (Exam_Items[i][ii]) of

@@ -80,7 +80,7 @@ begin
     while (not SmartIsNull(F)) do
     begin
       Inc(i);
-      SetLength(Result, i);
+      SetArrayLength(Result, i);
       Result[i - 1] := i;
       SmartFreeObject(F);
       F := r_GetInterface(ParentID, i);
@@ -110,7 +110,7 @@ begin
     FF := SmartGetFieldArrayObject(F, r_Hooks[hook_Interface_Components], C);
     while (not SmartIsNull(FF)) do
     begin
-      SetLength(Result, C + 1);
+      SetArrayLength(Result, C + 1);
       Result[C] := C;
       Inc(C);
       SmartFreeObject(FF);
@@ -202,11 +202,11 @@ var
   l, i, c: Integer;
   Str: LongInt;
 begin
-  SetLength(Result, 0);
+  SetArrayLength(Result, 0);
   l := SmartGetFieldArraySize(PathToInterface, r_Hooks[hook_Interface_Actions], 1);
   if (l < 1) then
     Exit;
-  SetLength(Result, l);
+  SetArrayLength(Result, l);
   for i := 0 to l - 1 do
   begin
     Str := SmartGetFieldArrayObject(PathToInterface, r_Hooks[hook_Interface_Actions], i);
@@ -219,7 +219,7 @@ begin
     SmartFreeObject(Str);
     Inc(c);
   end;
-  SetLength(Result, c);
+  SetArrayLength(Result, c);
   if (Free) then
     SmartFreeObject(PathToInterface);
 end;
