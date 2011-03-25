@@ -46,6 +46,8 @@ Calulation core file
      By: Timer
  * procedure r_BuildCalculationTables;
      By: Timer
+ * function r_GetAngleToTile(const Tile: TRSTile): Integer;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -328,4 +330,12 @@ begin
     SinTable[i] := 16384.0 * Sin(d * i);
     CosTable[i] := 16384.0 * Cos(d * i);
   end;
+end;
+
+function r_GetAngleToTile(const Tile: TRSTile): Integer;
+var
+  OurTile: TRSTile;
+begin
+  OurTile := r_GetLocation;
+  Result := Round(FixD(ArcTan2(Tile.y - OurTile.y, Tile.x - OurTile.x)));
 end;
