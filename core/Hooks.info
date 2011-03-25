@@ -164,8 +164,8 @@ const
   hook_Ground_FloorDecoration = 148;
   hook_Ground_WallDecoration2 = 149;
   hook_Ground_WallDecoration1 = 150;
-  hook_Ground_WallObject1 = 151;
-  hook_Ground_WallObject2 = 152;
+  hook_Ground_WallObject2 = 151;
+  hook_Ground_WallObject1 = 152;
   hook_Ground_AnimableList = 153;
   hook_WallObjectData_ID = 154;
   hook_WallObjectData_Model = 155;
@@ -173,8 +173,8 @@ const
   hook_WallDecorationData_Model = 157;
   hook_FloorDecorationData_ID = 161;
   hook_FloorDecorationData_Model = 162;
-  hook_InteractiveObject_ID = 165;
-  hook_InteractiveObject_Model = 166;
+  hook_InteractiveObject_Model = 165;
+  hook_InteractiveObject_ID = 166;
   hook_InteractiveObjectSub_Data = 167;
   hook_ObjectComposite_ID = 163;
   hook_ObjectComposite_Model = 164;
