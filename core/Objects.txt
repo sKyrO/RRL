@@ -6,6 +6,12 @@ Object routines.
 
  * function r_GetObjectInteractableAt(const TT: TRSTile): TRSObject;
      By: Timer
+ * function r_GetObjectWallObjectAt(const TT: TRSTile): TRSObject;
+     By: Timer
+ * function r_GetObjectWallDecorationAt(const TT: TRSTile): TRSObject;
+     By: Timer
+ * function r_GetObjectFloorDecorationAt(const TT: TRSTile): TRSObject;
+     By: Timer
  * function r_GetObjectAt(const T: TRSTile; const ObjType: Integer): TRSObject;
      By: Timer
  * function r_GetAllObjectsByTypeEx(const ObjType, Range: Integer): TRSObjectArray;
@@ -146,11 +152,169 @@ begin
   end;
 end;
 
+function r_GetObjectWallObjectAt(const TT: TRSTile): TRSObject;
+var
+  BaseX, BaseY, Plane, ID: Integer;
+  T, ObjRTile: TRSTile;
+  Ground, WallObject, Model: LongInt;
+  ObjArea: TArea;
+begin
+  Result := NULL_RSOBJECT;
+  try
+    BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+    BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+    T := RSTile(TT.x - BaseX, TT.y - BaseY);
+    Plane := SmartGetFieldInt(0, r_Hooks[hook_CurrentPlane]);
+    Ground := SmartGetFieldArray3DObject(0, r_Hooks[hook_GroundTiles], Plane, T.x, T.y);
+    WallObject := SmartGetFieldObject(Ground, r_Hooks[hook_Ground_WallObject1]);
+    if (WallObject = 0) then
+    begin
+      SmartFreeObject(WallObject);
+      WallObject := SmartGetFieldObject(Ground, r_Hooks[hook_Ground_WallObject2]);
+    end;
+    if (WallObject <> 0) then
+    begin
+      ID := SmartGetFieldShort(WallObject, r_Hooks[hook_WallObjectData_ID]) and $FFFF;
+      if (ID = -1) or (ID = 65535) then
+      begin
+        SmartFreeObject(Ground);
+        SmartFreeObject(WallObject);
+        Exit;
+      end;
+      Model := SmartGetFieldObject(WallObject, r_Hooks[hook_WallObjectData_Model]);
+      ObjArea.x1 := (BaseX + SmartGetFieldShort(WallObject, r_Hooks[hook_Animable_AreaX1]));
+      ObjArea.y1 := (BaseY + SmartGetFieldShort(WallObject, r_Hooks[hook_Animable_AreaY1]));
+      ObjArea.x2 := (BaseX + SmartGetFieldShort(WallObject, r_Hooks[hook_Animable_AreaX2]));
+      ObjArea.y2 := (BaseY + SmartGetFieldShort(WallObject, r_Hooks[hook_Animable_AreaY2]));
+      ObjRTile.x := Round(BaseX + (SmartGetFieldInt(WallObject, r_Hooks[hook_Animable_X]) div 512));
+      ObjRTile.y := Round(BaseY + (SmartGetFieldInt(WallObject, r_Hooks[hook_Animable_Y]) div 512));
+      Model := SmartGetFieldObject(WallObject, r_Hooks[hook_WallObjectData_Model]);
+      Result := RSObject(ID, R_OBJECT_TYPE_WALL_OBJECT, TT, ObjRTile, ObjArea, Model, 0);
+    end;
+  finally
+    try
+      SmartFreeObject(Ground);
+    except
+    end;
+    try
+      if (WallObject > -1) then
+        SmartFreeObject(WallObject);
+    except
+    end;
+  end;
+end;
+
+function r_GetObjectWallDecorationAt(const TT: TRSTile): TRSObject;
+var
+  BaseX, BaseY, Plane, ID: Integer;
+  T, ObjRTile: TRSTile;
+  Ground, WallDecoration, Model: LongInt;
+  ObjArea: TArea;
+begin
+  Result := NULL_RSOBJECT;
+  try
+    BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+    BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+    T := RSTile(TT.x - BaseX, TT.y - BaseY);
+    Plane := SmartGetFieldInt(0, r_Hooks[hook_CurrentPlane]);
+    Ground := SmartGetFieldArray3DObject(0, r_Hooks[hook_GroundTiles], Plane, T.x, T.y);
+    WallDecoration := SmartGetFieldObject(Ground, r_Hooks[hook_Ground_WallDecoration1]);
+    if (WallDecoration = 0) then
+    begin
+      SmartFreeObject(WallDecoration);
+      WallDecoration := SmartGetFieldObject(Ground, r_Hooks[hook_Ground_WallDecoration2]);
+    end;
+    if (WallDecoration <> 0) then
+    begin
+      ID := SmartGetFieldShort(WallDecoration, r_Hooks[hook_WallDecorationData_ID]) and $FFFF;
+      if (ID = -1) or (ID = 65535) then
+      begin
+        SmartFreeObject(Ground);
+        SmartFreeObject(WallDecoration);
+        Exit;
+      end;
+      Model := SmartGetFieldObject(WallDecoration, r_Hooks[hook_WallDecorationData_Model]);
+      ObjArea.x1 := (BaseX + SmartGetFieldShort(WallDecoration, r_Hooks[hook_Animable_AreaX1]));
+      ObjArea.y1 := (BaseY + SmartGetFieldShort(WallDecoration, r_Hooks[hook_Animable_AreaY1]));
+      ObjArea.x2 := (BaseX + SmartGetFieldShort(WallDecoration, r_Hooks[hook_Animable_AreaX2]));
+      ObjArea.y2 := (BaseY + SmartGetFieldShort(WallDecoration, r_Hooks[hook_Animable_AreaY2]));
+      ObjRTile.x := Round(BaseX + (SmartGetFieldInt(WallDecoration, r_Hooks[hook_Animable_X]) div 512));
+      ObjRTile.y := Round(BaseY + (SmartGetFieldInt(WallDecoration, r_Hooks[hook_Animable_Y]) div 512));
+      Model := SmartGetFieldObject(WallDecoration, r_Hooks[hook_WallDecorationData_Model]);
+      Result := RSObject(ID, R_OBJECT_TYPE_WALL_DECORATION, TT, ObjRTile, ObjArea, Model, 0);
+    end;
+  finally
+    try
+      SmartFreeObject(Ground);
+    except
+    end;
+    try
+      if (WallDecoration > -1) then
+        SmartFreeObject(WallDecoration);
+    except
+    end;
+  end;
+end;
+
+function r_GetObjectFloorDecorationAt(const TT: TRSTile): TRSObject;
+var
+  BaseX, BaseY, Plane, ID: Integer;
+  T, ObjRTile: TRSTile;
+  Ground, FloorDecoration, Model: LongInt;
+  ObjArea: TArea;
+begin
+  Result := NULL_RSOBJECT;
+  try
+    BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+    BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+    T := RSTile(TT.x - BaseX, TT.y - BaseY);
+    Plane := SmartGetFieldInt(0, r_Hooks[hook_CurrentPlane]);
+    Ground := SmartGetFieldArray3DObject(0, r_Hooks[hook_GroundTiles], Plane, T.x, T.y);
+    FloorDecoration := SmartGetFieldObject(Ground, r_Hooks[hook_Ground_FloorDecoration]);
+    if (FloorDecoration <> 0) then
+    begin
+      ID := SmartGetFieldShort(FloorDecoration, r_Hooks[hook_FloorDecorationData_ID]) and $FFFF;
+      if (ID = -1) or (ID = 65535) then
+      begin
+        SmartFreeObject(Ground);
+        SmartFreeObject(FloorDecoration);
+        Exit;
+      end;
+      Model := SmartGetFieldObject(FloorDecoration, r_Hooks[hook_FloorDecorationData_Model]);
+      ObjArea.x1 := (BaseX + SmartGetFieldShort(FloorDecoration, r_Hooks[hook_Animable_AreaX1]));
+      ObjArea.y1 := (BaseY + SmartGetFieldShort(FloorDecoration, r_Hooks[hook_Animable_AreaY1]));
+      ObjArea.x2 := (BaseX + SmartGetFieldShort(FloorDecoration, r_Hooks[hook_Animable_AreaX2]));
+      ObjArea.y2 := (BaseY + SmartGetFieldShort(FloorDecoration, r_Hooks[hook_Animable_AreaY2]));
+      ObjRTile.x := Round(BaseX + (SmartGetFieldInt(FloorDecoration, r_Hooks[hook_Animable_X]) div 512));
+      ObjRTile.y := Round(BaseY + (SmartGetFieldInt(FloorDecoration, r_Hooks[hook_Animable_Y]) div 512));
+      Model := SmartGetFieldObject(FloorDecoration, r_Hooks[hook_FloorDecorationData_Model]);
+      Result := RSObject(ID, R_OBJECT_TYPE_FLOOR_DECORATION, TT, ObjRTile, ObjArea, Model, 0);
+    end;
+  finally
+    try
+      SmartFreeObject(Ground);
+    except
+    end;
+    try
+      if (FloorDecoration > -1) then
+        SmartFreeObject(FloorDecoration);
+    except
+    end;
+  end;
+end;
+
 function r_GetObjectAt(const T: TRSTile; const ObjType: Integer): TRSObject;
 begin
   Result := NULL_RSOBJECT;
-  case (ObjType) of
-    R_OBJECT_TYPE_INTERACTABLE: Result := r_GetObjectInteractableAt(T);
+  try
+    case (ObjType) of
+      R_OBJECT_TYPE_INTERACTABLE: Result := r_GetObjectInteractableAt(T);
+      R_OBJECT_TYPE_WALL_OBJECT: Result := r_GetObjectWallObjectAt(T);
+      R_OBJECT_TYPE_WALL_DECORATION: Result := r_GetObjectWallDecorationAt(T);
+      R_OBJECT_TYPE_FLOOR_DECORATION: Result := r_GetObjectFloorDecorationAt(T);
+    end;
+  except
+    Result := NULL_RSOBJECT;
   end;
 end;
 
