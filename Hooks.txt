@@ -161,8 +161,8 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 148:j/*** hook.rsground.getFloorDecoration = 'ih.j'.Lnl; [Ground_FloorDecoration] ***/
 149:i/*** hook.rsground.getWallDecoration2 = 'ih.i'.Lcj; [Ground_WallDecoration2] ***/
 150:g/*** hook.rsground.getWallDecoration1 = 'ih.g'.Lcj; [Ground_WallDecoration1] ***/
-151:a/*** hook.rsground.getWallObject2 = 'ih.a'.Log; [Ground_WallObject1] ***/
-152:k/*** hook.rsground.getWallObject1 = 'ih.k'.Log; [Ground_WallObject2] ***/
+151:a/*** hook.rsground.getWallObject2 = 'ih.a'.Log; [Ground_WallObject2] ***/
+152:k/*** hook.rsground.getWallObject1 = 'ih.k'.Log; [Ground_WallObject1] ***/
 153:n/*** hook.rsground.getRSAnimableList = 'ih.n'.Ldaa; [Ground_AnimableList] ***/
 154:qb/*** hook.wallobjectdata.getID = 'eca.qb'.S [WallObjectData_ID] ***/
 155:ob/*** hook.wallobjectdata.getModel = 'eca.ob'.Lka; [WallObjectData_Model] ***/
@@ -170,8 +170,8 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 157:mb/*** hook.walldecorationdata.getModel = 'nq.mb'.Lka; [WallDecorationData_Model] ***/
 161:K/*** hook.floordecorationdata.getID = 'et.K'.S [FloorDecorationData_ID] ***/
 162:eb/*** hook.floordecorationdata.getModel = 'et.eb'.Lka; [FloorDecorationData_Model] ***/
-166:mb/*** hook.interactiveobject.getModel = 'ah.mb'.Lka; [InteractiveObject_ID] ***/
-165:fb/*** hook.interactiveobject.getID = 'ah.fb'.S [InteractiveObject_Model] ***/
+165:mb/*** hook.interactiveobject.getModel = 'ah.mb'.Lka; [InteractiveObject_Model] ***/
+166:fb/*** hook.interactiveobject.getID = 'ah.fb'.S [InteractiveObject_ID] ***/
 167:sb/*** hook.interactiveobjectsub.getObjectData = 'kd.sb'.Ljh; [InteractiveObjectSub_Data] ***/
 163:d/*** hook.rsobjectcomposite.getID = 'jh.d'.I [ObjectComposite_ID] ***/
 164:c/*** hook.rsobjectcomposite.getModel = 'jh.c'.Lka; [ObjectComposite_Model] ***/
