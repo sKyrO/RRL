@@ -5,6 +5,8 @@ Pinball random routines.
 ---------------------------------------------------------
  * function r_Pinball_InRandom: Boolean;
      By: Timer
+ * function r_Pinball_GetScore: Integer;
+     By: Timer
  * function r_Pinball_Solve: Boolean;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
