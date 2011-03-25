@@ -74,7 +74,7 @@ begin
     begin
       if (not r_IsTileOnScreen(Obj.Tile)) then
       begin
-        r_SetCompass('s');
+        r_SetCompass(r_GetAngleToTile(Obj.Tile));
         KeyDown(40);
         Wait(1000 + Random(300));
         KeyUp(40);
