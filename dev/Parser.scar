@@ -134,7 +134,7 @@ begin
                    'Cache_SpaceLeft',
                    'ObjectDefinitionLoader_Cache',
                    'Ground_FloorDecoration', 'Ground_WallDecoration2', 'Ground_WallDecoration1',
-                   'Ground_WallObject1', 'Ground_WallObject2', 'Ground_AnimableList',
+                   'Ground_WallObject2', 'Ground_WallObject1', 'Ground_AnimableList',
                    'WallObjectData_ID', 'WallObjectData_Model', 'WallDecorationData_ID',
                    'WallDecorationData_Model', 'WallObjectSub2_Composite', 'WallDecorationSub2_Composite',
                    'FloorDecorationSub2_Composite', 'FloorDecorationData_ID', 'FloorDecorationData_Model',
@@ -321,7 +321,7 @@ begin
     begin
       AddToReport('Reading line ' + IntToStr(i + 1) + '!');
       HookLine := TheExplosion[i];
-      Delete(HookLine, GetArrayLength(HookLine), 1);
+      Delete(HookLine, Length(HookLine), 1);
       for ii := 0 to ll - 1 do
         if (Pos(RawHookNames[ii] + ' = ', HookLine) > 0) and (not FoundAlready(Result, Indexes[ii])) then
         begin
