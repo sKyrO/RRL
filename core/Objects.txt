@@ -92,7 +92,7 @@ begin
         ObjID := SmartGetFieldShort(Obj, r_Hooks[hook_InteractiveObject_ID]) and $FFFF;
         if (ObjID = -1) or (ObjID = 65535) then
         begin
-          Obj2 := SmartGetFieldObject(Obj, r_Hooks[hook_InteractiveObjectSub_Data]);
+          Obj2 := SmartGetFieldObject(Obj, r_Hooks[hook_InteractiveObjectSub_Composite]);
           if (Obj2 <> 0) then
           begin
             ObjID := SmartGetFieldInt(Obj2, r_Hooks[hook_ObjectComposite_ID]) and $FFFF;
@@ -172,7 +172,7 @@ begin
       SmartFreeObject(WallObject);
       WallObject := SmartGetFieldObject(Ground, r_Hooks[hook_Ground_WallObject2]);
     end;
-    if (WallObject <> 0) then
+    if (WallObject > 0) then
     begin
       ID := SmartGetFieldShort(WallObject, r_Hooks[hook_WallObjectData_ID]) and $FFFF;
       if (ID = -1) or (ID = 65535) then
@@ -224,7 +224,7 @@ begin
       SmartFreeObject(WallDecoration);
       WallDecoration := SmartGetFieldObject(Ground, r_Hooks[hook_Ground_WallDecoration2]);
     end;
-    if (WallDecoration <> 0) then
+    if (WallDecoration > 0) then
     begin
       ID := SmartGetFieldShort(WallDecoration, r_Hooks[hook_WallDecorationData_ID]) and $FFFF;
       if (ID = -1) or (ID = 65535) then
@@ -271,7 +271,7 @@ begin
     Plane := SmartGetFieldInt(0, r_Hooks[hook_CurrentPlane]);
     Ground := SmartGetFieldArray3DObject(0, r_Hooks[hook_GroundTiles], Plane, T.x, T.y);
     FloorDecoration := SmartGetFieldObject(Ground, r_Hooks[hook_Ground_FloorDecoration]);
-    if (FloorDecoration <> 0) then
+    if (FloorDecoration > 0) then
     begin
       ID := SmartGetFieldShort(FloorDecoration, r_Hooks[hook_FloorDecorationData_ID]) and $FFFF;
       if (ID = -1) or (ID = 65535) then
