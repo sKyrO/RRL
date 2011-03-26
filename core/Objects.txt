@@ -299,7 +299,6 @@ begin
       ObjArea.y2 := (BaseY + SmartGetFieldShort(WallDecoration, r_Hooks[hook_Animable_AreaY2]));
       ObjRTile.x := Round(BaseX + (SmartGetFieldInt(WallDecoration, r_Hooks[hook_Animable_X]) div 512));
       ObjRTile.y := Round(BaseY + (SmartGetFieldInt(WallDecoration, r_Hooks[hook_Animable_Y]) div 512));
-      Model := SmartGetFieldObject(WallDecoration, r_Hooks[hook_WallDecorationData_Model]);
       Result := RSObject(ID, R_OBJECT_TYPE_WALL_DECORATION, TT, ObjRTile, ObjArea, Model, 0);
     end;
   finally
@@ -346,7 +345,6 @@ begin
       ObjArea.y2 := (BaseY + SmartGetFieldShort(FloorDecoration, r_Hooks[hook_Animable_AreaY2]));
       ObjRTile.x := Round(BaseX + (SmartGetFieldInt(FloorDecoration, r_Hooks[hook_Animable_X]) div 512));
       ObjRTile.y := Round(BaseY + (SmartGetFieldInt(FloorDecoration, r_Hooks[hook_Animable_Y]) div 512));
-      Model := SmartGetFieldObject(FloorDecoration, r_Hooks[hook_FloorDecorationData_Model]);
       Result := RSObject(ID, R_OBJECT_TYPE_FLOOR_DECORATION, TT, ObjRTile, ObjArea, Model, 0);
     end else
     begin
