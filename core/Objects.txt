@@ -149,6 +149,12 @@ begin
       SmartFreeObject(Last);
     except
     end;
+  except
+    try
+      if (Model > -1) then
+        SmartFreeObject(Model);
+    except
+    end;
   end;
 end;
 
@@ -228,6 +234,12 @@ begin
     try
       if (WallObject > -1) then
         SmartFreeObject(WallObject);
+    except
+    end;
+  except
+    try
+      if (Model > -1) then
+        SmartFreeObject(Model);
     except
     end;
   end;
@@ -311,6 +323,12 @@ begin
         SmartFreeObject(WallDecoration);
     except
     end;
+  except
+    try
+      if (Model > -1) then
+        SmartFreeObject(Model);
+    except
+    end;
   end;
 end;
 
@@ -375,6 +393,12 @@ begin
               SmartFreeObject(FloorDecorationComp);
           except
           end;
+        except
+          try
+            if (Model > -1) then
+              SmartFreeObject(Model);
+          except
+          end;
         end;
       end;
     end;
@@ -386,6 +410,12 @@ begin
     try
       if (FloorDecoration > -1) then
         SmartFreeObject(FloorDecoration);
+    except
+    end;
+  except
+    try
+      if (Model > -1) then
+        SmartFreeObject(Model);
     except
     end;
   end;
