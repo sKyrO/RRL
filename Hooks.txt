@@ -172,7 +172,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 162:eb/*** hook.floordecorationdata.getModel = 'et.eb'.Lka; [FloorDecorationData_Model] ***/
 165:mb/*** hook.interactiveobject.getModel = 'ah.mb'.Lka; [InteractiveObject_Model] ***/
 166:fb/*** hook.interactiveobject.getID = 'ah.fb'.S [InteractiveObject_ID] ***/
-167:sb/*** hook.interactiveobjectsub.getObjectData = 'kd.sb'.Ljh; [InteractiveObjectSub_Data] ***/
+167:sb/*** hook.interactiveobjectsub.getObjectData = 'kd.sb'.Ljh; [InteractiveObjectSub_Composite] ***/
 163:d/*** hook.rsobjectcomposite.getID = 'jh.d'.I [ObjectComposite_ID] ***/
 164:c/*** hook.rsobjectcomposite.getModel = 'jh.c'.Lka; [ObjectComposite_Model] ***/
 158:ib/*** hook.wallobjectsub2.getComposite = 'uba.ib'.Ljh; [WallObjectSub2_Composite] ***/

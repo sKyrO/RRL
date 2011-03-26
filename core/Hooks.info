@@ -175,7 +175,7 @@ const
   hook_FloorDecorationData_Model = 162;
   hook_InteractiveObject_Model = 165;
   hook_InteractiveObject_ID = 166;
-  hook_InteractiveObjectSub_Data = 167;
+  hook_InteractiveObjectSub_Composite = 167;
   hook_ObjectComposite_ID = 163;
   hook_ObjectComposite_Model = 164;
   hook_WallObjectSub2_Composite = 158;
