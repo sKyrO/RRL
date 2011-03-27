@@ -398,14 +398,6 @@ begin
       WriteLn(i);
 end;
 
-{function GenerateRefrenceFile: AnsiString;
-var
-  i: Integer;
-begin
-  for i := 0 to High(RawHookNames) do
-    Result := Result + RawHookNames[i] + ' = ' + IncludeNames[i] + #10;
-end;}
-
 procedure SaveFile(const Path: string; const Contents: AnsiString);
 var
   FileHandle: LongInt;
@@ -420,8 +412,8 @@ end;
 procedure Run;
 var
   FoundHooks: THookArray;
-  l, i: Integer;
-  InfoFile, HooksFile{, RefFile}: AnsiString;
+  l: Integer;
+  InfoFile, HooksFile: AnsiString;
 begin
   FoundHooks := GetHooksArray;
   l := GetArrayLength(FoundHooks);
@@ -432,11 +424,9 @@ begin
     WriteLn('Creating hook information file[s].');
     InfoFile := GenerateInformationFile(FoundHooks);
     HooksFile := GenerateHooksFile(FoundHooks);
-    {RefFile := GenerateRefrenceFile;}
     WriteLn('Saving hook file[s].');
     SaveFile(ScriptPath + 'Hooks.info', InfoFile);
     SaveFile(ScriptPath + 'Hooks.txt', HooksFile);
-    {SaveFile(ScriptPath + 'Hook Lookup.txt', RefFile);}
   end else
     WriteLn('No hooks were found.');
 end;
