@@ -154,7 +154,7 @@ begin
   try
     PathToInterface := r_GetInterface(ParentID, ChildID);
     ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
-    InterfaceBox := SmartGetFieldArrayObject(0, r_Hooks[hook_InterfaceBounds], ba);
+    InterfaceBox := SmartGetFieldArrayRectangle(0, r_Hooks[hook_InterfaceBounds], ba);
     x := SmartGetRectangleX(InterfaceBox);
     y := SmartGetRectangleY(InterfaceBox);
     w := SmartGetRectangleWidth(InterfaceBox);
@@ -182,7 +182,7 @@ begin
   try
     PathToInterface := r_GetSubInterface(ParentID, ChildID, ComponentID);
     ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
-    InterfaceBox := SmartGetFieldArrayObject(0, r_Hooks[hook_InterfaceBounds], ba);
+    InterfaceBox := SmartGetFieldArrayRectangle(0, r_Hooks[hook_InterfaceBounds], ba);
     x := SmartGetRectangleX(InterfaceBox);
     y := SmartGetRectangleY(InterfaceBox);
     w := SmartGetRectangleWidth(InterfaceBox);
