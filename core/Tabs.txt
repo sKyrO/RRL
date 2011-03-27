@@ -155,12 +155,13 @@ begin
   	R_TAB_LOGOUT: ci := 181;
   end;
   if (ci <> -1) then
-    if (ci >= 181) then
+    {if (ci >= 181) then
       Result := r_GetInterfaceBox(Point(516, 0), GameInterface, ci)
     else if (ci >= 128) then
       Result := r_GetInterfaceBox(Point(516, 168), GameInterface, ci)
     else
-      Result := r_GetInterfaceBox(Point(519, 466), GameInterface, ci)
+      Result := r_GetInterfaceBox(Point(519, 466), GameInterface, ci)}
+    Result := r_GetInterfaceBox(GameInterface, ci)
   else
     Result := IntToBox(-1, -1, -1, -1);
 end;
@@ -190,7 +191,7 @@ begin
       iI := 1
     else
       iI := 6;
-    Box := r_GetInterfaceBox(Point(547, 205), 182, iI);
+    Box := r_GetInterfaceBox({Point(547, 205), }182, iI);
     r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, True);
     r_MarkTime(m);
     while (r_GetTimeFromMark(m) < 6000) and (r_IsLoggedIn) do

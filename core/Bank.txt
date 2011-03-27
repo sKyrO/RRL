@@ -51,7 +51,7 @@ function r_DepositAll: Boolean;
 var
   B: TBox;
 begin
-  B := r_GetInterfaceBox(Point(4, 4), 762, 33);
+  B := r_GetInterfaceBox({Point(4, 4), }762, 33);
   if (B.x1 <= 4) then
     Exit;
   r_MoveMouseBox(B.x1, B.y1, B.x2, B.y2);
@@ -123,7 +123,7 @@ begin
     WriteLn('Item is not in bank!');
     Exit;
   end;
-  B := r_GetSubInterfaceBox(Point(30, 87), 762, 93, Slot);
+  B := r_GetSubInterfaceBox({Point(30, 87), }762, 93, Slot);
   if (B.x1 <= 30) or (B.y1 <= 87) then
   begin
     WriteLn('The item is not in the current tab!');

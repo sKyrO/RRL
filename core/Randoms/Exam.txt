@@ -72,7 +72,7 @@ var
 begin
   Result := True;
   try
-    B := r_GetInterfaceBox(Point(0, 0), RelatedCardsInterface, 26);
+    B := r_GetInterfaceBox(RelatedCardsInterface, 26);
     r_ClickMouseBox(B.x1, B.y1, B.x2, B.y2, True);
     Wait(RandomRange(500, 800));
   except
@@ -100,7 +100,7 @@ begin
         IH := r_GetInterface(RelatedCardsInterface, i);
         if (SmartGetFieldInt(IH, r_Hooks[hook_Interface_ID]) = so.Answers[ii]) then
         begin
-          B := r_GetInterfaceBox(Point(0, 0), RelatedCardsInterface, i);
+          B := r_GetInterfaceBox(RelatedCardsInterface, i);
           r_ClickMouseBox(B.x1, B.y1, B.x2, B.y2, True);
           Wait(RandomRange(800, 1300));
           Inc(Count);
@@ -196,7 +196,7 @@ begin
       ID := SmartGetFieldInt(IH, r_Hooks[hook_Interface_ID]);
       if (InIntArray(Answers, ID)) then
       begin
-        B := r_GetInterfaceBox(Point(0, 0), NextObjectInterface, i);
+        B := r_GetInterfaceBox(NextObjectInterface, i);
         r_ClickMouseBox(B.x1, B.y1, B.x2, B.y2, True);
         Wait(500 + Random(300));
         Result := True;

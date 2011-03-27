@@ -18,9 +18,9 @@ Menu routines.
      By: Timer
  * function r_GetInterfaceText(const ParentID, ChildID: Integer): string;
      By: Timer
- * function r_GetInterfaceBox(const Offset: TPoint; const ParentID, ChildID: Integer): TBox;
+ * function r_GetInterfaceBox(const ParentID, ChildID: Integer): TBox;
      By: Timer
- * function r_GetSubInterfaceBox(const Offset: TPoint; const ParentID, ChildID, ComponentID: Integer): TBox;
+ * function r_GetSubInterfaceBox(const ParentID, ChildID, ComponentID: Integer): TBox;
      By: Timer
  * function r_GetInterfaceActionsEx(const PathToInterface: LongInt; Free: Boolean): TStringArray;
      By: Timer
@@ -146,52 +146,60 @@ begin
   Result := r_GetInterfaceTextEx(PathToInterface, True);
 end;
 
-function r_GetInterfaceBox(const Offset: TPoint; const ParentID, ChildID: Integer): TBox;
+function r_GetInterfaceBox(const ParentID, ChildID: Integer): TBox;
 var
-  PathToInterface: LongInt;
-  x, y: Integer;
+  PathToInterface, InterfaceBox: LongInt;
+  x, y, w, h, ba: Integer;
 begin
-  PathToInterface := r_GetInterface(ParentID, ChildID);
-  x := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
-  y := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
-  Result := IntToBox(Offset.x + x, Offset.y + y,
-                     Offset.x + x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]),
-                     Offset.y + y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]));
-  if (Result.x1 >= 766) then
-  begin
-    DecEx(Result.x1, 766);
-    DecEx(Result.x2, 766);
+  try
+    PathToInterface := r_GetInterface(ParentID, ChildID);
+    ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
+    InterfaceBox := SmartGetFieldArrayObject(0, r_Hooks[hook_InterfaceBounds], ba);
+    x := SmartGetRectangleX(InterfaceBox);
+    y := SmartGetRectangleY(InterfaceBox);
+    w := SmartGetRectangleWidth(InterfaceBox);
+    h := SmartGetRectangleHeight(InterfaceBox);
+    Result := IntToBox(x, y, x + w - 1, y + h - 1);
+  finally
+    try
+      SmartFreeObject(InterfaceBox);
+    except
+    end;
+    try
+      SmartFreeObject(PathToInterface);
+    except
+    end;
+  except
+    WriteLn('Problem with absolute location. >.<');
   end;
-  if (Result.y1 >= 504) then
-  begin
-    DecEx(Result.y1, 504);
-    DecEx(Result.y2, 504);
-  end;
-  SmartFreeObject(PathToInterface);
 end;
 
-function r_GetSubInterfaceBox(const Offset: TPoint; const ParentID, ChildID, ComponentID: Integer): TBox;
+function r_GetSubInterfaceBox(const ParentID, ChildID, ComponentID: Integer): TBox;
 var
-  PathToInterface: LongInt;
-  x, y: Integer;
+  PathToInterface, InterfaceBox: LongInt;
+  x, y, w, h, ba: Integer;
 begin
-  PathToInterface := r_GetSubInterface(ParentID, ChildID, ComponentID);
-  x := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
-  y := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
-  Result := IntToBox(Offset.x + x, Offset.y + y,
-                     Offset.x + x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]),
-                     Offset.y + y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]));
-  if (Result.x1 >= 766) then
-  begin
-    DecEx(Result.x1, 766);
-    DecEx(Result.x2, 766);
+  try
+    PathToInterface := r_GetSubInterface(ParentID, ChildID, ComponentID);
+    ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
+    InterfaceBox := SmartGetFieldArrayObject(0, r_Hooks[hook_InterfaceBounds], ba);
+    x := SmartGetRectangleX(InterfaceBox);
+    y := SmartGetRectangleY(InterfaceBox);
+    w := SmartGetRectangleWidth(InterfaceBox);
+    h := SmartGetRectangleHeight(InterfaceBox);
+    Result := IntToBox(x, y, x + w - 1, y + h - 1);
+  finally
+    try
+      SmartFreeObject(InterfaceBox);
+    except
+    end;
+    try
+      SmartFreeObject(PathToInterface);
+    except
+    end;
+  except
+    WriteLn('Problem with absolute location. >.<');
   end;
-  if (Result.y1 >= 504) then
-  begin
-    DecEx(Result.y1, 504);
-    DecEx(Result.y2, 504);
-  end;
-  SmartFreeObject(PathToInterface);
 end;
 
 function r_GetInterfaceActionsEx(const PathToInterface: LongInt; Free: Boolean): TStringArray;
@@ -283,7 +291,7 @@ begin
     for ii := 0 to CC - 1 do
       if (Pos('lick here to cont', Lowercase(r_GetInterfaceText(CheckInterfaces[i], ii))) > 0) then
       begin
-        Box := r_GetInterfaceBox(Point(7, 347), CheckInterfaces[i], ii);
+        Box := r_GetInterfaceBox({Point(7, 347), }CheckInterfaces[i], ii);
         r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, True);
         Wait(RandomRange(500, 800));
         Result := True;

@@ -90,7 +90,7 @@ begin
   for i := 0 to CC - 1 do
     if (Pos(Lowercase(TextHint), Lowercase(r_GetInterfaceText(188, i))) > 0) then
     begin
-      Box := r_GetInterfaceBox(Point(7, 347), 188, i);
+      Box := r_GetInterfaceBox({Point(7, 347), }188, i);
       r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, True);
       Wait(RandomRange(500, 800));
       Exit;
