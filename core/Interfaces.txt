@@ -148,17 +148,27 @@ end;
 
 function r_GetInterfaceBox(const ParentID, ChildID: Integer): TBox;
 var
-  PathToInterface, InterfaceBox: LongInt;
-  x, y, w, h, ba: Integer;
+  PathToInterface, InterfaceBox: Integer;
+  x, y, w, h, ba, p: Integer;
 begin
   try
     PathToInterface := r_GetInterface(ParentID, ChildID);
-    ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
-    InterfaceBox := SmartGetFieldArrayRectangle(0, r_Hooks[hook_InterfaceBounds], ba);
-    x := SmartGetRectangleX(InterfaceBox);
-    y := SmartGetRectangleY(InterfaceBox);
-    w := SmartGetRectangleWidth(InterfaceBox);
-    h := SmartGetRectangleHeight(InterfaceBox);
+    p := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
+    if (p <> -1) then
+    begin
+      SmartFreeObject(PathToInterface);
+      x := r_GetInterfaceBox(p shr 16, p and $FFFF).x1;
+    end else
+    begin
+      ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
+      InterfaceBox := SmartGetFieldArrayRectangle(0, r_Hooks[hook_InterfaceBounds], ba);
+      x := SmartGetRectangleX(InterfaceBox);
+      y := SmartGetRectangleY(InterfaceBox);
+      w := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]);
+      h := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]);
+    end;
+    x := x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
+    y := y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
     Result := IntToBox(x, y, x + w - 1, y + h - 1);
   finally
     try
@@ -176,17 +186,30 @@ end;
 
 function r_GetSubInterfaceBox(const ParentID, ChildID, ComponentID: Integer): TBox;
 var
-  PathToInterface, InterfaceBox: LongInt;
-  x, y, w, h, ba: Integer;
+  PathToInterface, InterfaceBox: Integer;
+  x, y, w, h, ba, p: Integer;
 begin
   try
-    PathToInterface := r_GetSubInterface(ParentID, ChildID, ComponentID);
-    ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
-    InterfaceBox := SmartGetFieldArrayRectangle(0, r_Hooks[hook_InterfaceBounds], ba);
-    x := SmartGetRectangleX(InterfaceBox);
-    y := SmartGetRectangleY(InterfaceBox);
-    w := SmartGetRectangleWidth(InterfaceBox);
-    h := SmartGetRectangleHeight(InterfaceBox);
+    if (ComponentID <> -1) then
+      PathToInterface := r_GetSubInterface(ParentID, ChildID, ComponentID)
+    else
+      PathToInterface := r_GetInterface(ParentID, ChildID);
+    p := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
+    if (p <> -1) then
+    begin
+      SmartFreeObject(PathToInterface);
+      x := r_GetSubInterfaceBox(p shr 16, p and $FFFF, -1).x1;
+    end else
+    begin
+      ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
+      InterfaceBox := SmartGetFieldArrayRectangle(0, r_Hooks[hook_InterfaceBounds], ba);
+      x := SmartGetRectangleX(InterfaceBox);
+      y := SmartGetRectangleY(InterfaceBox);
+      w := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]);
+      h := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]);
+    end;
+    x := x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
+    y := y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
     Result := IntToBox(x, y, x + w - 1, y + h - 1);
   finally
     try
