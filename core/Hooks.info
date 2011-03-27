@@ -57,6 +57,8 @@ const
   hook_CamCurveY = 29;
   hook_GroundTiles = 32;
   hook_CrossHairColor = 42;
+  hook_InterfaceBounds = 174;
+  hook_DismissInterfaces = 175;
   hook_Message_Name = 45;
   hook_Message_Message = 46;
   hook_Animable_X = 66;
