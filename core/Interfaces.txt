@@ -155,10 +155,8 @@ begin
     PathToInterface := r_GetInterface(ParentID, ChildID);
     p := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
     if (p <> -1) then
-    begin
-      SmartFreeObject(PathToInterface);
-      x := r_GetInterfaceBox(p shr 16, p and $FFFF).x1;
-    end else
+      x := r_GetInterfaceBox(p shr 16, p and $FFFF).x1
+    else
     begin
       ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
       InterfaceBox := SmartGetFieldArrayRectangle(0, r_Hooks[hook_InterfaceBounds], ba);
@@ -196,10 +194,8 @@ begin
       PathToInterface := r_GetInterface(ParentID, ChildID);
     p := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
     if (p <> -1) then
-    begin
-      SmartFreeObject(PathToInterface);
-      x := r_GetSubInterfaceBox(p shr 16, p and $FFFF, -1).x1;
-    end else
+      x := r_GetSubInterfaceBox(p shr 16, p and $FFFF, -1).x1
+    else
     begin
       ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
       InterfaceBox := SmartGetFieldArrayRectangle(0, r_Hooks[hook_InterfaceBounds], ba);
