@@ -150,18 +150,22 @@ function r_GetInterfaceBox(const ParentID, ChildID: Integer): TBox;
 var
   PathToInterface, InterfaceBox: Integer;
   x, y, w, h, ba, p: Integer;
+  tB: TBox;
 begin
   try
     PathToInterface := r_GetInterface(ParentID, ChildID);
     p := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
     if (p <> -1) then
-      x := r_GetInterfaceBox(p shr 16, p and $FFFF).x1
-    else
+    begin
+      tB := r_GetInterfaceBox(p shr 16, p and $FFFF);
+      x := tB.x1;
+      y := tB.y1;
+    end else
     begin
       ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
-      InterfaceBox := SmartGetFieldArrayRectangle(0, r_Hooks[hook_InterfaceBounds], ba);
-      x := SmartGetRectangleX(InterfaceBox);
-      y := SmartGetRectangleY(InterfaceBox);
+      InterfaceBox := SmartGetFieldArrayObject(0, r_Hooks[hook_InterfaceBounds], ba);
+      x := SmartGetFieldInt(InterfaceBox, 'x');
+      y := SmartGetFieldInt(InterfaceBox, 'y');
       w := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]);
       h := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]);
     end;
@@ -186,6 +190,7 @@ function r_GetSubInterfaceBox(const ParentID, ChildID, ComponentID: Integer): TB
 var
   PathToInterface, InterfaceBox: Integer;
   x, y, w, h, ba, p: Integer;
+  tB: TBox;
 begin
   try
     if (ComponentID <> -1) then
@@ -194,13 +199,16 @@ begin
       PathToInterface := r_GetInterface(ParentID, ChildID);
     p := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
     if (p <> -1) then
-      x := r_GetSubInterfaceBox(p shr 16, p and $FFFF, -1).x1
-    else
+    begin
+      tB := r_GetInterfaceBox(p shr 16, p and $FFFF);
+      x := tB.x1;
+      y := tB.y1;
+    end else
     begin
       ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
-      InterfaceBox := SmartGetFieldArrayRectangle(0, r_Hooks[hook_InterfaceBounds], ba);
-      x := SmartGetRectangleX(InterfaceBox);
-      y := SmartGetRectangleY(InterfaceBox);
+      InterfaceBox := SmartGetFieldArrayObject(0, r_Hooks[hook_InterfaceBounds], ba);
+      x := SmartGetFieldInt(InterfaceBox, 'x');
+      y := SmartGetFieldInt(InterfaceBox, 'y');
       w := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]);
       h := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]);
     end;
