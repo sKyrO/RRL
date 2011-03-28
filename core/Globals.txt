@@ -502,7 +502,7 @@ const
   R_TAB_LOGOUT = 16;
 
 var
-  R_TAB_NAMES: TStringArray;
+  R_TAB_NAMES, R_SKILL_NAMES: TStringArray;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

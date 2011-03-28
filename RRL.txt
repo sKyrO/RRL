@@ -78,6 +78,12 @@ begin
                   'Magic Spellbook', 'Objectives', 'Friends List',
                   'Ignore List', 'Clan Chat', 'Options', 'Emotes',
                   'Music Player', 'Notes', 'Exit'];
+  R_SKILL_NAMES := ['Attack', 'Defence', 'Strength', 'Hitpoints', 'Range',
+                    'Prayer', 'Magic', 'Cooking', 'Woodcutting', 'Fletching',
+                    'Fishing', 'Firemaking', 'Crafting', 'Smithing', 'Mining',
+                    'Herblore', 'Agility', 'Thieving', 'Slayer', 'Farming',
+                    'Runecrafting', 'Hunter', 'Construction', 'Summoning',
+                    'Dungeoneering'];
   r_LoadRandoms;
   WriteLn('RRL was set up in ' + IntToStr(GetSystemTime - m) + ' ms, loaded ' + IntToStr(Length(r_Hooks)) + ' hooks.');
   Result := True;

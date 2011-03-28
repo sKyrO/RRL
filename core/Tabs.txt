@@ -14,6 +14,8 @@ Tab handling
       By: Timer
   * procedure r_SetRun(const Run: Boolean);
       By: Timer
+  * function r_GetSkillIndex(const SkillName: string): Integer;
+      By: Timer
   * function r_GetSkillLevel(const SkillIndex: Integer): Integer;
       By: Timer
   * function r_GetSkillExperience(const SkillIndex: Integer): Integer;
@@ -65,6 +67,20 @@ procedure r_SetRun(const Run: Boolean);
 begin
   if (Run) xor (r_IsRunning) then
     r_ClickMouse(715, 95, 10, 10, True);
+end;
+
+function r_GetSkillIndex(const SkillName: string): Integer;
+var
+  i, h: Integer;
+begin
+  h := High(R_SKILL_NAMES);
+  for i := 0 to h do
+    if (Lowercase(SkillName) = Lowercase(R_SKILL_NAMES[i])) then
+    begin
+      Result := i;
+      Exit;
+    end;
+  Result := -1;
 end;
 
 function r_GetSkillLevel(const SkillIndex: Integer): Integer;
