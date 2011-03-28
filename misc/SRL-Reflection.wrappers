@@ -14,6 +14,9 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+{$DEFINE SMART}
+{$DEFINE REFLECTION}
+
 function R_FindRandoms: Boolean;
 begin
   Result := r_HandleRandoms;
