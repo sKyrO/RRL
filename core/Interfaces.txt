@@ -18,9 +18,33 @@ Menu routines.
      By: Timer
  * function r_GetInterfaceText(const ParentID, ChildID: Integer): string;
      By: Timer
+ * function r_GetInterfaceRelativeXEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+     By: Timer
+ * function r_GetInterfaceRelativeX(const ParentID, ChildID: Integer): Integer
+     By: Timer
+ * function r_GetInterfaceRelativeYEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+     By: Timer
+ * function r_GetInterfaceRelativeY(const ParentID, ChildID: Integer): Integer
+     By: Timer
+ * function r_GetInterfaceWidthEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+     By: Timer
+ * function r_GetInterfaceWidth(const ParentID, ChildID: Integer): Integer;
+     By: Timer
+ * function r_GetInterfaceHeightEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+     By: Timer
+ * function r_GetInterfaceHeight(const ParentID, ChildID: Integer): Integer;
+     By: Timer
  * function r_GetInterfaceBox(const ParentID, ChildID: Integer): TBox;
      By: Timer
+ * function r_GetInterfaceAbsoluteX(const ParentID, ChildID: Integer): Integer;
+     By: Timer
+ * function r_GetInterfaceAbsoluteY(const ParentID, ChildID: Integer): Integer;
+     By: Timer
  * function r_GetSubInterfaceBox(const ParentID, ChildID, ComponentID: Integer): TBox;
+     By: Timer
+ * function r_GetSubInterfaceAbsoluteX(const ParentID, ChildID, ComponentID: Integer): Integer;
+     By: Timer
+ * function r_GetSubInterfaceAbsoluteY(const ParentID, ChildID, ComponentID: Integer): Integer;
      By: Timer
  * function r_GetInterfaceActionsEx(const PathToInterface: LongInt; Free: Boolean): TStringArray;
      By: Timer
@@ -29,6 +53,26 @@ Menu routines.
  * function r_GetInterfaceTextureEx(const PathToInterface: LongInt; Free: Boolean): Integer;
      By: Timer
  * function r_GetInterfaceTexture(const ParentID, ChildID: Integer): Integer;
+     By: Timer
+ * function r_GetInterfaceTextColorEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+     By: Timer
+ * function r_GetInterfaceTextColor(const ParentID, ChildID: Integer): Integer;
+     By: Timer
+ * function r_GetInterfaceModelIDEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+     By: Timer
+ * function r_GetInterfaceModelID(const ParentID, ChildID: Integer): Integer;
+     By: Timer
+ * function r_GetInterfaceIDEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+     By: Timer
+ * function r_GetInterfaceID(const ParentID, ChildID: Integer): Integer;
+     By: Timer
+ * function r_GetInterfaceComponentIDEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+     By: Timer
+ * function r_GetInterfaceComponentID(const ParentID, ChildID: Integer): Integer;
+     By: Timer
+ * function r_GetInterfaceParentIDEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+     By: Timer
+ * function r_GetInterfaceParentID(const ParentID, ChildID: Integer): Integer;
      By: Timer
  * function r_IsClickContinue: Boolean;
      By: Timer
@@ -146,6 +190,66 @@ begin
   Result := r_GetInterfaceTextEx(PathToInterface, True);
 end;
 
+function r_GetInterfaceRelativeXEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+begin
+  Result := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
+  if (Free) then
+    SmartFreeObject(PathToInterface);
+end;
+
+function r_GetInterfaceRelativeX(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface: LongInt;
+begin
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  Result := r_GetInterfaceRelativeXEx(PathToInterface, True);
+end;
+
+function r_GetInterfaceRelativeYEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+begin
+  Result := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
+  if (Free) then
+    SmartFreeObject(PathToInterface);
+end;
+
+function r_GetInterfaceRelativeY(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface: LongInt;
+begin
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  Result := r_GetInterfaceRelativeYEx(PathToInterface, True);
+end;
+
+function r_GetInterfaceWidthEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+begin
+  Result := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]);
+  if (Free) then
+    SmartFreeObject(PathToInterface);
+end;
+
+function r_GetInterfaceWidth(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface: LongInt;
+begin
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  Result := r_GetInterfaceWidthEx(PathToInterface, True);
+end;
+
+function r_GetInterfaceHeightEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+begin
+  Result := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]);
+  if (Free) then
+    SmartFreeObject(PathToInterface);
+end;
+
+function r_GetInterfaceHeight(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface: LongInt;
+begin
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  Result := r_GetInterfaceHeightEx(PathToInterface, True);
+end;
+
 function r_GetInterfaceBox(const ParentID, ChildID: Integer): TBox;
 var
   PathToInterface, InterfaceBox: Integer;
@@ -180,6 +284,78 @@ begin
     x := x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
     y := y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
     Result := IntToBox(x, y, x + w - 1, y + h - 1);
+  finally
+    try
+      SmartFreeObject(InterfaceBox);
+    except
+    end;
+    try
+      SmartFreeObject(PathToInterface);
+    except
+    end;
+  except
+    WriteLn('Problem with absolute location. >.<');
+  end;
+end;
+
+function r_GetInterfaceAbsoluteX(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface, InterfaceBox: Integer;
+  x, w, ba, p, bS: Integer;
+begin
+  try
+    PathToInterface := r_GetInterface(ParentID, ChildID);
+    p := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
+    w := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]);
+    if (p <> -1) then
+      x := r_GetInterfaceAbsoluteX(p shr 16, p and $FFFF)
+    else
+    begin
+      ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
+      bS := SmartGetFieldArraySize(0, r_Hooks[hook_Interface_BoundsIndex], 0);
+      InterfaceBox := SmartGetFieldArrayObject(0, r_Hooks[hook_InterfaceBounds], ba);
+      if (InterfaceBox = 0) then
+        x := w div 2
+      else
+        x := SmartGetFieldInt(InterfaceBox, 'x');
+    end;
+    Result := x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
+  finally
+    try
+      SmartFreeObject(InterfaceBox);
+    except
+    end;
+    try
+      SmartFreeObject(PathToInterface);
+    except
+    end;
+  except
+    WriteLn('Problem with absolute location. >.<');
+  end;
+end;
+
+function r_GetInterfaceAbsoluteY(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface, InterfaceBox: Integer;
+  y, h, ba, p, bS: Integer;
+begin
+  try
+    PathToInterface := r_GetInterface(ParentID, ChildID);
+    p := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
+    h := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]);
+    if (p <> -1) then
+      y := r_GetInterfaceAbsoluteY(p shr 16, p and $FFFF)
+    else
+    begin
+      ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
+      bS := SmartGetFieldArraySize(0, r_Hooks[hook_Interface_BoundsIndex], 0);
+      InterfaceBox := SmartGetFieldArrayObject(0, r_Hooks[hook_InterfaceBounds], ba);
+      if (InterfaceBox = 0) then
+        y := h div 2
+      else
+        y := SmartGetFieldInt(InterfaceBox, 'y');
+    end;
+    Result := y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
   finally
     try
       SmartFreeObject(InterfaceBox);
@@ -245,6 +421,84 @@ begin
   end;
 end;
 
+function r_GetSubInterfaceAbsoluteX(const ParentID, ChildID, ComponentID: Integer): Integer;
+var
+  PathToInterface, InterfaceBox: Integer;
+  x, w, ba, p, bS: Integer;
+begin
+  try
+    if (ComponentID <> -1) then
+      PathToInterface := r_GetSubInterface(ParentID, ChildID, ComponentID)
+    else
+      PathToInterface := r_GetInterface(ParentID, ChildID);
+    p := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
+    w := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Width]);
+    if (p <> -1) then
+      x := r_GetSubInterfaceAbsoluteX(p shr 16, p and $FFFF, -1)
+    else
+    begin
+      ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
+      bS := SmartGetFieldArraySize(0, r_Hooks[hook_Interface_BoundsIndex], 0);
+      InterfaceBox := SmartGetFieldArrayObject(0, r_Hooks[hook_InterfaceBounds], ba);
+      if (InterfaceBox = 0) then
+        x := w div 2
+      else
+        x := SmartGetFieldInt(InterfaceBox, 'x');
+    end;
+    Result := x + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_X]);
+  finally
+    try
+      SmartFreeObject(InterfaceBox);
+    except
+    end;
+    try
+      SmartFreeObject(PathToInterface);
+    except
+    end;
+  except
+    WriteLn('Problem with absolute location. >.<');
+  end;
+end;
+
+function r_GetSubInterfaceAbsoluteY(const ParentID, ChildID, ComponentID: Integer): Integer;
+var
+  PathToInterface, InterfaceBox: Integer;
+  y, h, ba, p, bS: Integer;
+begin
+  try
+    if (ComponentID <> -1) then
+      PathToInterface := r_GetSubInterface(ParentID, ChildID, ComponentID)
+    else
+      PathToInterface := r_GetInterface(ParentID, ChildID);
+    p := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
+    h := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Height]);
+    if (p <> -1) then
+      y := r_GetSubInterfaceAbsoluteY(p shr 16, p and $FFFF, -1)
+    else
+    begin
+      ba := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_BoundsIndex]);
+      bS := SmartGetFieldArraySize(0, r_Hooks[hook_Interface_BoundsIndex], 0);
+      InterfaceBox := SmartGetFieldArrayObject(0, r_Hooks[hook_InterfaceBounds], ba);
+      if (InterfaceBox = 0) then
+        y := h div 2
+      else
+        y := SmartGetFieldInt(InterfaceBox, 'y');
+    end;
+    Result := y + SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_Y]);
+  finally
+    try
+      SmartFreeObject(InterfaceBox);
+    except
+    end;
+    try
+      SmartFreeObject(PathToInterface);
+    except
+    end;
+  except
+    WriteLn('Problem with absolute location. >.<');
+  end;
+end;
+
 function r_GetInterfaceActionsEx(const PathToInterface: LongInt; Free: Boolean): TStringArray;
 var
   l, i, c: Integer;
@@ -293,6 +547,81 @@ var
 begin
   PathToInterface := r_GetInterface(ParentID, ChildID);
   Result := r_GetInterfaceTextureEx(PathToInterface, True);
+end;
+
+function r_GetInterfaceTextColorEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+begin
+  Result := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_TextColor]);
+  if (Free) then
+    SmartFreeObject(PathToInterface);
+end;
+
+function r_GetInterfaceTextColor(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface: LongInt;
+begin
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  Result := r_GetInterfaceTextColorEx(PathToInterface, True);
+end;
+
+function r_GetInterfaceModelIDEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+begin
+  Result := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ModelID]);
+  if (Free) then
+    SmartFreeObject(PathToInterface);
+end;
+
+function r_GetInterfaceModelID(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface: LongInt;
+begin
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  Result := r_GetInterfaceModelIDEx(PathToInterface, True);
+end;
+
+function r_GetInterfaceIDEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+begin
+  Result := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ID]);
+  if (Free) then
+    SmartFreeObject(PathToInterface);
+end;
+
+function r_GetInterfaceID(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface: LongInt;
+begin
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  Result := r_GetInterfaceIDEx(PathToInterface, True);
+end;
+
+function r_GetInterfaceComponentIDEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+begin
+  Result := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ComponentID]);
+  if (Free) then
+    SmartFreeObject(PathToInterface);
+end;
+
+function r_GetInterfaceComponentID(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface: LongInt;
+begin
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  Result := r_GetInterfaceComponentIDEx(PathToInterface, True);
+end;
+
+function r_GetInterfaceParentIDEx(const PathToInterface: LongInt; Free: Boolean): Integer;
+begin
+  Result := SmartGetFieldInt(PathToInterface, r_Hooks[hook_Interface_ParentID]);
+  if (Free) then
+    SmartFreeObject(PathToInterface);
+end;
+
+function r_GetInterfaceParentID(const ParentID, ChildID: Integer): Integer;
+var
+  PathToInterface: LongInt;
+begin
+  PathToInterface := r_GetInterface(ParentID, ChildID);
+  Result := r_GetInterfaceParentIDEx(PathToInterface, True);
 end;
 
 function r_IsClickContinue: Boolean;
