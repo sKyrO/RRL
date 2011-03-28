@@ -33,7 +33,7 @@ determining if the hooks are updated or not.
 }
 {.include RRL\core\Hooks.info}
 var
-  ClientVersion, HooksVersion: Integer; // Current reversions, declared in SetupRRL; or manually.
+  r_ClientVersion, r_HooksVersion: Integer; // Current reversions, declared in SetupRRL; or manually.
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

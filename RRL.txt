@@ -65,10 +65,10 @@ begin
     Writeln('Failed to load hooks.');
     Exit;
   end;
-  if (not HooksVersion >= ClientVersion) then
+  if (not r_HooksVersion >= r_ClientVersion) then
   begin
-    WriteLn('Current client version: ' + IntToStr(ClientVersion) +
-          ' Current hooks version: ' + IntToStr(HooksVersion));
+    WriteLn('Current client version: ' + IntToStr(r_ClientVersion) +
+          ' Current hooks version: ' + IntToStr(r_HooksVersion));
     WriteLn('Hooks outdated!  Please wait for new hooks to arise.' + #13 +
             'Sorry, and goodbye! - Reflection Resource Library [RRL].');
     Exit;

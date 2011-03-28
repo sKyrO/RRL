@@ -14,8 +14,9 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+{$IFNDEF SRL_OPENDEV}
 function Replace(const Text, FindStr, ReplaceStr: string): string;
 begin
   Result := ReplaceWrap(Text, FindStr, ReplaceStr, [rfReplaceAll]);
 end;
-
+{$ENDIF}
