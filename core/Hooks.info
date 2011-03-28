@@ -31,10 +31,6 @@ const
   hook_MenuY = 15;
   hook_MenuW = 16;
   hook_MenuH = 17;
-  hook_SubMenuY = 19;
-  hook_SubMenuW = 20;
-  hook_SubMenuH = 21;
-  hook_SubMenuX = 18;
   hook_Interfaces = 12;
   hook_ValidInterfaces = 13;
   hook_NPCNC = 8;
@@ -57,8 +53,6 @@ const
   hook_CamCurveY = 29;
   hook_GroundTiles = 32;
   hook_CrossHairColor = 42;
-  hook_InterfaceBounds = 174;
-  hook_DismissInterfaces = 175;
   hook_Message_Name = 45;
   hook_Message_Message = 46;
   hook_Animable_X = 66;
@@ -77,7 +71,6 @@ const
   hook_Character_LoopCycleStatus = 56;
   hook_Character_HPRatio = 57;
   hook_Character_Interacting = 58;
-  hook_Character_Model = 173;
   hook_AnimableNode_Animable = 69;
   hook_AnimableNode_Next = 70;
   hook_Animable_AreaX1 = 47;
@@ -89,8 +82,6 @@ const
   hook_NPC_Definition = 92;
   hook_NPCDefinition_Actions = 93;
   hook_NPCDefinition_Name = 94;
-  hook_NPCDefinition_Level = 95;
-  hook_NPCDefinition_ID = 96;
   hook_NPCNode_NPC = 97;
   hook_ViewPort_zOff = 80;
   hook_ViewPort_zX = 81;
@@ -124,8 +115,8 @@ const
   hook_NodeList_Current = 127;
   hook_NodeList_Head = 128;
   hook_Node_Next = 129;
-  hook_Node_ID = 130;
   hook_Node_Previous = 131;
+  hook_Node_ID = 130;
   hook_MenuGroupNode_NodeSubListItems = 132;
   hook_NodeSubList_Head = 133;
   hook_NodeSub_Next = 134;
@@ -150,8 +141,8 @@ const
   hook_Interface_Components = 121;
   hook_Interface_BoundsIndex = 122;
   hook_HashTable_Nodes = 135;
-  hook_Item_ID = 136;
   hook_Item_StackSize = 137;
+  hook_Item_ID = 136;
   hook_ItemDefinitionLoader_Cache = 138;
   hook_ItemDefinition_GroundItems = 139;
   hook_ItemDefinition_Actions = 140;
@@ -180,11 +171,16 @@ const
   hook_InteractiveObjectSub_Composite = 167;
   hook_ObjectComposite_ID = 163;
   hook_ObjectComposite_Model = 164;
+  hook_FloorDecorationSub2_Composite = 160;
   hook_WallObjectSub2_Composite = 158;
   hook_WallDecorationSub2_Composite = 159;
-  hook_FloorDecorationSub2_Composite = 160;
+  hook_NPCDefinition_Level = 95;
+  hook_NPCDefinition_ID = 96;
   hook_MenuOpen = 168;
   hook_MenuTabbed = 169;
   hook_MenuCount = 170;
   hook_MenuNodeList = 171;
   hook_Character_Movement = 172;
+  hook_Character_Model = 173;
+  hook_InterfaceBounds = 174;
+  hook_DismissInterfaces = 175;

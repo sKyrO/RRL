@@ -12,7 +12,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
 const
-  ClientVersion = 640;//Have the ###.txt hook output file in the same directory
+  ClientVersion = 641;//Have the ###.txt hook output file in the same directory
                       //As this script.
 
 var
