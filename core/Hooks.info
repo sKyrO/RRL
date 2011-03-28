@@ -174,6 +174,10 @@ const
   hook_FloorDecorationSub2_Composite = 160;
   hook_WallObjectSub2_Composite = 158;
   hook_WallDecorationSub2_Composite = 159;
+  hook_SubMenuY = 19;
+  hook_SubMenuW = 20;
+  hook_SubMenuH = 21;
+  hook_SubMenuX = 18;
   hook_NPCDefinition_Level = 95;
   hook_NPCDefinition_ID = 96;
   hook_MenuOpen = 168;
