@@ -188,3 +188,5 @@ const
   hook_Character_Model = 173;
   hook_InterfaceBounds = 174;
   hook_DismissInterfaces = 175;
+  hook_GroundBlocks = 176;
+  hook_GoundData_Flags = 177;
