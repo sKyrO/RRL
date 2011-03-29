@@ -10,6 +10,8 @@ Walking procedures
      By: Timer
  * function r_ClickTile(const Tile: TRSTile): Boolean;
      By: Timer
+ * function r_GetLocalPath(const from: TRSTile): TRSTileArray;
+     By: Timer
  * function r_FindPath(const from: TRSTile): TRSTileArray;
      By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
@@ -87,14 +89,21 @@ begin
   end;
 end;
 
+function r_GetLocalPath(const from: TRSTile): TRSTileArray;
+begin
+  if (not r_IsLoggedIn) or (not r_IsTileLocal(from)) then
+    Exit;
+  Result := NULL_WEB_PATH;
+end;
+
 function r_FindPath(const from: TRSTile): TRSTileArray;
 var
   ThePath: TRSTileArray;
 begin
   ThePath := NULL_WEB_PATH;
   if (r_IsTileLocal(from)) then
-  begin
-  end else
+    Result := r_GetLocalPath(from)
+  else
   begin
     //TODO .
   end;
