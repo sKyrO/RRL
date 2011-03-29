@@ -14,8 +14,8 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+{.include RRL\misc\Smart.txt}
 {.include RRL\RRL.txt}
-{.include RRL\misc\misc.txt}
 
 begin
   SetupRRL;
