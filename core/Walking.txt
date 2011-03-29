@@ -4,7 +4,9 @@ Walking procedures
 
 ---------------------------------------------------------
 
-  * function r_GetFlagPosition: TRSTile;
+ * function r_IsTileLocal(const Tile: TRSTile): Boolean;
+     By: Timer
+ * function r_GetFlagPosition: TRSTile;
      By: Timer
  * function r_ClickTile(const Tile: TRSTile): Boolean;
      By: Timer
@@ -38,6 +40,16 @@ end;
 function NULL_WEB_PATH: TRSTileArray;
 begin
   Result := [RSTile(-1, -1)];
+end;
+
+function r_IsTileLocal(const Tile: TRSTile): Boolean;
+var
+  BaseX, BaseY: Integer;
+begin
+  BaseX := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+  BaseY := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
+  Result := (Tile.x - BaseX >= 0) and (Tile.x - BaseX < 104) and
+            (Tile.y - BaseY >= 0) and (Tile.y - BaseY < 104);
 end;
 
 function r_GetFlagPosition: TRSTile;
@@ -80,6 +92,12 @@ var
   ThePath: TRSTileArray;
 begin
   ThePath := NULL_WEB_PATH;
+  if (r_IsTileLocal(from)) then
+  begin
+  end else
+  begin
+    //TODO .
+  end;
   if (ThePath = NULL_WEB_PATH) then
   begin
     WriteLn('Sorry, but no path was found!  Please make sure you''re logged in and the hooks' + #13 +
