@@ -206,14 +206,15 @@ begin
   Box := r_GetTabBox(Tab);
   r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, True);
   Wait(RandomRange(400, 600));
-  Result := r_GetCurrentTab = Tab;
+  //Result := r_GetCurrentTab = Tab;
+  Result := True;
 end;
 
 function r_Logout(const Lobby: Boolean): Boolean;
 var
-  Box: TBox;
   m: LongInt;
-  iI: Integer;
+  Box: TBox;
+  iI, i: Integer;
 begin
   if (r_OpenTab(R_TAB_LOGOUT)) then
   begin
@@ -221,8 +222,12 @@ begin
       iI := 1
     else
       iI := 6;
-    Box := r_GetInterfaceBox({Point(547, 205), }182, iI);
+    i := r_GetInterface(182, iI);
+    Box := IntToBox(547 + r_GetInterfaceRelativeXEx(i, False), 205 + r_GetInterfaceRelativeYEx(i, False),
+                    547 + r_GetInterfaceRelativeXEx(i, False) + r_GetInterfaceWidthEx(i, False),
+                    205 + r_GetInterfaceRelativeYEx(i, False) + r_GetInterfaceHeightEx(i, False));
     r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, True);
+    SmartFreeObject(i);
     r_MarkTime(m);
     while (r_GetTimeFromMark(m) < 6000) and (r_IsLoggedIn) do
       Wait(50);
