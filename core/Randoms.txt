@@ -234,8 +234,6 @@ var
   m: LongInt;
 begin
   Result := False;
-  if (not r_IsLoggedIn) then
-    Exit;
   H := GetArrayLength(r_Randoms) - 1;
   for i := 0 to H do
     if (r_Randoms[i].Active) then
@@ -247,7 +245,7 @@ begin
         WriteLn('Random detected [' + r_Randoms[i].Name + ']!');
         m := GetSystemTime;
         WriteLn('Attempting to solve random [' + r_Randoms[i].Name + ']!');
-        while (GetSystemTime - m < r_Randoms[i].TimeOut) and (not Result) and (r_IsLoggedIn) do
+        while (GetSystemTime - m < r_Randoms[i].TimeOut) and (not Result) and ((r_IsLoggedIn) or (r_Randoms[i].ID = R_RANDOMS_LOGIN)) do
           Result := r_Randoms[i].Solve();
         if (Result) then
           WriteLn('Solved random [' + r_Randoms[i].Name + ']!')

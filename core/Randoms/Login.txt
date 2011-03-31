@@ -141,7 +141,12 @@ var
   textLength, i, inter: Integer;
   b1, b2, b, bb: TBox;
 begin
-  Result := False;
+  Result := r_IsLoggedIn;
+  if (Result) then
+  begin
+    Wait(RandomRange(3000, 5000));
+    Exit;
+  end;
   username := Trim(Lowercase(r_Accounts[r_CurrentAccount].Name));
   returnText := Lowercase(r_GetInterfaceText(R_LOGIN_INTERFACE_LOGIN_SCREEN, R_LOGIN_INTERFACE_TEXT_RETURN));
   if (r_GetLoginIndex <> R_LOGIN_INDEX_LOGGED_OUT) then
@@ -153,7 +158,7 @@ begin
       returnText := Lowercase(r_GetInterfaceText(R_LOGIN_INTERFACE_WELCOME_SCREEN, R_LOGIN_INTERFACE_WELCOME_SCREEN_TEXT_RETURN));
       b1 := r_GetInterfaceBox(R_LOGIN_INTERFACE_WELCOME_SCREEN, R_LOGIN_INTERFACE_WELCOME_SCREEN_BUTTON_PLAY_1);
       b2 := r_GetInterfaceBox(R_LOGIN_INTERFACE_WELCOME_SCREEN, R_LOGIN_INTERFACE_WELCOME_SCREEN_BUTTON_PLAY_2);
-      r_ClickMouse(b1.x1, b1.y1, b2.x1 + b2.x2 - b2.x1 + 1 - b1.x1, b1.y2 - b1.y1 + 1, True);
+      r_ClickMouse(b1.x1 + Random(b2.x1 + b2.x2 - b2.x1 + 1 - b1.x1), b1.y1 + Random(b1.y2 - b1.y1 + 1), 0, 0, True);
       for i := 0 to 3 do
         if (r_GetLoginIndex = 6) then
           Wait(RandomRange(500, 700));
@@ -199,6 +204,7 @@ begin
   begin
     if (Pos('world', returnText) > 0) or (Pos('performing login', returnText) > 0) then
     begin
+      WriteLn('[Login] Logging in.');
       Wait(RandomRange(1500, 2000));
       Exit;
     end;
@@ -206,11 +212,12 @@ begin
   if (r_GetLoginIndex = R_LOGIN_INDEX_LOGGED_OUT) then
   begin
     inter := r_GetInterface(R_LOGIN_INTERFACE_GRAPHICS_NOTICE, R_LOGIN_INTERFACE_GRAPHICS_LEAVE_ALONE);
-    if (not SmartGetFieldBoolean(inter, r_Hooks[hook_Interface_Hidden])) then
+    if (r_IsInterfaceValid(R_LOGIN_INTERFACE_GRAPHICS_NOTICE)) and (not SmartGetFieldBoolean(inter, r_Hooks[hook_Interface_Hidden])) then
     begin
       b := r_GetInterfaceBox(R_LOGIN_INTERFACE_GRAPHICS_NOTICE, R_LOGIN_INTERFACE_GRAPHICS_LEAVE_ALONE);
       r_ClickMouseBox(b.x1, b.y1, b.x2, b.y2, True);
       Wait(500);
+      WriteLn('[Login] Graphics.');
       Exit;
     end;
     SmartFreeObject(inter);
