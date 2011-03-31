@@ -10,6 +10,8 @@ Accounts file.
      By: Timer
  * function r_GetNextAccount: Integer;
      By: Timer
+ * function r_SetNextPlayer(CurrentPlayerActive: Boolean): Boolean;
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -56,4 +58,21 @@ begin
     end;
   end;
   Result := sP;
+end;
+
+function r_Logout(const Lobby: Boolean): Boolean; forward;
+
+function r_SetNextPlayer(CurrentPlayerActive: Boolean): Boolean;
+var
+  lA: Integer;
+begin
+  r_Accounts[r_CurrentAccount].Active := CurrentPlayerActive;
+  Result := r_ArePlayersActive;
+  if (Result) then
+  begin
+    lA := r_CurrentAccount;
+    r_CurrentAccount := r_GetNextAccount;
+    if (r_CurrentAccount <> lA) then
+      r_Logout(False);
+  end;
 end;

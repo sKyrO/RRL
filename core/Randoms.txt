@@ -55,6 +55,7 @@ For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 {.include RRL\core\Randoms\Quiz.txt}
 {.include RRL\core\Randoms\Sandwich.txt}
 {.include RRL\core\Randoms\ScapeRuneIsland.txt}
+{.include RRL\core\Randoms\Login.txt}
 
 const
   R_RANDOMS_ABYSS = 0;
@@ -77,9 +78,10 @@ const
   R_RANDOMS_QUIZ = 17;
   R_RANDOMS_SANDWHICH = 18;
   R_RANDOMS_SCAPE_RUNE_ISLAND = 19;
+  R_RANDOMS_LOGIN = 20;
 
   R_RANDOMC_MIN = 0;
-  R_RANDOMC_MAX = 19;
+  R_RANDOMC_MAX = 20;
 
 function r_GetRandomName(const Rand: Byte): string;
 begin
@@ -104,6 +106,7 @@ begin
     R_RANDOMS_QUIZ: Result := 'Quiz';
     R_RANDOMS_SANDWHICH: Result := 'Sandwhich Lady';
     R_RANDOMS_SCAPE_RUNE_ISLAND: Result := 'ScapeRune Island';
+    R_RANDOMS_LOGIN: Result := 'Login';
   end;
 end;
 
@@ -131,6 +134,7 @@ begin
     R_RANDOMS_QUIZ: Result := @r_Quiz_InRandom;
     R_RANDOMS_SANDWHICH: Result := @r_Sandwhich_InRandom;
     R_RANDOMS_SCAPE_RUNE_ISLAND: Result := @r_ScapeRuneIsland_InRandom;
+    R_RANDOMS_LOGIN: Result := @r_Login_InRandom;
   end;
 end;
 
@@ -158,6 +162,7 @@ begin
     R_RANDOMS_QUIZ: Result := @r_Quiz_Solve;
     R_RANDOMS_SANDWHICH: Result := @r_Sandwhich_Solve;
     R_RANDOMS_SCAPE_RUNE_ISLAND: Result := @r_ScapeRuneIsland_Solve;
+    R_RANDOMS_LOGIN: Result := @r_Login_Solve;
   end;
 end;
 
