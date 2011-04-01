@@ -75,7 +75,6 @@ function r_TileToMinimap(const Tile: TRSTile): TPoint;
 var
   RadiansAngle: Extended;
   TempX, TempY: Integer;
-  b: TBox;
   OurLocation: TRSTile;
 begin
   OurLocation := r_GetLocation;
