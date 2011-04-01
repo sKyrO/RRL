@@ -664,7 +664,7 @@ begin
       if (Pos('lick here to cont', Lowercase(r_GetInterfaceText(CheckInterfaces[i], ii))) > 0) then
       begin
         Box := r_GetInterfaceBox({Point(7, 347), }CheckInterfaces[i], ii);
-        r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, True);
+        r_ClickMouseBox(Box.x1, Box.y1 + 8, Box.x2, Box.y2, True);
         Wait(RandomRange(500, 800));
         Result := True;
         Exit;

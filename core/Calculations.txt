@@ -4,13 +4,13 @@ Calulation core file
 
 ---------------------------------------------------------
 
+ * function r_DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
+     By: Timer
  * function r_TileToMinimap(const Tile: TRSTile): TPoint;
      By: Timer
  * function r_TileOnMinimapEx(const CheckTile: TRSTile; const Dist: Integer): Boolean;
      By: Timer
  * function r_TileOnMinimap(const CheckTile: TRSTile): Boolean;
-     By: Timer
- * function r_DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
      By: Timer
  * function r_PointOnScreen(const p: TPoint): Boolean;
      By: Timer
@@ -48,6 +48,8 @@ Calulation core file
      By: Timer
  * function r_GetAngleToTile(const Tile: TRSTile): Integer;
      By: Timer
+ * procedure r_SetMiniMapAccuracy(const Super: Boolean);
+     By: Timer
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
 {
@@ -61,10 +63,19 @@ This file is part of the RRL project (https://github.com/Timer/RRL).
 For extended permissions please contact me by E-Mail, Timer150@Gmail.com.
 }
 
+function r_DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
+begin
+  Result := Sqrt(((StartLocation.X - EndLocation.X) *
+                 (StartLocation.X - EndLocation.X)) +
+                 ((StartLocation.Y - EndLocation.Y) *
+                 (StartLocation.Y - EndLocation.Y)));
+end;
+
 function r_TileToMinimap(const Tile: TRSTile): TPoint;
 var
   RadiansAngle: Extended;
   TempX, TempY: Integer;
+  b: TBox;
   OurLocation: TRSTile;
 begin
   OurLocation := r_GetLocation;
@@ -92,14 +103,6 @@ end;
 function r_TileOnMinimap(const CheckTile: TRSTile): Boolean;
 begin
   Result := r_TileOnMinimapEx(CheckTile, 17);
-end;
-
-function r_DistanceBetween(const StartLocation, EndLocation: TRSTile): Extended;
-begin
-  Result := Sqrt(((StartLocation.X - EndLocation.X) *
-                 (StartLocation.X - EndLocation.X)) +
-                 ((StartLocation.Y - EndLocation.Y) *
-                 (StartLocation.Y - EndLocation.Y)));
 end;
 
 function r_PointOnScreen(const p: TPoint): Boolean;
@@ -339,4 +342,9 @@ begin
   OurTile := r_GetLocation;
   Result := Round(Degrees(ArcTan2(Tile.y - OurTile.y, Tile.x - OurTile.x)));
   Result := Round(FixD(Result + 270));
+end;
+
+procedure r_SetMiniMapAccuracy(const Super: Boolean);
+begin
+  r_CMiniMapSuperAccuracy := Super;
 end;

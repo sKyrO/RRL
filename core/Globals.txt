@@ -42,6 +42,7 @@ Calculation tables
 }
 var
   SinTable, CosTable: TExtendedArray;
+  r_CMiniMapSuperAccuracy: Boolean;
 
 {
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

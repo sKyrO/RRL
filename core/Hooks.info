@@ -190,3 +190,6 @@ const
   hook_DismissInterfaces = 175;
   hook_GroundBlocks = 176;
   hook_GoundData_Flags = 177;
+  hook_MinimapOffset = 178;
+  hook_MinimapSetting = 179;
+  hook_MinimapScale = 180;

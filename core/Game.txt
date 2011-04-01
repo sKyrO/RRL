@@ -6,6 +6,18 @@ Game functions
 
  * function r_GetLoginIndex: Integer;
      By: Timer
+ * function r_GetMinimapAngle: Integer;
+     By: Timer
+ * function r_GetMinimapOffset: Extended;
+     By: Timer
+ * function r_GetMinimapSetting: Integer;
+     By: Timer
+ * function r_GetMinimapScale: Integer;
+     By: Timer
+ * function r_GetBaseX: Integer;
+     By: Timer
+ * function r_GetBaseY: Integer;
+     By: Timer
  * function r_IsLoggedIn: Boolean;
      By: Timer
  * function r_GetSetting(const Index: Integer): Integer;
@@ -33,6 +45,60 @@ function r_GetLoginIndex: Integer;
 begin
   try
     Result := SmartGetFieldInt(0, r_Hooks[hook_LoginIndex]);
+  except
+    Result := -1;
+  end;
+end;
+
+function r_GetMinimapAngle: Integer;
+begin
+  try
+    Result := SmartGetFieldInt(0, r_Hooks[hook_MapAngle]);
+  except
+    Result := -1;
+  end;
+end;
+
+function r_GetMinimapOffset: Extended;
+begin
+  try
+    Result := SmartGetFieldFloat(0, r_Hooks[hook_MinimapOffset]);
+  except
+    Result := -1;
+  end;
+end;
+
+function r_GetMinimapSetting: Integer;
+begin
+  try
+    Result := SmartGetFieldInt(0, r_Hooks[hook_MinimapSetting]);
+  except
+    Result := -1;
+  end;
+end;
+
+function r_GetMinimapScale: Integer;
+begin
+  try
+    Result := SmartGetFieldInt(0, r_Hooks[hook_MinimapScale]);
+  except
+    Result := -1;
+  end;
+end;
+
+function r_GetBaseX: Integer;
+begin
+  try
+    Result := SmartGetFieldInt(0, r_Hooks[hook_BaseX]);
+  except
+    Result := -1;
+  end;
+end;
+
+function r_GetBaseY: Integer;
+begin
+  try
+    Result := SmartGetFieldInt(0, r_Hooks[hook_BaseY]);
   except
     Result := -1;
   end;
