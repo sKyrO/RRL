@@ -12,7 +12,7 @@ Characters routines.
      By: Timer
  * function r_GetCharacterLoopCycleStatus(const CharPath: LongInt; const Free: Boolean): Integer;
      By: Timer
- * function r_GetCharacterFighting(const CharPath: LongInt; const Free: Boolean): Boolean;
+ * function r_GetCharacterFighting(const CharPath: LongInt; const NPC, Free: Boolean): Boolean;
      By: Timer
  * function r_GetCharacterHeight(const CharPath: LongInt; const Free: Boolean): Extended;
      By: Timer
