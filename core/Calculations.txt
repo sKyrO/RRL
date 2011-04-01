@@ -337,5 +337,6 @@ var
   OurTile: TRSTile;
 begin
   OurTile := r_GetLocation;
-  Result := Round(FixD(ArcTan2(Tile.y - OurTile.y, Tile.x - OurTile.x)));
+  Result := Round(Degrees(ArcTan2(Tile.y - OurTile.y, Tile.x - OurTile.x)));
+  Result := Round(FixD(Result + 270));
 end;
