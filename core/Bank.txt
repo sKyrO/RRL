@@ -10,9 +10,15 @@ Bank routines.
      By: Timer
  * function r_EnterPin(const Pin: string): Boolean;
      By: Timer
+ * function r_CloseBank: Boolean;
+     By: Timer
  * function r_DepositAll: Boolean;
      By: Timer
  * function r_GetAllBankItems: TRSItemArray;
+     By: Timer
+ * function r_DoesBankContainIDEx(const IDs: TIntegerArray): Boolean;
+     By: Timer
+ * function r_DoesBankContainID(const ID: Integer): Boolean;
      By: Timer
  * function r_WithdrawItemByID(const ID, Amount: Integer): Boolean;
      By: Timer
@@ -45,6 +51,40 @@ function r_EnterPin(const Pin: string): Boolean;
 begin
   //TODO <This>.
   Result := False;
+end;
+
+function r_CloseBank: Boolean;
+var
+  butt, x, y, w, h: Integer;
+  p: TPoint;
+  m: LongInt;
+begin
+  Result := not r_IsBankScreen;
+  if (not Result) then
+  begin
+    try
+      butt := r_GetInterface(762, 43);
+      x := r_GetInterfaceRelativeXEx(butt, False);
+      y := r_GetInterfaceRelativeYEx(butt, False);
+      w := r_GetInterfaceWidthEx(butt, False);
+      h := r_GetInterfaceHeightEx(butt, False);
+      p := Point(x + 4 + RandomRange(1 + Random(5), w - Random(5)),
+                 y + 4 + RandomRange(1 + Random(5), h - Random(5)));
+      r_ClickMouse(p.x, p.y, 0, 0, True);
+      r_MarkTime(m);
+      while (r_GetTimeFromMark(m) < 3000) do
+        if (not r_IsBankScreen) then
+          Break
+        else
+          Wait(RandomRange(50, 120));
+      Result := not r_IsBankScreen;
+    finally
+      try
+        SmartFreeObject(butt);
+      except
+      end;
+    end;
+  end;
 end;
 
 function r_DepositAll: Boolean;
@@ -98,6 +138,33 @@ begin
     end;
   end;
   SetArrayLength(Result, C);
+end;
+
+function r_DoesBankContainIDEx(const IDs: TIntegerArray): Boolean;
+var
+  i, ii, Slot: Integer;
+  ItemArray: TRSItemArray;
+begin
+  Result := False;
+  if (not r_IsBankScreen) then
+    Exit;
+  ItemArray := r_GetAllBankItems;
+  Slot := -1;
+  for i := 0 to High(ItemArray) do
+    for ii := 0 to High(IDs) do
+      if (ItemArray[i].ID = IDs[ii]) then
+      begin
+        Slot := i;
+        Break;
+      end;
+  if (Slot = -1) then
+    Exit;
+  Result := True;
+end;
+
+function r_DoesBankContainID(const ID: Integer): Boolean;
+begin
+  Result := r_DoesBankContainIDEx([ID]);
 end;
 
 function r_WithdrawItemByID(const ID, Amount: Integer): Boolean;
