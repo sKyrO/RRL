@@ -98,7 +98,7 @@ var
   OurPlayerPath: LongInt;
 begin
   OurPlayerPath := SmartGetFieldObject(0, r_Hooks[hook_LocalPlayer]);
-  Result := r_GetCharacterFighting(OurPlayerPath, True);
+  Result := r_GetCharacterFighting(OurPlayerPath, False, True);
 end;
 
 function r_GetOrientation: Integer;

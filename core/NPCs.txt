@@ -80,7 +80,7 @@ begin
         Character.Location := r_GetCharacterLocation(PathToNPC, False);
         Character.Speed := r_GetCharacterMovement(PathToNPC, False);
         Character.IsMoving := Character.Speed > 0;
-        Character.IsFighting := r_GetCharacterFighting(PathToNPC, False);
+        Character.IsFighting := r_GetCharacterFighting(PathToNPC, True, False);
         Character.LoopCycleStatus := r_GetCharacterLoopCycleStatus(PathToNPC, False);
         Character.Animation := r_GetCharacterAnimation(PathToNPC, False);
         Character.IsAnimating := Character.Animation > 0;

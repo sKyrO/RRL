@@ -89,11 +89,13 @@ begin
   end;
 end;
 
-function r_GetCharacterFighting(const CharPath: LongInt; const Free: Boolean): Boolean;
+function r_GetCharacterFighting(const CharPath: LongInt; const NPC, Free: Boolean): Boolean;
 begin
   try
-    Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_LoopCycleStatus]) >
-              SmartGetFieldInt(0, r_Hooks[hook_LoopCycle]);
+    if (NPC) then
+      Result := SmartGetFieldInt(CharPath, r_Hooks[hook_Character_LoopCycleStatus]) > SmartGetFieldInt(0, r_Hooks[hook_LoopCycle])
+    else
+      Result := SmartGetFieldInt(0, r_Hooks[hook_LoopCycle]) < SmartGetFieldInt(CharPath, r_Hooks[hook_Character_LoopCycleStatus]);
   finally // We want to rid of memory leaks.
     try
       if (Free) then
