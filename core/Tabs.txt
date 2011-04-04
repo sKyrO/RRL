@@ -131,14 +131,21 @@ begin
   Dec(l);
   for i := 0 to l do
   begin
-    TabHandle := r_GetTabInterface(Result);
-    if (TabHandle  <> -1) then
-    begin
-      Texture := r_GetInterfaceTextureEx(TabHandle, True);
-      if (Texture <> -1) then
+    try
+      TabHandle := r_GetTabInterface(i);
+      if (TabHandle  <> -1) then
       begin
-        Result := i;
-        Exit;
+        Texture := r_GetInterfaceTextureEx(TabHandle, True);
+        if (Texture <> -1) then
+        begin
+          Result := i;
+          Exit;
+        end;
+      end;
+    finally
+      try
+        SmartFreeObject(TabHandle);
+      except
       end;
     end;
   end;
@@ -205,9 +212,8 @@ begin
     Exit;
   Box := r_GetTabBox(Tab);
   r_ClickMouseBox(Box.x1, Box.y1, Box.x2, Box.y2, True);
-  Wait(RandomRange(400, 600));
-  //Result := r_GetCurrentTab = Tab;
-  Result := True;
+  Wait(RandomRange(100, 200));
+  Result := r_GetCurrentTab = Tab;
 end;
 
 function r_Logout(const Lobby: Boolean): Boolean;
