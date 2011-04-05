@@ -4,15 +4,17 @@ Object routines.
 
 ---------------------------------------------------------
 
- * function r_GetObjectInteractableAt(const TT: TRSTile): TRSObject;
+ * function r_GetObjectInteractableAt(const TT: TRSTile; const UseModel: Boolean): TRSObject;
      By: Timer
- * function r_GetObjectWallObjectAt(const TT: TRSTile): TRSObject;
+ * function r_GetObjectWallObjectAt(const TT: TRSTile; const UseModel: Boolean): TRSObject;
      By: Timer
- * function r_GetObjectWallDecorationAt(const TT: TRSTile): TRSObject;
+ * function r_GetObjectWallDecorationAt(const TT: TRSTile; const UseModel: Boolean): TRSObject;
      By: Timer
- * function r_GetObjectFloorDecorationAt(const TT: TRSTile): TRSObject;
+ * function r_GetObjectFloorDecorationAt(const TT: TRSTile; const UseModel: Boolean): TRSObject;
      By: Timer
  * function r_GetObjectAt(const T: TRSTile; const ObjType: Integer): TRSObject;
+     By: Timer
+ * function r_GetObjectModel(const TObject: TRSObject): TRSObject;
      By: Timer
  * function r_GetAllObjectsByTypeEx(const ObjType, Range: Integer): TRSObjectArray;
      By: Timer
@@ -69,7 +71,7 @@ begin
   end;
 end;
 
-function r_GetObjectInteractableAt(const TT: TRSTile): TRSObject;
+function r_GetObjectInteractableAt(const TT: TRSTile; const UseModel: Boolean): TRSObject;
 var
   BaseX, BaseY, Plane, ObjID: Integer;
   T, ObjRTile: TRSTile;
@@ -119,7 +121,7 @@ begin
           ObjRTile.y := Round(BaseY + (SmartGetFieldInt(Obj, r_Hooks[hook_Animable_Y]) div 512));
           Model := SmartGetFieldObject(Obj, r_Hooks[hook_InteractiveObject_Model]);
         end;
-        Result := RSObject(ObjID, R_OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea, Model, 0);
+        Result := RSObject(ObjID, R_OBJECT_TYPE_INTERACTABLE, TT, ObjRTile, ObjArea, Model, 0, UseModel);
         SmartFreeObject(Obj);
         Break;
       end;
@@ -158,7 +160,7 @@ begin
   end;
 end;
 
-function r_GetObjectWallObjectAt(const TT: TRSTile): TRSObject;
+function r_GetObjectWallObjectAt(const TT: TRSTile; const UseModel: Boolean): TRSObject;
 var
   BaseX, BaseY, Plane, ID: Integer;
   T, ObjRTile: TRSTile;
@@ -196,7 +198,7 @@ begin
             ObjArea.y2 := (BaseY + SmartGetFieldShort(WallObjectComp, r_Hooks[hook_Animable_AreaY2]));
             ObjRTile.x := Round(BaseX + (SmartGetFieldInt(WallObjectComp, r_Hooks[hook_Animable_X]) div 512));
             ObjRTile.y := Round(BaseY + (SmartGetFieldInt(WallObjectComp, r_Hooks[hook_Animable_Y]) div 512));
-            Result := RSObject(ID, R_OBJECT_TYPE_WALL_OBJECT, TT, ObjRTile, ObjArea, Model, 0);
+            Result := RSObject(ID, R_OBJECT_TYPE_WALL_OBJECT, TT, ObjRTile, ObjArea, Model, 0, UseModel);
           end;
         finally
           try
@@ -224,7 +226,7 @@ begin
       ObjArea.y2 := (BaseY + SmartGetFieldShort(WallObject, r_Hooks[hook_Animable_AreaY2]));
       ObjRTile.x := Round(BaseX + (SmartGetFieldInt(WallObject, r_Hooks[hook_Animable_X]) div 512));
       ObjRTile.y := Round(BaseY + (SmartGetFieldInt(WallObject, r_Hooks[hook_Animable_Y]) div 512));
-      Result := RSObject(ID, R_OBJECT_TYPE_WALL_OBJECT, TT, ObjRTile, ObjArea, Model, 0);
+      Result := RSObject(ID, R_OBJECT_TYPE_WALL_OBJECT, TT, ObjRTile, ObjArea, Model, 0, UseModel);
     end;
   finally
     try
@@ -245,7 +247,7 @@ begin
   end;
 end;
 
-function r_GetObjectWallDecorationAt(const TT: TRSTile): TRSObject;
+function r_GetObjectWallDecorationAt(const TT: TRSTile; const UseModel: Boolean): TRSObject;
 var
   BaseX, BaseY, Plane, ID: Integer;
   T, ObjRTile: TRSTile;
@@ -283,7 +285,7 @@ begin
             ObjArea.y2 := (BaseY + SmartGetFieldShort(WallDecorationComp, r_Hooks[hook_Animable_AreaY2]));
             ObjRTile.x := Round(BaseX + (SmartGetFieldInt(WallDecorationComp, r_Hooks[hook_Animable_X]) div 512));
             ObjRTile.y := Round(BaseY + (SmartGetFieldInt(WallDecorationComp, r_Hooks[hook_Animable_Y]) div 512));
-            Result := RSObject(ID, R_OBJECT_TYPE_WALL_DECORATION, TT, ObjRTile, ObjArea, Model, 0);
+            Result := RSObject(ID, R_OBJECT_TYPE_WALL_DECORATION, TT, ObjRTile, ObjArea, Model, 0, UseModel);
           end;
         finally
           try
@@ -311,7 +313,7 @@ begin
       ObjArea.y2 := (BaseY + SmartGetFieldShort(WallDecoration, r_Hooks[hook_Animable_AreaY2]));
       ObjRTile.x := Round(BaseX + (SmartGetFieldInt(WallDecoration, r_Hooks[hook_Animable_X]) div 512));
       ObjRTile.y := Round(BaseY + (SmartGetFieldInt(WallDecoration, r_Hooks[hook_Animable_Y]) div 512));
-      Result := RSObject(ID, R_OBJECT_TYPE_WALL_DECORATION, TT, ObjRTile, ObjArea, Model, 0);
+      Result := RSObject(ID, R_OBJECT_TYPE_WALL_DECORATION, TT, ObjRTile, ObjArea, Model, 0, UseModel);
     end;
   finally
     try
@@ -332,7 +334,7 @@ begin
   end;
 end;
 
-function r_GetObjectFloorDecorationAt(const TT: TRSTile): TRSObject;
+function r_GetObjectFloorDecorationAt(const TT: TRSTile; const UseModel: Boolean): TRSObject;
 var
   BaseX, BaseY, Plane, ID: Integer;
   T, ObjRTile: TRSTile;
@@ -363,7 +365,7 @@ begin
       ObjArea.y2 := (BaseY + SmartGetFieldShort(FloorDecoration, r_Hooks[hook_Animable_AreaY2]));
       ObjRTile.x := Round(BaseX + (SmartGetFieldInt(FloorDecoration, r_Hooks[hook_Animable_X]) div 512));
       ObjRTile.y := Round(BaseY + (SmartGetFieldInt(FloorDecoration, r_Hooks[hook_Animable_Y]) div 512));
-      Result := RSObject(ID, R_OBJECT_TYPE_FLOOR_DECORATION, TT, ObjRTile, ObjArea, Model, 0);
+      Result := RSObject(ID, R_OBJECT_TYPE_FLOOR_DECORATION, TT, ObjRTile, ObjArea, Model, 0, UseModel);
     end else
     begin
       if (FloorDecoration = 0) then
@@ -385,7 +387,7 @@ begin
             ObjArea.y2 := (BaseY + SmartGetFieldShort(FloorDecorationComp, r_Hooks[hook_Animable_AreaY2]));
             ObjRTile.x := Round(BaseX + (SmartGetFieldInt(FloorDecorationComp, r_Hooks[hook_Animable_X]) div 512));
             ObjRTile.y := Round(BaseY + (SmartGetFieldInt(FloorDecorationComp, r_Hooks[hook_Animable_Y]) div 512));
-            Result := RSObject(ID, R_OBJECT_TYPE_FLOOR_DECORATION, TT, ObjRTile, ObjArea, Model, 0);
+            Result := RSObject(ID, R_OBJECT_TYPE_FLOOR_DECORATION, TT, ObjRTile, ObjArea, Model, 0, UseModel);
           end;
         finally
           try
@@ -426,12 +428,35 @@ begin
   Result := NULL_RSOBJECT;
   try
     case (ObjType) of
-      R_OBJECT_TYPE_INTERACTABLE: Result := r_GetObjectInteractableAt(T);
-      R_OBJECT_TYPE_WALL_OBJECT: Result := r_GetObjectWallObjectAt(T);
-      R_OBJECT_TYPE_WALL_DECORATION: Result := r_GetObjectWallDecorationAt(T);
-      R_OBJECT_TYPE_FLOOR_DECORATION: Result := r_GetObjectFloorDecorationAt(T);
+      R_OBJECT_TYPE_INTERACTABLE: Result := r_GetObjectInteractableAt(T, False);
+      R_OBJECT_TYPE_WALL_OBJECT: Result := r_GetObjectWallObjectAt(T, False);
+      R_OBJECT_TYPE_WALL_DECORATION: Result := r_GetObjectWallDecorationAt(T, False);
+      R_OBJECT_TYPE_FLOOR_DECORATION: Result := r_GetObjectFloorDecorationAt(T, False);
     end;
   except
+    Result := NULL_RSOBJECT;
+  end;
+end;
+
+function r_GetObjectModel(const TObject: TRSObject): TRSObject;
+begin
+  Result := NULL_RSOBJECT;
+  try
+    case (TObject.ObjectType) of
+      R_OBJECT_TYPE_INTERACTABLE: Result := r_GetObjectInteractableAt(TObject.MainTile, True);
+      R_OBJECT_TYPE_WALL_OBJECT: Result := r_GetObjectWallObjectAt(TObject.MainTile, True);
+      R_OBJECT_TYPE_WALL_DECORATION: Result := r_GetObjectWallDecorationAt(TObject.MainTile, True);
+      R_OBJECT_TYPE_FLOOR_DECORATION: Result := r_GetObjectFloorDecorationAt(TObject.MainTile, True);
+    end;
+  except
+    Result := NULL_RSOBJECT;
+  end;
+  if (not Result.ID = TObject.ID) then
+  begin
+    try
+      SmartFreeObject(Result.Model);
+    except
+    end;
     Result := NULL_RSOBJECT;
   end;
 end;

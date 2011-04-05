@@ -220,8 +220,6 @@ type
   end;
   TRSModelTriangleArray = array of TRSModelTriangle;
 
-function r_ConstructModel(i1, i2, i3, xp, yp, zp: TIntegerArray; const mType, Orient: Integer): TRSModelTriangleArray; forward;
-
 function RSModelTriangle(const mX, mY, mZ: TPoint): TRSModelTriangle;
 begin
   Result.x := mX;
@@ -240,60 +238,45 @@ var
   Index0, Index1, Index2, xPoints, yPoints, zPoints: TIntegerArray;
   lI1, lI2, lI3, lP1, lP2, lP3, i: Integer;
   T: LongInt;
-  Good: Boolean;
 begin
   Result.mType := mType;
-  while (not Good) do
-  begin
-    lI1 := -1;
-    lI2 := -1;
-    lI3 := -1;
-    lP1 := -1;
-    lP2 := -1;
-    lP3 := -1;
-    T := SmartGetFieldObject(Model, r_Hooks[hook_Model_Indexes1]);
-    lI1 := SmartGetFieldArraySize(T, '', 1);
-    SmartFreeObject(T);
-    SetArrayLength(Index0, lI1);
-    for i := 0 to lI1 - 1 do
-      Index0[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes1], i);
-    T := SmartGetFieldObject(Model, r_Hooks[hook_Model_Indexes2]);
-    lI2 := SmartGetFieldArraySize(T, '', 1);
-    SmartFreeObject(T);
-    if (lI1 <> lI2) then
-      Continue;
-    SetArrayLength(Index1, lI2);
-    for i := 0 to lI2 - 1 do
-      Index1[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes2], i);
-    T := SmartGetFieldObject(Model, r_Hooks[hook_Model_Indexes3]);
-    lI3 := SmartGetFieldArraySize(T, '', 1);
-    SmartFreeObject(T);
-    if (lI2 <> lI3) then
-      Continue;
-    SetArrayLength(Index2, lI3);
-    for i := 0 to lI3 - 1 do
-      Index2[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes3], i);
-    T := SmartGetFieldObject(Model, r_Hooks[hook_Model_xPoints]);
-    lP1 := SmartGetFieldArraySize(T, '', 1);
-    SmartFreeObject(T);
-    SetArrayLength(xPoints, lP1);
-    for i := 0 to lP1 - 1 do
-      xPoints[i] := SmartGetFieldArrayInt(Model, r_Hooks[hook_Model_xPoints], i);
-    T := SmartGetFieldObject(Model, r_Hooks[hook_Model_yPoints]);
-    lP2 := SmartGetFieldArraySize(T, '', 0);
-    lP2 := lp1;
-    SmartFreeObject(T);
-    SetArrayLength(yPoints, lP2);
-    for i := 0 to lP2 - 1 do
-      yPoints[i] := SmartGetFieldArrayInt(Model, r_Hooks[hook_Model_yPoints], i);
-    T := SmartGetFieldObject(Model, r_Hooks[hook_Model_zPoints]);
-    lP3 := SmartGetFieldArraySize(T, '', 1);
-    SmartFreeObject(T);
-    SetArrayLength(zPoints, lP3);
-    for i := 0 to lP3 - 1 do
-      zPoints[i] := SmartGetFieldArrayInt(Model, r_Hooks[hook_Model_zPoints], i);
-    Good := (lI1 = lI2) and (lI2 = lI3);
-  end;
+  T := SmartGetFieldObject(Model, r_Hooks[hook_Model_Indexes1]);
+  lI1 := SmartGetFieldArraySize(T, '', 1);
+  SmartFreeObject(T);
+  SetArrayLength(Index0, lI1);
+  for i := 0 to lI1 - 1 do
+    Index0[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes1], i);
+  T := SmartGetFieldObject(Model, r_Hooks[hook_Model_Indexes2]);
+  lI2 := SmartGetFieldArraySize(T, '', 1);
+  SmartFreeObject(T);
+  SetArrayLength(Index1, lI2);
+  for i := 0 to lI2 - 1 do
+    Index1[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes2], i);
+  T := SmartGetFieldObject(Model, r_Hooks[hook_Model_Indexes3]);
+  lI3 := SmartGetFieldArraySize(T, '', 1);
+  SmartFreeObject(T);
+  SetArrayLength(Index2, lI3);
+  for i := 0 to lI3 - 1 do
+    Index2[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_Indexes3], i);
+  T := SmartGetFieldObject(Model, r_Hooks[hook_Model_xPoints]);
+  lP1 := SmartGetFieldArraySize(T, '', 1);
+  SmartFreeObject(T);
+  SetArrayLength(xPoints, lP1);
+  for i := 0 to lP1 - 1 do
+    xPoints[i] := SmartGetFieldArrayInt(Model, r_Hooks[hook_Model_xPoints], i);
+  T := SmartGetFieldObject(Model, r_Hooks[hook_Model_yPoints]);
+  lP2 := SmartGetFieldArraySize(T, '', 0);
+  lP2 := lp1;
+  SmartFreeObject(T);
+  SetArrayLength(yPoints, lP2);
+  for i := 0 to lP2 - 1 do
+    yPoints[i] := SmartGetFieldArrayInt(Model, r_Hooks[hook_Model_yPoints], i);
+  T := SmartGetFieldObject(Model, r_Hooks[hook_Model_zPoints]);
+  lP3 := SmartGetFieldArraySize(T, '', 1);
+  SmartFreeObject(T);
+  SetArrayLength(zPoints, lP3);
+  for i := 0 to lP3 - 1 do
+    zPoints[i] := SmartGetFieldArrayInt(Model, r_Hooks[hook_Model_zPoints], i);
   Result.Index1 := Index0;
   Result.Index2 := Index1;
   Result.Index3 := Index2;
@@ -304,16 +287,15 @@ end;
 
 type
   TRSModel = record
-    ID, mType, Orient: Integer;
+    mType, Orient: Integer;
     Model: LongInt;
     Data: TRSModelData;
   end;
 
-function RSModel(const Model: LongInt; const ID, mType, Orient: Integer; const FreeModel: Boolean): TRSModel;
+function RSModel(const Model: LongInt; const mType, Orient: Integer; const FreeModel: Boolean): TRSModel;
 begin
   if (r_UseModels) then
   begin
-    Result.ID := ID;
     Result.mType := mType;
     Result.Model := Model;
     Result.Data := RSModelData(Model, mType, Orient);
@@ -361,12 +343,12 @@ type
     ID, ObjectType: Integer;
     Tile, MainTile: TRSTile;
     Area: TArea;
-    Model: TRSModel;
+    Model: LongInt;
   end;
 
   TRSObjectArray = array of TRSObject;
 
-function RSObject(const ObjID, ObjType: Integer; const ObjTile, ObjMainTile: TRSTile; const ObjArea: TArea; const ObjModel, Orient: LongInt): TRSObject;
+function RSObject(const ObjID, ObjType: Integer; const ObjTile, ObjMainTile: TRSTile; const ObjArea: TArea; const ObjModel, Orient: LongInt; const UseModel: Boolean): TRSObject;
 begin
   with Result do
   begin
@@ -375,7 +357,13 @@ begin
     Tile := ObjTile;
     MainTile := ObjMainTile;
     Area := ObjArea;
-    Model := RSModel(ObjModel, -1, R_MODEL_TYPE_OBJECT, Orient, True);
+    Model := ObjModel;
+    if (not r_UseModels) or (not UseModel) then
+    begin
+      SmartFreeObject(ObjModel);
+      Model := -1;
+    end else
+      Model := ObjModel;
   end;
 end;
 
