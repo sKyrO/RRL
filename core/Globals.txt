@@ -41,7 +41,7 @@ Calculation tables
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 var
-  SinTable, CosTable: TExtendedArray;
+  SinTable, CosTable: TIntegerArray;
   r_CMiniMapSuperAccuracy: Boolean;
 
 {
@@ -232,19 +232,16 @@ end;
 type
   TRSModelData = record
     Index1, Index2, Index3, xPoints, yPoints, zPoints: TIntegerArray;
-    Triangles: TRSModelTriangleArray;
-    Constructed: Boolean;
     mType, Orient: Integer;
   end;
 
-function RSModelData(const Model: LongInt; const Construct: Boolean; const mType, Orient: Integer): TRSModelData;
+function RSModelData(const Model: LongInt; const mType, Orient: Integer): TRSModelData;
 var
   Index0, Index1, Index2, xPoints, yPoints, zPoints: TIntegerArray;
   lI1, lI2, lI3, lP1, lP2, lP3, i: Integer;
   T: LongInt;
   Good: Boolean;
 begin
-  Result.Constructed := Construct;
   Result.mType := mType;
   while (not Good) do
   begin
@@ -281,20 +278,20 @@ begin
     SmartFreeObject(T);
     SetArrayLength(xPoints, lP1);
     for i := 0 to lP1 - 1 do
-      xPoints[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_xPoints], i);
+      xPoints[i] := SmartGetFieldArrayInt(Model, r_Hooks[hook_Model_xPoints], i);
     T := SmartGetFieldObject(Model, r_Hooks[hook_Model_yPoints]);
     lP2 := SmartGetFieldArraySize(T, '', 0);
     lP2 := lp1;
     SmartFreeObject(T);
     SetArrayLength(yPoints, lP2);
     for i := 0 to lP2 - 1 do
-      yPoints[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_yPoints], i);
+      yPoints[i] := SmartGetFieldArrayInt(Model, r_Hooks[hook_Model_yPoints], i);
     T := SmartGetFieldObject(Model, r_Hooks[hook_Model_zPoints]);
     lP3 := SmartGetFieldArraySize(T, '', 1);
     SmartFreeObject(T);
     SetArrayLength(zPoints, lP3);
     for i := 0 to lP3 - 1 do
-      zPoints[i] := SmartGetFieldArrayShort(Model, r_Hooks[hook_Model_zPoints], i);
+      zPoints[i] := SmartGetFieldArrayInt(Model, r_Hooks[hook_Model_zPoints], i);
     Good := (lI1 = lI2) and (lI2 = lI3);
   end;
   Result.Index1 := Index0;
@@ -303,9 +300,6 @@ begin
   Result.xPoints := xPoints;
   Result.yPoints := yPoints;
   Result.zPoints := zPoints;
-  if (Construct) then
-    Result.Triangles := r_ConstructModel(Index0, Index1, Index2,
-                                         xPoints, yPoints, zPoints, mType, Orient);
 end;
 
 type
@@ -313,18 +307,16 @@ type
     ID, mType, Orient: Integer;
     Model: LongInt;
     Data: TRSModelData;
-    Constructed: Boolean;
   end;
 
-function RSModel(const Model: LongInt; const ID, mType, Orient: Integer; const FreeModel, ConstructModel: Boolean): TRSModel;
+function RSModel(const Model: LongInt; const ID, mType, Orient: Integer; const FreeModel: Boolean): TRSModel;
 begin
   if (r_UseModels) then
   begin
     Result.ID := ID;
     Result.mType := mType;
     Result.Model := Model;
-    Result.Constructed := ConstructModel;
-    Result.Data := RSModelData(Model, ConstructModel, mType, Orient);
+    Result.Data := RSModelData(Model, mType, Orient);
   end;
   if (FreeModel) then
     SmartFreeObject(Model);
@@ -383,7 +375,7 @@ begin
     Tile := ObjTile;
     MainTile := ObjMainTile;
     Area := ObjArea;
-    Model := RSModel(ObjModel, -1, R_MODEL_TYPE_OBJECT, Orient, True, True);
+    Model := RSModel(ObjModel, -1, R_MODEL_TYPE_OBJECT, Orient, True);
   end;
 end;
 

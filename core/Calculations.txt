@@ -74,16 +74,46 @@ end;
 function r_TileToMinimap(const Tile: TRSTile): TPoint;
 var
   RadiansAngle: Extended;
-  TempX, TempY: Integer;
+  x, y, calculatedX, calculatedY, angle, cs, cc, calcCx, calcCy, bX, bY, fact: Integer;
   OurLocation: TRSTile;
+  lI: LongInt;
 begin
   OurLocation := r_GetLocation;
+  if (r_CMiniMapSuperAccuracy) and (r_DistanceBetween(OurLocation, Tile) < 17) then
+  begin
+    bX := r_GetBaseX;
+    bY := r_GetBaseY;
+    x := Tile.x - bX;
+    y := Tile.y - bY;
+    calculatedX := Floor((x * 4 + 2) - (OurLocation.x - bX) / 128);
+    calculatedY := Floor((y * 4 + 2) - (OurLocation.y - bY) / 128);
+    if (r_GetMinimapSetting = 4) then
+      Angle := Floor(r_GetMinimapOffset) and $3FFF
+    else
+      Angle := $3FFF and (r_GetMinimapAngle + Floor(r_GetMinimapOffset));
+    cs := Floor(SinTable[Angle]);
+    cc := Floor(CosTable[Angle]);
+    if (r_GetMinimapSetting <> 4) then
+    begin
+      fact := 256 + r_GetMinimapScale;
+      cs := Floor(256 * cs / fact);
+      cc := Floor(256 * cc / fact);
+    end;
+    lI := ((cc * calculatedX) + (cs * calculatedY));
+    calcCx := lI shr 15;
+    lI := ((cc * calculatedY) - (cs * calculatedX));
+    calcCy := lI shr 15;
+    Result := Point(calcCx + 626, (-1 * calcCy) + 84);
+    WriteLn(Result.x);
+    WriteLn(Result.y);
+    Exit;
+  end;
   RadiansAngle := -1 * r_GetMinimapAngleRadians;
-  TempX := (Tile.x - OurLocation.x) * 4 - 2;
-  TempY := (OurLocation.y - Tile.y) * 4 - 2;
+  x := (Tile.x - OurLocation.x) * 4 - 2;
+  y := (OurLocation.y - Tile.y) * 4 - 2;
   Result := Point(
-                  Round(TempX * Cos(RadiansAngle) + TempY * Sin(RadiansAngle)) + 628,
-                  Round(TempY * Cos(RadiansAngle) - TempX * Sin(RadiansAngle)) + 87
+                  Round(x * Cos(RadiansAngle) + y * Sin(RadiansAngle)) + 628,
+                  Round(y * Cos(RadiansAngle) - x * Sin(RadiansAngle)) + 87
                   );
 end;
 
@@ -329,8 +359,8 @@ begin
   d := 0.0003834951969714103;
   for i := 0 to 16383 do
   begin
-    SinTable[i] := 16384.0 * Sin(d * i);
-    CosTable[i] := 16384.0 * Cos(d * i);
+    SinTable[i] := Floor(32768.0 * Sin(d * i));
+    CosTable[i] := Floor(32768.0 * Cos(d * i));
   end;
 end;
 
